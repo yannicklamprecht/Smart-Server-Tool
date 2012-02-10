@@ -23,12 +23,16 @@ public class MyOwn extends JavaPlugin {
 
 	public void onEnable() {
 		log = Logger.getLogger("Minecraft");
-		log.info("MyOwn");
+		log.info("Enable MyOwn");
 
 	}
 
 	public void onDisable() {
-
+		
+		log = Logger.getLogger("Minecraft");
+		log.info("Disable MyOwn");
+		
+		
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd,
