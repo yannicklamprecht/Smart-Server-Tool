@@ -1,0 +1,20 @@
+name: MyOwn
+version: 0.1
+main: com.github.ysl3000.MyOwn
+commands:
+ admin:
+  usage: /admin
+  permission: MyOwn.admin
+  permission-message: You don't have MyOwn.admin
+ gmc:
+  usage: /gmc
+  permission: MyOwn.gmc
+  permission-message: You don't have MyOwn.gmc
+ gms:
+  usage: /gms
+  permission: MyOwn.gms
+  permission-message: You don't have MyOwn.gmc
+ gm:
+  usage: /gm
+  permission: MyOwn.gm
+  permission-message: You don't have MyOwn.gm
