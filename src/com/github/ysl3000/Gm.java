@@ -26,6 +26,7 @@ public class Gm {
 			player.sendMessage("Current GameMode " + ChatColor.GOLD
 					+ player.getGameMode());
 
+			
 		}
 
 	}

@@ -20,6 +20,7 @@ public class Top {
 				sender.setOp(false);
 				sender.sendMessage((ChatColor.RED + "Op disabled"));
 			}
+			
 
 		}
 
