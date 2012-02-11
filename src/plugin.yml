@@ -1,20 +1,25 @@
 name: MyOwn
-version: 0.1
+version: 0.2
 main: com.github.ysl3000.MyOwn
 commands:
  admin:
   usage: /admin
+  description: Toggle OP
   permission: MyOwn.admin
   permission-message: You don't have MyOwn.admin
  gmc:
   usage: /gmc
+  description: Set Creative
   permission: MyOwn.gmc
   permission-message: You don't have MyOwn.gmc
  gms:
   usage: /gms
+  description: Set Survival
   permission: MyOwn.gms
   permission-message: You don't have MyOwn.gmc
  gm:
   usage: /gm
+  description: Current GameMode
   permission: MyOwn.gm
   permission-message: You don't have MyOwn.gm
+ 

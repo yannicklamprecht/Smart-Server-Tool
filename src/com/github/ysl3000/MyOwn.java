@@ -12,7 +12,6 @@ public class MyOwn extends JavaPlugin {
 
 	public static MyOwn plugin;
 	public final Logger logger = Logger.getLogger("Minecraft");
-
 	CommandSender sender;
 	Command cmd;
 	String commandLabel;
@@ -24,22 +23,20 @@ public class MyOwn extends JavaPlugin {
 	public void onEnable() {
 		log = Logger.getLogger("Minecraft");
 		log.info("Enable MyOwn");
-
 	}
 
 	public void onDisable() {
-		
+
 		log = Logger.getLogger("Minecraft");
 		log.info("Disable MyOwn");
-		
-		
+
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String commandLabel, String[] args) {
 
-		readCommand((Player) sender, commandLabel);
-		
+		toggleGm((Player) sender, commandLabel);
+
 		if (cmd.getName().equalsIgnoreCase("admin")) {
 
 			if (!sender.isOp() && sender.hasPermission("MyOwn.admin")) {
@@ -49,7 +46,6 @@ public class MyOwn extends JavaPlugin {
 				sender.setOp(false);
 				sender.sendMessage((ChatColor.RED + "Op disabled"));
 			}
-
 			return true;
 		}
 
@@ -57,7 +53,7 @@ public class MyOwn extends JavaPlugin {
 
 	}
 
-	public void readCommand(Player player, String command) {
+	public void toggleGm(Player player, String command) {
 		if (command.equalsIgnoreCase("gmc")
 				&& player.hasPermission("MyOwn.gmc")) {
 
