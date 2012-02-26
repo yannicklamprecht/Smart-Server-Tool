@@ -1,6 +1,5 @@
 package com.github.ysl3000;
 
-
 import java.io.IOException;
 import java.util.logging.Logger;
 import org.bukkit.command.Command;
@@ -23,42 +22,43 @@ public class MyOwn extends JavaPlugin {
 	public void onEnable() {
 		log = Logger.getLogger("Minecraft");
 		log.info("Enable MyOwn");
-		
+
 	}
+
 	public void onDisable() {
 
 		log = Logger.getLogger("Minecraft");
 		log.info("Disable MyOwn");
 
 	}
+
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String commandLabel, String[] args) {
 
+		try {
+			Gm.toggleGm((Player) sender, commandLabel);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			Top.toggleop(cmd, sender);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		}
+		try {
+			Time.setTime((Player) sender, commandLabel);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-			try {
-				Gm.toggleGm((Player) sender, commandLabel);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		 
-		
-			try {
-				Top.toggleop(cmd, sender);
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			
-			}
-		
-			
-	
-	
 		
 		return false;
 
 	}
-	
 
-	
 }

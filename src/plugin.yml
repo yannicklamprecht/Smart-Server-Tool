@@ -1,5 +1,5 @@
 name: MyOwn
-version: 0.2
+version: 0.3
 main: com.github.ysl3000.MyOwn
 commands:
  admin:
@@ -22,4 +22,30 @@ commands:
   description: Current GameMode
   permission: MyOwn.gm
   permission-message: You don't have MyOwn.gm
+ td:
+  usage: /td
+  description: set Time to Day
+  permission: MyOwn.td
+  permission-message: You don't have MyOwn.td
+ tn:
+  usage: /tn
+  description: set Time to Night
+  permission: MyOwn.tn
+  permission-message: You don't have MyOwn.tn
+ sun:
+  usage: /sun
+  description: Set Sun
+  permission: MyOwn.sun
+  permission-message: You don't have MyOwn.sun
+ storm:
+  usage: /storm
+  description: Set Storm
+  permission: MyOwn.storm
+  permission-message: You don't have MyOwn.storm
+ wg:
+  usage: /wg
+  description: get Weather
+  permission: MyOwn.wg
+  permission-message: YYou don't have MyOwn.wg
+ 
  
