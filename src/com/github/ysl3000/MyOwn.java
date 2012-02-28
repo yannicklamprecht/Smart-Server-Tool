@@ -55,8 +55,16 @@ public class MyOwn extends JavaPlugin {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+		try {
+
+			Weather.changeWeather((Player) sender, commandLabel);
+
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		return false;
 
 	}
