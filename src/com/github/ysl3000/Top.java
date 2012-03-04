@@ -8,21 +8,24 @@ import org.bukkit.command.CommandSender;
 
 public class Top {
 
-	public static void toggleop(Command cmd, CommandSender sender)
+	public static boolean toggleop(Command cmd, CommandSender sender)
 			throws IOException {
 
-		if (cmd.getName().equalsIgnoreCase("admin")) {
+		if (cmd.getName().equalsIgnoreCase("/admin")) {
 
-			if (!sender.isOp() && sender.hasPermission("MyOwn.admin")) {
+			if (!sender.isOp() && sender.hasPermission("sst.admin")) {
 				sender.setOp(true);
 				sender.sendMessage((ChatColor.GREEN + "Op enabled"));
-			} else if (sender.isOp() && sender.hasPermission("MyOwn.admin")) {
+			} else if (sender.isOp() && sender.hasPermission("sst.admin")) {
 				sender.setOp(false);
 				sender.sendMessage((ChatColor.RED + "Op disabled"));
 			}
 			
+			
 
 		}
+		return false;
+		
 
 	}
 }

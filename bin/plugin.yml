@@ -1,51 +1,99 @@
-name: MyOwn
-version: 0.3
-main: com.github.ysl3000.MyOwn
+name: SmartServerTool
+version: 1.2.3
+main: com.github.ysl3000.SmartServerTool
 commands:
- admin:
-  usage: /admin
+ /admin:
+  usage: //admin
   description: Toggle OP
-  permission: MyOwn.admin
-  permission-message: You don't have MyOwn.admin
+  permission: sst.admin
+  permission-message: You don't have sst.admin
  gmc:
   usage: /gmc
   description: Set Creative
-  permission: MyOwn.gmc
-  permission-message: You don't have MyOwn.gmc
+  permission: sst.gmc
+  permission-message: You don't have sst.gmc
  gms:
   usage: /gms
   description: Set Survival
-  permission: MyOwn.gms
-  permission-message: You don't have MyOwn.gmc
+  permission: sst.gms
+  permission-message: You don't have sst.gmc
  gm:
   usage: /gm
   description: Current GameMode
-  permission: MyOwn.gm
-  permission-message: You don't have MyOwn.gm
+  permission: sst.gm
+  permission-message: You don't have sst.gm
  td:
   usage: /td
   description: set Time to Day
-  permission: MyOwn.td
-  permission-message: You don't have MyOwn.td
+  permission: sst.td
+  permission-message: You don't have sst.td
  tn:
   usage: /tn
   description: set Time to Night
-  permission: MyOwn.tn
-  permission-message: You don't have MyOwn.tn
+  permission: sst.tn
+  permission-message: You don't have sst.tn
  sun:
   usage: /sun
   description: Set Sun
-  permission: MyOwn.sun
-  permission-message: You don't have MyOwn.sun
+  permission: sst.sun
+  permission-message: You don't have sst.sun
  storm:
   usage: /storm
   description: Set Storm
-  permission: MyOwn.storm
-  permission-message: You don't have MyOwn.storm
+  permission: sst.storm
+  permission-message: You don't have sst.storm
  wg:
   usage: /wg
   description: get Weather
-  permission: MyOwn.wg
-  permission-message: YYou don't have MyOwn.wg
- 
- 
+  permission: sst.wg
+  permission-message: YYou don't have sst.wg
+ km:
+  usage: /km
+  description: kill
+  permission: sst.km
+  permission-message: sst.km
+ kill:
+  usage: /kill <player>
+  description: kill player
+  permission: sst.kill
+  permission-message: sst.kill
+ heal:
+  usage: /heal <player>
+  description: heal
+  permission: sst.heal
+  permission-message: sst.heal
+ /ip:
+  usage: //ip <player>
+  description: get ip of player
+  permission: sst.ip
+  permission-message: sst.ip
+ tp:
+  usage: /tp <player>
+  description: tp to player
+  permission: sst.tp
+  permission-message: sst.tp
+ tpo:
+  usage: /tpo <player>
+  description: tp player to you
+  permission: sst.tpo
+  permission-message: sst.tpo
+ switch:
+  usage: /switch <player>
+  description: tp to player and player tp to old location
+  permission: sst.switch
+  permisssion-message: sst.switch
+ /mem:
+  usage: //mem
+  description: memory
+  permission: sst.mem
+  permission-message: sst.mem
+ /setspawn:
+  usage: //setspawn
+  description: setspawn
+  permission: sst.setspawn
+  permission-message: sst.setspawn
+ /spawn:
+  usage: //spawn
+  description: Teleport to Spawn
+  permission: sst.spawn
+  permission-message: sst.spawn

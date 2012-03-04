@@ -6,9 +6,9 @@ import org.bukkit.entity.Player;
 
 public class Time {
 
-	public static void setTime(Player player, String command) throws Exception {
+	public static boolean setTime(Player player, String command) throws Exception {
 
-		if (command.equalsIgnoreCase("td") && player.hasPermission("MyOwn.td")) {
+		if (command.equalsIgnoreCase("td") && player.hasPermission("sst.td")) {
 
 			player.getWorld().setTime(0);
 			player.sendMessage("Time set to " + ChatColor.GOLD + "Day");
@@ -25,6 +25,7 @@ public class Time {
 			player.sendMessage("Current Time " + ChatColor.GOLD
 					+ player.getWorld().getTime());
 		}
+		return false;
 	}
 
 }

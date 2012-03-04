@@ -9,12 +9,12 @@ public class Weather {
 	
 	private static Welt welt = new Welt("world", "default");
 
-	public static void changeWeather(Player player, String command) throws Exception {
+	public static boolean changeWeather(Player player, String command) throws Exception {
 
 		final World world = player.getWorld();
 		
 		if (command.equalsIgnoreCase("sun")
-				&& player.hasPermission("MyOwn.sun")) {
+				&& player.hasPermission("sst.sun")) {
 
 			world.setThundering(false);
 			world.setStorm(false);
@@ -24,7 +24,7 @@ public class Weather {
 
 
 		} else if (command.equalsIgnoreCase("storm")
-				&& player.hasPermission("MyOwn.storm")) {
+				&& player.hasPermission("sst.storm")) {
 
 			world.setStorm(true);
 			world.setThundering(true);
@@ -35,12 +35,13 @@ public class Weather {
 
 
 		} else if (command.equalsIgnoreCase("wg")
-				&& player.hasPermission("MyOwn.wg")) {
+				&& player.hasPermission("sst.wg")) {
 
 			player.sendMessage("Current Weather in "+welt.getName() +" is " + ChatColor.GOLD
 					+ welt.getinfo() );
 
 		}
+		return false;
 
 	}
 
