@@ -1,5 +1,6 @@
 package com.github.ysl3000;
 
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -16,9 +17,9 @@ public class Info {
 			
 			double total = (((Runtime.getRuntime().totalMemory())/1024)/1024)  ;
 
-			double free = (((Runtime.getRuntime().freeMemory())/1024)/1024);
+			double max  = (((Runtime.getRuntime().maxMemory())/1024)/1024);
 			
-			double max = free + total;
+			
 			player.sendMessage(" Current memoryuse "
 					+ total + "/"
 					+ max + " mb");
@@ -33,8 +34,8 @@ public class Info {
 				sender.sendMessage("PLAYER " + target + " isn't found");
 
 			} else {
-				player.sendMessage("Ip of" + target.getName() + " is "
-						+ target.getAddress());
+				player.sendMessage("Ip of " + ChatColor.GOLD+ target.getName() + ChatColor.WHITE+ " is "
+						+  ChatColor.YELLOW+ target.getAddress());
 
 			}
 

@@ -18,10 +18,20 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 
+		
 		Player player = event.getPlayer();
-		event.setJoinMessage("Welcome  " + ChatColor.GOLD + player.getName()
-				+ ChatColor.WHITE + "  to  " + ChatColor.GREEN
-				+ Bukkit.getServerName());
+		
+		
+		if(!player.hasPlayedBefore()){
+			event.setJoinMessage("Welcome  " + ChatColor.GOLD + player.getName()
+					+ ChatColor.WHITE + "  to  " + ChatColor.GREEN
+					+ Bukkit.getServerName()+ChatColor.WHITE+"!\n"+player.getName()+ " is playing the first time!");
+		}else{
+			event.setJoinMessage("Welcome  " + ChatColor.GOLD + player.getName()
+					+ ChatColor.WHITE + "  to  " + ChatColor.GREEN
+					+ Bukkit.getServerName());
+		}
+		
 
 	}
 
@@ -38,6 +48,9 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void onPlayerRespawn(PlayerRespawnEvent event) throws Exception {
 
+		Player player = event.getPlayer();
+		
+		Spawnarea.respawn(player,player.getWorld().getName());
 	}
 
 }

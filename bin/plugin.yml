@@ -1,5 +1,5 @@
 name: SmartServerTool
-version: 1.2.3
+version: 1.2.3_v.3
 main: com.github.ysl3000.SmartServerTool
 commands:
  /admin:
@@ -67,18 +67,18 @@ commands:
   description: get ip of player
   permission: sst.ip
   permission-message: sst.ip
- tp:
-  usage: /tp <player>
+ /tp:
+  usage: //tp <player>
   description: tp to player
   permission: sst.tp
   permission-message: sst.tp
- tpo:
-  usage: /tpo <player>
+ /tpo:
+  usage: //tpo <player>
   description: tp player to you
   permission: sst.tpo
   permission-message: sst.tpo
- switch:
-  usage: /switch <player>
+ /switch:
+  usage: //switch <player>
   description: tp to player and player tp to old location
   permission: sst.switch
   permisssion-message: sst.switch
@@ -87,13 +87,14 @@ commands:
   description: memory
   permission: sst.mem
   permission-message: sst.mem
- /setspawn:
-  usage: //setspawn
+ /setsp:
+  usage: //setsp
   description: setspawn
-  permission: sst.setspawn
-  permission-message: sst.setspawn
- /spawn:
-  usage: //spawn
+  permission: sst.setsp
+  permission-message: sst.setsp
+ spawn:
+  usage: /spawn <world>
   description: Teleport to Spawn
   permission: sst.spawn
   permission-message: sst.spawn
+ 

@@ -1,8 +1,11 @@
 package com.github.ysl3000;
 
 import java.io.File;
+
 import java.io.IOException;
 import java.util.logging.Logger;
+
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -19,19 +22,21 @@ public class SmartServerTool extends JavaPlugin {
 	CommandSender sender;
 	Command cmd;
 	String commandLabel;
-	String[] args;
-	static String mainDirectory = "plugins/SmartServerTool";
-	File file = new File( mainDirectory + File.separator + "spawn.yml" );
+
+	private static String mainDirectory = "plugins/SmartServerTool/";
 
 	Player player = (Player) sender;
 	Logger log;
 
+	Location spawn;
+
 	public void onEnable() {
 		log = Logger.getLogger("Minecraft");
-		log.info("Enable Smart Server Tool");
+		log.info("Smart Server Tool enabled");
 		PluginManager pm = getServer().getPluginManager();
 		pm.registerEvents(this.pl, this);
-		new File( mainDirectory ).mkdir();
+
+		new File(mainDirectory).mkdir();
 
 	}
 
@@ -114,13 +119,14 @@ public class SmartServerTool extends JavaPlugin {
 
 		try {
 			Spawnarea.setspawn(sender, commandLabel, args, cmd);
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		try {
-			Spawnarea.teleportspawn((Player) sender, commandLabel);
+			Spawnarea.tele((Player) sender, commandLabel, args);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -130,4 +136,8 @@ public class SmartServerTool extends JavaPlugin {
 
 	}
 
+	public static String getMainDirectory() {
+
+		return mainDirectory;
+	}
 }
