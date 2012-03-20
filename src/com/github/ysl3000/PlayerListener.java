@@ -9,29 +9,32 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
 
 public class PlayerListener implements Listener {
 
 	public static SmartServerTool plugin;
 	HashMap<String, Integer> login = new HashMap<String, Integer>();
+	
+ 
 
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 
-		
 		Player player = event.getPlayer();
-		
-		
-		if(!player.hasPlayedBefore()){
-			event.setJoinMessage("Welcome  " + ChatColor.GOLD + player.getName()
-					+ ChatColor.WHITE + "  to  " + ChatColor.GREEN
-					+ Bukkit.getServerName()+ChatColor.WHITE+"!\n"+player.getName()+ " is playing the first time!");
-		}else{
-			event.setJoinMessage("Welcome  " + ChatColor.GOLD + player.getName()
-					+ ChatColor.WHITE + "  to  " + ChatColor.GREEN
-					+ Bukkit.getServerName());
+
+		if (!player.hasPlayedBefore()) {
+			event.setJoinMessage("Welcome  " + ChatColor.GOLD
+					+ player.getName() + ChatColor.WHITE + "  to  "
+					+ ChatColor.GREEN + Bukkit.getServerName()
+					+ ChatColor.GOLD + " " + player.getName()
+					+ " is playing the first time!");
+		} else {
+
+			event.setJoinMessage("Welcome  " + ChatColor.GOLD
+					+ player.getName() + ChatColor.WHITE + "  to  "
+					+ ChatColor.GREEN + Bukkit.getServerName());
 		}
-		
 
 	}
 
@@ -49,8 +52,20 @@ public class PlayerListener implements Listener {
 	public void onPlayerRespawn(PlayerRespawnEvent event) throws Exception {
 
 		Player player = event.getPlayer();
-		
-		Spawnarea.respawn(player,player.getWorld().getName());
+		Spawnarea.respawn(player, player.getWorld().getName());
+
 	}
+
+	@EventHandler
+	public void onPlayerTeleport(PlayerTeleportEvent event) {
+
+		
+		
+		
+
+		
+	}
+
+	
 
 }

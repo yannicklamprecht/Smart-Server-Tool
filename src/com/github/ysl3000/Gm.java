@@ -16,7 +16,7 @@ public class Gm {
 			if (args.length == 0) {
 
 				player.setGameMode(GameMode.CREATIVE);
-				player.sendMessage("Enter " + ChatColor.GOLD + "Creative mode");
+				player.sendMessage("Enter " + ChatColor.GOLD + " Creative mode");
 			}
 			if (args.length == 1) {
 
@@ -35,9 +35,8 @@ public class Gm {
 
 				player.sendMessage(ChatColor.GREEN + "You set "
 						+ target.getGameMode() + " for "
-						+ ChatColor.DARK_PURPLE +
-
-						target.getName());
+						+ ChatColor.DARK_PURPLE 
+						+target.getName());
 			}
 
 		} else if (command.equalsIgnoreCase("gms")
@@ -60,12 +59,12 @@ public class Gm {
 
 				target.setGameMode(GameMode.SURVIVAL);
 
-				target.sendMessage(ChatColor.GREEN + "You entered"
+				target.sendMessage(ChatColor.GREEN + "You entered "
 						+ target.getGameMode() + " set by " + ChatColor.DARK_PURPLE
 						+ player.getName());
 
 				player.sendMessage(ChatColor.GREEN + "Gamemode set to  "
-						+ target.getGameMode() + ChatColor.DARK_PURPLE +
+						+ target.getGameMode() +" " +ChatColor.DARK_PURPLE +
 
 						target.getName());
 			}

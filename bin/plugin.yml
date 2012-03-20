@@ -1,10 +1,10 @@
 name: SmartServerTool
-version: 1.2.3_v.3
+version: 1.2.3_v.5.3
 main: com.github.ysl3000.SmartServerTool
 commands:
  /admin:
   usage: //admin
-  description: Toggle OP
+  description: Toggle Op & Gamemode
   permission: sst.admin
   permission-message: You don't have sst.admin
  gmc:
@@ -67,18 +67,18 @@ commands:
   description: get ip of player
   permission: sst.ip
   permission-message: sst.ip
- /tp:
-  usage: //tp <player>
+ tp:
+  usage: /tp <player>
   description: tp to player
   permission: sst.tp
   permission-message: sst.tp
- /tpo:
-  usage: //tpo <player>
+ tpo:
+  usage: /tpo <player>
   description: tp player to you
   permission: sst.tpo
   permission-message: sst.tpo
- /switch:
-  usage: //switch <player>
+ switch:
+  usage: /switch <player>
   description: tp to player and player tp to old location
   permission: sst.switch
   permisssion-message: sst.switch
@@ -97,4 +97,31 @@ commands:
   description: Teleport to Spawn
   permission: sst.spawn
   permission-message: sst.spawn
+ home:
+  usage: /home
+  description: teleport to home
+  permission: sst.home
+  permission: sst.homeo
+  permission-message: sst.home or sst.homeo
+ seth:
+  usage: /seth
+  description: set home
+  permission: sst.seth
+  permission-message: sst.seth
+ /mod:
+  usage: //mod
+  description: toggle Op
+  permission: sst.admin
+  permission-message: sst.admin
+ inv:
+  usage: /inv <player>
+  description: invsee
+ /lag:
+  usage: //lag
+  description: show cpu
+permissions:
+    sst.nolog:
+         description: No Logging of Commands
+         default: false
+  
  

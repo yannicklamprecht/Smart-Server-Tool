@@ -39,6 +39,12 @@ public class Info {
 
 			}
 
+		}else if (cmd.getName().equalsIgnoreCase("/lag")){
+			
+			double cpu = Runtime.getRuntime().availableProcessors();
+			
+			
+			player.sendMessage("The current CPU ussage is: "+cpu);
 		}
 		return true;
 

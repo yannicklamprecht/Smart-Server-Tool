@@ -2,12 +2,14 @@ package com.github.ysl3000;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+
 import org.bukkit.entity.Player;
 
 public class Spawnarea {
@@ -33,8 +35,9 @@ public class Spawnarea {
 
 			if (fw == null) {
 
-				fw = new FileWriter((SmartServerTool.getMainDirectory())
-						+ world + "Spawn.yml", false);
+				fw = new FileWriter(
+						(SmartServerTool.getMainDirectory() + "/spawns/")
+								+ world + "Spawn.yml", false);
 				bw = new BufferedWriter(fw);
 
 				double x = ((Player) sender).getLocation().getX();
@@ -53,8 +56,9 @@ public class Spawnarea {
 
 			} else {
 
-				fw = new FileWriter((SmartServerTool.getMainDirectory())
-						+ world + "Spawn.yml", false);
+				fw = new FileWriter(
+						(SmartServerTool.getMainDirectory() + "/spawns/")
+								+ world + "Spawn.yml", false);
 				bw = new BufferedWriter(fw);
 
 				double x = ((Player) sender).getLocation().getX();
@@ -80,12 +84,7 @@ public class Spawnarea {
 		if (command.equalsIgnoreCase("spawn")
 				&& player.hasPermission("sst.spawn")) {
 
-			if (args.length == 0) {
-				respawn(player, player.getWorld().getName());
-			} else if (args.length == 1) {
-
-				respawn(player, args[0]);
-			}
+			respawn(player, player.getWorld().getName());
 
 		}
 
@@ -93,33 +92,40 @@ public class Spawnarea {
 
 	public static void respawn(Player player, String w) {
 
-		try {
+		if (player.getBedSpawnLocation() == null) {
 
-			String world = w;
+			try {
 
-			fr = new FileReader((SmartServerTool.getMainDirectory()) + world
-					+ "Spawn.yml");
-			br = new BufferedReader(fr);
+				String world = w;
 
-			String all = br.readLine();
+				fr = new FileReader((SmartServerTool.getMainDirectory())
+						+ world + "Spawn.yml");
+				br = new BufferedReader(fr);
 
-			String[] data = all.split(":");
+				String all = br.readLine();
 
-			x = Double.parseDouble(data[0]);
-			y = Double.parseDouble(data[1]);
-			z = Double.parseDouble(data[2]);
+				String[] data = all.split(":");
 
-			Location lc = new Location(player.getWorld(), 1, 2, 3);
+				x = Double.parseDouble(data[0]);
+				y = Double.parseDouble(data[1]);
+				z = Double.parseDouble(data[2]);
 
-			lc.add(x, y, z);
-			br.close();
-			fr.close();
+				Location lc = new Location(player.getWorld(), 1, 2, 3);
 
-			player.teleport(lc);
-			player.sendMessage("Teleported to Spawn of world " + ChatColor.GOLD
-					+ w);
-		} catch (Exception e) {
+				lc.add(x, y, z);
+				br.close();
+				fr.close();
 
+				player.teleport(lc);
+				player.sendMessage("Teleported to Spawn of world "
+						+ ChatColor.GOLD + w);
+			} catch (Exception e) {
+
+			}
+
+		} else {
+
+			player.teleport(player.getBedSpawnLocation());
 		}
 	}
 

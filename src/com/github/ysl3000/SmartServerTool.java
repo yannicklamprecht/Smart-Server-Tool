@@ -14,18 +14,28 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+
 public class SmartServerTool extends JavaPlugin {
+	
+	
 
 	public final PlayerListener pl = new PlayerListener();
 	public static SmartServerTool plugin;
-	public final Logger logger = Logger.getLogger("Minecraft");
+	public final static Logger logger = Logger.getLogger("Minecraft");
+	
+	
+	
+		
+	
+	
 	CommandSender sender;
 	Command cmd;
 	String commandLabel;
+	
+	
 
 	private static String mainDirectory = "plugins/SmartServerTool/";
 
-	Player player = (Player) sender;
 	Logger log;
 
 	Location spawn;
@@ -37,13 +47,19 @@ public class SmartServerTool extends JavaPlugin {
 		pm.registerEvents(this.pl, this);
 
 		new File(mainDirectory).mkdir();
+		new File(mainDirectory+"/spawns/").mkdir();
+		new File(mainDirectory+"/warps/").mkdir();
+		new File(mainDirectory+"/CommandLog/").mkdir();
 
+		
+		
+		
 	}
 
 	public void onDisable() {
 
 		log = Logger.getLogger("Minecraft");
-		log.info("Disable Smart Server Tool");
+		log.info("Disabled Smart Server Tool");
 
 	}
 
@@ -66,7 +82,7 @@ public class SmartServerTool extends JavaPlugin {
 		}
 
 		try {
-			Top.toggleop(cmd, sender);
+			Top.toggleop(cmd, sender, args);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -131,8 +147,13 @@ public class SmartServerTool extends JavaPlugin {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		try {
+			CommandLogger.commandToLog((Player)sender, commandLabel, args, cmd);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 
-		return false;
+		return true;
 
 	}
 
