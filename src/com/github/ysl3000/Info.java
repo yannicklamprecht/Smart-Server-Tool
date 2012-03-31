@@ -1,5 +1,6 @@
 package com.github.ysl3000;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -39,12 +40,18 @@ public class Info {
 
 			}
 
-		}else if (cmd.getName().equalsIgnoreCase("/lag")){
+		}else if (cmd.getName().equalsIgnoreCase("/cpu")){
 			
-			double cpu = Runtime.getRuntime().availableProcessors();
+			int cpu = Runtime.getRuntime().availableProcessors();
 			
 			
-			player.sendMessage("The current CPU ussage is: "+cpu);
+			player.sendMessage("This host has: "+cpu+ " cpu's");
+		}else if (cmd.getName().equalsIgnoreCase("seed")){
+			
+			long ch =	Bukkit.getWorld(player.getWorld().getName()).getSeed();
+			
+		
+			player.sendMessage("The seed is : "+ch );
 		}
 		return true;
 

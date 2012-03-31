@@ -1,5 +1,5 @@
-name: SmartServerTool
-version: 1.2.3_v.5.3
+name: SST
+version: 1.2.4_v.6.3
 main: com.github.ysl3000.SmartServerTool
 commands:
  /admin:
@@ -93,7 +93,7 @@ commands:
   permission: sst.setsp
   permission-message: sst.setsp
  spawn:
-  usage: /spawn <world>
+  usage: /spawn
   description: Teleport to Spawn
   permission: sst.spawn
   permission-message: sst.spawn
@@ -108,20 +108,62 @@ commands:
   description: set home
   permission: sst.seth
   permission-message: sst.seth
- /mod:
-  usage: //mod
-  description: toggle Op
-  permission: sst.admin
-  permission-message: sst.admin
- inv:
-  usage: /inv <player>
-  description: invsee
- /lag:
-  usage: //lag
+ mod:
+  usage: /mod
+  description: enter modmode
+  permission: sst.mod
+  permission-message: sst.mod
+ /cpu:
+  usage: //cpu
   description: show cpu
+ ci:
+  usage: /ci
+  description: clear inventory
+  permission: sst.ci
+  permission-message: sst.ci
+ fly:
+  usage: /fly
+  description: toggle fly
+  permission: sst.fly
+  permission-message: sst.fly
+ hide:
+  usage: /hide <player>
+  description: hide/s you/others
+  permission: sst.visible
+  permission-message: sst.visible
+ show:
+  usage: /show <player>
+  description: show/s you/others
+  permission: sst.visible
+  permission-message: sst.visible
+ back:
+  usage: /back
+  description: teleport to last location
+ done:
+  usage: /done
+  description: leave modmode
+  permission: sst.mod
+  permission-message: sst.mod
+ seed:
+  usage: /seed
+  description: shows seed
+  
+  
 permissions:
     sst.nolog:
          description: No Logging of Commands
          default: false
-  
+    sst.gmco:
+         description: allow entering other people gmc
+         default: false
+    sst.gmso:
+         description: allow entering other people gms
+         default: false
+    sst.flyo:
+         description: allow you to enable others to fly
+         default: false
+    sst.cansee:
+         description: you can see hidden player
+         default: false
+    
  

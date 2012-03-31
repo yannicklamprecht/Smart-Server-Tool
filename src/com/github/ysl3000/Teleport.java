@@ -1,24 +1,29 @@
 package com.github.ysl3000;
 
-import org.bukkit.ChatColor;
+import java.util.HashMap;
+
+
+import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 
-
 public class Teleport {
+
+	static HashMap<Player, Location> lastL = new HashMap<Player, Location>();
 
 	public static boolean tp(Player player, String command, String[] args,
 			Command cmd) throws Exception {
 
 		tpm(player, command, args, cmd);
-		
+
 		home(player, command, args, cmd);
-		
+
 		return true;
 
 	}
+
 	public static void tpm(Player player, String command, String[] args,
-			Command cmd)throws Exception{
+			Command cmd) throws Exception {
 		if (cmd.getName().equalsIgnoreCase("tp")
 				&& player.hasPermission("sst.tpt")) {
 
@@ -28,9 +33,12 @@ public class Teleport {
 
 				Player target = player.getServer().getPlayer(args[0]);
 
+				lastL.put(player, player.getLocation());
+
 				player.teleport(target);
-				player.sendMessage("Teleported to " + ChatColor.GOLD+target.getName());
-				target.sendMessage(ChatColor.GOLD+player.getName() +ChatColor.WHITE+ " teleported to you");
+				player.sendMessage("Teleported to " + target.getDisplayName());
+				target.sendMessage(player.getName()
+						+ " teleported to you");
 			}
 
 		} else if (cmd.getName().equalsIgnoreCase("tpo")
@@ -43,12 +51,14 @@ public class Teleport {
 
 				Player target = player.getServer().getPlayer(args[0]);
 
+				lastL.put(target, target.getLocation());
 				target.teleport(player);
 
-				player.sendMessage("You Teleported " + ChatColor.GREEN+target.getName()
+				player.sendMessage("You Teleported " + target.getDisplayName()
 						+ " to you");
-				target.sendMessage(ChatColor.GOLD + player.getName() + ChatColor.WHITE+" teleported " + ChatColor.GREEN+target.getName() + ChatColor.WHITE+" to "
-						+ ChatColor.GOLD+ player.getName());
+				target.sendMessage(player.getDisplayName() + " teleported "
+						+ target.getDisplayName() + " to "
+						+ player.getDisplayName());
 			}
 
 		} else if (cmd.getName().equalsIgnoreCase("switch")
@@ -59,48 +69,55 @@ public class Teleport {
 			} else if (args.length == 1) {
 
 				Player target = player.getServer().getPlayer(args[0]);
-				Player temp = player.getPlayer();
 
-				player.teleport(target.getLocation());
-				target.teleport(temp.getLocation());
+				lastL.put(target, target.getLocation());
+				lastL.put(player, player.getLocation());
+
+				player.teleport(lastL.get(target));
+				target.teleport(lastL.get(player));
 
 				player.sendMessage("You changed position with "
-						+ ChatColor.GREEN + target.getName());
-				target.sendMessage(player.getName()
+						+ target.getDisplayName());
+				target.sendMessage(player.getDisplayName()
 						+ " changed position with you. Changed by "
-						+ player.getName());
+						+ player.getDisplayName());
 
 			} else {
 				player.sendMessage("to many arguments");
 			}
+		} else if (cmd.getName().equalsIgnoreCase("back")) {
+
+			lastL = PlayerListener.getlocation();
+			player.teleport(lastL.get(player));
+
 		}
 	}
 
 	public static void home(Player player, String command, String[] args,
-			Command cmd)throws Exception{
-		
-		
-		if (cmd.getName().equalsIgnoreCase("home")&& player.hasPermission("sst.home")){
-			if(player.getBedSpawnLocation() != null){
-				
-				if(args.length == 0){
-					
+			Command cmd) throws Exception {
+
+		if (cmd.getName().equalsIgnoreCase("home")
+				&& player.hasPermission("sst.home")) {
+			if (player.getBedSpawnLocation() != null) {
+
+				if (args.length == 0) {
+
 					player.teleport(player.getBedSpawnLocation());
-				}else if (args.length == 1 && player.hasPermission("sst.homeo")){
-					
+				} else if (args.length == 1
+						&& player.hasPermission("sst.homeo")) {
+
 					Player target = player.getServer().getPlayer(args[0]);
 					player.teleport(target.getLocation());
 				}
-			}else{
+			} else {
 				player.sendMessage("No home set");
 			}
-			
-			
-		}else if (cmd.getName().equalsIgnoreCase("seth")&& player.hasPermission("sst.seth")){
+
+		} else if (cmd.getName().equalsIgnoreCase("seth")
+				&& player.hasPermission("sst.seth")) {
 			player.setBedSpawnLocation(player.getLocation());
-			
+
 		}
 	}
 
-	
 }

@@ -13,30 +13,26 @@ public class Health {
 		Player player = (Player) sender;
 		if (commandLabel.equalsIgnoreCase("km")
 				&& sender.hasPermission("sst.km")) {
-			
 
 			player.setHealth(0);
-		} else if(commandLabel.equalsIgnoreCase("kill")&& sender.hasPermission("sst.kill")){
-			
-			if(split.length == 0){
-				
+		} else if (commandLabel.equalsIgnoreCase("kill")
+				&& sender.hasPermission("sst.kill")) {
+
+			if (split.length == 0) {
+
 				player.sendMessage("Wrong Input");
-			}else if(split.length == 1){
-				
+			} else if (split.length == 1) {
+
 				Player target = player.getServer().getPlayer(split[0]);
-				
+
 				target.setHealth(0);
-				
+
 			}
-		
-			
-			
-			
-		}else if (cmd.getName().equalsIgnoreCase("heal")
+
+		} else if (cmd.getName().equalsIgnoreCase("heal")
 				&& sender.hasPermission("sst.heal")) {
 
 			if (split.length == 0) {
-				
 
 				player.setHealth(20);
 
@@ -48,14 +44,11 @@ public class Health {
 
 			if (split.length == 1) {
 
-				
-
 				Player target = player.getServer().getPlayer(split[0]);
 
 				if (target == null) {
 
 					sender.sendMessage("PLAYER " + target + " isn't found");
-					
 
 				}
 

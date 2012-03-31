@@ -14,25 +14,15 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-
 public class SmartServerTool extends JavaPlugin {
-	
-	
 
 	public final PlayerListener pl = new PlayerListener();
 	public static SmartServerTool plugin;
 	public final static Logger logger = Logger.getLogger("Minecraft");
-	
-	
-	
-		
-	
-	
+
 	CommandSender sender;
 	Command cmd;
 	String commandLabel;
-	
-	
 
 	private static String mainDirectory = "plugins/SmartServerTool/";
 
@@ -47,13 +37,10 @@ public class SmartServerTool extends JavaPlugin {
 		pm.registerEvents(this.pl, this);
 
 		new File(mainDirectory).mkdir();
-		new File(mainDirectory+"/spawns/").mkdir();
-		new File(mainDirectory+"/warps/").mkdir();
-		new File(mainDirectory+"/CommandLog/").mkdir();
+		new File(mainDirectory + "/spawns/").mkdir();
+		new File(mainDirectory + "/warps/").mkdir();
+		new File(mainDirectory + "/CommandLog/").mkdir();
 
-		
-		
-		
 	}
 
 	public void onDisable() {
@@ -126,32 +113,33 @@ public class SmartServerTool extends JavaPlugin {
 		}
 
 		try {
-			Spawnarea.setspawn(sender, commandLabel, args, cmd);
+			Spawnarea.spawn((Player)sender, commandLabel, args, cmd);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+	
 		try {
-			Spawnarea.setspawn(sender, commandLabel, args, cmd);
-
+			CommandLogger
+					.commandToLog((Player) sender, commandLabel, args, cmd);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		try {
+			HideP.hide(sender, commandLabel, args, cmd);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 		try {
-			Spawnarea.tele((Player) sender, commandLabel, args);
+			clearinv((Player)sender, commandLabel, args, cmd);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		try {
-			CommandLogger.commandToLog((Player)sender, commandLabel, args, cmd);
-		}catch(Exception e){
-			e.printStackTrace();
-		}
+		
+		
 
 		return true;
 
@@ -160,5 +148,25 @@ public class SmartServerTool extends JavaPlugin {
 	public static String getMainDirectory() {
 
 		return mainDirectory;
+	}
+	public static boolean clearinv(Player player, String command, String[] args,
+			Command cmd)throws Exception{
+		
+		boolean succes = false ;
+		if (command.equalsIgnoreCase("ci")&& player.hasPermission("sst.ci")){
+			
+			player.getInventory().clear();
+			return false;
+			
+		}else if(command.equalsIgnoreCase("ci")&& !player.hasPermission("sst.ci")){
+			
+			return true;
+			
+		}
+		
+		return succes;
+		
+		
+		
 	}
 }

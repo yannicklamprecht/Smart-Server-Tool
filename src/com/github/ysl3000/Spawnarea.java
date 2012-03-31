@@ -5,10 +5,13 @@ import java.io.BufferedWriter;
 
 import java.io.FileReader;
 import java.io.FileWriter;
+
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
+
 
 import org.bukkit.entity.Player;
 
@@ -24,14 +27,19 @@ public class Spawnarea {
 	private static double x;
 	private static double y;
 	private static double z;
+	private static float pitch;
+	private static float yaw;
+	
+	private static World wo;
+	private static Location lc = new Location(wo, 1, 2, 3, yaw, pitch);
 
-	public static void setspawn(CommandSender sender, String command,
+	public static void spawn(Player player, String command,
 			String[] args, Command cmd) throws Exception {
 
 		if (command.equalsIgnoreCase("/setsp")
-				&& sender.hasPermission("sst.setsp")) {
+				&& player.hasPermission("sst.setsp")) {
 
-			String world = ((Player) sender).getWorld().getName();
+			String world =  player.getWorld().getName();
 
 			if (fw == null) {
 
@@ -40,16 +48,21 @@ public class Spawnarea {
 								+ world + "Spawn.yml", false);
 				bw = new BufferedWriter(fw);
 
-				double x = ((Player) sender).getLocation().getX();
-				double y = ((Player) sender).getLocation().getY();
-				double z = ((Player) sender).getLocation().getZ();
+				double x =  player.getLocation().getBlockX();
+				double y =  player.getLocation().getBlockY();
+				double z =  player.getLocation().getBlockZ();
+				double pitch =  player.getLocation().getPitch();
+				double yaw =  player.getLocation().getYaw();
 
-				sender.sendMessage(ChatColor.AQUA + "Spawn set in "
+				player.sendMessage(ChatColor.AQUA + "Spawn set in "
 						+ ChatColor.GOLD + world);
 
+				bw.write(world + ":");
 				bw.write(x + ":");
 				bw.write(y + ":");
 				bw.write(z + ":");
+				bw.write(pitch + ":");
+				bw.write(yaw + ":");
 
 				bw.close();
 				fw.close();
@@ -61,72 +74,68 @@ public class Spawnarea {
 								+ world + "Spawn.yml", false);
 				bw = new BufferedWriter(fw);
 
-				double x = ((Player) sender).getLocation().getX();
-				double y = ((Player) sender).getLocation().getY();
-				double z = ((Player) sender).getLocation().getZ();
+				double x = player.getLocation().getBlockX();
+				double y =  player.getLocation().getBlockY();
+				double z =  player.getLocation().getBlockZ();
+				double pitch =  player.getLocation().getPitch();
+				double yaw =  player.getLocation().getYaw();
 
+				bw.write(world + ":");
 				bw.write(x + ":");
 				bw.write(y + ":");
 				bw.write(z + ":");
+				bw.write(pitch + ":");
+				bw.write(yaw + ":");
 
 				bw.close();
 				fw.close();
 
 			}
 
-		}
-
-	}
-
-	public static void tele(Player player, String command, String[] args)
-			throws Exception {
-
-		if (command.equalsIgnoreCase("spawn")
+		} else if (command.equalsIgnoreCase("spawn")
 				&& player.hasPermission("sst.spawn")) {
 
-			respawn(player, player.getWorld().getName());
+			String world =  player.getWorld().getName();
+
+			fr = new FileReader((SmartServerTool.getMainDirectory())+"/spawns/" + world
+					+ "Spawn.yml");
+			br = new BufferedReader(fr);
+
+			String all = br.readLine();
+
+			String[] data = all.split(":");
+
+			World wo = Bukkit.getWorld(data[0]);
+			x = Double.parseDouble(data[1]);
+			y = Double.parseDouble(data[2]);
+			z = Double.parseDouble(data[3]);
+			pitch = Float.parseFloat(data[4]);
+			yaw = Float.parseFloat(data[5]);
+
+			
+
+			setLc(new Location(wo, x, y, z));
+			getLc().setPitch(pitch);
+			getLc().setYaw(yaw);
+			
+
+			br.close();
+			fr.close();
+
+			 player.teleport(getLc());
+			 player.sendMessage("Teleported to Spawn of world "
+					+ ChatColor.GOLD + world);
 
 		}
 
 	}
 
-	public static void respawn(Player player, String w) {
+	public static Location getLc() {
+		return lc;
+	}
 
-		if (player.getBedSpawnLocation() == null) {
-
-			try {
-
-				String world = w;
-
-				fr = new FileReader((SmartServerTool.getMainDirectory())
-						+ world + "Spawn.yml");
-				br = new BufferedReader(fr);
-
-				String all = br.readLine();
-
-				String[] data = all.split(":");
-
-				x = Double.parseDouble(data[0]);
-				y = Double.parseDouble(data[1]);
-				z = Double.parseDouble(data[2]);
-
-				Location lc = new Location(player.getWorld(), 1, 2, 3);
-
-				lc.add(x, y, z);
-				br.close();
-				fr.close();
-
-				player.teleport(lc);
-				player.sendMessage("Teleported to Spawn of world "
-						+ ChatColor.GOLD + w);
-			} catch (Exception e) {
-
-			}
-
-		} else {
-
-			player.teleport(player.getBedSpawnLocation());
-		}
+	public static void setLc(Location loc) {
+		lc = loc;
 	}
 
 }
