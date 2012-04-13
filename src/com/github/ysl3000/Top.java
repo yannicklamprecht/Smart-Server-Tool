@@ -28,14 +28,22 @@ public class Top {
 					mod(player, args);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					
 				}
 			}
 
 		} else if (cmd.getName().equalsIgnoreCase("done")) {
 			if (player.hasPermission("sst.mod")) {
 
-				done(player, args);
+				try {
+					done(player, args);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					
+					
+					
+					player.sendMessage("You aren't in modmode");
+				}
 			}
 		}
 
@@ -48,47 +56,13 @@ public class Top {
 
 	}
 
-	public static boolean done(Player player, String[] args) {
+	public static boolean done(Player player, String[] args) throws Exception {
 
 		if (args.length == 0) {
 
-			player.getInventory().clear();
-
+			doneMe(player);
+			Prefix.Pfix(player);
 			
-
-			player.getInventory().setContents(invp.get(player));
-			
-			
-
-			if (!locp.containsKey(player)) {
-
-				Command cmd = new Command("spawn") {
-
-					@Override
-					public boolean execute(CommandSender arg0, String arg1,
-							String[] arg2) {
-						// TODO Auto-generated method stub
-						return false;
-					}
-				};
-
-				try {
-					Spawnarea.spawn(player, null, args, cmd);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			} else {
-
-				player.teleport(locp.get(player));
-
-			}
-
-			player.setOp(false);
-			player.setGameMode(GameMode.SURVIVAL);
-			player.sendMessage((ChatColor.RED + "Modmode disabled"));
-
-			return false;
 
 		} else if (args.length == 1) {
 			if (player.hasPermission("sst.mod")) {
@@ -105,6 +79,7 @@ public class Top {
 						.getName()));
 				target.sendMessage((ChatColor.RED + "modmode disabled"));
 
+				Prefix.Pfix(target);
 			}
 
 		}
@@ -113,7 +88,7 @@ public class Top {
 
 	}
 
-	public static boolean mod(Player player, String[] args)throws Exception {
+	public static boolean mod(Player player, String[] args) throws Exception {
 
 		if (args.length == 0) {
 
@@ -129,6 +104,8 @@ public class Top {
 			player.setOp(true);
 			player.setGameMode(GameMode.CREATIVE);
 			player.sendMessage((ChatColor.GREEN + "Modmode enabled"));
+			
+			player.setDisplayName("[Mod] | "+player.getDisplayName());
 
 		} else if (args.length == 1) {
 
@@ -142,6 +119,8 @@ public class Top {
 			player.sendMessage((ChatColor.GREEN + "modmode enabled for "
 					+ ChatColor.GOLD + target.getName()));
 			target.sendMessage((ChatColor.GREEN + "modmode enabled"));
+			
+			target.setDisplayName("[Mod] | "+player.getDisplayName());
 		}
 		return false;
 
@@ -188,5 +167,49 @@ public class Top {
 			}
 		}
 		return false;
+	}
+	public static boolean doneMe(Player player){
+		
+		player.getInventory().clear();
+
+		player.getInventory().setContents(invp.get(player));
+
+		if (!locp.containsKey(player)) {
+
+			Command cmd = new Command("spawn") {
+
+				@Override
+				public boolean execute(CommandSender arg0, String arg1,
+						String[] arg2) {
+					// TODO Auto-generated method stub
+					return false;
+				}
+			};
+
+			
+			try {
+				Spawnarea.spawn(player, null, new String[0], cmd);
+			} catch (Exception e) {
+				
+				
+			}
+		} else {
+
+			player.teleport(locp.get(player));
+
+		}
+
+		player.setOp(false);
+		player.setGameMode(GameMode.SURVIVAL);
+		player.sendMessage((ChatColor.RED + "Modmode disabled"));
+
+		
+		
+		return false;
+		
+		
+		
+		
+		
 	}
 }

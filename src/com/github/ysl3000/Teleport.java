@@ -25,7 +25,7 @@ public class Teleport {
 	public static void tpm(Player player, String command, String[] args,
 			Command cmd) throws Exception {
 		if (cmd.getName().equalsIgnoreCase("tp")
-				&& player.hasPermission("sst.tpt")) {
+				&& player.hasPermission("sst.tp")) {
 
 			if (args.length == 0) {
 				player.sendMessage("Wrong Input");

@@ -1,6 +1,7 @@
-name: SST
-version: 1.2.4_v.6.3
+name: SmartServerTool
+version: 1.2.5_v.8
 main: com.github.ysl3000.SmartServerTool
+website: www.SmartServerTool.de
 commands:
  /admin:
   usage: //admin
@@ -122,7 +123,7 @@ commands:
   permission: sst.ci
   permission-message: sst.ci
  fly:
-  usage: /fly
+  usage: /fly <player>
   description: toggle fly
   permission: sst.fly
   permission-message: sst.fly
@@ -147,7 +148,7 @@ commands:
  seed:
   usage: /seed
   description: shows seed
-  
+   
   
 permissions:
     sst.nolog:
@@ -165,5 +166,13 @@ permissions:
     sst.cansee:
          description: you can see hidden player
          default: false
-    
+    sst.info:
+         description: allow playerinfo
+         default: op
+    sst.break:
+         description: allow breaking blocks
+    sst.build:
+         description: allow building blocks
+    sst.gmo:
+         description: allow you looking up others gamemode
  

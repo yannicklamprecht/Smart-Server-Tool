@@ -1,0 +1,10 @@
+# default
+# everything that is starting with disallow uses permission, if value is true
+message: Willkommen %user auf %server !
+firstjoin: er hat sein erstes Mal !
+leftmessage: Player %user hat %server verlassen
+disallowbuild: true
+disablebreak: true
+Blockcreeper: true
+Bockender: true
+xpsave: true
