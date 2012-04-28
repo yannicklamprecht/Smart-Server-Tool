@@ -1,5 +1,6 @@
 package com.github.ysl3000;
 
+
 import java.io.IOException;
 import java.util.HashMap;
 import org.bukkit.ChatColor;
@@ -7,13 +8,19 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.conversations.ConversationContext;
+import org.bukkit.conversations.ConversationPrefix;
+import org.bukkit.conversations.PluginNameConversationPrefix;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class Top {
+public class Top implements ConversationPrefix{
+
+	
 
 	static HashMap<Player, ItemStack[]> invp = new HashMap<Player, ItemStack[]>();
 	static HashMap<Player, Location> locp = new HashMap<Player, Location>();
+	
 
 	public static boolean toggleop(Command cmd, CommandSender sender,
 			String[] args) throws IOException {
@@ -28,7 +35,7 @@ public class Top {
 					mod(player, args);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					
+
 				}
 			}
 
@@ -39,9 +46,7 @@ public class Top {
 					done(player, args);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
-					
-					
-					
+
 					player.sendMessage("You aren't in modmode");
 				}
 			}
@@ -62,7 +67,6 @@ public class Top {
 
 			doneMe(player);
 			Prefix.Pfix(player);
-			
 
 		} else if (args.length == 1) {
 			if (player.hasPermission("sst.mod")) {
@@ -104,8 +108,9 @@ public class Top {
 			player.setOp(true);
 			player.setGameMode(GameMode.CREATIVE);
 			player.sendMessage((ChatColor.GREEN + "Modmode enabled"));
-			
-			player.setDisplayName("[Mod] | "+player.getDisplayName());
+
+			PluginNameConversationPrefix pre = new PluginNameConversationPrefix(SmartServerTool.plugin, " ", ChatColor.GOLD); 
+			player.setDisplayName(pre + player.getDisplayName());
 
 		} else if (args.length == 1) {
 
@@ -119,8 +124,10 @@ public class Top {
 			player.sendMessage((ChatColor.GREEN + "modmode enabled for "
 					+ ChatColor.GOLD + target.getName()));
 			target.sendMessage((ChatColor.GREEN + "modmode enabled"));
+
 			
-			target.setDisplayName("[Mod] | "+player.getDisplayName());
+		PluginNameConversationPrefix pre = new PluginNameConversationPrefix(SmartServerTool.plugin, " ", ChatColor.GOLD); 
+			target.setDisplayName(pre + player.getDisplayName());
 		}
 		return false;
 
@@ -168,8 +175,9 @@ public class Top {
 		}
 		return false;
 	}
-	public static boolean doneMe(Player player){
-		
+
+	public static boolean doneMe(Player player) {
+
 		player.getInventory().clear();
 
 		player.getInventory().setContents(invp.get(player));
@@ -186,12 +194,10 @@ public class Top {
 				}
 			};
 
-			
 			try {
 				Spawnarea.spawn(player, null, new String[0], cmd);
 			} catch (Exception e) {
-				
-				
+
 			}
 		} else {
 
@@ -203,13 +209,13 @@ public class Top {
 		player.setGameMode(GameMode.SURVIVAL);
 		player.sendMessage((ChatColor.RED + "Modmode disabled"));
 
-		
-		
 		return false;
-		
-		
-		
-		
-		
+
+	}
+
+	@Override
+	public String getPrefix(ConversationContext arg0) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

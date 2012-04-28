@@ -1,5 +1,5 @@
 name: SmartServerTool
-version: 1.2.5_v.8
+version: 1.2.5_v.8.3
 main: com.github.ysl3000.SmartServerTool
 website: www.SmartServerTool.de
 commands:
@@ -102,13 +102,7 @@ commands:
   usage: /home
   description: teleport to home
   permission: sst.home
-  permission: sst.homeo
-  permission-message: sst.home or sst.homeo
- seth:
-  usage: /seth
-  description: set home
-  permission: sst.seth
-  permission-message: sst.seth
+  permission-message: sst.home 
  mod:
   usage: /mod
   description: enter modmode
@@ -148,9 +142,65 @@ commands:
  seed:
   usage: /seed
   description: shows seed
-   
-  
+ i:
+  usage: /i <itemid/name>[:typeid] [amount]
+  description: adds item
+  permission: sst.item
+  permission-message: You need sst.item
+ cm:
+  usage: /cm <true/false>
+  description: toggle servicemode
+  permission: sst.cm
+  permission-message: sst.cm
+ repair:
+  usage: /repair
+  description: repair your tool in hand
+  permission: sst.repair
+  permission-message: sst.repair
+ kick:
+  usage: /kick <player/-a> reason
+  description: kicks all player except yourself
+  permission: sst.kickall
+  permission-message: sst.kickall
 permissions:
+    sst.*:
+         description: give all permission
+         children:
+             sst.admin: true
+             sst.mod: true
+             sst.gmc: true
+             sst.gms: true
+             sst.gm: true
+             sst.td: true
+             sst.tn: true
+             sst.sun: true
+             sst.storm: true
+             sst.km: true
+             sst.kill: true
+             sst.wg: true
+             sst.heal: true
+             sst.tp: true
+             sst.tpo: true
+             sst.ip: true
+             sst.switch: true
+             sst.setsp: true
+             sst.spawn: true
+             sst.seth: true
+             sst.home: true
+             sst.ci: true
+             sst.fly: true
+             sst.visible: true
+             sst.item: true
+             sst.repair: true
+             sst.nolog: true
+             sst.gmco: true
+             sst.gmso: true
+             sst.flyo: true
+             sst.cansee: true
+             sst.info: true
+             sst.break: true
+             sst.build: true
+             sst.gmo: true
     sst.nolog:
          description: No Logging of Commands
          default: false
@@ -175,4 +225,7 @@ permissions:
          description: allow building blocks
     sst.gmo:
          description: allow you looking up others gamemode
- 
+    sst.joinfull:
+         description: allows you to join full server
+    sst.joinservice:
+         description: allows you to join server while in servicemode

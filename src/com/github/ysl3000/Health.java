@@ -13,17 +13,24 @@ public class Health {
 		Player player = (Player) sender;
 		if (commandLabel.equalsIgnoreCase("km")
 				&& sender.hasPermission("sst.km")) {
+			
+			if(sender instanceof Player){
 
 			player.setHealth(0);
+			}else{
+				sender.sendMessage(SmartServerTool.consolehasperformed);
+			}
 		} else if (commandLabel.equalsIgnoreCase("kill")
 				&& sender.hasPermission("sst.kill")) {
 
 			if (split.length == 0) {
+				
+				
 
 				player.sendMessage("Wrong Input");
 			} else if (split.length == 1) {
 
-				Player target = player.getServer().getPlayer(split[0]);
+				Player target = sender.getServer().getPlayer(split[0]);
 
 				target.setHealth(0);
 
@@ -33,18 +40,22 @@ public class Health {
 				&& sender.hasPermission("sst.heal")) {
 
 			if (split.length == 0) {
+				
+				if(sender instanceof Player){
+					player.setHealth(20);
 
-				player.setHealth(20);
+					player.setFoodLevel(20);
 
-				player.setFoodLevel(20);
+					player.sendMessage(ChatColor.GREEN + "Healed!");
+				}else{
+					sender.sendMessage(SmartServerTool.consolehasperformed);
+				}
 
-				player.sendMessage(ChatColor.GREEN + "Healed!");
+				
 
-			}
+			}else if (split.length == 1) {
 
-			if (split.length == 1) {
-
-				Player target = player.getServer().getPlayer(split[0]);
+				Player target = sender.getServer().getPlayer(split[0]);
 
 				if (target == null) {
 

@@ -1,8 +1,9 @@
 package com.github.ysl3000;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.logging.Logger;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -22,7 +23,10 @@ public class SmartServerTool extends JavaPlugin {
 	Logger log;
 	Location spawn;
 
+	public static String consolehasperformed = "Only Player can perform this command";
+
 	public static Configuration config;
+	public static int inc = 0;
 
 	public void onEnable() {
 		log = Logger.getLogger("Minecraft");
@@ -30,16 +34,40 @@ public class SmartServerTool extends JavaPlugin {
 
 		new File(mainDirectory).mkdir();
 		new File(mainDirectory + "/spawns/").mkdir();
-		new File(mainDirectory + "/warps/").mkdir();
 		new File(mainDirectory + "/CommandLog/").mkdir();
 
-		
 		getServer().getPluginManager().registerEvents(new MOTD(this), this);
 		getServer().getPluginManager().registerEvents(new PlayerListener(this),
 				this);
 
 		this.getConfig().options().copyDefaults(true);
 		this.saveConfig();
+
+		if (MOTD.getadvert()) {
+
+			Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
+					new Runnable() {
+
+						@Override
+						public void run() {
+
+							try {
+
+								for (Player p : Bukkit.getOnlinePlayers()) {
+
+									p.sendMessage(ChatColor.RED
+											+ "[Plugin-Advert]"
+											+ ChatColor.GOLD
+											+ "Plugin-Hompage: www.SmartServerTool.de");
+								}
+
+							} catch (Exception e) {
+
+							}
+
+						}
+					}, 0, 300 * 20L);
+		}
 
 	}
 
@@ -53,82 +81,24 @@ public class SmartServerTool extends JavaPlugin {
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String commandLabel, String[] args) {
 
-		try {
-			Gm.toggleGm((Player) sender, commandLabel, args, cmd);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		if (sender instanceof Player) {
+			try {
+				Gm.toggleGm((Player) sender, commandLabel, args, cmd);
+				Top.toggleop(cmd, sender, args);
+				Time.setTime((Player) sender, commandLabel);
+				Weather.changeWeather((Player) sender, commandLabel);
+				Health.kill(sender, commandLabel, args, cmd);
+				Info.infos(sender, commandLabel, args, cmd);
+				Teleport.tp((Player) sender, commandLabel, args, cmd);
+				Spawnarea.spawn(sender, commandLabel, args, cmd);
+				CommandLogger.commandToLog(sender, commandLabel, args, cmd);
+				HideP.hide(sender, commandLabel, args, cmd);
+				ItemMan.item((Player) sender, commandLabel, args, cmd);
+				KickManager.kick(sender, commandLabel, args, cmd);
 
-		try {
-			Top.toggleop(cmd, sender, args);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			} catch (Exception e) {
+			}
 
-		}
-		try {
-			Time.setTime((Player) sender, commandLabel);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		try {
-
-			Weather.changeWeather((Player) sender, commandLabel);
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		try {
-			Health.kill(sender, commandLabel, args, cmd);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		try {
-			Info.infos(sender, commandLabel, args, cmd);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		try {
-			Teleport.tp((Player) sender, commandLabel, args, cmd);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		try {
-			Spawnarea.spawn((Player) sender, commandLabel, args, cmd);
-
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		try {
-			CommandLogger
-					.commandToLog((Player) sender, commandLabel, args, cmd);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		try {
-			HideP.hide(sender, commandLabel, args, cmd);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		try {
-			clearinv((Player) sender, commandLabel, args, cmd);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 
 		return true;
@@ -138,26 +108,6 @@ public class SmartServerTool extends JavaPlugin {
 	public static String getMainDirectory() {
 
 		return mainDirectory;
-	}
-
-	public static boolean clearinv(Player player, String command,
-			String[] args, Command cmd) throws Exception {
-
-		boolean succes = false;
-		if (command.equalsIgnoreCase("ci") && player.hasPermission("sst.ci")) {
-
-			player.getInventory().clear();
-			return false;
-
-		} else if (command.equalsIgnoreCase("ci")
-				&& !player.hasPermission("sst.ci")) {
-
-			return true;
-
-		}
-
-		return succes;
-
 	}
 
 }

@@ -6,6 +6,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -23,59 +24,72 @@ public class Gm {
 
 	}
 
-	public static boolean gameMC(Player player, String command, String[] args,
+	public static boolean gameMC(CommandSender sender, String command, String[] args,
 			Command cmd) {
 
-		if (command.equalsIgnoreCase("gmc") && player.hasPermission("sst.gmc")) {
+		
+		Player player = (Player) sender;
+		if (command.equalsIgnoreCase("gmc") && sender.hasPermission("sst.gmc")) {
 
 			if (args.length == 0) {
+				if(sender instanceof Player){
 
-				player.setGameMode(GameMode.CREATIVE);
-				player.sendMessage("Enter " + ChatColor.GOLD + " Creative mode");
-			} else if (args.length == 1 && player.hasPermission("sst.gmco")) {
+					player.setGameMode(GameMode.CREATIVE);
+					player.sendMessage("Enter " + ChatColor.GOLD + " Creative mode");
+				}else{
+					sender.sendMessage(SmartServerTool.consolehasperformed);
+				}
 
-				Player target = player.getServer().getPlayer(args[0]);
+			} else if (args.length == 1 && sender.hasPermission("sst.gmco")) {
+
+				Player target = Bukkit.getPlayer(args[0]);
 
 				if (target == null) {
 
-					player.sendMessage("PLAYER " + target + " isn't found");
+					sender.sendMessage("PLAYER " + target + " isn't found");
 				}
 
 				target.setGameMode(GameMode.CREATIVE);
 
 				target.sendMessage(ChatColor.GREEN + "You Gamemode now is "
 						+ target.getGameMode() + ", set by "
-						+ ChatColor.DARK_PURPLE + player.getName());
+						+ ChatColor.DARK_PURPLE + sender.getName());
 
-				player.sendMessage(ChatColor.GREEN + "You set "
+				sender.sendMessage(ChatColor.GREEN + "You set "
 						+ target.getGameMode() + " for "
 						+ ChatColor.DARK_PURPLE + target.getName());
 			}
 
 		} else if (command.equalsIgnoreCase("gms")
-				&& player.hasPermission("sst.gms")) {
+				&& sender.hasPermission("sst.gms")) {
 
 			if (args.length == 0) {
+				
+				if(sender instanceof Player){
+					player.setGameMode(GameMode.SURVIVAL);
+					player.sendMessage("Enter " + ChatColor.GOLD
+							+ player.getGameMode());
+				}else{
+					sender.sendMessage(SmartServerTool.consolehasperformed);
+				}
 
-				player.setGameMode(GameMode.SURVIVAL);
-				player.sendMessage("Enter " + ChatColor.GOLD
-						+ player.getGameMode());
-			} else if (args.length == 1 && player.hasPermission("sst.gmso")) {
+				
+			} else if (args.length == 1 && sender.hasPermission("sst.gmso")) {
 
-				Player target = player.getServer().getPlayer(args[0]);
+				Player target = Bukkit.getPlayer(args[0]);
 
 				if (target == null) {
 
-					player.sendMessage("PLAYER " + target + " isn't found");
+					sender.sendMessage("PLAYER " + target + " isn't found");
 				}
 
 				target.setGameMode(GameMode.SURVIVAL);
 
 				target.sendMessage(ChatColor.GREEN + "You entered "
 						+ target.getGameMode() + " set by "
-						+ ChatColor.DARK_PURPLE + player.getName());
+						+ ChatColor.DARK_PURPLE + sender.getName());
 
-				player.sendMessage(ChatColor.GREEN + "Gamemode set to  "
+				sender.sendMessage(ChatColor.GREEN + "Gamemode set to  "
 						+ target.getGameMode() + " " + ChatColor.DARK_PURPLE +
 
 						target.getName());
@@ -85,21 +99,27 @@ public class Gm {
 				&& player.hasPermission("sst.gm")) {
 
 			if (args.length == 0) {
+				
+				if(sender instanceof Player){
+					player.sendMessage("Current GameMode " + ChatColor.GOLD
+							+ player.getGameMode());
+				}else{
+					sender.sendMessage(SmartServerTool.consolehasperformed);
+				}
 
-				player.sendMessage("Current GameMode " + ChatColor.GOLD
-						+ player.getGameMode());
+				
 
 			} else if (args.length == 1) {
 
-				if (player.hasPermission("sst.gmo")) {
+				if (sender.hasPermission("sst.gmo")) {
 
 					Player target = Bukkit.getPlayer(args[0]);
-					player.sendMessage("Current GameMode of " + ChatColor.GOLD
+					sender.sendMessage("Current GameMode of " + ChatColor.GOLD
 							+ target.getDisplayName() + " "
 							+ target.getGameMode());
-				} else if (!player.hasPermission("sst.gmo")) {
+				} else if (!sender.hasPermission("sst.gmo")) {
 
-					player.sendMessage("You aren't allowed to lookup others gamemode");
+					sender.sendMessage("You aren't allowed to lookup others gamemode");
 				}
 
 			}
@@ -109,51 +129,58 @@ public class Gm {
 
 	}
 
-	public static boolean fly(Player player, String command, String[] args,
+	public static boolean fly(CommandSender sender, String command, String[] args,
 			Command cmd) {
 
-		if (command.equalsIgnoreCase("fly") && player.hasPermission("sst.fly")) {
+		Player player = (Player)sender;
+		if (command.equalsIgnoreCase("fly") && sender.hasPermission("sst.fly")) {
 
 			if (args.length == 0) {
+				
+				if(sender instanceof Player){
+					if (!player.getAllowFlight() && !player.isFlying()) {
 
-				if (!player.getAllowFlight() && !player.isFlying()) {
+						player.setAllowFlight(true);
+						player.setFlying(true);
+						player.sendMessage("You can now fly ");
 
-					player.setAllowFlight(true);
-					player.setFlying(true);
-					player.sendMessage("You can now fly ");
-
-				} else if (player.getAllowFlight() && !player.isFlying()) {
-					player.setFlying(false);
-					player.setAllowFlight(false);
-					player.sendMessage("Fly is now disabled");
+					} else if (player.getAllowFlight() && !player.isFlying()) {
+						player.setFlying(false);
+						player.setAllowFlight(false);
+						player.sendMessage("Fly is now disabled");
+					}
+				}else{
+					sender.sendMessage(SmartServerTool.consolehasperformed);
 				}
+
+				
 
 			} else if (args.length == 1) {
 
 				Player target = Bukkit.getPlayer(args[0]);
 
-				if (player.hasPermission("sst.flyo")) {
+				if (sender.hasPermission("sst.flyo")) {
 
 					if (!target.getAllowFlight() && !target.isFlying()) {
 
 						target.setAllowFlight(true);
 						target.setFlying(true);
-						player.sendMessage("Set fly on for " + target.getName());
+						sender.sendMessage("Set fly on for " + target.getName());
 						target.sendMessage("You can now fly! Allowed by "
-								+ player.getDisplayName());
+								+ sender.getName());
 
 					} else if (target.getAllowFlight() && !target.isFlying()) {
 
 						target.setFlying(false);
 						target.setAllowFlight(false);
-						player.sendMessage("Set fly off for "
+						sender.sendMessage("Set fly off for "
 								+ target.getName());
 						target.sendMessage("Until now you have to walk on feet! Disallowed by "
-								+ player.getDisplayName());
+								+ sender.getName());
 					}
 				} else {
 
-					player.sendMessage("No permission for flying others");
+					sender.sendMessage("No permission for flying others");
 
 				}
 
@@ -161,7 +188,7 @@ public class Gm {
 		} else if (command.equalsIgnoreCase("fly")
 				&& !player.hasPermission("sst.fly")) {
 
-			player.sendMessage("No Permission for flying");
+			sender.sendMessage("No Permission for flying");
 
 		}
 

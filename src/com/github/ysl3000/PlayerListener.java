@@ -3,21 +3,28 @@ package com.github.ysl3000;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.HashMap;
+import net.minecraft.server.Block;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class PlayerListener implements Listener {
@@ -135,32 +142,17 @@ public class PlayerListener implements Listener {
 
 		Player target = (Player) etarget;
 
-		if (!player.isSneaking()) {
-			if (player.hasPermission("sst.info")) {
+		if (player.hasPermission("sst.info")) {
 
-				player.sendMessage("Infos of: " + target.getDisplayName());
-				player.sendMessage("Foodlevel: " + target.getFoodLevel());
-				player.sendMessage("Health: " + target.getHealth());
-				player.sendMessage("Ip: " + target.getAddress());
-				player.sendMessage("Op-status: " + target.isOp());
-				player.sendMessage("Gamemode: " + target.getGameMode());
-
-			} else if (player.isSneaking()) {
-
-				if (player.hasPermission("sst.info")) {
-					if (!target.isOp()) {
-						target.setOp(true);
-						return;
-					} else if (target.isOp()) {
-						target.setOp(false);
-
-						return;
-					}
-				}
-
-			}
+			player.sendMessage("Infos of: " + target.getDisplayName());
+			player.sendMessage("Foodlevel: " + target.getFoodLevel());
+			player.sendMessage("Health: " + target.getHealth());
+			player.sendMessage("Ip: " + target.getAddress());
+			player.sendMessage("Op-status: " + target.isOp());
+			player.sendMessage("Gamemode: " + target.getGameMode());
 
 		}
+
 	}
 
 	@EventHandler
@@ -168,9 +160,38 @@ public class PlayerListener implements Listener {
 
 		Player player = event.getPlayer();
 
+		event.setCancelled(false);
+
 		if (player.hasPermission("sst.break")) {
 
-			event.setCancelled(false);
+			if (event.getBlock().getType().equals(Block.DIAMOND_ORE)) {
+
+				event.getBlock()
+						.getWorld()
+						.dropItemNaturally(event.getBlock().getLocation(),
+								new ItemStack(Material.DIAMOND_AXE));
+				event.getBlock()
+						.getWorld()
+						.dropItemNaturally(event.getBlock().getLocation(),
+								new ItemStack(Material.DIAMOND_PICKAXE));
+				event.getBlock()
+						.getWorld()
+						.dropItemNaturally(event.getBlock().getLocation(),
+								new ItemStack(Material.DIAMOND_SPADE));
+			} else if (event.getBlock().getType().equals(Material.LEAVES)) {
+
+				World world = event.getBlock().getWorld();
+				ItemStack bread = new ItemStack(Material.APPLE, 4);
+
+				bread.setAmount(3);
+				bread.setType(Material.APPLE);
+
+				world.dropItemNaturally(event.getBlock().getLocation(), bread);
+				bread.setAmount(1);
+				bread.setType(Material.GOLDEN_APPLE);
+				world.dropItemNaturally(event.getBlock().getLocation(), bread);
+
+			}
 
 		} else {
 
@@ -197,6 +218,10 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void oncreeper(EntityExplodeEvent event) {
 
+		if (!event.getEntityType().equals(EntityType.CREEPER)) {
+			return;
+		}
+
 		event.setCancelled(Bcreeper);
 
 	}
@@ -204,16 +229,63 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void onenderpick(EntityChangeBlockEvent event) {
 
+		if (!event.getEntityType().equals(EntityType.ENDERMAN)) {
+			return;
+		}
 		event.setCancelled(Bender);
 
 	}
 
 	@EventHandler
-	public void onleavedecade(LeavesDecayEvent event) {
+	public void onplayerdive(PlayerToggleSneakEvent event) {
 
-		ItemStack apple = new ItemStack(260, 4);
+		Player player = event.getPlayer();
 
-		event.getBlock().getDrops().add(apple);
+		if (player.getInventory().getHelmet() != null) {
+
+			if (player.getRemainingAir() <= 5) {
+
+				short dur = player.getInventory().getHelmet().getDurability();
+				player.setRemainingAir(300);
+
+				short newdur = (short) (dur + 5);
+				player.getInventory().getHelmet().setDurability(newdur);
+				player.sendMessage(ChatColor.GOLD + "Air recharged!!");
+
+			} else {
+				return;
+			}
+		} else {
+
+			if (player.getRemainingAir() <= 5) {
+				player.sendMessage(ChatColor.RED
+						+ "you have no helmet to charge your breath");
+			} else {
+				return;
+			}
+
+		}
+	}
+
+	@EventHandler(priority = EventPriority.HIGH)
+	public void onplayerrb(PlayerInteractEvent event) {
+
+		if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
+				&& (event.getClickedBlock().getType().equals(Material.BED) || event
+						.getClickedBlock().getType().equals(Material.BED_BLOCK))) {
+
+			Player player = event.getPlayer();
+
+			player.setPlayerTime(18000L, false);
+
+			event.getPlayer().setBedSpawnLocation(
+					event.getClickedBlock().getLocation());
+			event.getPlayer().sendMessage(
+					ChatColor.BLUE + "Bedspawn location set!");
+			player.resetPlayerTime();
+		}else{
+			return;
+		}
 
 	}
 

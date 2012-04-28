@@ -1,10 +1,21 @@
 # default
 # everything that is starting with disallow uses permission, if value is true
-message: Willkommen %user auf %server !
-firstjoin: er hat sein erstes Mal !
-leftmessage: Player %user hat %server verlassen
-disallowbuild: true
-disablebreak: true
-Blockcreeper: true
-Bockender: true
-xpsave: true
+# possible message variables  %user, %server, %core
+# possible timemessage variables %time
+message: Welcome %user on %server running on %core !
+firstjoin:  It's the first time
+leftmessage: Player %user left %server
+timemessage: It's %time
+whitelist-message: You aren't whitelisted on this server
+banmessage: You are a Bunny! You get banned from this server
+serverfullmessage: I'm sorry! The Server is full!
+maintenance_message: Server is under construction
+maintenance_mode: false
+# timezone gmt 0 london , gmt+2 Berlin , etc
+timezone: 2
+disallowbuild: false
+disablebreak: false
+Blockcreeper: false
+Bockender: false
+xpsave: false
+plugin-advert: true

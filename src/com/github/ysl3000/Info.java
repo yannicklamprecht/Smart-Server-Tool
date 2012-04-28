@@ -21,21 +21,21 @@ public class Info {
 			double max  = (((Runtime.getRuntime().maxMemory())/1024)/1024);
 			
 			
-			player.sendMessage(" Current memoryuse "
+			sender.sendMessage(" Current memoryuse "
 					+ total + "/"
 					+ max + " mb");
 
 		} else if (cmd.getName().equalsIgnoreCase("/ip")
 				&& sender.hasPermission("sst.ip")) {
 
-			Player target = player.getServer().getPlayer(split[0]);
+			Player target = Bukkit.getPlayer(split[0]);
 
 			if (target == null) {
 
 				sender.sendMessage("PLAYER " + target + " isn't found");
 
 			} else {
-				player.sendMessage("Ip of " + ChatColor.GOLD+ target.getName() + ChatColor.WHITE+ " is "
+				sender.sendMessage("Ip of " + ChatColor.GOLD+ target.getName() + ChatColor.WHITE+ " is "
 						+  ChatColor.YELLOW+ target.getAddress());
 
 			}
@@ -45,13 +45,20 @@ public class Info {
 			int cpu = Runtime.getRuntime().availableProcessors();
 			
 			
-			player.sendMessage("This host has: "+cpu+ " cpu's");
+			sender.sendMessage("This host has: "+cpu+ " cpu's");
 		}else if (cmd.getName().equalsIgnoreCase("seed")){
 			
-			long ch =	Bukkit.getWorld(player.getWorld().getName()).getSeed();
+			long ch = 0;
+			if(sender instanceof Player){
 			
-		
-			player.sendMessage("The seed is : "+ch );
+			 ch =	Bukkit.getWorld(player.getWorld().getName()).getSeed();
+			
+			 sender.sendMessage("The seed is : "+ch );
+			}else{
+				sender.sendMessage(SmartServerTool.consolehasperformed);
+			}
+			
+			
 		}
 		return true;
 

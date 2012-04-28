@@ -14,13 +14,13 @@ public class Time {
 			player.sendMessage("Time set to " + ChatColor.GOLD + "Day");
 
 		} else if (command.equalsIgnoreCase("tn")
-				&& player.hasPermission("MyOwn.tn")) {
+				&& player.hasPermission("sst.tn")) {
 
 			player.getWorld().setTime(18000);
 			player.sendMessage("Time set to " + ChatColor.GOLD + "Night");
 
 		} else if (command.equalsIgnoreCase("t")
-				&& player.hasPermission("MyOwn.t")) {
+				&& player.hasPermission("sst.t")) {
 
 			player.sendMessage("Current Time " + ChatColor.GOLD
 					+ player.getWorld().getTime());

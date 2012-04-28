@@ -2,7 +2,6 @@ package com.github.ysl3000;
 
 import java.util.HashMap;
 
-
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
@@ -37,8 +36,7 @@ public class Teleport {
 
 				player.teleport(target);
 				player.sendMessage("Teleported to " + target.getDisplayName());
-				target.sendMessage(player.getName()
-						+ " teleported to you");
+				target.sendMessage(player.getName() + " teleported to you");
 			}
 
 		} else if (cmd.getName().equalsIgnoreCase("tpo")
@@ -107,15 +105,11 @@ public class Teleport {
 						&& player.hasPermission("sst.homeo")) {
 
 					Player target = player.getServer().getPlayer(args[0]);
-					player.teleport(target.getLocation());
+					player.teleport(target.getPlayer().getBedSpawnLocation());
 				}
 			} else {
 				player.sendMessage("No home set");
 			}
-
-		} else if (cmd.getName().equalsIgnoreCase("seth")
-				&& player.hasPermission("sst.seth")) {
-			player.setBedSpawnLocation(player.getLocation());
 
 		}
 	}

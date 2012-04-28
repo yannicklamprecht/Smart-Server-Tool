@@ -13,47 +13,54 @@ public class HideP {
 	public static boolean hide(CommandSender sender, String command,
 			String[] args, Command cmd) throws Exception {
 
-		Player player = (Player) sender;
-		Player[] playerlist = Bukkit.getOnlinePlayers();
+		if (sender instanceof Player) {
 
-		if ((command.equalsIgnoreCase("hide"))
-				&& (sender.hasPermission("sst.visible"))) {
+			if ((command.equalsIgnoreCase("hide"))
+					&& (sender.hasPermission("sst.visible"))) {
 
-			player.sendMessage("You were hidden");
-			player.getPlayerListName();
+				if (sender instanceof Player) {
 
-			
+					Player player = (Player) sender;
 
-				player.setPlayerListName(ChatColor.BLUE + "Herobrine"
-						+ ChatColor.WHITE);
-				player.setDisplayName(ChatColor.BLUE + "Herobrine"
-						+ ChatColor.WHITE);
-			
-			
-			player.hidePlayer(player);
+					player.sendMessage("You were hidden");
+					player.getPlayerListName();
 
-			for (int i = 0; i < playerlist.length; i++) {
+					player.setPlayerListName(ChatColor.BLUE + "Herobrine"
+							+ ChatColor.WHITE);
+					player.setDisplayName(ChatColor.BLUE + "Herobrine"
+							+ ChatColor.WHITE);
 
-				if (!playerlist[i].hasPermission("sst.cansee")) {
-					playerlist[i].hidePlayer(player);
+					for (Player p : Bukkit.getOnlinePlayers()) {
+
+						if (!p.hasPermission("sst.cansee")) {
+							p.hidePlayer(player);
+						} else {
+							p.showPlayer(player);
+						}
+
+					}
 				} else {
-					playerlist[i].showPlayer(player);
+					sender.sendMessage("Only Player can perform this command");
+				}
+
+			} else if ((command.equalsIgnoreCase("show"))
+					&& (sender.hasPermission("sst.visible"))) {
+
+				if (sender instanceof Player) {
+
+					Player player = (Player) sender;
+					Prefix.Pfix(player);
+					player.sendMessage("You you are now shown");
+					for (Player p : Bukkit.getOnlinePlayers()) {
+
+						p.showPlayer(player);
+
+					}
+				} else {
+					sender.sendMessage("Only Player can perform this command");
 				}
 
 			}
-
-		} else if ((command.equalsIgnoreCase("show"))
-				&& (player.hasPermission("sst.visible"))) {
-
-			Prefix.Pfix(player);
-
-			player.sendMessage("You you are now shown");
-			for (int i = 0; i < playerlist.length; i++) {
-
-				playerlist[i].showPlayer(player);
-
-			}
-
 		}
 
 		return true;
