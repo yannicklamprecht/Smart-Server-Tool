@@ -1,7 +1,9 @@
 name: SmartServerTool
-version: 1.2.5_v.8.3
+version: 1.2.5_v.8.3_DEV8
 main: com.github.ysl3000.SmartServerTool
 website: www.SmartServerTool.de
+author: ysl3000 && Prinzpommes
+description: provide you some simple Server Commands! This mostly refers to a Vanilla-like server
 commands:
  /admin:
   usage: //admin
@@ -162,6 +164,9 @@ commands:
   description: kicks all player except yourself
   permission: sst.kickall
   permission-message: sst.kickall
+ sstv:
+  usage: /sstv
+  description: show version
 permissions:
     sst.*:
          description: give all permission

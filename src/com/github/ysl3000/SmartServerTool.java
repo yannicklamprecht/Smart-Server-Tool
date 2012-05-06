@@ -5,10 +5,14 @@ import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SmartServerTool extends JavaPlugin {
@@ -43,6 +47,17 @@ public class SmartServerTool extends JavaPlugin {
 		this.getConfig().options().copyDefaults(true);
 		this.saveConfig();
 
+		PluginDescriptionFile pdf = this.getDescription();
+		log.info(pdf.getName() + " version " + pdf.getVersion() + " is enabled");
+
+		
+				ShapedRecipe sr = new ShapedRecipe(new ItemStack(Material.ENCHANTMENT_TABLE, 1));
+				sr.shape(new String[]{
+						"   ", " b ","www"
+				}).setIngredient('b', Material.BOOKSHELF).setIngredient('w',Material.WOOD);
+				
+				getServer().addRecipe(sr);
+
 		if (MOTD.getadvert()) {
 
 			Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
@@ -58,7 +73,7 @@ public class SmartServerTool extends JavaPlugin {
 									p.sendMessage(ChatColor.RED
 											+ "[Plugin-Advert]"
 											+ ChatColor.GOLD
-											+ "Plugin-Hompage: www.SmartServerTool.de");
+											+ MOTD.getAdvertMessage());
 								}
 
 							} catch (Exception e) {
@@ -66,7 +81,7 @@ public class SmartServerTool extends JavaPlugin {
 							}
 
 						}
-					}, 0, 300 * 20L);
+					}, 0, MOTD.getAdvertTime() * 20L);
 		}
 
 	}

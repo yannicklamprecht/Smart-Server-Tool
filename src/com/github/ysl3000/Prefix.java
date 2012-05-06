@@ -9,15 +9,21 @@ public class Prefix {
 
 	public static void Pfix(Player player) {
 
-		nameColor(player);
+		if (player.getName().length() <= 14) {
+			nameColor(player);
 
-		
+		} else {
+			
+			
+			player.setPlayerListName(player.getName());
+			player.setDisplayName(player.getName());
+		}
 
 	}
 
 	public static void nameColor(Player player) {
 
-		while (i < 14) {
+		while (i < 13) {
 
 			if (i == 0) {
 
@@ -60,21 +66,24 @@ public class Prefix {
 				i++;
 				break;
 			} else if (i == 6) {
-				player.setDisplayName(ChatColor.DARK_GRAY + player.getName()
+				player.setDisplayName(ChatColor.LIGHT_PURPLE + player.getName()
 						+ ChatColor.WHITE);
-				player.setPlayerListName(ChatColor.DARK_GRAY + player.getName());
+				player.setPlayerListName(ChatColor.LIGHT_PURPLE
+						+ player.getName());
 				i++;
 				break;
 			} else if (i == 7) {
 				player.setDisplayName(ChatColor.DARK_GREEN + player.getName()
 						+ ChatColor.WHITE);
-				player.setPlayerListName(ChatColor.DARK_GREEN + player.getName());
+				player.setPlayerListName(ChatColor.DARK_GREEN
+						+ player.getName());
 				i++;
 				break;
 			} else if (i == 8) {
 				player.setDisplayName(ChatColor.DARK_PURPLE + player.getName()
 						+ ChatColor.WHITE);
-				player.setPlayerListName(ChatColor.DARK_PURPLE + player.getName());
+				player.setPlayerListName(ChatColor.DARK_PURPLE
+						+ player.getName());
 				i++;
 				break;
 			} else if (i == 9) {
@@ -99,12 +108,6 @@ public class Prefix {
 				player.setDisplayName(ChatColor.GREEN + player.getName()
 						+ ChatColor.WHITE);
 				player.setPlayerListName(ChatColor.GREEN + player.getName());
-				i++;
-				break;
-			} else if (i == 13) {
-				player.setDisplayName(ChatColor.LIGHT_PURPLE + player.getName()
-						+ ChatColor.WHITE);
-				player.setPlayerListName(ChatColor.LIGHT_PURPLE + player.getName());
 				i = 0;
 				break;
 			} 

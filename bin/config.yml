@@ -1,7 +1,14 @@
-# default
-# everything that is starting with disallow uses permission, if value is true
-# possible message variables  %user, %server, %core
-# possible timemessage variables %time
+################################################################################
+# default                                                                      #
+# everything that is starting with disallow uses permission, if value is true  #
+# possible message variables  %user, %server, %core                            #
+# possible timemessage variables %time                                         #
+################################################################################
+#
+###########
+# Message #
+###########
+enable-Messages: true
 message: Welcome %user on %server running on %core !
 firstjoin:  It's the first time
 leftmessage: Player %user left %server
@@ -11,11 +18,42 @@ banmessage: You are a Bunny! You get banned from this server
 serverfullmessage: I'm sorry! The Server is full!
 maintenance_message: Server is under construction
 maintenance_mode: false
-# timezone gmt 0 london , gmt+2 Berlin , etc
+##############################################
+# timezone gmt 0 london , gmt+2 Berlin , etc #
+##############################################
 timezone: 2
+##################
+# World-Settings #
+##################
 disallowbuild: false
 disablebreak: false
 Blockcreeper: false
-Bockender: false
+prevent-tnt: true
+Blockender: true
 xpsave: false
+prevent-fire-spread: true
+prevent-lava-spread: true
+general-spread: true
+flint-and-steal-spread: true
+strike-spread: true
+#
+#################
+# Plugin Advert #
+#################
 plugin-advert: true
+###################
+# Time in seconds #
+# 60 == 1 min     #
+###################
+#
+time-between-adverts: 300
+advert-message: Our hompage www.SmartServerTool.de
+#
+##############
+# Item-Drops #
+##############
+drop-rate: 4
+glass-sand-drop: true
+glasspane-drop: true
+diamond-ore-drop: true
+golden-apple-drop: true

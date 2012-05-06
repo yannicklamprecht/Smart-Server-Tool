@@ -3,7 +3,8 @@ package com.github.ysl3000;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.HashMap;
-import net.minecraft.server.Block;
+import java.util.Random;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -17,6 +18,9 @@ import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockBurnEvent;
+import org.bukkit.event.block.BlockIgniteEvent;
+import org.bukkit.event.block.BlockIgniteEvent.IgniteCause;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
@@ -43,7 +47,13 @@ public class PlayerListener implements Listener {
 	private static FileReader fr;
 	private static BufferedReader br;
 	private static HashMap<Player, Location> LastL = new HashMap<Player, Location>();
-
+	private static boolean tntsave;
+	private static int dropchance;
+	private static boolean blockburn;
+	private static boolean lavaspread;
+	private static boolean normalspread;
+	private static boolean flint_and_steal_spread;
+	private static boolean lightning_spread;
 	public PlayerListener(SmartServerTool smartServerTool) {
 
 		this.plugin = smartServerTool;
@@ -53,7 +63,14 @@ public class PlayerListener implements Listener {
 		Bcreeper = this.plugin.getConfig().getBoolean("Blockcreeper");
 		Bender = this.plugin.getConfig().getBoolean("Blockender");
 		xpsave = this.plugin.getConfig().getBoolean("xpsave");
-
+		tntsave = this.plugin.getConfig().getBoolean("prevent-tnt");
+		dropchance = this.plugin.getConfig().getInt("drop-rate");
+		blockburn = this.plugin.getConfig().getBoolean("prevent-fire-spread");
+		lavaspread = this.plugin.getConfig().getBoolean("prevent-lava-spread");
+		normalspread = this.plugin.getConfig().getBoolean("general-spread");
+		flint_and_steal_spread= this.plugin.getConfig().getBoolean("flint-and-steal-spread");
+		lightning_spread= this.plugin.getConfig().getBoolean("strike-spread");
+		
 	}
 
 	public static HashMap<Player, Location> getlocation() {
@@ -164,33 +181,50 @@ public class PlayerListener implements Listener {
 
 		if (player.hasPermission("sst.break")) {
 
-			if (event.getBlock().getType().equals(Block.DIAMOND_ORE)) {
+			Random rando = new Random();
 
-				event.getBlock()
-						.getWorld()
-						.dropItemNaturally(event.getBlock().getLocation(),
-								new ItemStack(Material.DIAMOND_AXE));
-				event.getBlock()
-						.getWorld()
-						.dropItemNaturally(event.getBlock().getLocation(),
-								new ItemStack(Material.DIAMOND_PICKAXE));
-				event.getBlock()
-						.getWorld()
-						.dropItemNaturally(event.getBlock().getLocation(),
-								new ItemStack(Material.DIAMOND_SPADE));
-			} else if (event.getBlock().getType().equals(Material.LEAVES)) {
+			if (rando.nextInt(dropchance) == 1) {
+				if (event.getBlock().getType().equals(Material.DIAMOND_ORE)) {
 
-				World world = event.getBlock().getWorld();
-				ItemStack bread = new ItemStack(Material.APPLE, 4);
+					if (MOTD.getDiamondDrop()) {
+						event.getBlock()
+								.getWorld()
+								.dropItem(event.getBlock().getLocation(),
+										new ItemStack(Material.DIAMOND_PICKAXE));
+					}
 
-				bread.setAmount(3);
-				bread.setType(Material.APPLE);
+				} else if (event.getBlock().getType().equals(Material.LEAVES)) {
 
-				world.dropItemNaturally(event.getBlock().getLocation(), bread);
-				bread.setAmount(1);
-				bread.setType(Material.GOLDEN_APPLE);
-				world.dropItemNaturally(event.getBlock().getLocation(), bread);
+					if (MOTD.getappleDrop()) {
+						(event.getBlock().getWorld()).dropItemNaturally(event
+								.getBlock().getLocation(), new ItemStack(
+								Material.APPLE, 1));
 
+						(event.getBlock().getWorld()).dropItemNaturally(event
+								.getBlock().getLocation(), new ItemStack(
+								Material.GOLDEN_APPLE, 1));
+					}
+
+				} else if (event.getBlock().getTypeId() == 102) {
+
+					if (MOTD.getGlasspaneDrop()) {
+						event.getBlock()
+								.getWorld()
+								.dropItem(event.getBlock().getLocation(),
+										new ItemStack(102, 1));
+					}
+
+				} else if (event.getBlock().getType().equals(Material.GLASS)) {
+
+					if (MOTD.getGlassSandDrop()) {
+
+						event.getBlock()
+								.getWorld()
+								.dropItemNaturally(
+										event.getBlock().getLocation(),
+										new ItemStack(Material.SAND, 1));
+					}
+				}
 			}
 
 		} else {
@@ -216,13 +250,13 @@ public class PlayerListener implements Listener {
 	}
 
 	@EventHandler
-	public void oncreeper(EntityExplodeEvent event) {
+	public void Explode(EntityExplodeEvent event) {
 
-		if (!event.getEntityType().equals(EntityType.CREEPER)) {
-			return;
+		if (event.getEntityType().equals(EntityType.CREEPER)) {
+			event.setCancelled(Bcreeper);
+		} else if (!event.getEntity().equals(EntityType.CREEPER)) {
+			event.setCancelled(tntsave);
 		}
-
-		event.setCancelled(Bcreeper);
 
 	}
 
@@ -283,10 +317,34 @@ public class PlayerListener implements Listener {
 			event.getPlayer().sendMessage(
 					ChatColor.BLUE + "Bedspawn location set!");
 			player.resetPlayerTime();
-		}else{
+		} else {
 			return;
 		}
 
 	}
 
+
+	@EventHandler
+	public void onblockburn(BlockBurnEvent event){
+		
+		
+		event.setCancelled(blockburn);
+		
+	}
+	@EventHandler
+	public void onblockig(BlockIgniteEvent event){
+		
+		
+		if(event.getCause().equals(IgniteCause.LAVA)){
+			
+			event.setCancelled(lavaspread);
+		}else if(event.getCause().equals(IgniteCause.FLINT_AND_STEEL)){
+			event.setCancelled(flint_and_steal_spread);
+		}else if(event.getCause().equals(IgniteCause.LIGHTNING)){
+			event.setCancelled(lightning_spread);
+		}else if(event.getCause().equals(IgniteCause.SPREAD)){
+			event.setCancelled(normalspread);
+		}
+	}
+	
 }
