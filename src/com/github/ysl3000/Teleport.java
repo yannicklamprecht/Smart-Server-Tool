@@ -1,14 +1,9 @@
 package com.github.ysl3000;
 
-import java.util.HashMap;
-
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 
 public class Teleport {
-
-	static HashMap<Player, Location> lastL = new HashMap<Player, Location>();
 
 	public static boolean tp(Player player, String command, String[] args,
 			Command cmd) throws Exception {
@@ -32,8 +27,6 @@ public class Teleport {
 
 				Player target = player.getServer().getPlayer(args[0]);
 
-				lastL.put(player, player.getLocation());
-
 				player.teleport(target);
 				player.sendMessage("Teleported to " + target.getDisplayName());
 				target.sendMessage(player.getName() + " teleported to you");
@@ -49,7 +42,6 @@ public class Teleport {
 
 				Player target = player.getServer().getPlayer(args[0]);
 
-				lastL.put(target, target.getLocation());
 				target.teleport(player);
 
 				player.sendMessage("You Teleported " + target.getDisplayName()
@@ -68,11 +60,8 @@ public class Teleport {
 
 				Player target = player.getServer().getPlayer(args[0]);
 
-				lastL.put(target, target.getLocation());
-				lastL.put(player, player.getLocation());
-
-				player.teleport(lastL.get(target));
-				target.teleport(lastL.get(player));
+				player.teleport(target.getLocation());
+				target.teleport(PlayerListener.getlocation().get(player));
 
 				player.sendMessage("You changed position with "
 						+ target.getDisplayName());
@@ -85,8 +74,7 @@ public class Teleport {
 			}
 		} else if (cmd.getName().equalsIgnoreCase("back")) {
 
-			lastL = PlayerListener.getlocation();
-			player.teleport(lastL.get(player));
+			player.teleport(PlayerListener.getlocation().get(player));
 
 		}
 	}

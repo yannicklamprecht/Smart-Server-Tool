@@ -14,10 +14,16 @@ firstjoin:  It's the first time
 leftmessage: Player %user left %server
 timemessage: It's %time
 whitelist-message: You aren't whitelisted on this server
-banmessage: You are a Bunny! You get banned from this server
+banmessage: You are a Bunny! You got banned from this server
 serverfullmessage: I'm sorry! The Server is full!
 maintenance_message: Server is under construction
 maintenance_mode: false
+#
+#########################
+# Commandlogger enable  #
+#########################
+commandLogger: true
+#
 ##############################################
 # timezone gmt 0 london , gmt+2 Berlin , etc #
 ##############################################
@@ -25,12 +31,12 @@ timezone: 2
 ##################
 # World-Settings #
 ##################
-disallowbuild: false
-disablebreak: false
-Blockcreeper: false
+disallowbuild: true
+disablebreak: true
+Blockcreeper: true
 prevent-tnt: true
 Blockender: true
-xpsave: false
+xpsave: true
 prevent-fire-spread: true
 prevent-lava-spread: true
 general-spread: true
@@ -52,7 +58,9 @@ advert-message: Our hompage www.SmartServerTool.de
 ##############
 # Item-Drops #
 ##############
-drop-rate: 4
+leave-drop-rate: 4
+diamond-drop-rate: 3
+normal-frop-rate: 1
 glass-sand-drop: true
 glasspane-drop: true
 diamond-ore-drop: true

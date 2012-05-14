@@ -1,14 +1,18 @@
 package com.github.ysl3000;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.Configuration;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -25,40 +29,56 @@ public class SmartServerTool extends JavaPlugin {
 	String commandLabel;
 	private static String mainDirectory = "plugins/SmartServerTool/";
 	Logger log;
-	Location spawn;
 
 	public static String consolehasperformed = "Only Player can perform this command";
 
-	public static Configuration config;
-	public static int inc = 0;
+	protected FileConfiguration config;
+	protected FileConfiguration customConfig = null;
+	protected File customConfigFile = null;
 
 	public void onEnable() {
 		log = Logger.getLogger("Minecraft");
 		log.info("Smart Server Tool enabled");
 
 		new File(mainDirectory).mkdir();
-		new File(mainDirectory + "/spawns/").mkdir();
 		new File(mainDirectory + "/CommandLog/").mkdir();
 
-		getServer().getPluginManager().registerEvents(new MOTD(this), this);
-		getServer().getPluginManager().registerEvents(new PlayerListener(this),
-				this);
+		new PlayerListener(this);
+		new MOTD(this);
+		new ConfigLoader(this);
 
+		config = getConfig();
+		getCustomConfig();
 		this.getConfig().options().copyDefaults(true);
+
+		this.getCustomConfig().options().copyDefaults(true);
+
 		this.saveConfig();
+		this.saveCustomConfig();
+
+		Bukkit.setSpawnRadius(0);
+
+		for (World i : Bukkit.getWorlds()) {
+
+			i.setSpawnLocation(
+					(int) this.getCustomConfig().getDouble(i.getName() + ".x"),
+					(int) this.getCustomConfig().getDouble(i.getName() + ".y"),
+					(int) this.getCustomConfig().getDouble(i.getName() + ".z"));
+
+		}
 
 		PluginDescriptionFile pdf = this.getDescription();
 		log.info(pdf.getName() + " version " + pdf.getVersion() + " is enabled");
 
-		
-				ShapedRecipe sr = new ShapedRecipe(new ItemStack(Material.ENCHANTMENT_TABLE, 1));
-				sr.shape(new String[]{
-						"   ", " b ","www"
-				}).setIngredient('b', Material.BOOKSHELF).setIngredient('w',Material.WOOD);
-				
-				getServer().addRecipe(sr);
+		ShapedRecipe sr = new ShapedRecipe(new ItemStack(
+				Material.ENCHANTMENT_TABLE, 1));
+		sr.shape(new String[] { "   ", " b ", "www" })
+				.setIngredient('b', Material.BOOKSHELF)
+				.setIngredient('w', Material.WOOD);
 
-		if (MOTD.getadvert()) {
+		getServer().addRecipe(sr);
+
+		if (ConfigLoader.getadvert()) {
 
 			Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
 					new Runnable() {
@@ -73,7 +93,7 @@ public class SmartServerTool extends JavaPlugin {
 									p.sendMessage(ChatColor.RED
 											+ "[Plugin-Advert]"
 											+ ChatColor.GOLD
-											+ MOTD.getAdvertMessage());
+											+ ConfigLoader.getAdvertMessage());
 								}
 
 							} catch (Exception e) {
@@ -81,8 +101,53 @@ public class SmartServerTool extends JavaPlugin {
 							}
 
 						}
-					}, 0, MOTD.getAdvertTime() * 20L);
+					}, 0, ConfigLoader.getAdvertTime() * 20L);
 		}
+
+		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
+
+			@Override
+			public void run() {
+
+				for (World i : Bukkit.getWorlds()) {
+
+					getCustomConfig().set(
+							i.getName() + ".x",
+							Double.valueOf(Bukkit.getWorld(i.getName())
+									.getSpawnLocation().getX()));
+					getCustomConfig().set(
+							i.getName() + ".y",
+							Double.valueOf(Bukkit.getWorld(i.getName())
+									.getSpawnLocation().getY()));
+					getCustomConfig().set(
+							i.getName() + ".z",
+							Double.valueOf(Bukkit.getWorld(i.getName())
+									.getSpawnLocation().getZ()));
+
+					i.save();
+
+				}
+
+				Bukkit.savePlayers();
+
+				try {
+
+					saveConfig();
+
+					log.info("Config saved Sucessfully");
+				} catch (Exception e) {
+					log.info("Config failed saving");
+				}
+				try {
+					saveCustomConfig();
+					log.info("Spawn.yml saved sucessfully");
+				} catch (Exception e) {
+
+					log.info("Spawn.yml failed saving");
+				}
+
+			}
+		}, 50, 30 * 20L);
 
 	}
 
@@ -90,6 +155,8 @@ public class SmartServerTool extends JavaPlugin {
 
 		log = Logger.getLogger("Minecraft");
 		log.info("Disabled Smart Server Tool");
+		saveConfig();
+		saveCustomConfig();
 
 	}
 
@@ -105,7 +172,7 @@ public class SmartServerTool extends JavaPlugin {
 				Health.kill(sender, commandLabel, args, cmd);
 				Info.infos(sender, commandLabel, args, cmd);
 				Teleport.tp((Player) sender, commandLabel, args, cmd);
-				Spawnarea.spawn(sender, commandLabel, args, cmd);
+				SpawnArea.spawn(sender, commandLabel, args, cmd);
 				CommandLogger.commandToLog(sender, commandLabel, args, cmd);
 				HideP.hide(sender, commandLabel, args, cmd);
 				ItemMan.item((Player) sender, commandLabel, args, cmd);
@@ -114,6 +181,8 @@ public class SmartServerTool extends JavaPlugin {
 			} catch (Exception e) {
 			}
 
+		} else {
+			sender.sendMessage(consolehasperformed);
 		}
 
 		return true;
@@ -123,6 +192,41 @@ public class SmartServerTool extends JavaPlugin {
 	public static String getMainDirectory() {
 
 		return mainDirectory;
+	}
+
+	public void reloadCustomConfig() {
+		if (customConfigFile == null) {
+			customConfigFile = new File(SmartServerTool.getMainDirectory(),
+					"spawn.yml");
+		}
+		customConfig = YamlConfiguration.loadConfiguration(customConfigFile);
+
+		// Look for defaults in the jar
+		InputStream defConfigStream = getResource("spawn.yml");
+		if (defConfigStream != null) {
+			YamlConfiguration defConfig = YamlConfiguration
+					.loadConfiguration(defConfigStream);
+			customConfig.setDefaults(defConfig);
+		}
+	}
+
+	public FileConfiguration getCustomConfig() {
+		if (customConfig == null) {
+			reloadCustomConfig();
+		}
+		return customConfig;
+	}
+
+	public void saveCustomConfig() {
+		if (customConfig == null || customConfigFile == null) {
+			return;
+		}
+		try {
+			customConfig.save(customConfigFile);
+		} catch (IOException ex) {
+			Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE,
+					"Could not save config to " + customConfigFile, ex);
+		}
 	}
 
 }

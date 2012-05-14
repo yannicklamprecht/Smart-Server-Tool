@@ -17,65 +17,68 @@ public class CommandLogger {
 
 	public static void commandToLog(CommandSender sender, String command,
 			String[] args, Command cmd) throws Exception {
-		
-		if(sender instanceof Player){
-			
-			Player player = (Player) sender;
-			
-			if (player.hasPermission("sst.nolog")) {
 
-			} else if (!player.hasPermission("sst.nolog")) {
-				if (fw == null) {
+		if (ConfigLoader.getCommandLogger()) {
 
-					fw = new FileWriter((SmartServerTool.getMainDirectory()
-							+ "/CommandLog/" + "log.yml"), true);
-					bw = new BufferedWriter(fw);
+			if (sender instanceof Player) {
 
-					bw.newLine();
-					bw.write("["
-							+ new SimpleDateFormat("YYYY:MM:DD").format(new Date())
-							+ "]");
-					bw.write("["
-							+ new SimpleDateFormat("HH:mm:ss").format(new Date())
-							+ "]");
-					bw.write("\t" + player.getName());
-					bw.write("\t" + command);
-					for (int i = 0; i < args.length; i++) {
-						bw.write("\t" +args[i]  );
+				Player player = (Player) sender;
+
+				if (player.hasPermission("sst.nolog")) {
+
+				} else if (!player.hasPermission("sst.nolog")) {
+					if (fw == null) {
+
+						fw = new FileWriter((SmartServerTool.getMainDirectory()
+								+ "/CommandLog/" + "log.yml"), true);
+						bw = new BufferedWriter(fw);
+
+						bw.newLine();
+						bw.write("["
+								+ new SimpleDateFormat("YYYY:MM:DD")
+										.format(new Date()) + "]");
+						bw.write("["
+								+ new SimpleDateFormat("HH:mm:ss")
+										.format(new Date()) + "]");
+						bw.write("\t" + player.getName());
+						bw.write("\t" + command);
+						for (int i = 0; i < args.length; i++) {
+							bw.write("\t" + args[i]);
+						}
+
+						bw.close();
+						fw.close();
+
+					} else {
+
+						fw = new FileWriter((SmartServerTool.getMainDirectory()
+								+ "/CommandLog/" + "log.yml"), true);
+						bw = new BufferedWriter(fw);
+
+						bw.newLine();
+						bw.write("["
+								+ new SimpleDateFormat("YYYY:MM:DD")
+										.format(new Date()) + "]");
+						bw.write("["
+								+ new SimpleDateFormat("HH:mm:ss")
+										.format(new Date()) + "]");
+						bw.write("\t<" + player.getName() + ">");
+						bw.write("\t/" + command);
+						for (int i = 0; i < args.length; i++) {
+							bw.write("\t" + args[i]);
+						}
+
+						bw.close();
+						fw.close();
+
 					}
-
-					bw.close();
-					fw.close();
-
-				} else {
-
-					fw = new FileWriter((SmartServerTool.getMainDirectory()
-							+ "/CommandLog/" + "log.yml"), true);
-					bw = new BufferedWriter(fw);
-
-					bw.newLine();
-					bw.write("["
-							+ new SimpleDateFormat("YYYY:MM:DD").format(new Date())
-							+ "]");
-					bw.write("["
-							+ new SimpleDateFormat("HH:mm:ss").format(new Date())
-							+ "]");
-					bw.write("\t<" + player.getName() + ">");
-					bw.write("\t/" + command);
-					for (int i = 0; i < args.length; i++) {
-						bw.write("\t" + args[i]  );
-					}
-
-					bw.close();
-					fw.close();
-
 				}
+			} else {
+				return;
 			}
 		}else{
 			return;
 		}
-
-		
 
 	}
 }

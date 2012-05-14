@@ -15,8 +15,9 @@ public class Prefix {
 		} else {
 			
 			
-			player.setPlayerListName(player.getName());
-			player.setDisplayName(player.getName());
+			player.setPlayerListName(ChatColor.RED+(player.getName().substring(0, 13)));
+			
+			player.setDisplayName(ChatColor.RED+ player.getName()+ChatColor.WHITE);
 		}
 
 	}

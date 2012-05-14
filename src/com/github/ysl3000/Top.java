@@ -195,7 +195,7 @@ public class Top implements ConversationPrefix{
 			};
 
 			try {
-				Spawnarea.spawn(player, null, new String[0], cmd);
+				SpawnArea.spawn(player, null, new String[0], cmd );
 			} catch (Exception e) {
 
 			}

@@ -1,5 +1,5 @@
 name: SmartServerTool
-version: 1.2.5_v.8.3_DEV8
+version: 1.2.5_v.8.3_DEV9
 main: com.github.ysl3000.SmartServerTool
 website: www.SmartServerTool.de
 author: ysl3000 && Prinzpommes
@@ -90,8 +90,8 @@ commands:
   description: memory
   permission: sst.mem
   permission-message: sst.mem
- /setsp:
-  usage: //setsp
+ setsp:
+  usage: /setsp
   description: setspawn
   permission: sst.setsp
   permission-message: sst.setsp
@@ -167,6 +167,11 @@ commands:
  sstv:
   usage: /sstv
   description: show version
+ mt:
+  usage: /mt <true/false>
+  description: set maintenancemode
+  permission: sst.mt
+  permission-message: sst.mt  
 permissions:
     sst.*:
          description: give all permission
