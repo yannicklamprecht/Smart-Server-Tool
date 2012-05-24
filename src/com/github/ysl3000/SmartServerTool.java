@@ -131,23 +131,16 @@ public class SmartServerTool extends JavaPlugin {
 				Bukkit.savePlayers();
 
 				try {
-
 					saveConfig();
-
-					log.info("Config saved Sucessfully");
+					saveCustomConfig();
+					
 				} catch (Exception e) {
 					log.info("Config failed saving");
 				}
-				try {
-					saveCustomConfig();
-					log.info("Spawn.yml saved sucessfully");
-				} catch (Exception e) {
-
-					log.info("Spawn.yml failed saving");
-				}
+				
 
 			}
-		}, 50, 30 * 20L);
+		}, 50, ConfigLoader.getSaveTimeInterval() * 20L);
 
 	}
 

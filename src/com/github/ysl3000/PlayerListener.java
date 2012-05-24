@@ -6,6 +6,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -113,58 +114,29 @@ public class PlayerListener implements Listener {
 
 		if (player.hasPermission("sst.break")) {
 
-			Random rando = new Random();
+			BlockDrops(event, ConfigLoader.isBlockbreak());
 
-			if (event.getBlock().getType().equals(Material.DIAMOND_ORE)) {
+			if (event.getBlock().getType().equals(Material.SMOOTH_BRICK)) {
 
-				if (rando.nextInt(ConfigLoader.getDiamondDropChance()) == 1) {
-					if (ConfigLoader.getDiamondDrop()) {
-						event.getBlock()
-								.getWorld()
-								.dropItem(event.getBlock().getLocation(),
-										new ItemStack(Material.DIAMOND_PICKAXE));
-					}
-				}
-
-			} else if (event.getBlock().getType().equals(Material.LEAVES)) {
-
-				if (ConfigLoader.getappleDrop()) {
-					(event.getBlock().getWorld()).dropItemNaturally(event
-							.getBlock().getLocation(), new ItemStack(
-							Material.APPLE, 1));
-
-					(event.getBlock().getWorld()).dropItemNaturally(event
-							.getBlock().getLocation(), new ItemStack(
-							Material.GOLDEN_APPLE, 1));
-				}
-
-			} else if (event.getBlock().getTypeId() == 102) {
-
-				if (ConfigLoader.getGlasspaneDrop()) {
-					event.getBlock()
+				if (event.getBlock().getData() == 3) {
+					Block air = event
+							.getBlock()
 							.getWorld()
-							.dropItem(event.getBlock().getLocation(),
-									new ItemStack(102, 1));
+							.getBlockAt(
+									(int) event.getBlock().getLocation()
+											.getBlockX(),
+									(int) event.getBlock().getLocation().getY() + 3,
+									(int) event.getBlock().getLocation().getZ());
+
+					air.setType(Material.AIR);
 				}
 
-			} else if (event.getBlock().getType().equals(Material.GLASS)) {
-
-				if (ConfigLoader.getGlassSandDrop()) {
-					if (rando.nextInt(ConfigLoader.getDropchance()) == 1) {
-						event.getBlock()
-								.getWorld()
-								.dropItemNaturally(
-										event.getBlock().getLocation(),
-										new ItemStack(Material.SAND, 1));
-					}
-
-				}
 			}
 
 		} else {
 
 			event.setCancelled(ConfigLoader.isBlockbreak());
-
+			BlockDrops(event, ConfigLoader.isBlockbreak());
 		}
 	}
 
@@ -252,7 +224,31 @@ public class PlayerListener implements Listener {
 			event.getPlayer().sendMessage(
 					ChatColor.BLUE + "Bedspawn location set!");
 			player.resetPlayerTime();
-		} else {
+		} else if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
+				&& event.getClickedBlock().getType()
+						.equals(Material.SMOOTH_BRICK)) {
+
+			if (event.getClickedBlock().getData() == 3) {
+
+				Block toggledBlock = event.getClickedBlock();
+
+				Block aim = toggledBlock.getWorld().getBlockAt(
+						(int) toggledBlock.getLocation().getBlockX(),
+						(int) toggledBlock.getLocation().getY() + 3,
+						(int) toggledBlock.getLocation().getZ());
+
+				if (aim.getType().equals(Material.AIR)) {
+
+					aim.setType(Material.WATER);
+
+				} else {
+					aim.setType(Material.AIR);
+				}
+			}
+
+		}
+
+		else {
 			return;
 		}
 
@@ -307,6 +303,67 @@ public class PlayerListener implements Listener {
 	public void playerteleport(PlayerTeleportEvent event) {
 
 		LastL.put(event.getPlayer(), event.getFrom());
+
+	}
+
+	public void BlockDrops(BlockBreakEvent event, boolean istrue) {
+
+		if (istrue) {
+
+			Random rando = new Random();
+
+			if (event.getBlock().getType().equals(Material.DIAMOND_ORE)) {
+
+				if (rando.nextInt(ConfigLoader.getDiamondDropChance()) == 1) {
+					if (ConfigLoader.isDiamondDrop()) {
+						event.getBlock()
+								.getWorld()
+								.dropItem(event.getBlock().getLocation(),
+										new ItemStack(Material.DIAMOND_PICKAXE));
+					}
+				}
+
+			} else if (event.getBlock().getType().equals(Material.LEAVES)) {
+
+				if (ConfigLoader.isappleDrop()) {
+
+					event.getBlock()
+							.getWorld()
+							.dropItemNaturally(event.getBlock().getLocation(),
+									new ItemStack(Material.APPLE, 1));
+
+					event.getBlock()
+							.getWorld()
+							.dropItemNaturally(event.getBlock().getLocation(),
+									new ItemStack(Material.GOLDEN_APPLE, 1));
+				}
+
+			} else if (event.getBlock().getTypeId() == 102) {
+
+				if (ConfigLoader.isGlassPaneDrop()) {
+
+					event.getBlock()
+							.getWorld()
+							.dropItemNaturally(event.getBlock().getLocation(),
+									new ItemStack(102, 1));
+
+				}
+
+			} else if (event.getBlock().getType().equals(Material.GLASS)) {
+
+				if (ConfigLoader.isGlassSandDrop()) {
+					if (rando.nextInt(ConfigLoader.getGlassSandDropChance()) == 1) {
+						event.getBlock()
+								.getWorld()
+								.dropItemNaturally(
+										event.getBlock().getLocation(),
+										new ItemStack(Material.SAND, 1));
+					}
+
+				}
+			}
+
+		}
 
 	}
 
