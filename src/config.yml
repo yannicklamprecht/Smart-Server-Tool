@@ -63,8 +63,9 @@ drops:
   diamond-ore-drop: true
   apple-drop: true
 droprates:
-  leave-drop-rate: 4
   diamond-drop-rate: 3
   apple-drop-rate: 10
   glass-sand-drop-rate: 2
   glassPane-drop-rate: 1
+Misc:
+  Save-Player-PressPlate: false  

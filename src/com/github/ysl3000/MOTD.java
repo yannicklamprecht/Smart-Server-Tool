@@ -1,5 +1,6 @@
 package com.github.ysl3000;
 
+import java.util.HashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -17,6 +18,8 @@ public class MOTD implements Listener {
 	private String joinmessage;
 	private String timemessage;
 	private String leftmessage;
+
+	private static HashMap<Player, Boolean> isMod;
 
 	public MOTD(SmartServerTool plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -76,6 +79,8 @@ public class MOTD implements Listener {
 
 		Player player = event.getPlayer();
 
+		getIsMod().put(player, false);
+
 		if (ConfigLoader.isMessaging()) {
 
 			long second = (System.currentTimeMillis() / 1000);
@@ -128,8 +133,6 @@ public class MOTD implements Listener {
 
 					}
 
-					
-
 				} else {
 
 					event.setJoinMessage(joinmessage + " " + timemessage);
@@ -137,15 +140,15 @@ public class MOTD implements Listener {
 				}
 			}
 		} else {
-			
-			if(!player.hasPlayedBefore()){
-				
-				try{
+
+			if (!player.hasPlayedBefore()) {
+
+				try {
 					SpawnArea.tospawn(player);
-				}catch (Exception e) {
-					
+				} catch (Exception e) {
+
 				}
-			}else{
+			} else {
 				return;
 			}
 		}
@@ -156,7 +159,6 @@ public class MOTD implements Listener {
 	public void onPlayerLeft(PlayerQuitEvent event) {
 
 		if (ConfigLoader.isMessaging()) {
-
 			leftmessage = null;
 			leftmessage = ConfigLoader.getLeftmessage();
 
@@ -167,9 +169,26 @@ public class MOTD implements Listener {
 					+ Bukkit.getServerName() + ChatColor.WHITE);
 
 			event.setQuitMessage(leftmessage);
-		} else {
-			return;
+		} 
+		
+		if(getIsMod().get(event.getPlayer()) == true ){
+			
+			Top.doneMe(event.getPlayer());
+			getIsMod().remove(event.getPlayer());
 		}
+		
+		return;
+	}
+
+	/**
+	 * @return the isMod
+	 */
+	public static HashMap<Player, Boolean> getIsMod() {
+		return isMod;
+	}
+
+	public static void setIsMOD(HashMap<Player, Boolean> be) {
+		isMod = be;
 	}
 
 }

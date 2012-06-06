@@ -3,6 +3,8 @@ package com.github.ysl3000;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
@@ -40,6 +42,7 @@ public class SmartServerTool extends JavaPlugin {
 		log = Logger.getLogger("Minecraft");
 		log.info("Smart Server Tool enabled");
 
+		MOTD.setIsMOD(new HashMap<Player, Boolean>());
 		new File(mainDirectory).mkdir();
 		new File(mainDirectory + "/CommandLog/").mkdir();
 
@@ -131,13 +134,17 @@ public class SmartServerTool extends JavaPlugin {
 				Bukkit.savePlayers();
 
 				try {
+
+					Random rando = new Random();
+					if (rando.nextInt(100) == 1) {
+						log.info("Saved");
+					}
 					saveConfig();
 					saveCustomConfig();
-					
+
 				} catch (Exception e) {
-					log.info("Config failed saving");
+					log.warning("Config failed saving!");
 				}
-				
 
 			}
 		}, 50, ConfigLoader.getSaveTimeInterval() * 20L);
@@ -170,7 +177,8 @@ public class SmartServerTool extends JavaPlugin {
 				HideP.hide(sender, commandLabel, args, cmd);
 				ItemMan.item((Player) sender, commandLabel, args, cmd);
 				KickManager.kick(sender, commandLabel, args, cmd);
-
+				EntityListener.removeEntity(sender, commandLabel, args, cmd);
+				
 			} catch (Exception e) {
 			}
 

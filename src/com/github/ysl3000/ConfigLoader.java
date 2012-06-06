@@ -33,7 +33,8 @@ public class ConfigLoader {
 	// dropchance
 	private static int diamondDropChance;
 	private static int appleDropChance;
-	private static int glassDropChance;
+	private static int glassSandDropChance;
+	private static int glassPaneDropChance;
 
 	// commandlogger
 	private static boolean commandlogger;
@@ -51,6 +52,9 @@ public class ConfigLoader {
 	private static boolean normalspread;
 	private static boolean flint_and_steal_spread;
 	private static boolean lightning_spread;
+	
+	//Nice Feature
+	private static boolean PlayerPressPlate;
 	
 	//saving time
 	private static int savetime;
@@ -103,7 +107,8 @@ public class ConfigLoader {
 		// dropChance
 		diamondDropChance = this.plugin.getConfig().getInt("droprates.diamond-drop-rate");
 		appleDropChance = this.plugin.getConfig().getInt("droprates.apple-drop-rate");
-		glassDropChance = this.plugin.getConfig().getInt("droprates.glass-sand-drop-rate");
+		glassSandDropChance = this.plugin.getConfig().getInt("droprates.glass-sand-drop-rate");
+		glassPaneDropChance = this.plugin.getConfig().getInt("droprates.glassPane-drop-rate");
 
 		// spread
 		blockburn = this.plugin.getConfig().getBoolean("world-setting.prevent-fire-spread");
@@ -113,11 +118,19 @@ public class ConfigLoader {
 				"world-setting.flint-and-steal-spread");
 		lightning_spread = this.plugin.getConfig().getBoolean("world-setting.strike-spread");
 		
+		//Nice features
+		PlayerPressPlate = this.plugin.getConfig().getBoolean("Misc.Save-Player-PressPlate");
 		
 		//saving time
 		savetime = this.plugin.getConfig().getInt("config-save-interval");
 	}
 
+	//nice feature
+	
+	public static boolean isPlayerPressPlate(){
+		return PlayerPressPlate;
+	}
+	
 	// messaging
 	public static boolean isMessaging() {
 		return messageing;
@@ -235,7 +248,7 @@ public class ConfigLoader {
 	// dropchance
 	public static int getGlassSandDropChance() {
 
-		return glassDropChance;
+		return glassSandDropChance;
 
 	}
 
@@ -246,6 +259,10 @@ public class ConfigLoader {
 	public static int getAppleDropChance() {
 
 		return appleDropChance;
+	}
+	
+	public static int getGlassPaneDropChance(){
+		return glassPaneDropChance;
 	}
 
 	// spread

@@ -1,8 +1,8 @@
 name: SmartServerTool
-version: 1.2.5_v.8.4
+version: 1.2.5_v.9
 main: com.github.ysl3000.SmartServerTool
 website: www.SmartServerTool.de
-author: ysl3000 && Prinzpommes
+author: DEV ysl3000 && DOC Prinzpommes
 description: provide you some simple Server Commands! This mostly refers to a Vanilla-like server
 commands:
  /admin:
@@ -171,7 +171,12 @@ commands:
   usage: /mt <true/false>
   description: set maintenancemode
   permission: sst.mt
-  permission-message: sst.mt  
+  permission-message: sst.mt
+ al:
+   usage: /al
+   description: removes monster
+   permission: sst.al
+   permission-message: sst.al   
 permissions:
     sst.*:
          description: give all permission

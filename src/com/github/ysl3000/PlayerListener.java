@@ -21,6 +21,7 @@ import org.bukkit.event.block.BlockIgniteEvent.IgniteCause;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -114,7 +115,7 @@ public class PlayerListener implements Listener {
 
 		if (player.hasPermission("sst.break")) {
 
-			BlockDrops(event, ConfigLoader.isBlockbreak());
+			BlockDrops(event);
 
 			if (event.getBlock().getType().equals(Material.SMOOTH_BRICK)) {
 
@@ -136,7 +137,7 @@ public class PlayerListener implements Listener {
 		} else {
 
 			event.setCancelled(ConfigLoader.isBlockbreak());
-			BlockDrops(event, ConfigLoader.isBlockbreak());
+			BlockDrops(event);
 		}
 	}
 
@@ -215,15 +216,11 @@ public class PlayerListener implements Listener {
 				&& (event.getClickedBlock().getType().equals(Material.BED) || event
 						.getClickedBlock().getType().equals(Material.BED_BLOCK))) {
 
-			Player player = event.getPlayer();
-
-			player.setPlayerTime(18000L, false);
-
 			event.getPlayer().setBedSpawnLocation(
 					event.getClickedBlock().getLocation());
 			event.getPlayer().sendMessage(
 					ChatColor.BLUE + "Bedspawn location set!");
-			player.resetPlayerTime();
+
 		} else if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
 				&& event.getClickedBlock().getType()
 						.equals(Material.SMOOTH_BRICK)) {
@@ -246,9 +243,7 @@ public class PlayerListener implements Listener {
 				}
 			}
 
-		}
-
-		else {
+		} else {
 			return;
 		}
 
@@ -281,16 +276,7 @@ public class PlayerListener implements Listener {
 
 		if (event.getVehicle().getType().equals(EntityType.BOAT)) {
 
-			if (event.getVehicle().getLastDamageCause().getEntityType()
-					.equals(EntityType.PLAYER)) {
-				event.getVehicle()
-						.getLocation()
-						.getWorld()
-						.dropItem(event.getVehicle().getLocation(),
-								new ItemStack(Material.BOAT, 1));
-				event.setCancelled(true);
-				event.getVehicle().remove();
-			} else if (!event.getVehicle().getLastDamageCause().getEntityType()
+			if (!event.getVehicle().getLastDamageCause().getEntityType()
 					.equals(EntityType.PLAYER)) {
 				event.setCancelled(true);
 			}
@@ -306,26 +292,30 @@ public class PlayerListener implements Listener {
 
 	}
 
-	public void BlockDrops(BlockBreakEvent event, boolean istrue) {
+	public void BlockDrops(BlockBreakEvent event) {
 
-		if (istrue) {
+		if (event.isCancelled()) {
+			return;
+		}
 
-			Random rando = new Random();
+		Random rando = new Random();
 
-			if (event.getBlock().getType().equals(Material.DIAMOND_ORE)) {
+		if (event.getBlock().getType().equals(Material.DIAMOND_ORE)) {
 
-				if (rando.nextInt(ConfigLoader.getDiamondDropChance()) == 1) {
-					if (ConfigLoader.isDiamondDrop()) {
-						event.getBlock()
-								.getWorld()
-								.dropItem(event.getBlock().getLocation(),
-										new ItemStack(Material.DIAMOND_PICKAXE));
-					}
+			if (rando.nextInt(ConfigLoader.getDiamondDropChance()) == 1) {
+				if (ConfigLoader.isDiamondDrop()) {
+					event.getBlock()
+							.getWorld()
+							.dropItem(event.getBlock().getLocation(),
+									new ItemStack(Material.DIAMOND_PICKAXE));
 				}
+			}
 
-			} else if (event.getBlock().getType().equals(Material.LEAVES)) {
+		} else if (event.getBlock().getType().equals(Material.LEAVES)) {
 
-				if (ConfigLoader.isappleDrop()) {
+			if (ConfigLoader.isappleDrop()) {
+
+				if (rando.nextInt(ConfigLoader.getAppleDropChance()) == 1) {
 
 					event.getBlock()
 							.getWorld()
@@ -338,33 +328,60 @@ public class PlayerListener implements Listener {
 									new ItemStack(Material.GOLDEN_APPLE, 1));
 				}
 
-			} else if (event.getBlock().getTypeId() == 102) {
+			}
 
-				if (ConfigLoader.isGlassPaneDrop()) {
+		} else if (event.getBlock().getTypeId() == 102) {
 
+			if (ConfigLoader.isGlassPaneDrop()) {
+
+				if (rando.nextInt(ConfigLoader.getGlassPaneDropChance()) == 1) {
+
+				}
+				event.getBlock()
+						.getWorld()
+						.dropItemNaturally(event.getBlock().getLocation(),
+								new ItemStack(102, 1));
+
+			}
+
+		} else if (event.getBlock().getType().equals(Material.GLASS)) {
+
+			if (ConfigLoader.isGlassSandDrop()) {
+				if (rando.nextInt(ConfigLoader.getGlassSandDropChance()) == 1) {
 					event.getBlock()
 							.getWorld()
 							.dropItemNaturally(event.getBlock().getLocation(),
-									new ItemStack(102, 1));
-
+									new ItemStack(Material.SAND, 1));
 				}
 
-			} else if (event.getBlock().getType().equals(Material.GLASS)) {
+			}
+		}
 
-				if (ConfigLoader.isGlassSandDrop()) {
-					if (rando.nextInt(ConfigLoader.getGlassSandDropChance()) == 1) {
-						event.getBlock()
-								.getWorld()
-								.dropItemNaturally(
-										event.getBlock().getLocation(),
-										new ItemStack(Material.SAND, 1));
-					}
+	}
 
+	@EventHandler
+	public void onEntityPP(EntityInteractEvent event) {
+
+		if ((event.getBlock().getTypeId() == 70)
+				|| (event.getBlock().getTypeId() == 72)) {
+
+			if (ConfigLoader.isPlayerPressPlate()) {
+				if (!(event.getEntity() instanceof Player)) {
+					event.setCancelled(true);
+				} else {
+					return;
 				}
+
 			}
 
 		}
 
+	}
+
+	@EventHandler
+	public void keypressed(PlayerInteractEvent e){
+		
+		
 	}
 
 }

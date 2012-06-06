@@ -1,6 +1,5 @@
 package com.github.ysl3000;
 
-
 import java.io.IOException;
 import java.util.HashMap;
 import org.bukkit.ChatColor;
@@ -8,13 +7,11 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.conversations.ConversationContext;
-import org.bukkit.conversations.ConversationPrefix;
 import org.bukkit.conversations.PluginNameConversationPrefix;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-public class Top implements ConversationPrefix{
+public class Top {
 
 	
 
@@ -84,6 +81,8 @@ public class Top implements ConversationPrefix{
 				target.sendMessage((ChatColor.RED + "modmode disabled"));
 
 				Prefix.Pfix(target);
+				
+				MOTD.getIsMod().put(target, false);
 			}
 
 		}
@@ -94,6 +93,7 @@ public class Top implements ConversationPrefix{
 
 	public static boolean mod(Player player, String[] args) throws Exception {
 
+		
 		if (args.length == 0) {
 
 			if (player.getInventory().getContents().length == 0) {
@@ -108,6 +108,8 @@ public class Top implements ConversationPrefix{
 			player.setOp(true);
 			player.setGameMode(GameMode.CREATIVE);
 			player.sendMessage((ChatColor.GREEN + "Modmode enabled"));
+			
+			MOTD.getIsMod().put(player, true);
 
 			PluginNameConversationPrefix pre = new PluginNameConversationPrefix(SmartServerTool.plugin, " ", ChatColor.GOLD); 
 			player.setDisplayName(pre + player.getDisplayName());
@@ -121,6 +123,7 @@ public class Top implements ConversationPrefix{
 			target.getInventory().clear();
 			target.setGameMode(GameMode.CREATIVE);
 
+			MOTD.getIsMod().put(target, true);
 			player.sendMessage((ChatColor.GREEN + "modmode enabled for "
 					+ ChatColor.GOLD + target.getName()));
 			target.sendMessage((ChatColor.GREEN + "modmode enabled"));
@@ -209,13 +212,10 @@ public class Top implements ConversationPrefix{
 		player.setGameMode(GameMode.SURVIVAL);
 		player.sendMessage((ChatColor.RED + "Modmode disabled"));
 
+		MOTD.getIsMod().put(player, false);
 		return false;
 
 	}
 
-	@Override
-	public String getPrefix(ConversationContext arg0) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 }

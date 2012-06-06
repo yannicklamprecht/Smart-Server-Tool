@@ -28,8 +28,11 @@ public class Teleport {
 				Player target = player.getServer().getPlayer(args[0]);
 
 				player.teleport(target);
-				player.sendMessage("Teleported to " + target.getDisplayName());
-				target.sendMessage(player.getName() + " teleported to you");
+				if(target.canSee(player)){
+					player.sendMessage("Teleported to " + target.getDisplayName());
+					target.sendMessage(player.getName() + " teleported to you");
+				}
+				
 			}
 
 		} else if (cmd.getName().equalsIgnoreCase("tpo")
@@ -44,11 +47,14 @@ public class Teleport {
 
 				target.teleport(player);
 
-				player.sendMessage("You Teleported " + target.getDisplayName()
-						+ " to you");
-				target.sendMessage(player.getDisplayName() + " teleported "
-						+ target.getDisplayName() + " to "
-						+ player.getDisplayName());
+				if(target.canSee(player)){
+					player.sendMessage("You Teleported " + target.getDisplayName()
+							+ " to you");
+					target.sendMessage(player.getDisplayName() + " teleported "
+							+ target.getDisplayName() + " to "
+							+ player.getDisplayName());
+				}
+				
 			}
 
 		} else if (cmd.getName().equalsIgnoreCase("switch")
@@ -63,11 +69,15 @@ public class Teleport {
 				player.teleport(target.getLocation());
 				target.teleport(PlayerListener.getlocation().get(player));
 
-				player.sendMessage("You changed position with "
-						+ target.getDisplayName());
-				target.sendMessage(player.getDisplayName()
-						+ " changed position with you. Changed by "
-						+ player.getDisplayName());
+				if(target.canSee(player)){
+					
+					player.sendMessage("You changed position with "
+							+ target.getDisplayName());
+					target.sendMessage(player.getDisplayName()
+							+ " changed position with you. Changed by "
+							+ player.getDisplayName());
+				}
+				
 
 			} else {
 				player.sendMessage("to many arguments");
