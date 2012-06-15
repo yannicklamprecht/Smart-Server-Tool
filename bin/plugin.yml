@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 name: SmartServerTool
 version: 1.2.5_v.9.2
 main: com.github.ysl3000.SmartServerTool
@@ -253,3 +254,251 @@ permissions:
          description: allow interacting
     sst.autofly:
          description: enables fly on join
+=======
+name: SmartServerTool
+version: 1.2.5_v.10_Dev_3
+main: com.github.ysl3000.SmartServerTool
+website: www.SmartServerTool.de
+author: DEV ysl3000 && DOC Prinzpommes
+description: provide you some simple Server Commands! This mostly refers to a Vanilla-like server
+commands:
+ /admin:
+  usage: //admin
+  description: Toggle Op & Gamemode
+  permission: sst.admin
+  permission-message: You don't have sst.admin
+ gmc:
+  usage: /gmc
+  description: Set Creative
+  permission: sst.gmc
+  permission-message: You don't have sst.gmc
+ gms:
+  usage: /gms
+  description: Set Survival
+  permission: sst.gms
+  permission-message: You don't have sst.gmc
+ gm:
+  usage: /gm
+  description: Current GameMode
+  permission: sst.gm
+  permission-message: You don't have sst.gm
+ td:
+  usage: /td
+  description: set Time to Day
+  permission: sst.td
+  permission-message: You don't have sst.td
+ tn:
+  usage: /tn
+  description: set Time to Night
+  permission: sst.tn
+  permission-message: You don't have sst.tn
+ sun:
+  usage: /sun
+  description: Set Sun
+  permission: sst.sun
+  permission-message: You don't have sst.sun
+ storm:
+  usage: /storm
+  description: Set Storm
+  permission: sst.storm
+  permission-message: You don't have sst.storm
+ wg:
+  usage: /wg
+  description: get Weather
+  permission: sst.wg
+  permission-message: YYou don't have sst.wg
+ km:
+  usage: /km
+  description: kill
+  permission: sst.km
+  permission-message: sst.km
+ kill:
+  usage: /kill <player>
+  description: kill player
+  permission: sst.kill
+  permission-message: sst.kill
+ heal:
+  usage: /heal <player>
+  description: heal
+  permission: sst.heal
+  permission-message: sst.heal
+ /ip:
+  usage: //ip <player>
+  description: get ip of player
+  permission: sst.ip
+  permission-message: sst.ip
+ tp:
+  usage: /tp <player>
+  description: tp to player
+  permission: sst.tp
+  permission-message: sst.tp
+ tpo:
+  usage: /tpo <player>
+  description: tp player to you
+  permission: sst.tpo
+  permission-message: sst.tpo
+ switch:
+  usage: /switch <player>
+  description: tp to player and player tp to old location
+  permission: sst.switch
+  permisssion-message: sst.switch
+ /mem:
+  usage: //mem
+  description: memory
+  permission: sst.mem
+  permission-message: sst.mem
+ setsp:
+  usage: /setsp
+  description: setspawn
+  permission: sst.setsp
+  permission-message: sst.setsp
+ spawn:
+  usage: /spawn
+  description: Teleport to Spawn
+  permission: sst.spawn
+  permission-message: sst.spawn
+ home:
+  usage: /home
+  description: teleport to home
+  permission: sst.home
+  permission-message: sst.home 
+ mod:
+  usage: /mod
+  description: enter modmode
+  permission: sst.mod
+  permission-message: sst.mod
+ /cpu:
+  usage: //cpu
+  description: show cpu
+ ci:
+  usage: /ci
+  description: clear inventory
+  permission: sst.ci
+  permission-message: sst.ci
+ fly:
+  usage: /fly <player>
+  description: toggle fly
+  permission: sst.fly
+  permission-message: sst.fly
+ hide:
+  usage: /hide <player>
+  description: hide/s you/others
+  permission: sst.visible
+  permission-message: sst.visible
+ show:
+  usage: /show <player>
+  description: show/s you/others
+  permission: sst.visible
+  permission-message: sst.visible
+ back:
+  usage: /back
+  description: teleport to last location
+ done:
+  usage: /done
+  description: leave modmode
+  permission: sst.mod
+  permission-message: sst.mod
+ seed:
+  usage: /seed
+  description: shows seed
+ i:
+  usage: /i <itemid/name>[:typeid] [amount]
+  description: adds item
+  permission: sst.item
+  permission-message: You need sst.item
+ cm:
+  usage: /cm <true/false>
+  description: toggle servicemode
+  permission: sst.cm
+  permission-message: sst.cm
+ repair:
+  usage: /repair
+  description: repair your tool in hand
+  permission: sst.repair
+  permission-message: sst.repair
+ kick:
+  usage: /kick <player/-a> reason
+  description: kicks all player except yourself
+  permission: sst.kickall
+  permission-message: sst.kickall
+ sstv:
+  usage: /sstv
+  description: show version
+ mt:
+  usage: /mt <true/false>
+  description: set maintenancemode
+  permission: sst.mt
+  permission-message: sst.mt
+ al:
+   usage: /al
+   description: removes monster
+   permission: sst.al
+   permission-message: sst.al   
+permissions:
+    sst.*:
+         description: give all permission
+         children:
+             sst.admin: true
+             sst.mod: true
+             sst.gmc: true
+             sst.gms: true
+             sst.gm: true
+             sst.td: true
+             sst.tn: true
+             sst.sun: true
+             sst.storm: true
+             sst.km: true
+             sst.kill: true
+             sst.wg: true
+             sst.heal: true
+             sst.tp: true
+             sst.tpo: true
+             sst.ip: true
+             sst.switch: true
+             sst.setsp: true
+             sst.spawn: true
+             sst.seth: true
+             sst.home: true
+             sst.ci: true
+             sst.fly: true
+             sst.visible: true
+             sst.item: true
+             sst.repair: true
+             sst.nolog: true
+             sst.gmco: true
+             sst.gmso: true
+             sst.flyo: true
+             sst.cansee: true
+             sst.info: true
+             sst.break: true
+             sst.build: true
+             sst.gmo: true
+    sst.nolog:
+         description: No Logging of Commands
+         default: false
+    sst.gmco:
+         description: allow entering other people gmc
+         default: false
+    sst.gmso:
+         description: allow entering other people gms
+         default: false
+    sst.flyo:
+         description: allow you to enable others to fly
+         default: false
+    sst.cansee:
+         description: you can see hidden player
+         default: false
+    sst.info:
+         description: allow playerinfo
+         default: op
+    sst.break:
+         description: allow breaking blocks
+    sst.build:
+         description: allow building blocks
+    sst.gmo:
+         description: allow you looking up others gamemode
+    sst.joinfull:
+         description: allows you to join full server
+    sst.joinservice:
+         description: allows you to join server while in servicemode
+>>>>>>> Signed-off-by:
