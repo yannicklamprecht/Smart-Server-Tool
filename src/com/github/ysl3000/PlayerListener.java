@@ -28,7 +28,6 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
-import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class PlayerListener implements Listener {
@@ -272,20 +271,6 @@ public class PlayerListener implements Listener {
 	}
 
 	@EventHandler
-	public void onBoatbreak(VehicleDestroyEvent event) {
-
-		if (event.getVehicle().getType().equals(EntityType.BOAT)) {
-
-			if (!event.getVehicle().getLastDamageCause().getEntityType()
-					.equals(EntityType.PLAYER)) {
-				event.setCancelled(true);
-			}
-
-		}
-
-	}
-
-	@EventHandler
 	public void playerteleport(PlayerTeleportEvent event) {
 
 		LastL.put(event.getPlayer(), event.getFrom());
@@ -376,12 +361,6 @@ public class PlayerListener implements Listener {
 
 		}
 
-	}
-
-	@EventHandler
-	public void keypressed(PlayerInteractEvent e){
-		
-		
 	}
 
 }

@@ -34,20 +34,21 @@ public class KickManager {
 
 			} else
 
-			if (args.length == 2) {
+			if (args.length >= 2 && args.length <=10) {
 
 				if (args[0].equalsIgnoreCase("-a")) {
 
 					for (Player p : Bukkit.getOnlinePlayers()) {
 
 						if (!p.getName().equalsIgnoreCase(player.getName())) {
-							p.kickPlayer(args[1]);
+							p.kickPlayer(args[1] +" "+ args[2] +" " + args[3]+" " + args[4]+" "+ args[5]+" " + args[6]);
 						}
 
 					}
 				} else {
 
-					Bukkit.getPlayer(args[0]).kickPlayer(args[1]);
+					Bukkit.getPlayer(args[0]).kickPlayer(args[1] +" "+ args[2] +" " + args[3]+" " + args[4]+" "+ args[5]+" " + args[6]);
+					Bukkit.broadcastMessage(args[0] + " is kicked because "+ args[1] +" "+ args[2] +" " + args[3]+" " + args[4]+" "+ args[5]+" " + args[6]);
 				}
 			}
 

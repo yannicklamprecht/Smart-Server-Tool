@@ -57,6 +57,7 @@ public class SmartServerTool extends JavaPlugin {
 		this.getCustomConfig().options().copyDefaults(true);
 
 		this.saveConfig();
+		saveConfig();
 		this.saveCustomConfig();
 
 		Bukkit.setSpawnRadius(0);

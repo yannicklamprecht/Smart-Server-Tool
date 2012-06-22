@@ -1,3 +1,4 @@
+
 package com.github.ysl3000;
 
 import org.bukkit.Bukkit;
@@ -22,13 +23,28 @@ public class HideP {
 
 					Player player = (Player) sender;
 
+					
 					player.sendMessage("You were hidden");
 					player.getPlayerListName();
 
-					player.setPlayerListName(ChatColor.BLUE + "Herobrine"
-							+ ChatColor.WHITE);
-					player.setDisplayName(ChatColor.BLUE + "Herobrine"
-							+ ChatColor.WHITE);
+					
+					
+					for(Player p:Bukkit.getServer().getOnlinePlayers()){
+						
+						if(p.getDisplayName().equalsIgnoreCase("Herobrine")){
+							
+							
+						}
+						
+						player.setPlayerListName(ChatColor.BLUE + "Herobrine"
+								+ ChatColor.WHITE);
+						player.setDisplayName(ChatColor.BLUE + "Herobrine"
+								+ ChatColor.WHITE);
+						
+					}
+							
+					
+					
 
 					for (Player p : Bukkit.getOnlinePlayers()) {
 

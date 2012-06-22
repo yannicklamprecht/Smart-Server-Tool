@@ -175,6 +175,11 @@ public class Gm {
 						target.sendMessage("Until now you have to walk on feet! Disallowed by "
 								+ sender.getName());
 					}
+					else if (target.getAllowFlight() && target.isFlying()) {
+						
+						sender.sendMessage(target + " is flying! Only if player is on earth you can disble that!");
+						
+					}
 				} else {
 
 					sender.sendMessage("No permission for flying others");
