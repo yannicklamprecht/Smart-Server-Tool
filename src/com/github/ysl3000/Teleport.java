@@ -30,7 +30,7 @@ public class Teleport {
 				player.teleport(target);
 				if(target.canSee(player)){
 					player.sendMessage("Teleported to " + target.getDisplayName());
-					target.sendMessage(player.getName() + " teleported to you");
+					target.sendMessage(player.getDisplayName() + " teleported to you");
 				}
 				
 			}

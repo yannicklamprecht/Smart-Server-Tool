@@ -42,7 +42,6 @@ public class Top {
 				try {
 					done(player, args);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 
 					player.sendMessage("You aren't in modmode");
 				}
@@ -139,43 +138,24 @@ public class Top {
 	public static boolean admin(Player player, String[] args) {
 
 		if (args.length == 0) {
-			if (!player.isOp() && ((player.hasPermission("sst.admin")))) {
+			if ((!player.isOp()) && ((player.hasPermission("sst.admin")))) {
 
 				player.setOp(true);
 
 				player.sendMessage((ChatColor.GREEN + "Op enabled"));
 
-			} else if (player.isOp() && player.hasPermission("sst.admin")) {
+			} else if ((player.isOp()) && player.hasPermission("sst.admin")) {
 
 				player.setOp(false);
 
 				player.sendMessage((ChatColor.RED + "Op disabled"));
 			}
+		}else if(args.length == 1){
+			player.sendMessage("please use /deop <player>");
 		}
 
-		else if (args.length == 1) {
-			Player target = player.getServer().getPlayer(args[0]);
-
-			if (!target.isOp() && player.hasPermission("sst.admin")) {
-
-				invp.put(target, target.getInventory().getContents());
-				locp.put(target, target.getLocation());
-
-				target.setOp(true);
-				player.sendMessage((ChatColor.GREEN + "Op enabled for " + target
-						.getName()));
-				target.sendMessage((ChatColor.GREEN + "Op enabled"));
-			} else if (target.isOp() && player.hasPermission("sst.admin")) {
-
-				target.getInventory().addItem(invp.get(target));
-				target.teleport(locp.get(target));
-
-				target.setOp(false);
-				player.sendMessage((ChatColor.RED + "Op disabled for " + target
-						.getName()));
-				target.sendMessage((ChatColor.RED + "Op disabled"));
-			}
-		}
+		
+		
 		return false;
 	}
 

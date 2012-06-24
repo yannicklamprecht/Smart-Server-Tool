@@ -48,7 +48,7 @@ public class KickManager {
 				} else {
 
 					Bukkit.getPlayer(args[0]).kickPlayer(args[1] +" "+ args[2] +" " + args[3]+" " + args[4]+" "+ args[5]+" " + args[6]);
-					Bukkit.broadcastMessage(args[0] + " is kicked because "+ args[1] +" "+ args[2] +" " + args[3]+" " + args[4]+" "+ args[5]+" " + args[6]);
+					Bukkit.broadcastMessage(((Player)Bukkit.getOfflinePlayer(args[0])).getDisplayName() + " is kicked because "+ args[1] +" "+ args[2] +" " + args[3]+" " + args[4]+" "+ args[5]+" " + args[6]);
 				}
 			}
 

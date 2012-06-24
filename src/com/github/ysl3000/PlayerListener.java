@@ -211,39 +211,46 @@ public class PlayerListener implements Listener {
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onplayerrb(PlayerInteractEvent event) {
 
-		if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
-				&& (event.getClickedBlock().getType().equals(Material.BED) || event
-						.getClickedBlock().getType().equals(Material.BED_BLOCK))) {
+		if (event.getPlayer().hasPermission("sst.interact")) {
 
-			event.getPlayer().setBedSpawnLocation(
-					event.getClickedBlock().getLocation());
-			event.getPlayer().sendMessage(
-					ChatColor.BLUE + "Bedspawn location set!");
+			if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
+					&& (event.getClickedBlock().getType().equals(Material.BED) || event
+							.getClickedBlock().getType()
+							.equals(Material.BED_BLOCK))) {
 
-		} else if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
-				&& event.getClickedBlock().getType()
-						.equals(Material.SMOOTH_BRICK)) {
+				event.getPlayer().setBedSpawnLocation(
+						event.getClickedBlock().getLocation());
+				event.getPlayer().sendMessage(
+						ChatColor.BLUE + "Bedspawn location set!");
 
-			if (event.getClickedBlock().getData() == 3) {
+			} else if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
+					&& event.getClickedBlock().getType()
+							.equals(Material.SMOOTH_BRICK)) {
 
-				Block toggledBlock = event.getClickedBlock();
+				if (event.getClickedBlock().getData() == 3) {
 
-				Block aim = toggledBlock.getWorld().getBlockAt(
-						(int) toggledBlock.getLocation().getBlockX(),
-						(int) toggledBlock.getLocation().getY() + 3,
-						(int) toggledBlock.getLocation().getZ());
+					Block toggledBlock = event.getClickedBlock();
 
-				if (aim.getType().equals(Material.AIR)) {
+					Block aim = toggledBlock.getWorld().getBlockAt(
+							(int) toggledBlock.getLocation().getBlockX(),
+							(int) toggledBlock.getLocation().getY() + 3,
+							(int) toggledBlock.getLocation().getZ());
 
-					aim.setType(Material.WATER);
+					if (aim.getType().equals(Material.AIR)) {
 
-				} else {
-					aim.setType(Material.AIR);
+						aim.setType(Material.WATER);
+
+					} else {
+						aim.setType(Material.AIR);
+					}
 				}
+
+			} else {
+				return;
 			}
 
-		} else {
-			return;
+		}else{
+			event.setCancelled(true);
 		}
 
 	}
@@ -320,12 +327,12 @@ public class PlayerListener implements Listener {
 			if (ConfigLoader.isGlassPaneDrop()) {
 
 				if (rando.nextInt(ConfigLoader.getGlassPaneDropChance()) == 1) {
-
+					event.getBlock()
+					.getWorld()
+					.dropItemNaturally(event.getBlock().getLocation(),
+							new ItemStack(102, 1));
 				}
-				event.getBlock()
-						.getWorld()
-						.dropItemNaturally(event.getBlock().getLocation(),
-								new ItemStack(102, 1));
+				
 
 			}
 

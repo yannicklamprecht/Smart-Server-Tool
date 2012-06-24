@@ -37,6 +37,8 @@ public class SmartServerTool extends JavaPlugin {
 	protected FileConfiguration config;
 	protected FileConfiguration customConfig = null;
 	protected File customConfigFile = null;
+	protected FileConfiguration inviteConfig = null;
+	protected File inviteConfigFile = null;
 
 	public void onEnable() {
 		log = Logger.getLogger("Minecraft");
@@ -52,13 +54,15 @@ public class SmartServerTool extends JavaPlugin {
 
 		config = getConfig();
 		getCustomConfig();
+		getInviteConfig();
 		this.getConfig().options().copyDefaults(true);
 
+		this.getInviteConfig().options().copyDefaults(true);
 		this.getCustomConfig().options().copyDefaults(true);
 
 		this.saveConfig();
-		saveConfig();
 		this.saveCustomConfig();
+		this.saveInviteConfig();
 
 		Bukkit.setSpawnRadius(0);
 
@@ -179,7 +183,7 @@ public class SmartServerTool extends JavaPlugin {
 				ItemMan.item((Player) sender, commandLabel, args, cmd);
 				KickManager.kick(sender, commandLabel, args, cmd);
 				EntityListener.removeEntity(sender, commandLabel, args, cmd);
-				
+				Inviter.invite(sender, commandLabel, args, cmd);
 			} catch (Exception e) {
 			}
 
@@ -196,6 +200,21 @@ public class SmartServerTool extends JavaPlugin {
 		return mainDirectory;
 	}
 
+	public void reloadInviteConfig(){
+		if (inviteConfigFile == null) {
+			inviteConfigFile = new File(SmartServerTool.getMainDirectory(),
+					"invite.yml");
+		}
+		inviteConfig = YamlConfiguration.loadConfiguration(inviteConfigFile);
+
+		// Look for defaults in the jar
+		InputStream defConfigStream = getResource("invite.yml");
+		if (defConfigStream != null) {
+			YamlConfiguration defConfig = YamlConfiguration
+					.loadConfiguration(defConfigStream);
+			inviteConfig.setDefaults(defConfig);
+		}
+	}
 	public void reloadCustomConfig() {
 		if (customConfigFile == null) {
 			customConfigFile = new File(SmartServerTool.getMainDirectory(),
@@ -211,7 +230,14 @@ public class SmartServerTool extends JavaPlugin {
 			customConfig.setDefaults(defConfig);
 		}
 	}
+	public FileConfiguration getInviteConfig() {
+		if (inviteConfig == null) {
+			reloadInviteConfig();
+		}
+		return inviteConfig;
+	}
 
+	
 	public FileConfiguration getCustomConfig() {
 		if (customConfig == null) {
 			reloadCustomConfig();
@@ -219,6 +245,17 @@ public class SmartServerTool extends JavaPlugin {
 		return customConfig;
 	}
 
+	public void saveInviteConfig() {
+		if (inviteConfig == null || inviteConfigFile == null) {
+			return;
+		}
+		try {
+			inviteConfig.save(inviteConfigFile);
+		} catch (IOException ex) {
+			Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE,
+					"Could not save config to " + inviteConfigFile, ex);
+		}
+	}
 	public void saveCustomConfig() {
 		if (customConfig == null || customConfigFile == null) {
 			return;

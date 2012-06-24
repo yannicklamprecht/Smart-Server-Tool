@@ -162,22 +162,22 @@ public class Gm {
 
 						target.setAllowFlight(true);
 						target.setFlying(true);
-						sender.sendMessage("Set fly on for " + target.getName());
+						sender.sendMessage("Set fly on for " + target.getDisplayName());
 						target.sendMessage("You can now fly! Allowed by "
-								+ sender.getName());
+								+((Player)sender).getDisplayName());
 
 					} else if (target.getAllowFlight() && !target.isFlying()) {
 
 						target.setFlying(false);
 						target.setAllowFlight(false);
 						sender.sendMessage("Set fly off for "
-								+ target.getName());
+								+ target.getDisplayName());
 						target.sendMessage("Until now you have to walk on feet! Disallowed by "
-								+ sender.getName());
+								+ ((Player)sender).getDisplayName());
 					}
 					else if (target.getAllowFlight() && target.isFlying()) {
 						
-						sender.sendMessage(target + " is flying! Only if player is on earth you can disble that!");
+						sender.sendMessage(target.getDisplayName() + " is flying! Only if player is on earth you can disble that!");
 						
 					}
 				} else {
