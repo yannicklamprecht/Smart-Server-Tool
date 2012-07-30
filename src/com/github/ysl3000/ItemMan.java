@@ -2,91 +2,32 @@ package com.github.ysl3000;
 
 import java.util.Map;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
 
 public class ItemMan {
 
 	public static void item(CommandSender sender, String command,
 			String[] args, Command cmd) {
-		int itemid = 0;
-		int amount;
-		short damage;
-		String[] itemcommand;
+		
 		Player player = (Player) sender;
 
 		if (command.equalsIgnoreCase("i") && sender.hasPermission("sst.item")) {
 
-			if (sender instanceof Player) {
-				if (args.length == 0) {
-
-					player.sendMessage("/i <itemid> [amount]");
-				} else if (args.length == 1) {
-
-					itemcommand = args[0].split(":");
-
-					try {
-
-						itemid = Integer.parseInt(itemcommand[0]);
-
-					} catch (NumberFormatException e) {
-
-						player.sendMessage(ChatColor.RED
-								+ "Until now Itemname isn't implemented");
-						// itemid = itemconnect(itemcommand[0]);
-						return;
-
-					}
-
-					amount = 20;
-
-					if (itemcommand.length == 2) {
-
-						damage = Short.parseShort(itemcommand[1]);
-					} else {
-						damage = 0;
-					}
-
-					ItemStack itemst = new ItemStack(itemid, amount, damage);
-
-					player.getInventory().addItem(itemst);
-
-					player.sendMessage("20x " + args[0] + " are given!");
-				} else if (args.length == 2) {
-
-					itemcommand = args[0].split(":");
-
-					try {
-						itemid = Integer.parseInt(itemcommand[0]);
-					} catch (Exception e) {
-
-						 
-
-						player.sendMessage(ChatColor.RED
-								+ "Until now Itemname isn't implemented");
-						return;
-					}
-
-					amount = Integer.parseInt(args[1]);
-
-					if (itemcommand.length == 2) {
-						damage = Short.parseShort(itemcommand[1]);
-					} else {
-						damage = 0;
-					}
-
-					ItemStack itemst = new ItemStack(itemid, amount, damage);
-					player.getInventory().addItem(itemst);
-					player.sendMessage(amount + "x " + args[0] + " are given!");
-
-				}
-			} else {
-				sender.sendMessage(SmartServerTool.consolehasperformed);
+			if(args.length == 1){
+				
+				player.performCommand("give "+sender.getName() +" "+ args[0] +" "+ ConfigLoader.getDefaultStack());
+			}else if(args.length == 2){
+				
+				player.performCommand("give "+sender.getName() +" "+ args[0] +" "+args[1]);
 			}
+				
+
+				
+			
+			
 
 		} else if (command.equalsIgnoreCase("ci")
 				&& sender.hasPermission("sst.ci")) {

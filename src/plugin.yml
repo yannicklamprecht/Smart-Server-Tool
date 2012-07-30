@@ -1,5 +1,5 @@
 name: SmartServerTool
-version: 1.2.5_v.9.1
+version: 1.2.5_v.9.2
 main: com.github.ysl3000.SmartServerTool
 website: www.SmartServerTool.de
 author: DEV ysl3000 && DOC Prinzpommes
@@ -251,3 +251,5 @@ permissions:
          description: allows you to join server while in servicemode
     sst.interact:
          description: allow interacting
+    sst.autofly:
+         description: enables fly on join

@@ -33,6 +33,11 @@ public class MOTD implements Listener {
 			event.setResult(Result.KICK_OTHER);
 
 		}
+		if(event.getPlayer().getName().equalsIgnoreCase("Player")){
+			
+			event.setResult(Result.KICK_OTHER);
+			event.setKickMessage("Player you are not allowed to join, because of stupidness");
+		}
 
 		if (event.getResult() == PlayerLoginEvent.Result.KICK_WHITELIST) {
 
@@ -90,6 +95,11 @@ public class MOTD implements Listener {
 			long restminutes = (minutes % 60);
 
 			Prefix.Pfix(player);
+			
+			if(player.hasPermission("sst.autofly")){
+				player.setAllowFlight(true);
+				player.setFlying(true);
+			}
 
 			if (Runtime.getRuntime().availableProcessors() == 1) {
 
@@ -175,6 +185,8 @@ public class MOTD implements Listener {
 			
 			Top.doneMe(event.getPlayer());
 			getIsMod().remove(event.getPlayer());
+		}else{
+			SmartServerTool.logger.info(event.getPlayer().getName()+" isn't in Modmode");
 		}
 		
 		return;

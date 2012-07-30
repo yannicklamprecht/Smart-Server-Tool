@@ -1,4 +1,3 @@
-
 package com.github.ysl3000;
 
 import org.bukkit.Bukkit;
@@ -19,61 +18,32 @@ public class HideP {
 			if ((command.equalsIgnoreCase("hide"))
 					&& (sender.hasPermission("sst.visible"))) {
 
-				if (sender instanceof Player) {
+				Player player = (Player) sender;
 
-					Player player = (Player) sender;
+				player.sendMessage("You were hidden");
+				player.getPlayerListName();
+				player.setPlayerListName(ChatColor.BLUE + "[H]"
+						+ ChatColor.RESET + player.getDisplayName());
+				player.setDisplayName(ChatColor.BLUE + "[H]" + ChatColor.RESET
+						+ player.getDisplayName() + ChatColor.WHITE);
 
-					
-					player.sendMessage("You were hidden");
-					player.getPlayerListName();
-
-					
-					
-					for(Player p:Bukkit.getServer().getOnlinePlayers()){
-						
-						if(p.getDisplayName().equalsIgnoreCase("Herobrine")){
-							
-							
-						}
-						
-						player.setPlayerListName(ChatColor.BLUE + "Herobrine"
-								+ ChatColor.WHITE);
-						player.setDisplayName(ChatColor.BLUE + "Herobrine"
-								+ ChatColor.WHITE);
-						
+				for (Player p : Bukkit.getOnlinePlayers()) {
+					if (!p.hasPermission("sst.cansee")) {
+						p.hidePlayer(player);
 					}
-							
-					
-					
 
-					for (Player p : Bukkit.getOnlinePlayers()) {
-
-						if (!p.hasPermission("sst.cansee")) {
-							p.hidePlayer(player);
-						} else {
-							p.showPlayer(player);
-						}
-
-					}
-				} else {
-					sender.sendMessage("Only Player can perform this command");
 				}
 
 			} else if ((command.equalsIgnoreCase("show"))
 					&& (sender.hasPermission("sst.visible"))) {
 
-				if (sender instanceof Player) {
+				
+				Prefix.Pfix((Player)sender);
+				((Player)sender).sendMessage("You you are now shown");
 
-					Player player = (Player) sender;
-					Prefix.Pfix(player);
-					player.sendMessage("You you are now shown");
-					for (Player p : Bukkit.getOnlinePlayers()) {
+				for (Player p : Bukkit.getOnlinePlayers()) {
 
-						p.showPlayer(player);
-
-					}
-				} else {
-					sender.sendMessage("Only Player can perform this command");
+					p.showPlayer((Player)sender);
 				}
 
 			}

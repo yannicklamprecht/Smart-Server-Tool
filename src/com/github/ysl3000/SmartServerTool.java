@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
@@ -34,11 +33,9 @@ public class SmartServerTool extends JavaPlugin {
 
 	public static String consolehasperformed = "Only Player can perform this command";
 
-	protected FileConfiguration config;
+	protected FileConfiguration config = null;
 	protected FileConfiguration customConfig = null;
 	protected File customConfigFile = null;
-	protected FileConfiguration inviteConfig = null;
-	protected File inviteConfigFile = null;
 
 	public void onEnable() {
 		log = Logger.getLogger("Minecraft");
@@ -52,17 +49,15 @@ public class SmartServerTool extends JavaPlugin {
 		new MOTD(this);
 		new ConfigLoader(this);
 
-		config = getConfig();
-		getCustomConfig();
-		getInviteConfig();
+		config = this.getConfig();
+		customConfig = this.getCustomConfig();
+
 		this.getConfig().options().copyDefaults(true);
 
-		this.getInviteConfig().options().copyDefaults(true);
 		this.getCustomConfig().options().copyDefaults(true);
 
 		this.saveConfig();
 		this.saveCustomConfig();
-		this.saveInviteConfig();
 
 		Bukkit.setSpawnRadius(0);
 
@@ -83,8 +78,13 @@ public class SmartServerTool extends JavaPlugin {
 		sr.shape(new String[] { "   ", " b ", "www" })
 				.setIngredient('b', Material.BOOKSHELF)
 				.setIngredient('w', Material.WOOD);
+		ShapedRecipe glows = new ShapedRecipe(new ItemStack(Material.GLOWSTONE));
+		glows.shape(new String[] { "   ","rr ","rr "}).setIngredient('r', Material.REDSTONE_TORCH_ON);
+				
+		
 
 		getServer().addRecipe(sr);
+		getServer().addRecipe(glows);
 
 		if (ConfigLoader.getadvert()) {
 
@@ -139,14 +139,8 @@ public class SmartServerTool extends JavaPlugin {
 				Bukkit.savePlayers();
 
 				try {
-
-					Random rando = new Random();
-					if (rando.nextInt(100) == 1) {
-						log.info("Saved");
-					}
 					saveConfig();
 					saveCustomConfig();
-
 				} catch (Exception e) {
 					log.warning("Config failed saving!");
 				}
@@ -184,6 +178,7 @@ public class SmartServerTool extends JavaPlugin {
 				KickManager.kick(sender, commandLabel, args, cmd);
 				EntityListener.removeEntity(sender, commandLabel, args, cmd);
 				Inviter.invite(sender, commandLabel, args, cmd);
+			
 			} catch (Exception e) {
 			}
 
@@ -200,21 +195,6 @@ public class SmartServerTool extends JavaPlugin {
 		return mainDirectory;
 	}
 
-	public void reloadInviteConfig(){
-		if (inviteConfigFile == null) {
-			inviteConfigFile = new File(SmartServerTool.getMainDirectory(),
-					"invite.yml");
-		}
-		inviteConfig = YamlConfiguration.loadConfiguration(inviteConfigFile);
-
-		// Look for defaults in the jar
-		InputStream defConfigStream = getResource("invite.yml");
-		if (defConfigStream != null) {
-			YamlConfiguration defConfig = YamlConfiguration
-					.loadConfiguration(defConfigStream);
-			inviteConfig.setDefaults(defConfig);
-		}
-	}
 	public void reloadCustomConfig() {
 		if (customConfigFile == null) {
 			customConfigFile = new File(SmartServerTool.getMainDirectory(),
@@ -230,14 +210,7 @@ public class SmartServerTool extends JavaPlugin {
 			customConfig.setDefaults(defConfig);
 		}
 	}
-	public FileConfiguration getInviteConfig() {
-		if (inviteConfig == null) {
-			reloadInviteConfig();
-		}
-		return inviteConfig;
-	}
 
-	
 	public FileConfiguration getCustomConfig() {
 		if (customConfig == null) {
 			reloadCustomConfig();
@@ -245,17 +218,6 @@ public class SmartServerTool extends JavaPlugin {
 		return customConfig;
 	}
 
-	public void saveInviteConfig() {
-		if (inviteConfig == null || inviteConfigFile == null) {
-			return;
-		}
-		try {
-			inviteConfig.save(inviteConfigFile);
-		} catch (IOException ex) {
-			Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE,
-					"Could not save config to " + inviteConfigFile, ex);
-		}
-	}
 	public void saveCustomConfig() {
 		if (customConfig == null || customConfigFile == null) {
 			return;

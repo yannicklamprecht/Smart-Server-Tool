@@ -33,17 +33,26 @@ import org.bukkit.inventory.ItemStack;
 public class PlayerListener implements Listener {
 
 	private static HashMap<Player, Location> LastL = new HashMap<Player, Location>();
-
+	private static HashMap<Player, Location> currentL = new HashMap<Player, Location>();
 	public static HashMap<Player, Location> getlocation() {
 
 		return LastL;
 
 	}
 
+	public static HashMap<Player, Location> currentlocation() {
+
+		return currentL;
+
+	}
 	public static void setLastL(HashMap<Player, Location> LastLoc) {
 		LastL = LastLoc;
 	}
-
+	public static void setcurrentL(HashMap<Player, Location> currentLoc) {
+		currentL = currentLoc;
+	}
+	
+	
 	public PlayerListener(SmartServerTool plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
@@ -60,6 +69,10 @@ public class PlayerListener implements Listener {
 		} else if (player.getBedSpawnLocation() != null) {
 
 			player.teleport(player.getBedSpawnLocation());
+		}
+		if(player.hasPermission("sst.autofly")){
+			player.setAllowFlight(true);
+			player.setFlying(true);
 		}
 
 	}
@@ -100,6 +113,8 @@ public class PlayerListener implements Listener {
 			player.sendMessage("Ip: " + target.getAddress());
 			player.sendMessage("Op-status: " + target.isOp());
 			player.sendMessage("Gamemode: " + target.getGameMode());
+			player.sendMessage("Experience: " + target.getTotalExperience());
+			
 
 		}
 
@@ -140,7 +155,7 @@ public class PlayerListener implements Listener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler (priority = EventPriority.LOW)
 	public void onbuild(BlockPlaceEvent event) throws Exception {
 
 		Player player = event.getPlayer();
@@ -210,13 +225,10 @@ public class PlayerListener implements Listener {
 
 	@EventHandler(priority = EventPriority.HIGH)
 	public void onplayerrb(PlayerInteractEvent event) {
-
-		if (event.getPlayer().hasPermission("sst.interact")) {
-
+		if(event.getPlayer().hasPermission("sst.interact") || (!ConfigLoader.isInteract())){
 			if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
 					&& (event.getClickedBlock().getType().equals(Material.BED) || event
-							.getClickedBlock().getType()
-							.equals(Material.BED_BLOCK))) {
+							.getClickedBlock().getType().equals(Material.BED_BLOCK))) {
 
 				event.getPlayer().setBedSpawnLocation(
 						event.getClickedBlock().getLocation());
@@ -225,34 +237,38 @@ public class PlayerListener implements Listener {
 
 			} else if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
 					&& event.getClickedBlock().getType()
-							.equals(Material.SMOOTH_BRICK)) {
-
-				if (event.getClickedBlock().getData() == 3) {
-
+							.equals(Material.SMOOTH_BRICK) && event.getClickedBlock().getData() == 3) {
+				
+				if(ConfigLoader.isSmoothBlock()){
 					Block toggledBlock = event.getClickedBlock();
-
 					Block aim = toggledBlock.getWorld().getBlockAt(
 							(int) toggledBlock.getLocation().getBlockX(),
 							(int) toggledBlock.getLocation().getY() + 3,
 							(int) toggledBlock.getLocation().getZ());
 
 					if (aim.getType().equals(Material.AIR)) {
-
 						aim.setType(Material.WATER);
-
 					} else {
 						aim.setType(Material.AIR);
 					}
 				}
 
-			} else {
-				return;
-			}
-
-		}else{
-			event.setCancelled(true);
+					}
+		} else {
+			return;
 		}
 
+	}
+
+	@EventHandler
+	public void Interact(PlayerInteractEvent event) {
+
+		if (event.getPlayer().hasPermission("sst.interact")) {
+			return;
+
+		} else {
+			event.setCancelled(ConfigLoader.isInteract());
+		}
 	}
 
 	@EventHandler
@@ -280,74 +296,65 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void playerteleport(PlayerTeleportEvent event) {
 
+		
 		LastL.put(event.getPlayer(), event.getFrom());
+		currentL.put(event.getPlayer(), event.getTo());
 
 	}
 
 	public void BlockDrops(BlockBreakEvent event) {
 
-		if (event.isCancelled()) {
-			return;
-		}
+		
+		if(!event.isCancelled()){
+			
+			Random rando = new Random();
+			if (event.getBlock().getType().equals(Material.DIAMOND_ORE)) {
 
-		Random rando = new Random();
-
-		if (event.getBlock().getType().equals(Material.DIAMOND_ORE)) {
-
-			if (rando.nextInt(ConfigLoader.getDiamondDropChance()) == 1) {
-				if (ConfigLoader.isDiamondDrop()) {
-					event.getBlock()
-							.getWorld()
-							.dropItem(event.getBlock().getLocation(),
-									new ItemStack(Material.DIAMOND_PICKAXE));
-				}
-			}
-
-		} else if (event.getBlock().getType().equals(Material.LEAVES)) {
-
-			if (ConfigLoader.isappleDrop()) {
-
-				if (rando.nextInt(ConfigLoader.getAppleDropChance()) == 1) {
-
-					event.getBlock()
-							.getWorld()
-							.dropItemNaturally(event.getBlock().getLocation(),
-									new ItemStack(Material.APPLE, 1));
-
-					event.getBlock()
-							.getWorld()
-							.dropItemNaturally(event.getBlock().getLocation(),
-									new ItemStack(Material.GOLDEN_APPLE, 1));
+				if (rando.nextInt(ConfigLoader.getDiamondDropChance()) == 1 || ConfigLoader.getDiamondDropChance() == 1) {
+					if (ConfigLoader.isDiamondDrop()) {
+						event.getBlock()
+								.getWorld()
+								.dropItem(event.getBlock().getLocation(),
+										new ItemStack(Material.DIAMOND_PICKAXE));
+					}
 				}
 
-			}
+			} else if (event.getBlock().getType().equals(Material.LEAVES)) {
 
-		} else if (event.getBlock().getTypeId() == 102) {
+				if (rando.nextInt(ConfigLoader.getAppleDropChance()) == 1 || ConfigLoader.getAppleDropChance() == 1) {
+				if (ConfigLoader.isappleDrop()) {
+						event.getBlock()
+								.getWorld()
+								.dropItem(event.getBlock().getLocation(),
+										new ItemStack(Material.GOLDEN_APPLE, 1));
+					}
 
-			if (ConfigLoader.isGlassPaneDrop()) {
-
-				if (rando.nextInt(ConfigLoader.getGlassPaneDropChance()) == 1) {
-					event.getBlock()
-					.getWorld()
-					.dropItemNaturally(event.getBlock().getLocation(),
-							new ItemStack(102, 1));
-				}
-				
-
-			}
-
-		} else if (event.getBlock().getType().equals(Material.GLASS)) {
-
-			if (ConfigLoader.isGlassSandDrop()) {
-				if (rando.nextInt(ConfigLoader.getGlassSandDropChance()) == 1) {
-					event.getBlock()
-							.getWorld()
-							.dropItemNaturally(event.getBlock().getLocation(),
-									new ItemStack(Material.SAND, 1));
 				}
 
+			} else if (event.getBlock().getTypeId() == 102) {
+				if (rando.nextInt(ConfigLoader.getGlassPaneDropChance()) == 1 || ConfigLoader.getGlassPaneDropChance() == 1) {
+				if (ConfigLoader.isGlassPaneDrop()) {
+						event.getBlock()
+						.getWorld()
+						.dropItem(event.getBlock().getLocation(),
+								new ItemStack(102, 1));
+					}
+				}
+
+			} else if (event.getBlock().getType().equals(Material.GLASS)) {
+				if (rando.nextInt(ConfigLoader.getGlassSandDropChance()) == 1 || ConfigLoader.getGlassSandDropChance() == 1) {
+				if (ConfigLoader.isGlassSandDrop()) {
+						event.getBlock()
+								.getWorld()
+								.dropItem(event.getBlock().getLocation(),
+										new ItemStack(Material.SAND, 1));
+					}
+
+				}
 			}
-		}
+	
+}
+		
 
 	}
 
@@ -369,5 +376,6 @@ public class PlayerListener implements Listener {
 		}
 
 	}
+	
 
 }

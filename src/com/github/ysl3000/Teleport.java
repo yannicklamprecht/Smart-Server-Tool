@@ -1,5 +1,6 @@
 package com.github.ysl3000;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 
@@ -84,7 +85,9 @@ public class Teleport {
 			}
 		} else if (cmd.getName().equalsIgnoreCase("back")) {
 
-			player.teleport(PlayerListener.getlocation().get(player));
+			player.teleport(Bukkit.getPlayer(player.getName()).getLocation());
+			
+			
 
 		}
 	}
