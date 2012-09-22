@@ -1,9 +1,11 @@
 package com.github.ysl3000;
 
-import java.util.HashMap;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+
 import org.bukkit.entity.Player;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -19,8 +21,6 @@ public class MOTD implements Listener {
 	private String timemessage;
 	private String leftmessage;
 
-	private static HashMap<Player, Boolean> isMod;
-
 	public MOTD(SmartServerTool plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
@@ -33,8 +33,9 @@ public class MOTD implements Listener {
 			event.setResult(Result.KICK_OTHER);
 
 		}
-		if(event.getPlayer().getName().equalsIgnoreCase("Player")){
-			
+		if (event.getPlayer().getName().equalsIgnoreCase("Player")
+				&& ConfigLoader.isBloggingPlayerJoin()) {
+
 			event.setResult(Result.KICK_OTHER);
 			event.setKickMessage("Player you are not allowed to join, because of stupidness");
 		}
@@ -77,14 +78,20 @@ public class MOTD implements Listener {
 			event.setMotd(ConfigLoader.getMaintenanceMessage());
 
 		}
-	}
+			}
 
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 
 		Player player = event.getPlayer();
 
-		getIsMod().put(player, false);
+		HashmapHandler.setIsMOD(player, false);
+		HashmapHandler.setGod(player, false);
+		HashmapHandler.setFlyStatus(player, false);
+		HashmapHandler.setHiddenStatus(player, false);
+
+		
+		HideP.runOnJoin(player);
 
 		if (ConfigLoader.isMessaging()) {
 
@@ -95,8 +102,8 @@ public class MOTD implements Listener {
 			long restminutes = (minutes % 60);
 
 			Prefix.Pfix(player);
-			
-			if(player.hasPermission("sst.autofly")){
+
+			if (player.hasPermission("sst.autofly")) {
 				player.setAllowFlight(true);
 				player.setFlying(true);
 			}
@@ -112,7 +119,7 @@ public class MOTD implements Listener {
 
 			joinmessage = ConfigLoader.getJoinmessage();
 			joinmessage = joinmessage.replace("%user",
-					ChatColor.GOLD + player.getName() + ChatColor.WHITE);
+					ChatColor.GOLD + name(player) + ChatColor.WHITE);
 			joinmessage = joinmessage.replace("%server", ChatColor.GREEN
 					+ Bukkit.getServerName() + ChatColor.WHITE);
 			joinmessage = joinmessage.replace("%core", coremessage);
@@ -120,6 +127,9 @@ public class MOTD implements Listener {
 			timemessage = null;
 
 			timemessage = ConfigLoader.getTimemessage();
+			timemessage = " " + timemessage;
+			if ((resthour + ConfigLoader.getTimezone()) >= 24)
+				resthour = 0;
 
 			timemessage = timemessage.replace("%time", ChatColor.GOLD + ""
 					+ (resthour + ConfigLoader.getTimezone()) + ":"
@@ -136,6 +146,8 @@ public class MOTD implements Listener {
 					event.setJoinMessage(joinmessage.concat(" "
 							+ ConfigLoader.getFirstJoinMessage())
 							+ " " + timemessage);
+
+					Questioner.ask(player);
 
 					try {
 						SpawnArea.tospawn(player);
@@ -162,6 +174,7 @@ public class MOTD implements Listener {
 				return;
 			}
 		}
+		
 
 	}
 
@@ -173,34 +186,37 @@ public class MOTD implements Listener {
 			leftmessage = ConfigLoader.getLeftmessage();
 
 			Player player = event.getPlayer();
-			leftmessage = leftmessage.replace("%user",
-					ChatColor.GOLD + player.getName() + ChatColor.WHITE);
+			leftmessage = leftmessage.replace("%user", ChatColor.GOLD
+					+ name(player) + ChatColor.WHITE);
 			leftmessage = leftmessage.replace("%server", ChatColor.GREEN
 					+ Bukkit.getServerName() + ChatColor.WHITE);
 
 			event.setQuitMessage(leftmessage);
-		} 
-		
-		if(getIsMod().get(event.getPlayer()) == true ){
-			
-			Top.doneMe(event.getPlayer());
-			getIsMod().remove(event.getPlayer());
-		}else{
-			SmartServerTool.logger.info(event.getPlayer().getName()+" isn't in Modmode");
 		}
-		
+
+		if (HashmapHandler.getIsMod(event.getPlayer()) == true) {
+
+			Top.doneMe(event.getPlayer());
+			HashmapHandler.removePlayerMOD(event.getPlayer());
+		} else {
+			SmartServerTool.logger.info(event.getPlayer().getName()
+					+ " isn't in Modmode");
+		}
+
 		return;
 	}
 
-	/**
-	 * @return the isMod
-	 */
-	public static HashMap<Player, Boolean> getIsMod() {
-		return isMod;
-	}
+	public static String name(Player player) {
 
-	public static void setIsMOD(HashMap<Player, Boolean> be) {
-		isMod = be;
+		String userDisName = null;
+
+		if (player.getName().equals("SmartServerTool")) {
+			userDisName = "*Console";
+		} else {
+			userDisName = player.getName();
+		}
+
+		return userDisName;
 	}
 
 }

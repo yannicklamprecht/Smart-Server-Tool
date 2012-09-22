@@ -19,16 +19,9 @@ public class Inviter {
 				p.performCommand("whitelist add "+args[0]);
 				p.sendMessage("You've invited "+ args[0]);
 				
-			}else if(args.length == 2){
-				Player p = (Player) sender;
-				
-				p.performCommand("whitelist add "+args[0]);
-				p.performCommand("whitelist add "+args[1]);
-				p.sendMesage("You've invited "+args[0]+", "+args[1]);
-				
 			}
 		}else if(commandLabel.equalsIgnoreCase("invite") && !sender.hasPermission("sst.invite")){
-			sender.sendMessage("sst.invite");
+			sender.sendMessage(SmartServerTool.noperms+" sst.invite");
 		}
 	}
 }

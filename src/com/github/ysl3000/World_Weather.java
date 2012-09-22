@@ -1,11 +1,11 @@
 package com.github.ysl3000;
 
-public class Welt {
+public class World_Weather {
 
 	
 	private String weltname;
 	private String status;
-	public Welt (String name, String status){
+	public World_Weather (String name, String status){
 		
 		setName(name);
 		setStatus(status);

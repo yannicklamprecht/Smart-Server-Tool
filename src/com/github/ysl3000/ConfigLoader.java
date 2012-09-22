@@ -3,6 +3,10 @@ package com.github.ysl3000;
 public class ConfigLoader {
 
 	private SmartServerTool plugin;
+	
+	//enable/disable Block Player joining
+	
+	private static boolean playerJoining;
 
 	// enable/disable chat-message
 	private static boolean messageing;
@@ -16,6 +20,7 @@ public class ConfigLoader {
 	private static boolean advert;
 	private static long adverttime;
 	private static String advertmessage;
+	private static String advertPrefix;
 
 	// no connect message
 	private static String whitelistmessage;
@@ -56,16 +61,32 @@ public class ConfigLoader {
 	// Nice Feature
 	private static boolean PlayerPressPlate;
 	private static boolean Interact;
-	private static boolean waterstuff;
+
 	
 	private static int defaultstack;
 
 	// saving time
 	private static int savetime;
+	
+	//unlocking
+	private static String answer;
+	private static String dgn;
+	private static String question;
+	
+	//physics
+	private static boolean physicsSand;
+	private static boolean physicsGravel;
+	private static boolean physicsTorch;
+	private static boolean physicsTrapdoor;
+	
 
 	public ConfigLoader(SmartServerTool smartServerTool) {
 		this.plugin = smartServerTool;
 
+		//enable/disable Player Joining
+		
+		playerJoining = this.plugin.getConfig().getBoolean("Join.Player");
+		
 		// enable/disable chat-message
 		messageing = this.plugin.getConfig().getBoolean(
 				"message.enable-Messages");
@@ -84,6 +105,7 @@ public class ConfigLoader {
 				"advertising.time-between-adverts");
 		advertmessage = this.plugin.getConfig().getString(
 				"advertising.advert-message");
+		advertPrefix = this.plugin.getConfig().getString("advertising.advert-prefix");
 
 		// no connect message
 		whitelistmessage = this.plugin.getConfig().getString(
@@ -143,14 +165,30 @@ public class ConfigLoader {
 		// Nice features
 		PlayerPressPlate = this.plugin.getConfig().getBoolean(
 				"Misc.Save-Player-PressPlate");
-		Interact = this.plugin.getConfig().getBoolean("Misc.block-interact");
+		Interact = this.plugin.getConfig().getBoolean("world-setting.disallowinteract");
 		
-		waterstuff = this.plugin.getConfig().getBoolean("Misc.smooth-block");
+		
 		defaultstack = this.plugin.getConfig().getInt("Misc.item-amount");
 		// saving time
 		savetime = this.plugin.getConfig().getInt("config-save-interval");
+		//unlocking
+		answer = this.plugin.getConfig().getString("Question.answer");
+		dgn = this.plugin.getConfig().getString("Question.unlockGroupName");
+		question = this.plugin.getConfig().getString("Question.question");
+		
+		//physics
+		physicsGravel = this.plugin.getConfig().getBoolean("disable-physics.Gravel");
+		physicsSand = this.plugin.getConfig().getBoolean("disable-physics.Sand");
+		physicsTorch = this.plugin.getConfig().getBoolean("disable-physics.Torch");
+		physicsTrapdoor = this.plugin.getConfig().getBoolean("disable-physics.Trapdoor");
 	}
 
+	//disable/enable PlayerJoining
+	
+	public static boolean isBloggingPlayerJoin(){
+		return playerJoining;
+	}
+	
 	// nice feature Misc
 
 	public static boolean isPlayerPressPlate() {
@@ -162,9 +200,7 @@ public class ConfigLoader {
 	public static int getDefaultStack(){
 		return defaultstack;
 	}
-	public static boolean isSmoothBlock(){
-		return waterstuff;
-	}
+	
 	
 
 	// messaging
@@ -208,6 +244,9 @@ public class ConfigLoader {
 		return advertmessage;
 	}
 
+	public static String getAdvertPrefix(){
+		return advertPrefix;
+	}
 	// no connect message
 	public static String getWhitelistmessage() {
 		return whitelistmessage;
@@ -322,6 +361,32 @@ public class ConfigLoader {
 	public static int getSaveTimeInterval() {
 
 		return savetime;
+	}
+	
+	//unlocking
+	public static String getAnswer(){
+		return answer;
+	}
+	public static String getDGN(){
+		return dgn;
+	}
+	public static String getQuestion(){
+		return question;
+	}
+	
+	//physics
+	
+	public static boolean getPhysicsSand(){
+		return physicsSand;
+	}
+	public static boolean getPhysicsTorch(){
+		return physicsTorch;
+	}
+	public static boolean getPhysicsTrapdoor(){
+		return physicsTrapdoor;
+	}
+	public static boolean getPhysicsGravel(){
+		return physicsGravel;
 	}
 
 }

@@ -7,7 +7,7 @@ import org.bukkit.entity.Player;
 public class Weather {
 
 	
-	private static Welt welt = new Welt("world", "default");
+	private static World_Weather welt = new World_Weather("world", "default");
 
 	public static boolean changeWeather(Player player, String command) throws Exception {
 

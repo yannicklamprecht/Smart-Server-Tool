@@ -31,8 +31,7 @@ public class Top {
 				try {
 					mod(player, args);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-
+					
 				}
 			}
 
@@ -81,7 +80,7 @@ public class Top {
 
 				Prefix.Pfix(target);
 				
-				MOTD.getIsMod().put(target, false);
+				HashmapHandler.setIsMOD(target, false);
 			}
 
 		}
@@ -108,7 +107,7 @@ public class Top {
 			player.setGameMode(GameMode.CREATIVE);
 			player.sendMessage((ChatColor.GREEN + "Modmode enabled"));
 			
-			MOTD.getIsMod().put(player, true);
+			HashmapHandler.setIsMOD(player, true);
 
 			PluginNameConversationPrefix pre = new PluginNameConversationPrefix(SmartServerTool.plugin, " ", ChatColor.GOLD); 
 			player.setDisplayName(pre + player.getDisplayName());
@@ -122,7 +121,7 @@ public class Top {
 			target.getInventory().clear();
 			target.setGameMode(GameMode.CREATIVE);
 
-			MOTD.getIsMod().put(target, true);
+			HashmapHandler.setIsMOD(target, true);
 			player.sendMessage((ChatColor.GREEN + "modmode enabled for "
 					+ ChatColor.GOLD + target.getName()));
 			target.sendMessage((ChatColor.GREEN + "modmode enabled"));
@@ -192,7 +191,7 @@ public class Top {
 		player.setGameMode(GameMode.SURVIVAL);
 		player.sendMessage((ChatColor.RED + "Modmode disabled"));
 
-		MOTD.getIsMod().put(player, false);
+		HashmapHandler.setIsMOD(player, false);
 		return false;
 
 	}

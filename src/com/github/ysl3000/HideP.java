@@ -21,7 +21,7 @@ public class HideP {
 				Player player = (Player) sender;
 
 				player.sendMessage("You were hidden");
-				player.getPlayerListName();
+				
 				player.setPlayerListName(ChatColor.BLUE + "[H]"
 						+ ChatColor.RESET + player.getDisplayName());
 				player.setDisplayName(ChatColor.BLUE + "[H]" + ChatColor.RESET
@@ -33,6 +33,8 @@ public class HideP {
 					}
 
 				}
+				
+				HashmapHandler.setHiddenStatus(player, true);
 
 			} else if ((command.equalsIgnoreCase("show"))
 					&& (sender.hasPermission("sst.visible"))) {
@@ -46,10 +48,24 @@ public class HideP {
 					p.showPlayer((Player)sender);
 				}
 
+				HashmapHandler.setHiddenStatus((Player)sender, false);
 			}
 		}
 
 		return true;
 
+	}
+	
+	public static void runOnJoin(Player p){
+		
+		for(Player pl : Bukkit.getServer().getOnlinePlayers()){
+			
+			if(HashmapHandler.isHiddenStatus(pl)){
+				
+				p.hidePlayer(pl);
+			}
+			
+			
+		}
 	}
 }

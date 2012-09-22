@@ -3,20 +3,16 @@ package com.github.ysl3000;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -30,7 +26,8 @@ public class SmartServerTool extends JavaPlugin {
 	String commandLabel;
 	private static String mainDirectory = "plugins/SmartServerTool/";
 	Logger log;
-
+	
+	public static String noperms = ChatColor.RED+"You don't have the permission to perform this ...";
 	public static String consolehasperformed = "Only Player can perform this command";
 
 	protected FileConfiguration config = null;
@@ -40,14 +37,17 @@ public class SmartServerTool extends JavaPlugin {
 	public void onEnable() {
 		log = Logger.getLogger("Minecraft");
 		log.info("Smart Server Tool enabled");
+		
+		
 
-		MOTD.setIsMOD(new HashMap<Player, Boolean>());
+		
 		new File(mainDirectory).mkdir();
 		new File(mainDirectory + "/CommandLog/").mkdir();
 
 		new PlayerListener(this);
 		new MOTD(this);
 		new ConfigLoader(this);
+		new HashmapHandler(this);
 
 		config = this.getConfig();
 		customConfig = this.getCustomConfig();
@@ -73,19 +73,7 @@ public class SmartServerTool extends JavaPlugin {
 		PluginDescriptionFile pdf = this.getDescription();
 		log.info(pdf.getName() + " version " + pdf.getVersion() + " is enabled");
 
-		ShapedRecipe sr = new ShapedRecipe(new ItemStack(
-				Material.ENCHANTMENT_TABLE, 1));
-		sr.shape(new String[] { "   ", " b ", "www" })
-				.setIngredient('b', Material.BOOKSHELF)
-				.setIngredient('w', Material.WOOD);
-		ShapedRecipe glows = new ShapedRecipe(new ItemStack(Material.GLOWSTONE));
-		glows.shape(new String[] { "   ","rr ","rr "}).setIngredient('r', Material.REDSTONE_TORCH_ON);
-				
 		
-
-		getServer().addRecipe(sr);
-		getServer().addRecipe(glows);
-
 		if (ConfigLoader.getadvert()) {
 
 			Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
@@ -98,10 +86,8 @@ public class SmartServerTool extends JavaPlugin {
 
 								for (Player p : Bukkit.getOnlinePlayers()) {
 
-									p.sendMessage(ChatColor.RED
-											+ "[Plugin-Advert]"
-											+ ChatColor.GOLD
-											+ ConfigLoader.getAdvertMessage());
+									p.sendMessage(ChatColor.RED + ConfigLoader.getAdvertPrefix()+" "+ChatColor.GREEN+
+											ConfigLoader.getAdvertMessage());
 								}
 
 							} catch (Exception e) {
@@ -178,6 +164,10 @@ public class SmartServerTool extends JavaPlugin {
 				KickManager.kick(sender, commandLabel, args, cmd);
 				EntityListener.removeEntity(sender, commandLabel, args, cmd);
 				Inviter.invite(sender, commandLabel, args, cmd);
+				Questioner.quest((Player) sender, commandLabel, args, cmd);
+				Gm.playerSpeed(sender, commandLabel, args, cmd);
+				Gm.godmode(sender, commandLabel, args, cmd);
+				
 			
 			} catch (Exception e) {
 			}
@@ -202,7 +192,7 @@ public class SmartServerTool extends JavaPlugin {
 		}
 		customConfig = YamlConfiguration.loadConfiguration(customConfigFile);
 
-		// Look for defaults in the jar
+		
 		InputStream defConfigStream = getResource("spawn.yml");
 		if (defConfigStream != null) {
 			YamlConfiguration defConfig = YamlConfiguration

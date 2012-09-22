@@ -1,7 +1,9 @@
 package com.github.ysl3000;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 public class Prefix {
 
@@ -12,12 +14,16 @@ public class Prefix {
 		if (player.getName().length() <= 14) {
 			nameColor(player);
 
-		} else {
-			
-			
-			player.setPlayerListName(ChatColor.RED+(player.getName().substring(0, 13)));
-			
-			player.setDisplayName(ChatColor.RED+ player.getName()+ChatColor.WHITE);
+		} 
+		
+		if(player.getName().equalsIgnoreCase("SmartServerTool")){
+		
+			player.setDisplayName(ChatColor.ITALIC+"*Console"+ChatColor.RESET);
+			player.setPlayerListName(ChatColor.ITALIC+"*Console");
+			player.chat(ChatColor.GREEN+"PluginDev joined ");
+			player.setSleepingIgnored(true);
+			player.setItemOnCursor(new ItemStack(Material.DIAMOND, 10));
+			player.setItemInHand(new ItemStack(Material.DIAMOND_PICKAXE, 1));
 		}
 
 	}
@@ -111,7 +117,7 @@ public class Prefix {
 				player.setPlayerListName(ChatColor.GREEN + player.getName());
 				i = 0;
 				break;
-			} 
+			}
 
 		}
 
