@@ -26,8 +26,9 @@ public class SmartServerTool extends JavaPlugin {
 	String commandLabel;
 	private static String mainDirectory = "plugins/SmartServerTool/";
 	Logger log;
-	
-	public static String noperms = ChatColor.RED+"You don't have the permission to perform this ...";
+
+	public static String noperms = ChatColor.RED
+			+ "You don't have the permission to perform this ...";
 	public static String consolehasperformed = "Only Player can perform this command";
 
 	protected FileConfiguration config = null;
@@ -37,10 +38,7 @@ public class SmartServerTool extends JavaPlugin {
 	public void onEnable() {
 		log = Logger.getLogger("Minecraft");
 		log.info("Smart Server Tool enabled");
-		
-		
 
-		
 		new File(mainDirectory).mkdir();
 		new File(mainDirectory + "/CommandLog/").mkdir();
 
@@ -73,7 +71,6 @@ public class SmartServerTool extends JavaPlugin {
 		PluginDescriptionFile pdf = this.getDescription();
 		log.info(pdf.getName() + " version " + pdf.getVersion() + " is enabled");
 
-		
 		if (ConfigLoader.getadvert()) {
 
 			Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
@@ -86,8 +83,10 @@ public class SmartServerTool extends JavaPlugin {
 
 								for (Player p : Bukkit.getOnlinePlayers()) {
 
-									p.sendMessage(ChatColor.RED + ConfigLoader.getAdvertPrefix()+" "+ChatColor.GREEN+
-											ConfigLoader.getAdvertMessage());
+									p.sendMessage(ChatColor.RED
+											+ ConfigLoader.getAdvertPrefix()
+											+ " " + ChatColor.GREEN
+											+ ConfigLoader.getAdvertMessage());
 								}
 
 							} catch (Exception e) {
@@ -162,13 +161,14 @@ public class SmartServerTool extends JavaPlugin {
 				HideP.hide(sender, commandLabel, args, cmd);
 				ItemMan.item((Player) sender, commandLabel, args, cmd);
 				KickManager.kick(sender, commandLabel, args, cmd);
-				EntityListener.removeEntity(sender, commandLabel, args, cmd);
+				EntityManager.removeEntity(sender, commandLabel, args, cmd);
 				Inviter.invite(sender, commandLabel, args, cmd);
 				Questioner.quest((Player) sender, commandLabel, args, cmd);
 				Gm.playerSpeed(sender, commandLabel, args, cmd);
 				Gm.godmode(sender, commandLabel, args, cmd);
-				
-			
+				ChannelChat.ManageChannel(sender, commandLabel, args, cmd);
+				NickName.Nick(sender, commandLabel, args, cmd);
+
 			} catch (Exception e) {
 			}
 
@@ -192,7 +192,6 @@ public class SmartServerTool extends JavaPlugin {
 		}
 		customConfig = YamlConfiguration.loadConfiguration(customConfigFile);
 
-		
 		InputStream defConfigStream = getResource("spawn.yml");
 		if (defConfigStream != null) {
 			YamlConfiguration defConfig = YamlConfiguration
@@ -219,5 +218,7 @@ public class SmartServerTool extends JavaPlugin {
 					"Could not save config to " + customConfigFile, ex);
 		}
 	}
+
+	
 
 }

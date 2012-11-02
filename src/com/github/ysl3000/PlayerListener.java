@@ -1,22 +1,32 @@
 package com.github.ysl3000;
 
 import java.util.Random;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.CreatureSpawner;
+import org.bukkit.block.Dispenser;
+import org.bukkit.enchantments.EnchantmentWrapper;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Minecart;
 import org.bukkit.entity.Player;
+import org.bukkit.entity.PoweredMinecart;
+import org.bukkit.entity.StorageMinecart;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockBurnEvent;
+import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockIgniteEvent.IgniteCause;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.block.LeavesDecayEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
@@ -29,7 +39,9 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.event.vehicle.VehicleBlockCollisionEvent;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
+import org.bukkit.event.vehicle.VehicleMoveEvent;
 import org.bukkit.inventory.ItemStack;
 
 public class PlayerListener implements Listener {
@@ -87,7 +99,7 @@ public class PlayerListener implements Listener {
 			player.sendMessage("Op-status: " + target.isOp());
 			player.sendMessage("Gamemode: " + target.getGameMode());
 			player.sendMessage("XP: " + target.getTotalExperience());
-			player.sendMessage("XP-Level: " + target.getExpToLevel());
+			player.sendMessage("XP-Level: " + target.getLevel());
 
 		}
 
@@ -100,7 +112,7 @@ public class PlayerListener implements Listener {
 
 		event.setCancelled(false);
 
-		if (player.hasPermission("sst.break")) {
+		if (player.hasPermission("sst.create")) {
 
 			BlockDrops(event);
 
@@ -114,7 +126,7 @@ public class PlayerListener implements Listener {
 	@EventHandler(priority = EventPriority.LOW)
 	public void onbuild(BlockPlaceEvent event) throws Exception {
 
-		event.setCancelled(event.getPlayer().hasPermission("sst.build") ? false
+		event.setCancelled(event.getPlayer().hasPermission("sst.create") ? false
 				: ConfigLoader.isBbuild());
 	}
 
@@ -175,11 +187,15 @@ public class PlayerListener implements Listener {
 							.getClickedBlock().getType()
 							.equals(Material.BED_BLOCK))) {
 
-				event.getPlayer().setBedSpawnLocation(
-						event.getClickedBlock().getLocation());
-				event.getPlayer().sendMessage(
-						ChatColor.BLUE + "Bedspawn location set!");
+				if (event.getPlayer().getWorld().getTime() <= 13000
+						&& event.getPlayer().getWorld().getTime() >= 0) {
 
+					event.setCancelled(true);
+					event.getPlayer().setBedSpawnLocation(
+							event.getClickedBlock().getLocation());
+					event.getPlayer().sendMessage(
+							ChatColor.BLUE + "Bedspawn location set!");
+				}
 			}
 		} else {
 			return;
@@ -190,8 +206,55 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void Interact(PlayerInteractEvent event) {
 
-		event.setCancelled(event.getPlayer().hasPermission("sst.interact") ? event
-				.isCancelled() : ConfigLoader.isInteract());
+		try {
+			if (event.getItem().getType().equals(Material.WATER_LILY)) {
+				return;
+			} else if (event.getItem().getType().equals(Material.APPLE)) {
+				return;
+			} else if (event.getItem().getType().equals(Material.BOW)) {
+				return;
+			} else if (event.getItem().getType().equals(Material.GOLDEN_APPLE)) {
+				return;
+			} else if (event.getItem().getType().equals(Material.ROTTEN_FLESH)) {
+				return;
+			} else if (event.getItem().getType().equals(Material.GRILLED_PORK)) {
+				return;
+			} else if (event.getItem().getType().equals(Material.COOKED_BEEF)) {
+				return;
+			} else if (event.getItem().getType()
+					.equals(Material.COOKED_CHICKEN)) {
+				return;
+			} else if (event.getItem().getType().equals(Material.COOKED_FISH)) {
+				return;
+			} else if (event.getItem().getType().equals(Material.COOKIE)) {
+				return;
+			} else if (event.getItem().getType().equals(Material.MELON)) {
+				return;
+			} else if (event.getItem().getType().equals(Material.RAW_BEEF)) {
+				return;
+			} else if (event.getItem().getType().equals(Material.RAW_CHICKEN)) {
+				return;
+			} else if (event.getItem().getType().equals(Material.RAW_FISH)) {
+				return;
+			} else if (event.getItem().getType().equals(Material.MUSHROOM_SOUP)) {
+				return;
+			} else if (event.getItem().getType().equals(Material.SPIDER_EYE)) {
+				return;
+			} else if (event.getItem().getType().equals(Material.FISHING_ROD)) {
+				return;
+			} else if (event.getPlayer().hasPermission("sst.create")) {
+
+				return;
+
+			} else if (!event.getPlayer().hasPermission("sst.create")) {
+
+				event.setCancelled(ConfigLoader.isInteract() ? true : event
+						.isCancelled());
+
+			}
+		} catch (Exception e) {
+
+		}
 
 	}
 
@@ -208,8 +271,6 @@ public class PlayerListener implements Listener {
 		if (event.getCause().equals(IgniteCause.LAVA)) {
 
 			event.setCancelled(ConfigLoader.isLavaspread());
-		} else if (event.getCause().equals(IgniteCause.FLINT_AND_STEEL)) {
-			event.setCancelled(ConfigLoader.isFlint_and_steal_spread());
 		} else if (event.getCause().equals(IgniteCause.LIGHTNING)) {
 			event.setCancelled(ConfigLoader.isLightning_spread());
 		} else if (event.getCause().equals(IgniteCause.SPREAD)) {
@@ -230,6 +291,10 @@ public class PlayerListener implements Listener {
 
 		if (!event.isCancelled()) {
 
+			if (event.getPlayer().getItemInHand().getEnchantments()
+					.containsKey(new EnchantmentWrapper(33)))
+				return;
+
 			Random rando = new Random();
 			if (event.getBlock().getType().equals(Material.DIAMOND_ORE)) {
 
@@ -245,15 +310,14 @@ public class PlayerListener implements Listener {
 
 			} else if (event.getBlock().getType().equals(Material.LEAVES)) {
 
-				if (rando.nextInt(ConfigLoader.getAppleDropChance()) == 1
-						|| ConfigLoader.getAppleDropChance() == 1) {
-					if (ConfigLoader.isappleDrop()) {
-						event.getBlock()
-								.getWorld()
-								.dropItem(event.getBlock().getLocation(),
-										new ItemStack(Material.GOLDEN_APPLE, 1));
-					}
-
+				if(ConfigLoader.isAppleShear()){
+				if (event.getPlayer().getItemInHand().getType()
+						.equals(Material.SHEARS)) {
+					event.getBlock()
+							.getWorld()
+							.dropItem(event.getBlock().getLocation(),
+									new ItemStack(Material.GOLDEN_APPLE, 1));
+				}
 				}
 
 			} else if (event.getBlock().getTypeId() == 102) {
@@ -332,7 +396,8 @@ public class PlayerListener implements Listener {
 	public void vehiclecoll(VehicleDestroyEvent e) {
 		e.setCancelled(e.getVehicle().getType().equals(Material.BOAT)
 				|| e.getVehicle().getType().equals(Material.MINECART)
-				&& e.getAttacker() == null ? true : e.isCancelled());
+				&& (e.getAttacker() == null) ? true : e.isCancelled());
+
 	}
 
 	@EventHandler
@@ -360,6 +425,244 @@ public class PlayerListener implements Listener {
 				.isCancelled() : true);
 	}
 
-	
+	@EventHandler
+	public void onChat(AsyncPlayerChatEvent event) {
 
+		if (event.getMessage().startsWith("@")) {
+
+			if (event.getMessage().startsWith("@all ")) {
+
+				event.setMessage(event.getMessage().substring(5));
+				event.setFormat(ChatColor.AQUA + "[global]"
+						+ event.getPlayer().getDisplayName() + ": "
+						+ event.getMessage());
+				return;
+			} else if (event.getMessage().startsWith("@op ")) {
+
+				event.setMessage(event.getMessage().substring(4));
+				removeRecipients(event, ChatColor.RED + "[Need-OP]", true);
+				event.getPlayer().sendMessage(ChatColor.GRAY + "Request sent!");
+			} else {
+				try {
+					String[] cs = event.getMessage().split(" ");
+					Bukkit.getPlayer(
+							event.getMessage().substring(1, cs[0].length()))
+							.sendMessage(privateMessage(event, cs));
+					event.getPlayer().sendMessage(privateMessage(event, cs));
+				} catch (Exception e) {
+					event.getPlayer().sendMessage(
+							ChatColor.RED + "Player not found");
+				}
+				event.setCancelled(true);
+			}
+		} else {
+			if (HashmapHandler.getChannel(event.getPlayer().getName())
+					.equalsIgnoreCase("g")) {
+				event.setFormat(ChatColor.AQUA + "[global]"
+						+ event.getPlayer().getDisplayName() + ": "
+						+ event.getMessage());
+			} else {
+				removeRecipients(event,
+						HashmapHandler.getChannel(event.getPlayer().getName()),
+						false);
+			}
+		}
+
+	}
+
+	public static String privateMessage(AsyncPlayerChatEvent event, String[] cs) {
+
+		return ChatColor.GRAY
+				+ "(from "
+				+ event.getPlayer().getDisplayName()
+				+ ChatColor.GRAY
+				+ " to "
+				+ Bukkit.getPlayer(
+						event.getMessage().substring(1, cs[0].length()))
+						.getDisplayName() + ChatColor.GRAY + "): "
+				+ ChatColor.RESET
+				+ event.getMessage().substring(cs[0].length() + 1);
+	}
+
+	@EventHandler
+	public void onPlayerCreatureSpawnerChange(PlayerInteractEvent e) {
+
+		if (e.getClickedBlock() == null)
+			return;
+		if (e.getClickedBlock().getType().equals(Material.MOB_SPAWNER)
+				&& e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+
+			if (e.getPlayer().hasPermission("sst.changetype")) {
+				if ((e.getClickedBlock().getState() instanceof CreatureSpawner)) {
+
+					CreatureSpawner cs = (CreatureSpawner) e.getClickedBlock()
+							.getState();
+
+					if (cs.getSpawnedType().equals(EntityType.ZOMBIE)) {
+						cs.setSpawnedType(EntityType.BLAZE);
+					} else if (cs.getSpawnedType().equals(EntityType.BLAZE)) {
+						cs.setSpawnedType(EntityType.CAVE_SPIDER);
+					} else if (cs.getSpawnedType().equals(
+							EntityType.CAVE_SPIDER)) {
+						cs.setSpawnedType(EntityType.CHICKEN);
+					} else if (cs.getSpawnedType().equals(EntityType.CHICKEN)) {
+						cs.setSpawnedType(EntityType.COW);
+					} else if (cs.getSpawnedType().equals(EntityType.COW)) {
+						cs.setSpawnedType(EntityType.CREEPER);
+					} else if (cs.getSpawnedType().equals(EntityType.CREEPER)) {
+						cs.setSpawnedType(EntityType.ENDER_DRAGON);
+					} else if (cs.getSpawnedType().equals(
+							EntityType.ENDER_DRAGON)) {
+						cs.setSpawnedType(EntityType.ENDERMAN);
+					} else if (cs.getSpawnedType().equals(EntityType.ENDERMAN)) {
+						cs.setSpawnedType(EntityType.GHAST);
+					} else if (cs.getSpawnedType().equals(EntityType.GHAST)) {
+						cs.setSpawnedType(EntityType.GIANT);
+					} else if (cs.getSpawnedType().equals(EntityType.GIANT)) {
+						cs.setSpawnedType(EntityType.MAGMA_CUBE);
+					} else if (cs.getSpawnedType()
+							.equals(EntityType.MAGMA_CUBE)) {
+						cs.setSpawnedType(EntityType.MUSHROOM_COW);
+					} else if (cs.getSpawnedType().equals(
+							EntityType.MUSHROOM_COW)) {
+						cs.setSpawnedType(EntityType.PIG);
+					} else if (cs.getSpawnedType().equals(EntityType.PIG)) {
+						cs.setSpawnedType(EntityType.PIG_ZOMBIE);
+					} else if (cs.getSpawnedType()
+							.equals(EntityType.PIG_ZOMBIE)) {
+						cs.setSpawnedType(EntityType.SHEEP);
+					} else if (cs.getSpawnedType().equals(EntityType.SHEEP)) {
+						cs.setSpawnedType(EntityType.SILVERFISH);
+					} else if (cs.getSpawnedType()
+							.equals(EntityType.SILVERFISH)) {
+						cs.setSpawnedType(EntityType.SKELETON);
+					} else if (cs.getSpawnedType().equals(EntityType.SKELETON)) {
+						cs.setSpawnedType(EntityType.SLIME);
+					} else if (cs.getSpawnedType().equals(EntityType.SLIME)) {
+						cs.setSpawnedType(EntityType.SNOWMAN);
+					} else if (cs.getSpawnedType().equals(EntityType.SNOWMAN)) {
+						cs.setSpawnedType(EntityType.SPIDER);
+					} else if (cs.getSpawnedType().equals(EntityType.SPIDER)) {
+						cs.setSpawnedType(EntityType.SQUID);
+					} else if (cs.getSpawnedType().equals(EntityType.SQUID)) {
+						cs.setSpawnedType(EntityType.VILLAGER);
+					} else if (cs.getSpawnedType().equals(EntityType.VILLAGER)) {
+						cs.setSpawnedType(EntityType.WOLF);
+					} else if (cs.getSpawnedType().equals(EntityType.WOLF)) {
+						cs.setSpawnedType(EntityType.ZOMBIE);
+					}
+
+					e.getPlayer().sendMessage(
+							"Mobtype set to " + cs.getCreatureTypeName());
+				}
+			}
+		}
+
+	}
+
+	public static void removeRecipients(AsyncPlayerChatEvent event,
+			String channelname, boolean opCall) {
+
+		Player[] recipients = event.getRecipients().toArray(new Player[0]);
+
+		for (int i = 0; i < recipients.length; i++) {
+
+			if (opCall) {
+
+				if (!recipients[i].isOp()) {
+					event.getRecipients().remove(recipients[i]);
+				}
+
+			} else {
+				if (!(HashmapHandler.getChannel(recipients[i].getName())
+						.equalsIgnoreCase(HashmapHandler.getChannel(event
+								.getPlayer().getName())))) {
+
+					event.getRecipients().remove(recipients[i]);
+
+				}
+			}
+
+			event.setFormat(channelname + event.getPlayer().getDisplayName()
+					+ ": " + event.getMessage());
+
+		}
+
+	}
+
+	@EventHandler
+	public void leaveDecay(LeavesDecayEvent e) {
+
+		Random random2 = new Random();
+
+		if (random2.nextInt(ConfigLoader.getAppleDropChance()) == 1
+				|| ConfigLoader.getAppleDropChance() == 1) {
+			if (ConfigLoader.isappleDrop()) {
+				e.getBlock()
+						.getWorld()
+						.dropItem(e.getBlock().getLocation(),
+								new ItemStack(Material.GOLDEN_APPLE, 1));
+			}
+
+		}
+
+	}
+
+	@EventHandler
+	public void colly(VehicleBlockCollisionEvent e) {
+
+		if (e.getBlock().getType().equals(Material.DISPENSER)) {
+
+			e.getVehicle().leaveVehicle();
+			e.getVehicle().remove();
+
+			if (e.getBlock().getState() instanceof Dispenser) {
+				Dispenser dp = (Dispenser) e.getBlock().getState();
+
+				if (e.getVehicle() instanceof StorageMinecart) {
+
+					dp.getInventory().addItem(
+							new ItemStack(Material.STORAGE_MINECART));
+				} else if (e.getVehicle() instanceof PoweredMinecart) {
+					dp.getInventory().addItem(
+							new ItemStack(Material.POWERED_MINECART));
+				} else if (e.getVehicle() instanceof Minecart) {
+
+					dp.getInventory().addItem(new ItemStack(Material.MINECART));
+				}
+
+			}
+
+		}
+
+	}
+
+	@EventHandler
+	public void spawny(BlockDispenseEvent e) {
+
+		if (e.getItem().getType().equals(Material.MINECART)
+				|| e.getItem().getType().equals(Material.STORAGE_MINECART)
+				|| e.getItem().getType().equals(Material.POWERED_MINECART)) {
+			if (e.getBlock().getState() instanceof Dispenser) {
+				Dispenser dp = (Dispenser) e.getBlock().getState();
+				dp.getInventory().addItem(e.getItem());
+			}
+		}
+
+	}
+
+	@EventHandler
+	public void speedingMC(VehicleMoveEvent e) {
+
+		Block b = e.getVehicle()
+				.getLocation()
+				.getBlock();
+		
+		Block br = b.getRelative(b.getX(), b.getY()-1, b.getZ());
+		
+		if(br.getType().equals(Material.WOOL)){
+			
+			e.getVehicle().getVelocity();
+		}
+	}
 }

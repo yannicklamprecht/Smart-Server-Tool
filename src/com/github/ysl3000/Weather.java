@@ -14,7 +14,7 @@ public class Weather {
 		final World world = player.getWorld();
 		
 		if (command.equalsIgnoreCase("sun")
-				&& player.hasPermission("sst.sun")) {
+				&& player.hasPermission("sst.weather")) {
 
 			world.setThundering(false);
 			world.setStorm(false);
@@ -24,7 +24,7 @@ public class Weather {
 
 
 		} else if (command.equalsIgnoreCase("storm")
-				&& player.hasPermission("sst.storm")) {
+				&& player.hasPermission("sst.weather")) {
 
 			world.setStorm(true);
 			world.setThundering(true);

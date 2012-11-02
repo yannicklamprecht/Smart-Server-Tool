@@ -1,5 +1,6 @@
 package com.github.ysl3000;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
@@ -15,19 +16,29 @@ public class Questioner {
 			} else if (args.length == 1) {
 
 				if (args[0].equalsIgnoreCase(ConfigLoader.getAnswer())) {
+					
+					
 
+					
 					try {
 
-						player.performCommand("manuadd " + player.getName()
+						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "manuadd " + player.getName()
 								+ " " + ConfigLoader.getDGN());
+						
+						/*player.performCommand("manuadd " + player.getName()
+								+ " " + ConfigLoader.getDGN());*/
 
 						// manuadd ysl3000 Builder
 						// Groupmanager
 
 					} catch (Exception e) {
 
-						player.performCommand("pex user " + player.getName()
+						
+						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "pex user " + player.getName()
 								+ " group set " + ConfigLoader.getDGN());
+						
+						/*player.performCommand("pex user " + player.getName()
+								+ " group set " + ConfigLoader.getDGN());*/
 
 						// pex user <user> group set <group>
 						// Permissions EX

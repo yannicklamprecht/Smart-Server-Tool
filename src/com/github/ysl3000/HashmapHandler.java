@@ -13,6 +13,7 @@ public class HashmapHandler {
 	private static HashMap<Player, Boolean> isGod = new HashMap<Player, Boolean>();
 	private static HashMap<Player, Boolean> isFly = new HashMap<Player, Boolean>();
 	private static HashMap<Player, Boolean> isHidden = new HashMap<Player, Boolean>();
+	private static HashMap<String, String> Channel = new HashMap<String, String>();
 
 	public HashmapHandler(SmartServerTool plugin) {
 		isMod = new HashMap<Player, Boolean>();
@@ -21,6 +22,7 @@ public class HashmapHandler {
 		isGod = new HashMap<Player, Boolean>();
 		isFly = new HashMap<Player, Boolean>();
 		isHidden = new HashMap<Player, Boolean>();
+		Channel = new HashMap<String, String>();
 	}
 
 	public static boolean getIsMod(Player p) {
@@ -73,5 +75,15 @@ public class HashmapHandler {
 	}
 	public static void setHiddenStatus(Player p, boolean hidden){
 		isHidden.put(p, hidden);
+	}
+	public static String getChannel(String name){
+		return HashmapHandler.Channel.get(name);
+	}
+	public static void setChannel(String name, String Channel){
+		HashmapHandler.Channel.put(name, Channel);
+
+	}
+	public static HashMap<String, String> getChannelhashmap(){
+		return HashmapHandler.Channel;
 	}
 }

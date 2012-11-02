@@ -10,13 +10,20 @@ public class ConfigLoader {
 
 	// enable/disable chat-message
 	private static boolean messageing;
+	
 
 	// chat messages
 	private static String firstjoin;
 	private static String joinmessage;
+	private static String privateJoinMessage;
 	private static String leftmessage;
+	private static String userAmountMessage;
 	private static int timezone;
 	private static String timemessage;
+	private static boolean chatcolor;
+	
+	
+	//advert
 	private static boolean advert;
 	private static long adverttime;
 	private static String advertmessage;
@@ -35,6 +42,7 @@ public class ConfigLoader {
 	private static boolean diamond;
 	private static boolean appleDrop;
 	private static boolean xpsave;
+	private static boolean appleshear;
 	// dropchance
 	private static int diamondDropChance;
 	private static int appleDropChance;
@@ -55,12 +63,13 @@ public class ConfigLoader {
 	private static boolean blockburn;
 	private static boolean lavaspread;
 	private static boolean normalspread;
-	private static boolean flint_and_steal_spread;
 	private static boolean lightning_spread;
 
 	// Nice Feature
 	private static boolean PlayerPressPlate;
 	private static boolean Interact;
+	private static boolean sleepingIgnored;
+	private static String ap;
 
 	
 	private static int defaultstack;
@@ -94,9 +103,12 @@ public class ConfigLoader {
 		// chat messages
 		firstjoin = this.plugin.getConfig().getString("message.firstjoin");
 		joinmessage = this.plugin.getConfig().getString("message.message");
+		privateJoinMessage = this.plugin.getConfig().getString("message.privatejoinmessage");
 		leftmessage = this.plugin.getConfig().getString("message.leftmessage");
 		timezone = this.plugin.getConfig().getInt("timezone");
 		timemessage = this.plugin.getConfig().getString("message.timemessage");
+		chatcolor = this.plugin.getConfig().getBoolean("message.enable-random-chatcolor");
+		
 
 		// Advertising
 		advert = this.plugin.getConfig()
@@ -139,7 +151,8 @@ public class ConfigLoader {
 		diamond = this.plugin.getConfig().getBoolean("drops.diamond-ore-drop");
 		appleDrop = this.plugin.getConfig().getBoolean("drops.apple-drop");
 		xpsave = this.plugin.getConfig().getBoolean("world-setting.xpsave");
-
+		appleshear = this.plugin.getConfig().getBoolean("drops.goldenapple-shear");
+		
 		// dropChance
 		diamondDropChance = this.plugin.getConfig().getInt(
 				"chance.diamond-drop-rate");
@@ -157,8 +170,7 @@ public class ConfigLoader {
 				"world-setting.prevent-lava-spread");
 		normalspread = this.plugin.getConfig().getBoolean(
 				"world-setting.general-spread");
-		flint_and_steal_spread = this.plugin.getConfig().getBoolean(
-				"world-setting.flint-and-steal-spread");
+		
 		lightning_spread = this.plugin.getConfig().getBoolean(
 				"world-setting.strike-spread");
 
@@ -166,7 +178,8 @@ public class ConfigLoader {
 		PlayerPressPlate = this.plugin.getConfig().getBoolean(
 				"Misc.Save-Player-PressPlate");
 		Interact = this.plugin.getConfig().getBoolean("world-setting.disallowinteract");
-		
+		sleepingIgnored = this.plugin.getConfig().getBoolean("Misc.Sleeping-Ignored");
+		ap = this.plugin.getConfig().getString("Misc.adminchat-password");
 		
 		defaultstack = this.plugin.getConfig().getInt("Misc.item-amount");
 		// saving time
@@ -200,7 +213,13 @@ public class ConfigLoader {
 	public static int getDefaultStack(){
 		return defaultstack;
 	}
-	
+	public static boolean isSleepingIgnored(){
+		return sleepingIgnored;
+	}
+	public static String getAdminpassword(){
+		
+		return ap;
+	}
 	
 
 	// messaging
@@ -228,6 +247,17 @@ public class ConfigLoader {
 
 	public static String getJoinmessage() {
 		return joinmessage;
+	}
+	public static String getPrivatJoinMessage(){
+		return privateJoinMessage;
+	}
+	
+	public static String getuserAmountMessage(){
+		return userAmountMessage;
+	}
+	
+	public static boolean getRandomColor(){
+		return chatcolor;
 	}
 
 	// advertising
@@ -314,6 +344,9 @@ public class ConfigLoader {
 	public static boolean isGlassSandDrop() {
 		return glass;
 	}
+	public static boolean isAppleShear(){
+		return appleshear;
+	}
 
 	// dropchance
 	public static int getGlassSandDropChance() {
@@ -346,10 +379,6 @@ public class ConfigLoader {
 
 	public static boolean isNormalspread() {
 		return normalspread;
-	}
-
-	public static boolean isFlint_and_steal_spread() {
-		return flint_and_steal_spread;
 	}
 
 	public static boolean isLightning_spread() {

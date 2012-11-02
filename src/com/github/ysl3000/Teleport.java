@@ -43,7 +43,7 @@ public class Teleport {
 					return;
 				}
 				target1.teleport(target2);
-				player.sendMessage("you teleported "+ target1.getDisplayName()+" to "+target2.getDisplayName());
+				player.sendMessage("You teleported "+ target1.getDisplayName()+" to "+target2.getDisplayName());
 				
 			}else if(args.length == 3){
 				

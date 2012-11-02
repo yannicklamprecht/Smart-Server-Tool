@@ -1,11 +1,9 @@
 package com.github.ysl3000;
 
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-
 import org.bukkit.entity.Player;
-
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -16,10 +14,10 @@ import org.bukkit.event.server.ServerListPingEvent;
 
 public class MOTD implements Listener {
 
-	private String coremessage;
-	private String joinmessage;
-	private String timemessage;
-	private String leftmessage;
+	private static String coremessage;
+	private static String joinmessage;
+	private static String privateJoinmessage;
+	private static String leftmessage;
 
 	public MOTD(SmartServerTool plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -78,7 +76,7 @@ public class MOTD implements Listener {
 			event.setMotd(ConfigLoader.getMaintenanceMessage());
 
 		}
-			}
+	}
 
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
@@ -89,134 +87,184 @@ public class MOTD implements Listener {
 		HashmapHandler.setGod(player, false);
 		HashmapHandler.setFlyStatus(player, false);
 		HashmapHandler.setHiddenStatus(player, false);
-
-		
-		HideP.runOnJoin(player);
-
-		if (ConfigLoader.isMessaging()) {
-
-			long second = (System.currentTimeMillis() / 1000);
-			long minutes = (second / 60);
-			long hour = (minutes / 60);
-			long resthour = (hour % 24);
-			long restminutes = (minutes % 60);
-
-			Prefix.Pfix(player);
-
-			if (player.hasPermission("sst.autofly")) {
-				player.setAllowFlight(true);
-				player.setFlying(true);
-			}
-
-			if (Runtime.getRuntime().availableProcessors() == 1) {
-
-				coremessage = new String(Runtime.getRuntime()
-						.availableProcessors() + " core");
-			} else {
-				coremessage = new String(Runtime.getRuntime()
-						.availableProcessors() + " cores");
-			}
-
-			joinmessage = ConfigLoader.getJoinmessage();
-			joinmessage = joinmessage.replace("%user",
-					ChatColor.GOLD + name(player) + ChatColor.WHITE);
-			joinmessage = joinmessage.replace("%server", ChatColor.GREEN
-					+ Bukkit.getServerName() + ChatColor.WHITE);
-			joinmessage = joinmessage.replace("%core", coremessage);
-
-			timemessage = null;
-
-			timemessage = ConfigLoader.getTimemessage();
-			timemessage = " " + timemessage;
-			if ((resthour + ConfigLoader.getTimezone()) >= 24)
-				resthour = 0;
-
-			timemessage = timemessage.replace("%time", ChatColor.GOLD + ""
-					+ (resthour + ConfigLoader.getTimezone()) + ":"
-					+ restminutes + ChatColor.WHITE);
-
-			if (ConfigLoader.getMaintenance()) {
-
-				event.setJoinMessage(ChatColor.RED
-						+ ConfigLoader.getMaintenanceMessage());
-			} else {
-
-				if (!player.hasPlayedBefore()) {
-
-					event.setJoinMessage(joinmessage.concat(" "
-							+ ConfigLoader.getFirstJoinMessage())
-							+ " " + timemessage);
-
-					Questioner.ask(player);
-
-					try {
-						SpawnArea.tospawn(player);
-					} catch (Exception e) {
-
-					}
-
-				} else {
-
-					event.setJoinMessage(joinmessage + " " + timemessage);
-
-				}
-			}
-		} else {
-
-			if (!player.hasPlayedBefore()) {
-
-				try {
-					SpawnArea.tospawn(player);
-				} catch (Exception e) {
-
-				}
-			} else {
-				return;
-			}
-		}
-		
+		HashmapHandler.setChannel(player.getName(), "g");
+		HideP.runHide();
+		message(event);
+		player.setSleepingIgnored(ConfigLoader.isSleepingIgnored());
 
 	}
 
 	@EventHandler
 	public void onPlayerLeft(PlayerQuitEvent event) {
-
-		if (ConfigLoader.isMessaging()) {
-			leftmessage = null;
-			leftmessage = ConfigLoader.getLeftmessage();
-
-			Player player = event.getPlayer();
-			leftmessage = leftmessage.replace("%user", ChatColor.GOLD
-					+ name(player) + ChatColor.WHITE);
-			leftmessage = leftmessage.replace("%server", ChatColor.GREEN
-					+ Bukkit.getServerName() + ChatColor.WHITE);
-
-			event.setQuitMessage(leftmessage);
-		}
-
-		if (HashmapHandler.getIsMod(event.getPlayer()) == true) {
-
-			Top.doneMe(event.getPlayer());
-			HashmapHandler.removePlayerMOD(event.getPlayer());
-		} else {
-			SmartServerTool.logger.info(event.getPlayer().getName()
-					+ " isn't in Modmode");
-		}
-
-		return;
+		message(event);
 	}
 
 	public static String name(Player player) {
 
 		String userDisName = null;
 
-		if (player.getName().equals("SmartServerTool")) {
-			userDisName = "*Console";
-		} else {
-			userDisName = player.getName();
-		}
+		userDisName = player.getName();
 
 		return userDisName;
+	}
+
+	public static void message(Event event) {
+
+		if (event instanceof PlayerJoinEvent) {
+
+			PlayerJoinEvent eventPJE = (PlayerJoinEvent) event;
+			if (ConfigLoader.isMessaging()) {
+
+				long second = (System.currentTimeMillis() / 1000);
+				long minutes = (second / 60);
+				long hour = (minutes / 60);
+				long resthour = (hour % 24);
+				long restminutes = (minutes % 60);
+
+				Player playerPJE = eventPJE.getPlayer();
+				if (ConfigLoader.getRandomColor()) {
+					Prefix.Pfix(playerPJE);
+				}
+
+				if (playerPJE.hasPermission("sst.autofly")) {
+					playerPJE.setAllowFlight(true);
+					playerPJE.setFlying(true);
+				}
+
+				if ((resthour + ConfigLoader.getTimezone()) >= 24)
+					resthour = 0;
+
+				if (Runtime.getRuntime().availableProcessors() == 1) {
+
+					coremessage = new String(Runtime.getRuntime()
+							.availableProcessors() + " core");
+				} else {
+					coremessage = new String(Runtime.getRuntime()
+							.availableProcessors() + " cores");
+				}
+
+				joinmessage = ConfigLoader.getJoinmessage();
+				privateJoinmessage = ConfigLoader.getPrivatJoinMessage();
+
+				joinmessage = joinmessage.replace("user%", "" + ChatColor.GOLD
+						+ name(playerPJE) + ChatColor.WHITE);
+				joinmessage = joinmessage.replace("server%", ""
+						+ ChatColor.GREEN + Bukkit.getServerName()
+						+ ChatColor.WHITE);
+				joinmessage = joinmessage.replace("core%", "" + coremessage);
+
+				joinmessage = joinmessage.replace("time%", ChatColor.GOLD + ""
+						+ (resthour + ConfigLoader.getTimezone()) + ":"
+						+ restminutes + ChatColor.WHITE);
+				joinmessage = joinmessage.replace("n%", "\n");
+
+				privateJoinmessage = privateJoinmessage.replace("online%",
+						ChatColor.GRAY + "Online ("
+								+ Bukkit.getServer().getOnlinePlayers().length
+								+ "/" + Bukkit.getMaxPlayers() + "): "
+								+ listPlayers());
+				privateJoinmessage = privateJoinmessage.replace("n&", "\n");
+
+				
+
+				if (ConfigLoader.getMaintenance()) {
+
+					for (Player p : Bukkit.getOnlinePlayers()) {
+
+						p.sendMessage(ConfigLoader.getMaintenanceMessage());
+
+					}
+					
+
+					eventPJE.setJoinMessage("");
+				} else {
+
+					if (!playerPJE.hasPlayedBefore()) {
+
+						for (Player p : Bukkit.getOnlinePlayers()) {
+							p.sendMessage(joinmessage.concat(" "
+									+ ConfigLoader.getFirstJoinMessage()));
+						}
+						eventPJE.setJoinMessage("");
+
+						Questioner.ask(playerPJE);
+
+						try {
+							SpawnArea.tospawn(playerPJE);
+						} catch (Exception e) {
+
+						}
+
+					} else {
+
+						for(Player p : Bukkit.getOnlinePlayers()){
+							
+							p.sendMessage(joinmessage);
+						}
+						eventPJE.setJoinMessage("");
+
+					}
+				}
+				eventPJE.getPlayer().sendMessage(privateJoinmessage);
+			} else {
+
+				if (!eventPJE.getPlayer().hasPlayedBefore()) {
+
+					try {
+						SpawnArea.tospawn(eventPJE.getPlayer());
+					} catch (Exception e) {
+
+					}
+				} else {
+					return;
+				}
+			}
+
+		} else if (event instanceof PlayerQuitEvent) {
+
+			PlayerQuitEvent eventPQE = (PlayerQuitEvent) event;
+
+			if (ConfigLoader.isMessaging()) {
+				leftmessage = null;
+				leftmessage = ConfigLoader.getLeftmessage();
+
+				Player playerPQE = eventPQE.getPlayer();
+				leftmessage = leftmessage.replace("user%", ChatColor.GOLD
+						+ name(playerPQE) + ChatColor.WHITE);
+				leftmessage = leftmessage.replace("server%", ChatColor.GREEN
+						+ Bukkit.getServerName() + ChatColor.WHITE);
+
+				eventPQE.setQuitMessage(leftmessage);
+			}
+
+			if (HashmapHandler.getIsMod(eventPQE.getPlayer()) == true) {
+
+				Top.doneMe(eventPQE.getPlayer());
+				HashmapHandler.removePlayerMOD(eventPQE.getPlayer());
+			} else {
+				SmartServerTool.logger.info(eventPQE.getPlayer().getName()
+						+ " isn't in Modmode");
+			}
+		}
+
+	}
+
+	public static String listPlayers() {
+
+		Player ar[] = Bukkit.getOnlinePlayers();
+		String liste = "";
+		for (Player p : Bukkit.getOnlinePlayers()) {
+
+			if (p.equals(ar[Bukkit.getOnlinePlayers().length - 1])) {
+
+				liste += p.getDisplayName();
+			} else {
+
+				liste += p.getDisplayName() + ", ";
+			}
+		}
+
+		return liste;
 	}
 
 }

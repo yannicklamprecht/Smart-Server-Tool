@@ -23,7 +23,7 @@ public class Gm {
 			String[] args, Command cmd) {
 
 		Player player = (Player) sender;
-		if (command.equalsIgnoreCase("gmc") && sender.hasPermission("sst.gmc")) {
+		if (command.equalsIgnoreCase("gmc") && sender.hasPermission("sst.gamemode")) {
 
 			if (args.length == 0) {
 				if (sender instanceof Player) {
@@ -35,7 +35,7 @@ public class Gm {
 					sender.sendMessage(SmartServerTool.consolehasperformed);
 				}
 
-			} else if (args.length == 1 && sender.hasPermission("sst.gmco")) {
+			} else if (args.length == 1 && sender.hasPermission("sst.gamemodeo")) {
 
 				Player target = Bukkit.getPlayer(args[0]);
 
@@ -56,7 +56,7 @@ public class Gm {
 			}
 
 		} else if (command.equalsIgnoreCase("gms")
-				&& sender.hasPermission("sst.gms")) {
+				&& sender.hasPermission("sst.gamemode")) {
 
 			if (args.length == 0) {
 
@@ -68,7 +68,7 @@ public class Gm {
 					sender.sendMessage(SmartServerTool.consolehasperformed);
 				}
 
-			} else if (args.length == 1 && sender.hasPermission("sst.gmso")) {
+			} else if (args.length == 1 && sender.hasPermission("sst.gamemodeo")) {
 
 				Player target = Bukkit.getPlayer(args[0]);
 
