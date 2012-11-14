@@ -3,31 +3,19 @@ package com.github.ysl3000;
 public class ConfigLoader {
 
 	private SmartServerTool plugin;
-	
-	//enable/disable Block Player joining
-	
-	private static boolean playerJoining;
 
 	// enable/disable chat-message
 	private static boolean messageing;
-	
 
 	// chat messages
 	private static String firstjoin;
 	private static String joinmessage;
-	private static String privateJoinMessage;
 	private static String leftmessage;
-	private static String userAmountMessage;
 	private static int timezone;
 	private static String timemessage;
-	private static boolean chatcolor;
-	
-	
-	//advert
 	private static boolean advert;
 	private static long adverttime;
 	private static String advertmessage;
-	private static String advertPrefix;
 
 	// no connect message
 	private static String whitelistmessage;
@@ -42,7 +30,6 @@ public class ConfigLoader {
 	private static boolean diamond;
 	private static boolean appleDrop;
 	private static boolean xpsave;
-	private static boolean appleshear;
 	// dropchance
 	private static int diamondDropChance;
 	private static int appleDropChance;
@@ -63,70 +50,39 @@ public class ConfigLoader {
 	private static boolean blockburn;
 	private static boolean lavaspread;
 	private static boolean normalspread;
+	private static boolean flint_and_steal_spread;
 	private static boolean lightning_spread;
-
-	// Nice Feature
+	
+	//Nice Feature
 	private static boolean PlayerPressPlate;
-	private static boolean Interact;
-	private static boolean sleepingIgnored;
-	private static String ap;
-
 	
-	private static int defaultstack;
-
-	// saving time
+	//saving time
 	private static int savetime;
-	
-	//unlocking
-	private static String answer;
-	private static String dgn;
-	private static String question;
-	
-	//physics
-	private static boolean physicsSand;
-	private static boolean physicsGravel;
-	private static boolean physicsTorch;
-	private static boolean physicsTrapdoor;
-	
 
 	public ConfigLoader(SmartServerTool smartServerTool) {
 		this.plugin = smartServerTool;
 
-		//enable/disable Player Joining
-		
-		playerJoining = this.plugin.getConfig().getBoolean("Join.Player");
-		
 		// enable/disable chat-message
-		messageing = this.plugin.getConfig().getBoolean(
-				"message.enable-Messages");
+		messageing = this.plugin.getConfig().getBoolean("message.enable-Messages");
 
 		// chat messages
 		firstjoin = this.plugin.getConfig().getString("message.firstjoin");
 		joinmessage = this.plugin.getConfig().getString("message.message");
-		privateJoinMessage = this.plugin.getConfig().getString("message.privatejoinmessage");
 		leftmessage = this.plugin.getConfig().getString("message.leftmessage");
 		timezone = this.plugin.getConfig().getInt("timezone");
 		timemessage = this.plugin.getConfig().getString("message.timemessage");
-		chatcolor = this.plugin.getConfig().getBoolean("message.enable-random-chatcolor");
-		
 
 		// Advertising
-		advert = this.plugin.getConfig()
-				.getBoolean("advertising.plugin-advert");
-		adverttime = this.plugin.getConfig().getLong(
-				"advertising.time-between-adverts");
-		advertmessage = this.plugin.getConfig().getString(
-				"advertising.advert-message");
-		advertPrefix = this.plugin.getConfig().getString("advertising.advert-prefix");
+		advert = this.plugin.getConfig().getBoolean("advertising.plugin-advert");
+		adverttime = this.plugin.getConfig().getLong("advertising.time-between-adverts");
+		advertmessage = this.plugin.getConfig().getString("advertising.advert-message");
 
 		// no connect message
 		whitelistmessage = this.plugin.getConfig().getString(
 				"message.whitelist-message");
 		banmessage = this.plugin.getConfig().getString("message.banmessage");
-		fullmessage = this.plugin.getConfig().getString(
-				"message.serverfullmessage");
-		maintenance = this.plugin.getConfig().getBoolean(
-				"message.maintenance_mode");
+		fullmessage = this.plugin.getConfig().getString("message.serverfullmessage");
+		maintenance = this.plugin.getConfig().getBoolean("message.maintenance_mode");
 		maintenance_message = this.plugin.getConfig().getString(
 				"message.maintenance_message");
 
@@ -134,16 +90,12 @@ public class ConfigLoader {
 		commandlogger = this.plugin.getConfig().getBoolean("commandLogger");
 
 		// world setting
-		Bbuild = this.plugin.getConfig().getBoolean(
-				"world-setting.disallowbuild");
-		Blockbreak = this.plugin.getConfig().getBoolean(
-				"world-setting.disablebreak");
-		Bcreeper = this.plugin.getConfig().getBoolean(
-				"world-setting.Blockcreeper");
+		Bbuild = this.plugin.getConfig().getBoolean("world-setting.disallowbuild");
+		Blockbreak = this.plugin.getConfig().getBoolean("world-setting.disablebreak");
+		Bcreeper = this.plugin.getConfig().getBoolean("world-setting.Blockcreeper");
 		Bender = this.plugin.getConfig().getBoolean("world-setting.Blockender");
 
-		tntsave = this.plugin.getConfig().getBoolean(
-				"world-setting.prevent-tnt");
+		tntsave = this.plugin.getConfig().getBoolean("world-setting.prevent-tnt");
 
 		// drop
 		glass = this.plugin.getConfig().getBoolean("drops.glass-sand-drop");
@@ -151,77 +103,34 @@ public class ConfigLoader {
 		diamond = this.plugin.getConfig().getBoolean("drops.diamond-ore-drop");
 		appleDrop = this.plugin.getConfig().getBoolean("drops.apple-drop");
 		xpsave = this.plugin.getConfig().getBoolean("world-setting.xpsave");
-		appleshear = this.plugin.getConfig().getBoolean("drops.goldenapple-shear");
-		
+
 		// dropChance
-		diamondDropChance = this.plugin.getConfig().getInt(
-				"chance.diamond-drop-rate");
-		appleDropChance = this.plugin.getConfig().getInt(
-				"chance.apple-drop-rate");
-		glassSandDropChance = this.plugin.getConfig().getInt(
-				"chance.glass-sand-drop-rate");
-		glassPaneDropChance = this.plugin.getConfig().getInt(
-				"chance.glassPane-drop-rate");
+		diamondDropChance = this.plugin.getConfig().getInt("droprates.diamond-drop-rate");
+		appleDropChance = this.plugin.getConfig().getInt("droprates.apple-drop-rate");
+		glassSandDropChance = this.plugin.getConfig().getInt("droprates.glass-sand-drop-rate");
+		glassPaneDropChance = this.plugin.getConfig().getInt("droprates.glassPane-drop-rate");
 
 		// spread
-		blockburn = this.plugin.getConfig().getBoolean(
-				"world-setting.prevent-fire-spread");
-		lavaspread = this.plugin.getConfig().getBoolean(
-				"world-setting.prevent-lava-spread");
-		normalspread = this.plugin.getConfig().getBoolean(
-				"world-setting.general-spread");
+		blockburn = this.plugin.getConfig().getBoolean("world-setting.prevent-fire-spread");
+		lavaspread = this.plugin.getConfig().getBoolean("world-setting.prevent-lava-spread");
+		normalspread = this.plugin.getConfig().getBoolean("world-setting.general-spread");
+		flint_and_steal_spread = this.plugin.getConfig().getBoolean(
+				"world-setting.flint-and-steal-spread");
+		lightning_spread = this.plugin.getConfig().getBoolean("world-setting.strike-spread");
 		
-		lightning_spread = this.plugin.getConfig().getBoolean(
-				"world-setting.strike-spread");
-
-		// Nice features
-		PlayerPressPlate = this.plugin.getConfig().getBoolean(
-				"Misc.Save-Player-PressPlate");
-		Interact = this.plugin.getConfig().getBoolean("world-setting.disallowinteract");
-		sleepingIgnored = this.plugin.getConfig().getBoolean("Misc.Sleeping-Ignored");
-		ap = this.plugin.getConfig().getString("Misc.adminchat-password");
+		//Nice features
+		PlayerPressPlate = this.plugin.getConfig().getBoolean("Misc.Save-Player-PressPlate");
 		
-		defaultstack = this.plugin.getConfig().getInt("Misc.item-amount");
-		// saving time
+		//saving time
 		savetime = this.plugin.getConfig().getInt("config-save-interval");
-		//unlocking
-		answer = this.plugin.getConfig().getString("Question.answer");
-		dgn = this.plugin.getConfig().getString("Question.unlockGroupName");
-		question = this.plugin.getConfig().getString("Question.question");
-		
-		//physics
-		physicsGravel = this.plugin.getConfig().getBoolean("disable-physics.Gravel");
-		physicsSand = this.plugin.getConfig().getBoolean("disable-physics.Sand");
-		physicsTorch = this.plugin.getConfig().getBoolean("disable-physics.Torch");
-		physicsTrapdoor = this.plugin.getConfig().getBoolean("disable-physics.Trapdoor");
 	}
 
-	//disable/enable PlayerJoining
+	//nice feature
 	
-	public static boolean isBloggingPlayerJoin(){
-		return playerJoining;
-	}
-	
-	// nice feature Misc
-
-	public static boolean isPlayerPressPlate() {
+	public static boolean isPlayerPressPlate(){
 		return PlayerPressPlate;
 	}
-	public static boolean isInteract(){
-		return Interact;
-	}
-	public static int getDefaultStack(){
-		return defaultstack;
-	}
-	public static boolean isSleepingIgnored(){
-		return sleepingIgnored;
-	}
-	public static String getAdminpassword(){
-		
-		return ap;
-	}
 	
-
 	// messaging
 	public static boolean isMessaging() {
 		return messageing;
@@ -248,17 +157,6 @@ public class ConfigLoader {
 	public static String getJoinmessage() {
 		return joinmessage;
 	}
-	public static String getPrivatJoinMessage(){
-		return privateJoinMessage;
-	}
-	
-	public static String getuserAmountMessage(){
-		return userAmountMessage;
-	}
-	
-	public static boolean getRandomColor(){
-		return chatcolor;
-	}
 
 	// advertising
 	public static boolean getadvert() {
@@ -274,9 +172,6 @@ public class ConfigLoader {
 		return advertmessage;
 	}
 
-	public static String getAdvertPrefix(){
-		return advertPrefix;
-	}
 	// no connect message
 	public static String getWhitelistmessage() {
 		return whitelistmessage;
@@ -296,6 +191,11 @@ public class ConfigLoader {
 
 	public static String getMaintenanceMessage() {
 		return maintenance_message;
+	}
+
+	public static void setMaintenance(boolean maintenanc) {
+		maintenance = maintenanc;
+
 	}
 
 	// commandlogger
@@ -344,9 +244,6 @@ public class ConfigLoader {
 	public static boolean isGlassSandDrop() {
 		return glass;
 	}
-	public static boolean isAppleShear(){
-		return appleshear;
-	}
 
 	// dropchance
 	public static int getGlassSandDropChance() {
@@ -363,8 +260,8 @@ public class ConfigLoader {
 
 		return appleDropChance;
 	}
-
-	public static int getGlassPaneDropChance() {
+	
+	public static int getGlassPaneDropChance(){
 		return glassPaneDropChance;
 	}
 
@@ -381,41 +278,20 @@ public class ConfigLoader {
 		return normalspread;
 	}
 
+	public static boolean isFlint_and_steal_spread() {
+		return flint_and_steal_spread;
+	}
+
 	public static boolean isLightning_spread() {
 		return lightning_spread;
 	}
-
-	// save time
-
-	public static int getSaveTimeInterval() {
-
+	
+	
+	//save time
+	
+	public static int getSaveTimeInterval(){
+		
 		return savetime;
-	}
-	
-	//unlocking
-	public static String getAnswer(){
-		return answer;
-	}
-	public static String getDGN(){
-		return dgn;
-	}
-	public static String getQuestion(){
-		return question;
-	}
-	
-	//physics
-	
-	public static boolean getPhysicsSand(){
-		return physicsSand;
-	}
-	public static boolean getPhysicsTorch(){
-		return physicsTorch;
-	}
-	public static boolean getPhysicsTrapdoor(){
-		return physicsTrapdoor;
-	}
-	public static boolean getPhysicsGravel(){
-		return physicsGravel;
 	}
 
 }

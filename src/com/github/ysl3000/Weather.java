@@ -7,14 +7,14 @@ import org.bukkit.entity.Player;
 public class Weather {
 
 	
-	private static World_Weather welt = new World_Weather("world", "default");
+	private static Welt welt = new Welt("world", "default");
 
 	public static boolean changeWeather(Player player, String command) throws Exception {
 
 		final World world = player.getWorld();
 		
 		if (command.equalsIgnoreCase("sun")
-				&& player.hasPermission("sst.weather")) {
+				&& player.hasPermission("sst.sun")) {
 
 			world.setThundering(false);
 			world.setStorm(false);
@@ -24,7 +24,7 @@ public class Weather {
 
 
 		} else if (command.equalsIgnoreCase("storm")
-				&& player.hasPermission("sst.weather")) {
+				&& player.hasPermission("sst.storm")) {
 
 			world.setStorm(true);
 			world.setThundering(true);

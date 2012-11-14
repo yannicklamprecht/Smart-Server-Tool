@@ -1,11 +1,9 @@
 name: SmartServerTool
-version: 1.4.2_V10.4
+version: 1.2.5_v.9.1
 main: com.github.ysl3000.SmartServerTool
-website: www.coop-craft.de
-authors:
-      - DEV ysl3000
-      - EXDOC Prinzpommes
-description: provides you some simple Server Commands! This mostly refers to a Vanilla-like server.
+website: www.SmartServerTool.de
+author: DEV ysl3000 && DOC Prinzpommes
+description: provide you some simple Server Commands! This mostly refers to a Vanilla-like server
 commands:
  /admin:
   usage: //admin
@@ -15,12 +13,12 @@ commands:
  gmc:
   usage: /gmc
   description: Set Creative
-  permission: sst.gamemode
+  permission: sst.gmc
   permission-message: You don't have sst.gmc
  gms:
   usage: /gms
   description: Set Survival
-  permission: sst.gamemode
+  permission: sst.gms
   permission-message: You don't have sst.gmc
  gm:
   usage: /gm
@@ -30,22 +28,22 @@ commands:
  td:
   usage: /td
   description: set Time to Day
-  permission: sst.time
+  permission: sst.td
   permission-message: You don't have sst.td
  tn:
   usage: /tn
   description: set Time to Night
-  permission: sst.time
+  permission: sst.tn
   permission-message: You don't have sst.tn
  sun:
   usage: /sun
   description: Set Sun
-  permission: sst.weather
+  permission: sst.sun
   permission-message: You don't have sst.sun
  storm:
   usage: /storm
   description: Set Storm
-  permission: sst.weather
+  permission: sst.storm
   permission-message: You don't have sst.storm
  wg:
   usage: /wg
@@ -169,6 +167,11 @@ commands:
  sstv:
   usage: /sstv
   description: show version
+ mt:
+  usage: /mt <true/false>
+  description: set maintenancemode
+  permission: sst.mt
+  permission-message: sst.mt
  al:
    usage: /al
    description: removes monster
@@ -179,36 +182,19 @@ commands:
    description: add's player to Whitelist
    permission: sst.invite
    permission-message: sst.invite
- answer:
-   usage: /answer <answer>
-   description: add to a group
-   permission: sst.answer
-   permission-message: sst.answer
- fs:
-   usage: /fs <amount>
- ws:
-   usage: /fs <amount>
- god:
-  usage: /god
-  permission: sst.god
- jc:
-  usage: /jc channel
-  description: chat in a private chat
-  permission: sst.jc
-  permission-message: sst.jc
- nick:
-  usage: /nick <name/-r>
-  description: nick's you
 permissions:
     sst.*:
          description: give all permission
          children:
              sst.admin: true
              sst.mod: true
-             sst.gamemode: true
+             sst.gmc: true
+             sst.gms: true
              sst.gm: true
-             sst.time: true
-             sst.weather: true
+             sst.td: true
+             sst.tn: true
+             sst.sun: true
+             sst.storm: true
              sst.km: true
              sst.kill: true
              sst.wg: true
@@ -227,19 +213,21 @@ permissions:
              sst.item: true
              sst.repair: true
              sst.nolog: true
-             sst.gamemode: true
+             sst.gmco: true
+             sst.gmso: true
              sst.flyo: true
              sst.cansee: true
              sst.info: true
-             sst.create: true
+             sst.break: true
+             sst.build: true
              sst.gmo: true
     sst.nolog:
          description: No Logging of Commands
          default: false
-    sst.gamemodeo:
+    sst.gmco:
          description: allow entering other people gmc
          default: false
-    sst.gamemodeo:
+    sst.gmso:
          description: allow entering other people gms
          default: false
     sst.flyo:
@@ -251,23 +239,15 @@ permissions:
     sst.info:
          description: allow playerinfo
          default: op
-    sst.create:
-         description: allows creating buildings
+    sst.break:
+         description: allow breaking blocks
+    sst.build:
+         description: allow building blocks
     sst.gmo:
          description: allow you looking up others gamemode
     sst.joinfull:
          description: allows you to join full server
     sst.joinservice:
          description: allows you to join server while in servicemode
-    sst.autofly:
-         description: enables fly on join
-         default: false
-    sst.chat:
-         description: enables chatting
-         default: op
-    sst.move:
-         description: enables moving
-         default: op
-    sst.changetype:
-         description: allows changing mobspawner
-         default: false
+    sst.interact:
+         description: allow interacting

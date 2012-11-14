@@ -8,13 +8,13 @@ public class Time {
 
 	public static boolean setTime(Player player, String command) throws Exception {
 
-		if (command.equalsIgnoreCase("td") && player.hasPermission("sst.time")) {
+		if (command.equalsIgnoreCase("td") && player.hasPermission("sst.td")) {
 
 			player.getWorld().setTime(0);
 			player.sendMessage("Time set to " + ChatColor.GOLD + "Day");
 
 		} else if (command.equalsIgnoreCase("tn")
-				&& player.hasPermission("sst.time")) {
+				&& player.hasPermission("sst.tn")) {
 
 			player.getWorld().setTime(18000);
 			player.sendMessage("Time set to " + ChatColor.GOLD + "Night");

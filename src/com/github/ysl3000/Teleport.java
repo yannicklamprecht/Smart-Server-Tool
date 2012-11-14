@@ -1,6 +1,5 @@
 package com.github.ysl3000;
 
-import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.entity.Player;
 
@@ -24,7 +23,7 @@ public class Teleport {
 
 			if (args.length == 0) {
 				player.sendMessage("Wrong Input");
-			} else if(args.length == 1) {
+			} else {
 
 				Player target = player.getServer().getPlayer(args[0]);
 
@@ -34,26 +33,7 @@ public class Teleport {
 					target.sendMessage(player.getDisplayName() + " teleported to you");
 				}
 				
-			}else if(args.length == 2){
-				Player target1 = player.getServer().getPlayer(args[0]);
-				Player target2 = player.getServer().getPlayer(args[1]);
-				
-				if(target1 == null || target2 == null){
-					player.sendMessage("One player isn't online");
-					return;
-				}
-				target1.teleport(target2);
-				player.sendMessage("You teleported "+ target1.getDisplayName()+" to "+target2.getDisplayName());
-				
-			}else if(args.length == 3){
-				
-				double x = Double.parseDouble(args[0]);
-				double y = Double.parseDouble(args[1]);
-				double z = Double.parseDouble(args[2]);
-				player.teleport(new Location(player.getWorld(), x, y, z));
-				player.sendMessage("You teleported to x: "+ x +" y: "+y+" z: "+z);
 			}
-				
 
 		} else if (cmd.getName().equalsIgnoreCase("tpo")
 				&& player.hasPermission("sst.tpo")) {
@@ -86,9 +66,8 @@ public class Teleport {
 
 				Player target = player.getServer().getPlayer(args[0]);
 
-				Location loca = player.getLocation();
 				player.teleport(target.getLocation());
-				target.teleport(loca);
+				target.teleport(PlayerListener.getlocation().get(player));
 
 				if(target.canSee(player)){
 					
@@ -105,9 +84,7 @@ public class Teleport {
 			}
 		} else if (cmd.getName().equalsIgnoreCase("back")) {
 
-			player.teleport(HashmapHandler.getLastLocation(player));
-			
-			
+			player.teleport(PlayerListener.getlocation().get(player));
 
 		}
 	}

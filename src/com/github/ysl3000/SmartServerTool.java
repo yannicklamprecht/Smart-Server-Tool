@@ -3,16 +3,21 @@ package com.github.ysl3000;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.ShapedRecipe;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -27,35 +32,37 @@ public class SmartServerTool extends JavaPlugin {
 	private static String mainDirectory = "plugins/SmartServerTool/";
 	Logger log;
 
-	public static String noperms = ChatColor.RED
-			+ "You don't have the permission to perform this ...";
 	public static String consolehasperformed = "Only Player can perform this command";
 
-	protected FileConfiguration config = null;
+	protected FileConfiguration config;
 	protected FileConfiguration customConfig = null;
 	protected File customConfigFile = null;
+	protected FileConfiguration inviteConfig = null;
+	protected File inviteConfigFile = null;
 
 	public void onEnable() {
 		log = Logger.getLogger("Minecraft");
 		log.info("Smart Server Tool enabled");
 
+		MOTD.setIsMOD(new HashMap<Player, Boolean>());
 		new File(mainDirectory).mkdir();
 		new File(mainDirectory + "/CommandLog/").mkdir();
 
 		new PlayerListener(this);
 		new MOTD(this);
 		new ConfigLoader(this);
-		new HashmapHandler(this);
 
-		config = this.getConfig();
-		customConfig = this.getCustomConfig();
-
+		config = getConfig();
+		getCustomConfig();
+		getInviteConfig();
 		this.getConfig().options().copyDefaults(true);
 
+		this.getInviteConfig().options().copyDefaults(true);
 		this.getCustomConfig().options().copyDefaults(true);
 
 		this.saveConfig();
 		this.saveCustomConfig();
+		this.saveInviteConfig();
 
 		Bukkit.setSpawnRadius(0);
 
@@ -71,6 +78,14 @@ public class SmartServerTool extends JavaPlugin {
 		PluginDescriptionFile pdf = this.getDescription();
 		log.info(pdf.getName() + " version " + pdf.getVersion() + " is enabled");
 
+		ShapedRecipe sr = new ShapedRecipe(new ItemStack(
+				Material.ENCHANTMENT_TABLE, 1));
+		sr.shape(new String[] { "   ", " b ", "www" })
+				.setIngredient('b', Material.BOOKSHELF)
+				.setIngredient('w', Material.WOOD);
+
+		getServer().addRecipe(sr);
+
 		if (ConfigLoader.getadvert()) {
 
 			Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
@@ -84,8 +99,8 @@ public class SmartServerTool extends JavaPlugin {
 								for (Player p : Bukkit.getOnlinePlayers()) {
 
 									p.sendMessage(ChatColor.RED
-											+ ConfigLoader.getAdvertPrefix()
-											+ " " + ChatColor.GREEN
+											+ "[Plugin-Advert]"
+											+ ChatColor.GOLD
 											+ ConfigLoader.getAdvertMessage());
 								}
 
@@ -124,8 +139,14 @@ public class SmartServerTool extends JavaPlugin {
 				Bukkit.savePlayers();
 
 				try {
+
+					Random rando = new Random();
+					if (rando.nextInt(100) == 1) {
+						log.info("Saved");
+					}
 					saveConfig();
 					saveCustomConfig();
+
 				} catch (Exception e) {
 					log.warning("Config failed saving!");
 				}
@@ -161,14 +182,8 @@ public class SmartServerTool extends JavaPlugin {
 				HideP.hide(sender, commandLabel, args, cmd);
 				ItemMan.item((Player) sender, commandLabel, args, cmd);
 				KickManager.kick(sender, commandLabel, args, cmd);
-				EntityManager.removeEntity(sender, commandLabel, args, cmd);
+				EntityListener.removeEntity(sender, commandLabel, args, cmd);
 				Inviter.invite(sender, commandLabel, args, cmd);
-				Questioner.quest((Player) sender, commandLabel, args, cmd);
-				Gm.playerSpeed(sender, commandLabel, args, cmd);
-				Gm.godmode(sender, commandLabel, args, cmd);
-				ChannelChat.ManageChannel(sender, commandLabel, args, cmd);
-				NickName.Nick(sender, commandLabel, args, cmd);
-
 			} catch (Exception e) {
 			}
 
@@ -185,6 +200,21 @@ public class SmartServerTool extends JavaPlugin {
 		return mainDirectory;
 	}
 
+	public void reloadInviteConfig(){
+		if (inviteConfigFile == null) {
+			inviteConfigFile = new File(SmartServerTool.getMainDirectory(),
+					"invite.yml");
+		}
+		inviteConfig = YamlConfiguration.loadConfiguration(inviteConfigFile);
+
+		// Look for defaults in the jar
+		InputStream defConfigStream = getResource("invite.yml");
+		if (defConfigStream != null) {
+			YamlConfiguration defConfig = YamlConfiguration
+					.loadConfiguration(defConfigStream);
+			inviteConfig.setDefaults(defConfig);
+		}
+	}
 	public void reloadCustomConfig() {
 		if (customConfigFile == null) {
 			customConfigFile = new File(SmartServerTool.getMainDirectory(),
@@ -192,6 +222,7 @@ public class SmartServerTool extends JavaPlugin {
 		}
 		customConfig = YamlConfiguration.loadConfiguration(customConfigFile);
 
+		// Look for defaults in the jar
 		InputStream defConfigStream = getResource("spawn.yml");
 		if (defConfigStream != null) {
 			YamlConfiguration defConfig = YamlConfiguration
@@ -199,7 +230,14 @@ public class SmartServerTool extends JavaPlugin {
 			customConfig.setDefaults(defConfig);
 		}
 	}
+	public FileConfiguration getInviteConfig() {
+		if (inviteConfig == null) {
+			reloadInviteConfig();
+		}
+		return inviteConfig;
+	}
 
+	
 	public FileConfiguration getCustomConfig() {
 		if (customConfig == null) {
 			reloadCustomConfig();
@@ -207,6 +245,17 @@ public class SmartServerTool extends JavaPlugin {
 		return customConfig;
 	}
 
+	public void saveInviteConfig() {
+		if (inviteConfig == null || inviteConfigFile == null) {
+			return;
+		}
+		try {
+			inviteConfig.save(inviteConfigFile);
+		} catch (IOException ex) {
+			Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE,
+					"Could not save config to " + inviteConfigFile, ex);
+		}
+	}
 	public void saveCustomConfig() {
 		if (customConfig == null || customConfigFile == null) {
 			return;
@@ -218,7 +267,5 @@ public class SmartServerTool extends JavaPlugin {
 					"Could not save config to " + customConfigFile, ex);
 		}
 	}
-
-	
 
 }

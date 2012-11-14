@@ -32,22 +32,11 @@ public class SpawnArea {
 
 			Location lc = Bukkit.getWorld(player.getWorld().getName())
 					.getSpawnLocation();
-			
-			if(args.length == 0){
-				player.teleport(lc);
 
-				player.sendMessage("Teleported to Spawn of world " + ChatColor.GOLD
-						+ player.getWorld().getName());
-			}else if(args.length == 1){
-				Player target = Bukkit.getPlayer(args[0]);
-				
-				target.teleport(lc);
-				
-				player.sendMessage("You teleported "+target.getDisplayName()+ " to Spawn");
-				target.sendMessage("You were teleported to spawn by "+player.getDisplayName());
-			}
+			player.teleport(lc);
 
-			
+			player.sendMessage("Teleported to Spawn of world " + ChatColor.GOLD
+					+ player.getWorld().getName());
 
 		}
 
