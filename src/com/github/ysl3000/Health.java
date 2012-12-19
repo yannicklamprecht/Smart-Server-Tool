@@ -11,8 +11,8 @@ public class Health {
 			String[] split, Command cmd) throws Exception {
 
 		Player player = (Player) sender;
-		if (commandLabel.equalsIgnoreCase("km")
-				&& sender.hasPermission("sst.km")) {
+		if (Commands.getKM(commandLabel)
+				&& Permission.hasKm((Player)sender)) {
 			
 			if(sender instanceof Player){
 
@@ -21,7 +21,7 @@ public class Health {
 				sender.sendMessage(SmartServerTool.consolehasperformed);
 			}
 		} else if (commandLabel.equalsIgnoreCase("kill")
-				&& sender.hasPermission("sst.kill")) {
+				&& Permission.hasKill((Player)sender)) {
 
 			if (split.length == 0) {
 				
@@ -36,8 +36,8 @@ public class Health {
 
 			}
 
-		} else if (cmd.getName().equalsIgnoreCase("heal")
-				&& sender.hasPermission("sst.heal")) {
+		} else if ( Commands.getHeal(commandLabel)
+				&& Permission.hasHeal((Player)sender)) {
 
 			if (split.length == 0) {
 				

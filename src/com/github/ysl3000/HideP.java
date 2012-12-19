@@ -1,8 +1,6 @@
-
 package com.github.ysl3000;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -11,75 +9,55 @@ public class HideP {
 
 	public static SmartServerTool plugin;
 
-	public static boolean hide(CommandSender sender, String command,
+	public static void hide(CommandSender sender, String command,
 			String[] args, Command cmd) throws Exception {
 
 		if (sender instanceof Player) {
 
-			if ((command.equalsIgnoreCase("hide"))
-					&& (sender.hasPermission("sst.visible"))) {
+			if ((Commands.getHide(command))
+					&& Permission.hasvisible((Player)sender)) {
 
-				if (sender instanceof Player) {
+				Player player = (Player) sender;
 
-					Player player = (Player) sender;
+				player.sendMessage("You were hidden");
+				HashmapHandler.setHiddenStatus(player, true);
 
-					
-					player.sendMessage("You were hidden");
-					player.getPlayerListName();
+				runHide(player);
 
-					
-					
-					for(Player p:Bukkit.getServer().getOnlinePlayers()){
-						
-						if(p.getDisplayName().equalsIgnoreCase("Herobrine")){
-							
-							
-						}
-						
-						player.setPlayerListName(ChatColor.BLUE + "Herobrine"
-								+ ChatColor.WHITE);
-						player.setDisplayName(ChatColor.BLUE + "Herobrine"
-								+ ChatColor.WHITE);
-						
-					}
-							
-					
-					
+			} else if (Commands.getShow(command)
+					&& Permission.hasvisible((Player)sender)) {
 
-					for (Player p : Bukkit.getOnlinePlayers()) {
+				((Player) sender).sendMessage("You you are now shown");
 
-						if (!p.hasPermission("sst.cansee")) {
-							p.hidePlayer(player);
-						} else {
-							p.showPlayer(player);
-						}
+				HashmapHandler.setHiddenStatus((Player) sender, false);
+				runHide((Player) sender);
+			}
+		}
+	}
 
-					}
-				} else {
-					sender.sendMessage("Only Player can perform this command");
-				}
+	public static void runHide() {
 
-			} else if ((command.equalsIgnoreCase("show"))
-					&& (sender.hasPermission("sst.visible"))) {
+		for (Player ps : Bukkit.getOnlinePlayers()) {
+			runHide(ps);
+		}
+	}
 
-				if (sender instanceof Player) {
+	public static void runHide(Player p) {
 
-					Player player = (Player) sender;
-					Prefix.Pfix(player);
-					player.sendMessage("You you are now shown");
-					for (Player p : Bukkit.getOnlinePlayers()) {
-
-						p.showPlayer(player);
-
-					}
-				} else {
-					sender.sendMessage("Only Player can perform this command");
+		if (HashmapHandler.isHiddenStatus(p)) {
+			for (Player pl : Bukkit.getOnlinePlayers()) {
+				if (!Permission.hascansee(pl)) {
+					pl.hidePlayer(p);
 				}
 
 			}
+		} else {
+			for (Player pl : Bukkit.getOnlinePlayers()) {
+				pl.showPlayer(p);
+			}
+
 		}
 
-		return true;
-
 	}
+
 }

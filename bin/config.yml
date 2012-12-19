@@ -1,40 +1,26 @@
 ################################################################################
-# default                                                                      #
 # everything that is starting with disallow uses permission, if value is true  #
 # possible message variables  %user, %server, %core                            #
 # possible timemessage variables %time                                         #
 ################################################################################
-#
-###########
-# Message #
-###########
 message:
   enable-Messages: true
-  message: Welcome %user on %server running on %core !
+  message: user% on server% running on core% ! n% It's time% !  
   firstjoin:  It's the first time
-  leftmessage: Player %user left %server
-  timemessage: It's %time
+  privatejoinmessage: online%
+  leftmessage: Player user% left server% !
   whitelist-message: You aren't whitelisted on this server
   banmessage: You are a Bunny! You got banned from this server
   serverfullmessage: I'm sorry! The Server is full!
   maintenance_message: Server is under construction
   maintenance_mode: false
-#
-#########################
-# Commandlogger enable  #
-#########################
+  enable-random-chatcolor: true
 commandLogger: true
-#
-##############################################
-# timezone gmt 0 london , gmt+2 Berlin , etc #
-##############################################
 timezone: 2
-##################
-# World-Settings #
-##################
 world-setting:
   disallowbuild: true
   disablebreak: true
+  disallowinteract: true
   Blockcreeper: true
   prevent-tnt: true
   Blockender: true
@@ -44,28 +30,38 @@ world-setting:
   general-spread: true
   flint-and-steal-spread: true
   strike-spread: true
-#
-#################
-# Plugin Advert #
-#################
 advertising:
   plugin-advert: true
   time-between-adverts: 300
-  advert-message: Our hompage www.SmartServerTool.de
+  advert-message: SmartServerTool
+  advert-prefix: [News]
 config-save-interval: 150
-#
-##############
-# Item-Drops #
-##############
 drops:
   glass-sand-drop: true
   glassPane-drop: true
   diamond-ore-drop: true
   apple-drop: true
-droprates:
+  goldenapple-shear: true
+chance:
   diamond-drop-rate: 3
-  apple-drop-rate: 10
-  glass-sand-drop-rate: 2
+  apple-drop-rate: 3
+  glass-sand-drop-rate: 1
   glassPane-drop-rate: 1
 Misc:
-  Save-Player-PressPlate: false  
+  Save-Player-PressPlate: false
+  item-amount: 20
+  Sleeping-Ignored: false
+  adminchat-password: SST
+Question:
+  answer: peace
+  unlockGroupName: Builder
+  question: What word doesn't match in the rules??
+Join:
+  Player: false
+disable-physics:
+  Gravel: false
+  Sand: false
+  Torch: true
+  Trapdoor: true
+disable:
+  permission: false

@@ -12,8 +12,7 @@ public class SpawnArea {
 	public static void spawn(CommandSender sender, String command,
 			String[] args, Command cmd) throws Exception {
 
-		if (command.equalsIgnoreCase("setsp")
-				&& sender.hasPermission("sst.setsp")) {
+		if (Commands.getSetSpawn(command) && Permission.hasSetSpawn((Player)sender)) {
 
 			Player player = (Player) sender;
 
@@ -25,18 +24,28 @@ public class SpawnArea {
 			player.sendMessage("Spawn of " + player.getWorld().getName()
 					+ " set");
 
-		} else if (command.equalsIgnoreCase("spawn")
-				&& sender.hasPermission("sst.spawn")) {
+		} else if (Commands.getSpawn(command) && Permission.hasUseSpawn((Player)sender)) {
 
 			Player player = (Player) sender;
 
 			Location lc = Bukkit.getWorld(player.getWorld().getName())
 					.getSpawnLocation();
 
-			player.teleport(lc);
+			if (args.length == 0) {
+				player.teleport(lc);
 
-			player.sendMessage("Teleported to Spawn of world " + ChatColor.GOLD
-					+ player.getWorld().getName());
+				player.sendMessage("Teleported to Spawn of world "
+						+ ChatColor.GOLD + player.getWorld().getName());
+			} else if (args.length == 1) {
+				Player target = Bukkit.getPlayer(args[0]);
+
+				target.teleport(lc);
+
+				player.sendMessage("You teleported " + target.getDisplayName()
+						+ " to Spawn");
+				target.sendMessage("You were teleported to spawn by "
+						+ player.getDisplayName());
+			}
 
 		}
 

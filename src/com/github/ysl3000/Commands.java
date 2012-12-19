@@ -16,7 +16,7 @@ public class Commands {
 	}
 
 	public static boolean getGMS(String cml) {
-		return cml.equalsIgnoreCase("gmc");
+		return cml.equalsIgnoreCase("gms");
 	}
 
 	public static boolean getGM(String cml) {
@@ -109,7 +109,7 @@ public class Commands {
 	}
 
 	public static boolean getTP(String cml) {
-		return cml.equalsIgnoreCase("tp");
+		return cml.equalsIgnoreCase("tpt");
 	}
 
 	public static boolean getTPO(String cml) {
@@ -159,8 +159,37 @@ public class Commands {
 	public static boolean getWeather(String cml) {
 		return cml.equalsIgnoreCase("wg");
 	}
-	public static boolean getHelp(String cml){
+
+	public static boolean getHelp(String cml) {
 		return cml.equalsIgnoreCase("ssth");
+	}
+
+	public static boolean getCommandWorkbench(String cml) {
+		return cml.equalsIgnoreCase("wb");
+	}
+
+	public static boolean getCommandEchantTable(String cml) {
+		return cml.equalsIgnoreCase("en");
+	}
+
+	public static boolean getEnderChest(String cml) {
+		return cml.equalsIgnoreCase("ec");
+	}
+
+	public static boolean getOnlinemode(String cml) {
+		return cml.equalsIgnoreCase("mode");
+	}
+	public static boolean getListPlayers(String cml){
+		return (cml.equalsIgnoreCase("list")|| cml.equalsIgnoreCase("online"));
+	}
+	public static boolean getPluginsCommand(String cml){
+		return cml.equalsIgnoreCase("plugins");
+	}
+	public static boolean getSeenPlayer(String cml){
+		return cml.equalsIgnoreCase("seen");
+	}
+	public static boolean getRealTime(String cml){
+		return cml.equalsIgnoreCase("rt");
 	}
 
 }

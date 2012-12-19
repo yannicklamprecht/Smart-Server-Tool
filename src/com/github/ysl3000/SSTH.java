@@ -7,10 +7,17 @@ import org.bukkit.entity.Player;
 public class SSTH {
 
 	public static boolean help(CommandSender sender, String commandLabel,
-			String[] split, Command cmd) {
+			String[] args, Command cmd) {
 
 		if (Commands.getHelp(commandLabel)) {
-			((Player) sender).performCommand("help SmartServerTool");
+			
+			if(args.length == 0){
+				((Player) sender).performCommand("help SmartServerTool");				
+			}else if (args.length == 1){
+				((Player) sender).performCommand("help SmartServerTool "+args[0]);
+			}else{
+				sender.sendMessage("To much arguments");
+			}
 		}
 
 		return true;

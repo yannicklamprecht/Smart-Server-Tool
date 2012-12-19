@@ -9,7 +9,7 @@ public class HashmapLoader {
 	public static <T extends Object> void save(T obj, String path)
 			throws Exception {
 		ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(
-				path));
+				SmartServerTool.getMainDirectory()+ "/Hashmaps/" + path));
 		oos.writeObject(obj);
 		oos.flush();
 		oos.close();
@@ -17,9 +17,11 @@ public class HashmapLoader {
 
 	@SuppressWarnings("unchecked")
 	public static <T extends Object> T load(String path) throws Exception {
-		ObjectInputStream ois = new ObjectInputStream(new FileInputStream(path));
+		ObjectInputStream ois = new ObjectInputStream(new FileInputStream(
+				SmartServerTool.getMainDirectory()+ "/Hashmaps/" + path));
 		T result = (T) ois.readObject();
 		ois.close();
 		return result;
 	}
+
 }

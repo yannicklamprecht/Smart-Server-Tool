@@ -11,12 +11,11 @@ public class KickManager {
 			String[] args, Command cmd) {
 
 		Player player = (Player) sender;
-		if (command.equalsIgnoreCase("kick")) {
+		if (Commands.getKick(command) && Permission.hasKickAll((Player)sender)) {
 
 			if (args.length == 0) {
 
-				player.sendMessage(SmartServerTool.plugin.getConfig()
-						.getString("commands.kick.usage"));
+				player.sendMessage("Usage: /kick <name|-a>");
 			} else if (args.length == 1) {
 
 				if (args[0].equalsIgnoreCase("-a")) {

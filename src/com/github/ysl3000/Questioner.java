@@ -10,35 +10,37 @@ public class Questioner {
 	public static void quest(Player player, String commandLabel, String[] args,
 			Command cmd) {
 
-		if (commandLabel.equalsIgnoreCase("answer") && player.hasPermission("sst.answer")) {
+		if (Commands.getAnswer(commandLabel) && Permission.hasAnswerQ(player)) {
 			if (args.length == 0) {
 				player.sendMessage("Use /answer <answer>  to unlock your rights");
 			} else if (args.length == 1) {
 
 				if (args[0].equalsIgnoreCase(ConfigLoader.getAnswer())) {
-					
-					
 
-					
 					try {
 
-						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "manuadd " + player.getName()
-								+ " " + ConfigLoader.getDGN());
-						
-						/*player.performCommand("manuadd " + player.getName()
-								+ " " + ConfigLoader.getDGN());*/
+						Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+								"manuadd " + player.getName() + " "
+										+ ConfigLoader.getDGN());
+
+						/*
+						 * player.performCommand("manuadd " + player.getName() +
+						 * " " + ConfigLoader.getDGN());
+						 */
 
 						// manuadd ysl3000 Builder
 						// Groupmanager
 
 					} catch (Exception e) {
 
-						
-						Bukkit.dispatchCommand(Bukkit.getConsoleSender(), "pex user " + player.getName()
-								+ " group set " + ConfigLoader.getDGN());
-						
-						/*player.performCommand("pex user " + player.getName()
-								+ " group set " + ConfigLoader.getDGN());*/
+						Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
+								"pex user " + player.getName() + " group set "
+										+ ConfigLoader.getDGN());
+
+						/*
+						 * player.performCommand("pex user " + player.getName()
+						 * + " group set " + ConfigLoader.getDGN());
+						 */
 
 						// pex user <user> group set <group>
 						// Permissions EX
@@ -49,9 +51,10 @@ public class Questioner {
 		}
 
 	}
-	public static void ask(Player player){
-		
-		
-		player.sendMessage(ChatColor.GREEN+"[Question]"+ChatColor.WHITE+ ConfigLoader.getQuestion());
+
+	public static void ask(Player player) {
+
+		player.sendMessage(ChatColor.GREEN + "[Question]" + ChatColor.WHITE
+				+ ConfigLoader.getQuestion());
 	}
 }

@@ -16,7 +16,7 @@ public class EntityManager {
 	public static void removeEntity(CommandSender sender, String command,
 			String[] args, Command cmd) {
 
-		if (command.equalsIgnoreCase("al") && sender.hasPermission("sst.al")) {
+		if (Commands.getAL(command) && Permission.hasclearEntities((Player)sender)) {
 
 			Player player = (Player) sender;
 			setCount(0);
@@ -62,8 +62,8 @@ public class EntityManager {
 						+ EntityManager.getCount() + " "
 						+ EntityManager.getType() + " removed");
 			}
-		} else if (command.equalsIgnoreCase("al")
-				&& !sender.hasPermission("sst.al")) {
+		} else if (Commands.getAL(command)
+				&& !Permission.hasclearEntities((Player)sender)) {
 			((Player) sender).sendMessage(SmartServerTool.noperms);
 		}
 

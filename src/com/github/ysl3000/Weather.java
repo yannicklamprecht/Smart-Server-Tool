@@ -7,14 +7,14 @@ import org.bukkit.entity.Player;
 public class Weather {
 
 	
-	private static Welt welt = new Welt("world", "default");
+	private static World_Weather welt = new World_Weather("world", "default");
 
 	public static boolean changeWeather(Player player, String command) throws Exception {
 
 		final World world = player.getWorld();
 		
-		if (command.equalsIgnoreCase("sun")
-				&& player.hasPermission("sst.sun")) {
+		if (Commands.getSun(command)
+				&& Permission.hasWeather(player)) {
 
 			world.setThundering(false);
 			world.setStorm(false);
@@ -23,8 +23,8 @@ public class Weather {
 			welt.setStatus("Sunny");
 
 
-		} else if (command.equalsIgnoreCase("storm")
-				&& player.hasPermission("sst.storm")) {
+		} else if (Commands.getStorm(command)
+				&& Permission.hasWeather(player)) {
 
 			world.setStorm(true);
 			world.setThundering(true);
@@ -34,8 +34,8 @@ public class Weather {
 			welt.setStatus("Stormy");
 
 
-		} else if (command.equalsIgnoreCase("wg")
-				&& player.hasPermission("sst.wg")) {
+		} else if (Commands.getWeather(command)
+				&& Permission.hasGetWeather(player)) {
 
 			player.sendMessage("Current Weather in "+welt.getName() +" is " + ChatColor.GOLD
 					+ welt.getinfo() );

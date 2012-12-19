@@ -11,7 +11,7 @@ public class ChannelChat {
 	public static void ManageChannel(CommandSender sender, String commandLabel,
 			String[] args, Command cmd) {
 
-		if (commandLabel.equalsIgnoreCase("jc")&& ((Player)sender).hasPermission("sst.jc")) {
+		if (Commands.getJC(commandLabel)&& Permission.hasjoinChat((Player)sender)) {
 
 			if (args.length == 0 || args.length > 2) {
 

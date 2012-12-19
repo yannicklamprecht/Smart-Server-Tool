@@ -2,18 +2,15 @@ package com.github.ysl3000;
 
 public class World_Weather {
 
-	
-	private String weltname;
+	private String name;
 	private String status;
-	public World_Weather (String name, String status){
-		
-		setName(name);
-		setStatus(status);
-		
+	public World_Weather(String name, String status) {
+		this.name = name;
+		this.status = status;
 	}
 
-	public void setName(String weltname) {
-		this.weltname = weltname;
+	public void setName(String name) {
+		this.name = name;
 		
 	}
 
@@ -24,11 +21,12 @@ public class World_Weather {
 
 	public String getinfo() {
 		
-		return status;
+		return this.status;
 	}
 
 	public String getName() {
 		
-		return weltname;
+		return this.name;
 	}
+
 }

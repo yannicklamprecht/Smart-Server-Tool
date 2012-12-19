@@ -10,7 +10,7 @@ public class NickName {
 	public static void Nick(CommandSender sender, String command,
 			String[] args, Command cmd) {
 
-		if (command.equalsIgnoreCase("nick")) {
+		if (Commands.getNick(command)) {
 
 			if (args.length == 0) {
 				sender.sendMessage("Use /nick <name/-r>");

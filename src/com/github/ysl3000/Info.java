@@ -2,21 +2,19 @@ package com.github.ysl3000;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
 
 public class Info {
 
 	public static boolean infos(CommandSender sender, String commandLabel,
 			String[] split, Command cmd) throws Exception {
 
-		
 		Player player = (Player) sender;
 
-		if (cmd.getName().equalsIgnoreCase("/mem")
-				&& player.hasPermission("sst.mem")) {
+		if (Commands.getMem(commandLabel) && Permission.hasMem((Player) sender)) {
 
 			double total = (((Runtime.getRuntime().totalMemory()) / 1024) / 1024);
 
@@ -25,8 +23,8 @@ public class Info {
 			sender.sendMessage(" Current memoryuse " + total + "/" + max
 					+ " mb");
 
-		} else if (cmd.getName().equalsIgnoreCase("/ip")
-				&& sender.hasPermission("sst.ip")) {
+		} else if (Commands.getIp(commandLabel)
+				&& Permission.hasIp((Player) sender)) {
 
 			Player target = Bukkit.getPlayer(split[0]);
 
@@ -41,7 +39,7 @@ public class Info {
 
 			}
 
-		} else if (cmd.getName().equalsIgnoreCase("/cpu")) {
+		} else if (Commands.getCpu(commandLabel)) {
 
 			int cpu = Runtime.getRuntime().availableProcessors();
 
@@ -58,12 +56,53 @@ public class Info {
 				sender.sendMessage(SmartServerTool.consolehasperformed);
 			}
 
-		} else if (commandLabel.equalsIgnoreCase("sstv")) {
+		} else if (Commands.getSSTV(commandLabel)) {
 
 			player.performCommand("version SmartServerTool");
 
-		}
-		return true;
+		} else if (Commands.getOnlinemode(commandLabel)) {
+			player.sendMessage("Server is in "
+					+ (Bukkit.getOnlineMode() ? ChatColor.GREEN + "online"
+							: ChatColor.RED + "offline") + ChatColor.RESET
+					+ "-mode");
+		} else if (Commands.getListPlayers(commandLabel)) {
+			player.sendMessage(ChatColor.GRAY + "Online ("
+					+ Bukkit.getServer().getOnlinePlayers().length + "/"
+					+ Bukkit.getMaxPlayers() + "): " + MOTD.listPlayers());
+		} else if (Commands.getPluginsCommand(commandLabel)) {
+			if (!Permission.hasPlugins(player)) {
+				player.sendMessage(ChatColor.RED + "Nice try" + ChatColor.RESET);
+			}
+		} else if (Commands.getSeenPlayer(commandLabel)) {
+			if (split.length == 0) {
+				player.sendMessage("Use /seen <player>");
+			} else if (split.length == 1) {
+				OfflinePlayer op = Bukkit.getOfflinePlayer(split[0]);
 
+				if(op.hasPlayedBefore()){
+				player.sendMessage(ChatColor.GREEN
+						+ "Player was first seen on: "
+						+ ChatColor.GOLD
+						+ DateTime.getRealTime("MMM dd yyyy HH:mm",
+								op.getFirstPlayed())
+						+ "\n"
+						+ ChatColor.GREEN
+						+ "and last seen on: "+ChatColor.GOLD
+						+ DateTime.getRealTime("MMM dd yyyy HH:mm",
+								op.getLastPlayed()));
+				}else{
+					player.sendMessage(ChatColor.GREEN+"Player "+ChatColor.GOLD+op.getName()+ChatColor.GREEN+" never seen before!");
+				}
+			}else if(split.length >1){
+				player.sendMessage(ChatColor.RED+"To much arguments");
+			}
+
+		}else if(Commands.getRealTime(commandLabel)){
+			
+			player.sendMessage("The current time is "+ DateTime.getRealTime("HH:mm", System.currentTimeMillis()));
+			
+		}
+		
+		return true;
 	}
 }

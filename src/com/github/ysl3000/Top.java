@@ -24,20 +24,19 @@ public class Top {
 
 		Player player = (Player) sender;
 
-		if (cmd.getName().equalsIgnoreCase("mod")) {
+		if (Commands.getMod(cmd.getName())) {
 
-			if (player.hasPermission("sst.mod")) {
+			if (Permission.hasMod(player)) {
 
 				try {
 					mod(player, args);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-
+					
 				}
 			}
 
-		} else if (cmd.getName().equalsIgnoreCase("done")) {
-			if (player.hasPermission("sst.mod")) {
+		} else if (Commands.getDone(cmd.getName())) {
+			if (Permission.hasMod(player)) {
 
 				try {
 					done(player, args);
@@ -48,7 +47,7 @@ public class Top {
 			}
 		}
 
-		else if (cmd.getName().equalsIgnoreCase("/admin")) {
+		else if (Commands.getAdmin(cmd.getName())) {
 
 			admin(player, args);
 		}
@@ -65,7 +64,7 @@ public class Top {
 			Prefix.Pfix(player);
 
 		} else if (args.length == 1) {
-			if (player.hasPermission("sst.mod")) {
+			if (Permission.hasMod(player)) {
 
 				Player target = player.getServer().getPlayer(args[0]);
 
@@ -81,7 +80,7 @@ public class Top {
 
 				Prefix.Pfix(target);
 				
-				MOTD.getIsMod().put(target, false);
+				HashmapHandler.setIsMOD(target, false);
 			}
 
 		}
@@ -108,7 +107,7 @@ public class Top {
 			player.setGameMode(GameMode.CREATIVE);
 			player.sendMessage((ChatColor.GREEN + "Modmode enabled"));
 			
-			MOTD.getIsMod().put(player, true);
+			HashmapHandler.setIsMOD(player, true);
 
 			PluginNameConversationPrefix pre = new PluginNameConversationPrefix(SmartServerTool.plugin, " ", ChatColor.GOLD); 
 			player.setDisplayName(pre + player.getDisplayName());
@@ -122,7 +121,7 @@ public class Top {
 			target.getInventory().clear();
 			target.setGameMode(GameMode.CREATIVE);
 
-			MOTD.getIsMod().put(target, true);
+			HashmapHandler.setIsMOD(target, true);
 			player.sendMessage((ChatColor.GREEN + "modmode enabled for "
 					+ ChatColor.GOLD + target.getName()));
 			target.sendMessage((ChatColor.GREEN + "modmode enabled"));
@@ -138,13 +137,13 @@ public class Top {
 	public static boolean admin(Player player, String[] args) {
 
 		if (args.length == 0) {
-			if ((!player.isOp()) && ((player.hasPermission("sst.admin")))) {
+			if ((!player.isOp()) && Permission.hasAdmin(player)) {
 
 				player.setOp(true);
 
 				player.sendMessage((ChatColor.GREEN + "Op enabled"));
 
-			} else if ((player.isOp()) && player.hasPermission("sst.admin")) {
+			} else if ((player.isOp()) && Permission.hasAdmin(player)) {
 
 				player.setOp(false);
 
@@ -192,7 +191,7 @@ public class Top {
 		player.setGameMode(GameMode.SURVIVAL);
 		player.sendMessage((ChatColor.RED + "Modmode disabled"));
 
-		MOTD.getIsMod().put(player, false);
+		HashmapHandler.setIsMOD(player, false);
 		return false;
 
 	}

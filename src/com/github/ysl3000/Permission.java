@@ -180,6 +180,9 @@ public class Permission {
 	public static boolean hasAutoFly(Player s) {
 		return s.hasPermission("sst.autofly");
 	}
+	public static boolean hasPlugins(Player s){
+		return s.hasPermission("sst.plugins");
+	}
 
 	// else
 }
