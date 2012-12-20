@@ -1,6 +1,7 @@
 package com.github.ysl3000;
 
 import org.bukkit.ChatColor;
+import org.bukkit.EntityEffect;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
@@ -29,12 +30,12 @@ public class EntityManager {
 					for (Entity e : player.getWorld().getEntities()) {
 
 						EntityManager.removeMonster(e);
-
 					}
 					EntityManager.setType("monster");
 
 				} else if (args[0].equalsIgnoreCase("-p")) {
 					for (Entity e : player.getWorld().getEntities()) {
+						e.playEffect(EntityEffect.DEATH);
 						EntityManager.removerMobs(e);
 					}
 					EntityManager.setType("passive mob");
@@ -176,4 +177,5 @@ public class EntityManager {
 	public static String getType() {
 		return EntityManager.Type;
 	}
+	
 }

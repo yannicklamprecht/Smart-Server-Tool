@@ -77,6 +77,8 @@ public class MOTD implements Listener {
 			event.setMaxPlayers(0);
 			event.setMotd(ConfigLoader.getMaintenanceMessage());
 
+		}else{
+			event.setMotd(ChatColor.GREEN+"[SST]"+ChatColor.GOLD+event.getMotd());
 		}
 	}
 
@@ -152,7 +154,7 @@ public class MOTD implements Listener {
 				joinmessage = joinmessage.replace("core%", "" + coremessage);
 
 				joinmessage = joinmessage.replace("time%", ChatColor.GOLD + ""
-						+ DateTime.getRealTime("MMM dd yyyy HH:mm", System.currentTimeMillis())
+						+ DateTime.getRealTime(ConfigLoader.getTimeFormat().replace("%dp", ":"), System.currentTimeMillis())
 						+  ChatColor.WHITE);
 				joinmessage = joinmessage.replace("n%", "\n");
 

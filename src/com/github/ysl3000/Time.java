@@ -23,7 +23,7 @@ public class Time {
 				&& Permission.hasGetTime(player)) {
 
 			player.sendMessage("Current Time " + ChatColor.GOLD
-					+ player.getWorld().getTime());
+					+ DateTime.getRealTime("HH:mm", player.getWorld().getTime()));
 		}
 		return false;
 	}

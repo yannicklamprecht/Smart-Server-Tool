@@ -21,6 +21,7 @@ public class ConfigLoader {
 	private static int timezone;
 	private static String timemessage;
 	private static boolean chatcolor;
+	private static String timeformattype;
 	
 	
 	//advert
@@ -132,6 +133,7 @@ public class ConfigLoader {
 				"message.maintenance_mode");
 		maintenance_message = this.plugin.getConfig().getString(
 				"message.maintenance_message");
+		timeformattype = this.plugin.getConfig().getString("message.timeformat");
 
 		// commandlogger
 		commandlogger = this.plugin.getConfig().getBoolean("commandLogger");
@@ -262,6 +264,9 @@ public class ConfigLoader {
 	
 	public static boolean getRandomColor(){
 		return chatcolor;
+	}
+	public static String getTimeFormat(){
+		return timeformattype;
 	}
 
 	// advertising

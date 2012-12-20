@@ -45,6 +45,8 @@ public class SmartServerTool extends JavaPlugin {
 	protected FileConfiguration config = null;
 	protected FileConfiguration customConfig = null;
 	protected File customConfigFile = null;
+	protected FileConfiguration recipeConfig = null;
+	protected File recipeConfigFile = null;
 	
 
 	public void onEnable() {
@@ -58,17 +60,21 @@ public class SmartServerTool extends JavaPlugin {
 		new PlayerListener(this);
 		new MOTD(this);
 		new ConfigLoader(this);
+		new RecipeConfigloader(this);
 		new HashmapHandler(this);
 		
 		config = this.getConfig();
 		customConfig = this.getCustomConfig();
+		recipeConfig = this.getRecipeConfig();
 
 		this.getConfig().options().copyDefaults(true);
-
 		this.getCustomConfig().options().copyDefaults(true);
-
+		this.getRecipeConfig().options().copyDefaults(true);
+		
 		this.saveConfig();
 		this.saveCustomConfig();
+		this.saveRecipeConfig();
+		
 		this.loadHashmaps();
 		new Recipes(this);
 		
@@ -162,6 +168,7 @@ public class SmartServerTool extends JavaPlugin {
 	public void onReload(){
 		plugin.getConfig();
 		plugin.getCustomConfig();
+		plugin.getRecipeConfig();
 	}
 	public void onDisable() {
 
@@ -169,6 +176,7 @@ public class SmartServerTool extends JavaPlugin {
 		log.info("Disabled Smart Server Tool");
 		saveConfig();
 		saveCustomConfig();
+		saveRecipeConfig();
 		this.saveHashmaps();
 	}
 
@@ -214,6 +222,7 @@ public class SmartServerTool extends JavaPlugin {
 		return mainDirectory;
 	}
 
+	//loading SpawnConfig
 	public void reloadCustomConfig() {
 		if (customConfigFile == null) {
 			customConfigFile = new File(SmartServerTool.getMainDirectory(),
@@ -248,6 +257,42 @@ public class SmartServerTool extends JavaPlugin {
 		}
 	}
 
+	//loading RecipeConfig
+	public FileConfiguration getRecipeConfig() {
+		if (recipeConfig == null) {
+			reloadRecipeConfig();
+		}
+		return recipeConfig;
+	}
+
+	public void saveRecipeConfig() {
+		if (recipeConfig == null || recipeConfigFile == null) {
+			return;
+		}
+		try {
+			recipeConfig.save(recipeConfigFile);
+		} catch (IOException ex) {
+			Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE,
+					"Could not save config to " + recipeConfigFile, ex);
+		}
+	}
+	
+	public void reloadRecipeConfig() {
+		if (recipeConfigFile == null) {
+			recipeConfigFile = new File(SmartServerTool.getMainDirectory(),
+					"recipe.yml");
+		}
+		recipeConfig = YamlConfiguration.loadConfiguration(recipeConfigFile);
+
+		InputStream defConfigStream = getResource("recipe.yml");
+		if (defConfigStream != null) {
+			YamlConfiguration defConfig = YamlConfiguration
+					.loadConfiguration(defConfigStream);
+			recipeConfig.setDefaults(defConfig);
+		}
+	}
+	
+	//HashMaps
 	public static HashMap<Player, Boolean> getHMB(String s) {
 
 		HashMap<Player, Boolean> hs = new HashMap<Player, Boolean>();

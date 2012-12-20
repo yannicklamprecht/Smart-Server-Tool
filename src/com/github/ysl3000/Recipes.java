@@ -227,56 +227,95 @@ public class Recipes extends JavaPlugin {
 				Material.DIAMOND, 1), Material.DIAMOND_SWORD);
 		FurnaceRecipe nbrick = new FurnaceRecipe(new ItemStack(
 				Material.NETHER_BRICK, 1), Material.NETHERRACK);
-
+		if(RecipeConfigloader.getisSpongeEnabled()){
 		this.plugin.getServer().addRecipe(sponge);
+		}
+		if(RecipeConfigloader.getisEntchantmentTable()){
 		this.plugin.getServer().addRecipe(sr);
+		}
+		if(RecipeConfigloader.getisGlowStoneEnabled()){
 		this.plugin.getServer().addRecipe(glows1);
 		this.plugin.getServer().addRecipe(glows2);
 		this.plugin.getServer().addRecipe(glows3);
 		this.plugin.getServer().addRecipe(glows4);
+		}
+		if(RecipeConfigloader.getisIronIngotEnabled()){
 		this.plugin.getServer().addRecipe(ironingot1);
 		this.plugin.getServer().addRecipe(ironingot2);
 		this.plugin.getServer().addRecipe(ironingot3);
 		this.plugin.getServer().addRecipe(ironingot4);
+		}
+		if(RecipeConfigloader.getisGoldIngotEnabled()){
 		this.plugin.getServer().addRecipe(goldingot1);
 		this.plugin.getServer().addRecipe(goldingot2);
 		this.plugin.getServer().addRecipe(goldingot3);
 		this.plugin.getServer().addRecipe(goldingot4);
+		}
+		if(RecipeConfigloader.getisDiamondEnabled()){
 		this.plugin.getServer().addRecipe(diamond1);
 		this.plugin.getServer().addRecipe(diamond2);
 		this.plugin.getServer().addRecipe(diamond3);
 		this.plugin.getServer().addRecipe(diamond4);
+		}
+		if(RecipeConfigloader.getisWheatEnabled()){
 		this.plugin.getServer().addRecipe(wheat);
+		}
+		// Continue HERE
+		if(RecipeConfigloader.getisGrassEnabled()){
 		this.plugin.getServer().addRecipe(grass1);
 		this.plugin.getServer().addRecipe(grass2);
 		this.plugin.getServer().addRecipe(grass3);
 		this.plugin.getServer().addRecipe(grass4);
+		}
+		if(RecipeConfigloader.getisNetherBrickEnabled()){
 		this.plugin.getServer().addRecipe(nbrick);
+		}
+		if(RecipeConfigloader.getisCobbleStoneEnabled()){
 		this.plugin.getServer().addRecipe(oldcobble1);
 		this.plugin.getServer().addRecipe(oldcobble2);
 		this.plugin.getServer().addRecipe(oldcobble3);
 		this.plugin.getServer().addRecipe(oldcobble4);
 		this.plugin.getServer().addRecipe(oldcobble5);
 		this.plugin.getServer().addRecipe(oldcobble6);
+		}
+		//Emerald
+		if(RecipeConfigloader.getisEggEnabled()){
 		this.plugin.getServer().addRecipe(villager);
 		this.plugin.getServer().addRecipe(wolf);
 		this.plugin.getServer().addRecipe(huhn);
 		this.plugin.getServer().addRecipe(kuh);
 		this.plugin.getServer().addRecipe(schaf);
 		this.plugin.getServer().addRecipe(schwein);
+		}
+		if(RecipeConfigloader.getisNetEnabled()){
 		this.plugin.getServer().addRecipe(netz1);
 		this.plugin.getServer().addRecipe(netz2);
+		}
+		if(RecipeConfigloader.getisSaddleEnabled()){
 		this.plugin.getServer().addRecipe(sattel1);
 		this.plugin.getServer().addRecipe(sattel2);
 		this.plugin.getServer().addRecipe(sattel3);
+		}
+		if(RecipeConfigloader.getisLongGrassEnabled()){
 		this.plugin.getServer().addRecipe(LongGrass);
+		}
+		if(RecipeConfigloader.getisChainHelmet()){
 		this.plugin.getServer().addRecipe(chain_helm1);
 		this.plugin.getServer().addRecipe(chain_helm2);
+		}
+		if(RecipeConfigloader.getisChainChestEnabled()){
 		this.plugin.getServer().addRecipe(chain_brust);
+		}
+		if(RecipeConfigloader.getisChainLeggEnabled()){
 		this.plugin.getServer().addRecipe(chain_bein);
+		}
+		if(RecipeConfigloader.getisChainFeetEnabled()){
 		this.plugin.getServer().addRecipe(chain_fuss1);
 		this.plugin.getServer().addRecipe(chain_fuss2);
+		}
+		if(RecipeConfigloader.getisCommandBlockEnabled()){
 		this.plugin.getServer().addRecipe(commandBlock);
+		}
 	}
 
 }

@@ -69,11 +69,7 @@ public class Info {
 			player.sendMessage(ChatColor.GRAY + "Online ("
 					+ Bukkit.getServer().getOnlinePlayers().length + "/"
 					+ Bukkit.getMaxPlayers() + "): " + MOTD.listPlayers());
-		} else if (Commands.getPluginsCommand(commandLabel)) {
-			if (!Permission.hasPlugins(player)) {
-				player.sendMessage(ChatColor.RED + "Nice try" + ChatColor.RESET);
-			}
-		} else if (Commands.getSeenPlayer(commandLabel)) {
+		}  else if (Commands.getSeenPlayer(commandLabel)) {
 			if (split.length == 0) {
 				player.sendMessage("Use /seen <player>");
 			} else if (split.length == 1) {
@@ -101,6 +97,10 @@ public class Info {
 			
 			player.sendMessage("The current time is "+ DateTime.getRealTime("HH:mm", System.currentTimeMillis()));
 			
+		}else if(Commands.getPluginsCommand(commandLabel)){
+			if(!player.hasPermission("bukkit.command.plugins")){
+				player.kickPlayer("You aren't allowed to lookup plugins");
+			}
 		}
 		
 		return true;

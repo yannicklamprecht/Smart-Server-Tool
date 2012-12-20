@@ -1,7 +1,6 @@
 name: SmartServerTool
-version: 1.4.5_V10.8
+version: 1.4.5/6_V11
 main: com.github.ysl3000.SmartServerTool
-website: www.coop-craft.de
 authors:
       - DEV ysl3000
 description: provides you some simple Server Commands! This mostly refers to a Vanilla-like server.
@@ -215,11 +214,6 @@ commands:
  mode:
   usage: /mode
   description: check's onlinemode
- plugins:
-  usage: /plugins
-  description: lists plugins
-  permission: sst.plugins
-  permission-message: sst.plugins
  list:
   usage: /list
   description: lists onlineplayer

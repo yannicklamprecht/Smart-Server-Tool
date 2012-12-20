@@ -15,6 +15,7 @@ message:
   maintenance_message: Server is under construction
   maintenance_mode: false
   enable-random-chatcolor: true
+  timeformat: MMM dd, yyyy HH%dpmm
 commandLogger: true
 timezone: 2
 world-setting:
