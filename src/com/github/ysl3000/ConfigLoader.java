@@ -54,8 +54,6 @@ public class ConfigLoader {
 	private static boolean commandlogger;
 
 	// world setting
-	private static boolean Bbuild;
-	private static boolean Blockbreak;
 	private static boolean Bcreeper;
 	private static boolean Bender;
 	private static boolean tntsave;
@@ -68,7 +66,6 @@ public class ConfigLoader {
 
 	// Nice Feature
 	private static boolean PlayerPressPlate;
-	private static boolean Interact;
 	private static boolean sleepingIgnored;
 	private static String ap;
 
@@ -139,10 +136,6 @@ public class ConfigLoader {
 		commandlogger = this.plugin.getConfig().getBoolean("commandLogger");
 
 		// world setting
-		Bbuild = this.plugin.getConfig().getBoolean(
-				"world-setting.disallowbuild");
-		Blockbreak = this.plugin.getConfig().getBoolean(
-				"world-setting.disablebreak");
 		Bcreeper = this.plugin.getConfig().getBoolean(
 				"world-setting.Blockcreeper");
 		Bender = this.plugin.getConfig().getBoolean("world-setting.Blockender");
@@ -182,7 +175,6 @@ public class ConfigLoader {
 		// Nice features
 		PlayerPressPlate = this.plugin.getConfig().getBoolean(
 				"Misc.Save-Player-PressPlate");
-		Interact = this.plugin.getConfig().getBoolean("world-setting.disallowinteract");
 		sleepingIgnored = this.plugin.getConfig().getBoolean("Misc.Sleeping-Ignored");
 		ap = this.plugin.getConfig().getString("Misc.adminchat-password");
 		
@@ -213,9 +205,7 @@ public class ConfigLoader {
 	public static boolean isPlayerPressPlate() {
 		return PlayerPressPlate;
 	}
-	public static boolean isInteract(){
-		return Interact;
-	}
+	
 	public static int getDefaultStack(){
 		return defaultstack;
 	}
@@ -313,14 +303,6 @@ public class ConfigLoader {
 	}
 
 	// world settings
-	public static boolean isBbuild() {
-		return Bbuild;
-	}
-
-	public static boolean isBlockbreak() {
-		return Blockbreak;
-	}
-
 	public static boolean isBcreeper() {
 		return Bcreeper;
 	}

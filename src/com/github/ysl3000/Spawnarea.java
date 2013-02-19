@@ -12,11 +12,12 @@ public class SpawnArea {
 	public static void spawn(CommandSender sender, String command,
 			String[] args, Command cmd) throws Exception {
 
-		if (Commands.getSetSpawn(command) && Permission.hasSetSpawn((Player)sender)) {
+		if (Commands.getSetSpawn(command)
+				&& Permission.hasSetSpawn((Player) sender)) {
 
 			Player player = (Player) sender;
 
-			Bukkit.getWorld(player.getWorld().getName()).setSpawnLocation(
+			player.getWorld().setSpawnLocation(
 					player.getLocation().getBlockX(),
 					player.getLocation().getBlockY(),
 					player.getLocation().getBlockZ());
@@ -24,12 +25,12 @@ public class SpawnArea {
 			player.sendMessage("Spawn of " + player.getWorld().getName()
 					+ " set");
 
-		} else if (Commands.getSpawn(command) && Permission.hasUseSpawn((Player)sender)) {
+		} else if (Commands.getSpawn(command)
+				&& Permission.hasUseSpawn((Player) sender)) {
 
 			Player player = (Player) sender;
 
-			Location lc = Bukkit.getWorld(player.getWorld().getName())
-					.getSpawnLocation();
+			Location lc = player.getWorld().getSpawnLocation();
 
 			if (args.length == 0) {
 				player.teleport(lc);

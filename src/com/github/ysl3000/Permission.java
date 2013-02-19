@@ -180,5 +180,16 @@ public class Permission {
 	public static boolean hasAutoFly(Player s) {
 		return s.hasPermission("sst.autofly");
 	}
-	
+	public static boolean hasVWorbench(Player s){
+		return s.hasPermission("sst.vwbench");
+	}
+	public static boolean hasVEnderchest(Player s){
+		return s.hasPermission("sst.vechest");
+	}
+	public static boolean hasVEnchantingTable(Player s){
+		return s.hasPermission("sst.vetable");
+	}
+	public static boolean hasCraftMagmaConatainer(Player s){
+		return s.hasPermission("sst.cMc");
+	}
 }

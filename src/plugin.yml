@@ -1,5 +1,5 @@
 name: SmartServerTool
-version: 1.4.5/6_V11
+version: 1.4.7_V11
 main: com.github.ysl3000.SmartServerTool
 authors:
       - DEV ysl3000
@@ -202,15 +202,6 @@ commands:
  ssth:
   usage: /ssth
   description: shows SST-help
- wb:
-  usage: /wb
-  description: opens workbench
- en:
-  usage: /en
-  description: opens enchantingtable
- ec:
-  usage: /ec
-  description: opens enderchest
  mode:
   usage: /mode
   description: check's onlinemode
@@ -304,3 +295,15 @@ permissions:
     sst.changetype:
          description: allows changing mobspawner
          default: false
+    sst.vwbench:
+         description: allows opening vwbench
+         op: true
+    sst.vechest:
+         description: allows opening vechest
+         op: true
+    sst.vetable:
+         description: allows opening vetable
+         op: true
+    sst.cMc:
+         description: allows crafting MagmaContainer
+         op: true

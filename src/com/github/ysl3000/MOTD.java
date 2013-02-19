@@ -1,7 +1,9 @@
 package com.github.ysl3000;
 
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -11,6 +13,8 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerListPingEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class MOTD implements Listener {
 
@@ -41,11 +45,14 @@ public class MOTD implements Listener {
 		if (event.getResult() == PlayerLoginEvent.Result.KICK_WHITELIST) {
 
 			event.setKickMessage(ConfigLoader.getWhitelistmessage());
-			
-			Bukkit.broadcast(event.getPlayer().getDisplayName()+" trying to join", "sst.admin");
+
+			message_trying_to_join(event.getPlayer().getDisplayName(), event
+					.getResult().name().substring(5, 10));
 		} else if (event.getResult() == PlayerLoginEvent.Result.KICK_BANNED) {
 
 			event.setKickMessage(ConfigLoader.getBanmessage());
+			message_trying_to_join(event.getPlayer().getDisplayName(), event
+					.getResult().name().substring(5, 10));
 		} else if (event.getResult() == PlayerLoginEvent.Result.KICK_FULL) {
 
 			if (Permission.hasJoinFull(event.getPlayer())) {
@@ -77,31 +84,26 @@ public class MOTD implements Listener {
 			event.setMaxPlayers(0);
 			event.setMotd(ConfigLoader.getMaintenanceMessage());
 
-		}else{
-			event.setMotd(ChatColor.GREEN+"[SST]"+ChatColor.GOLD+event.getMotd());
+		} else {
+			event.setMotd(ChatColor.GOLD + event.getMotd());
 		}
+	}
+
+	public static void message_trying_to_join(String name, String type) {
+		Bukkit.broadcast(name + "{" + type + "}" + " trying to join",
+				"sst.admin");
 	}
 
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
-
 		Player player = event.getPlayer();
-
-		HashmapHandler.setIsMOD(player, false);
 		HashmapHandler.setGod(player, false);
 		HashmapHandler.setFlyStatus(player, false);
 		HashmapHandler.setHiddenStatus(player, false);
 		HashmapHandler.setChannel(player.getName(), "g");
-
 		HideP.runHide();
 		message(event);
 		player.setSleepingIgnored(ConfigLoader.isSleepingIgnored());
-
-		if (Permission.hasAutoFly(event.getPlayer())) {
-			event.getPlayer().setAllowFlight(true);
-			event.getPlayer().setFlying(true);
-		}
-
 	}
 
 	@EventHandler
@@ -125,14 +127,10 @@ public class MOTD implements Listener {
 			PlayerJoinEvent eventPJE = (PlayerJoinEvent) event;
 			if (ConfigLoader.isMessaging()) {
 
-				
-
 				Player playerPJE = eventPJE.getPlayer();
 				if (ConfigLoader.getRandomColor()) {
 					Prefix.Pfix(playerPJE);
 				}
-
-				
 
 				if (Runtime.getRuntime().availableProcessors() == 1) {
 
@@ -153,10 +151,20 @@ public class MOTD implements Listener {
 						+ ChatColor.WHITE);
 				joinmessage = joinmessage.replace("core%", "" + coremessage);
 
-				joinmessage = joinmessage.replace("time%", ChatColor.GOLD + ""
-						+ DateTime.getRealTime(ConfigLoader.getTimeFormat().replace("%dp", ":"), System.currentTimeMillis())
-						+  ChatColor.WHITE);
+				joinmessage = joinmessage.replace(
+						"time%",
+						ChatColor.GOLD
+								+ ""
+								+ DateTime.getRealTime(ConfigLoader
+										.getTimeFormat().replace("%dp", ":"),
+										System.currentTimeMillis())
+								+ ChatColor.WHITE);
 				joinmessage = joinmessage.replace("n%", "\n");
+				joinmessage = joinmessage.replace("v%", ChatColor.GREEN
+						+ Bukkit.getVersion().substring(11, 16)
+						+ ChatColor.WHITE);
+				joinmessage = joinmessage.replace("b%",
+						Bukkit.getBukkitVersion());
 
 				privateJoinmessage = privateJoinmessage.replace("online%",
 						ChatColor.GRAY + "Online ("
@@ -190,6 +198,22 @@ public class MOTD implements Listener {
 							SpawnArea.tospawn(playerPJE);
 						} catch (Exception e) {
 
+						}
+						
+						ItemStack starterpack = new ItemStack(Material.MAGMA_CREAM, 1);
+						ItemMeta itemM = starterpack.getItemMeta();
+						itemM.setDisplayName("starter_pack");
+						starterpack.setItemMeta(itemM);
+						playerPJE.getInventory().addItem(starterpack);
+						
+						
+						if(playerPJE.isOp()){
+							ItemStack advancedpack = new ItemStack(Material.MAGMA_CREAM, 1);
+							ItemMeta advanced_itemM = starterpack.getItemMeta();
+							advanced_itemM.setDisplayName("advanced_pack");
+							starterpack.setItemMeta(advanced_itemM);
+							playerPJE.getInventory().addItem(advancedpack);
+							
 						}
 
 					} else {
@@ -235,10 +259,8 @@ public class MOTD implements Listener {
 			}
 
 			if (HashmapHandler.getIsMod(eventPQE.getPlayer()) == true) {
-
 				Top.doneMe(eventPQE.getPlayer());
-
-			} 
+			}
 		}
 
 	}

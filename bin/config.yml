@@ -5,7 +5,7 @@
 ################################################################################
 message:
   enable-Messages: true
-  message: user% on server% running on core% ! n% It's time% !  
+  message: user% on server% running v% b% on core% ! n% It's time% !  
   firstjoin:  It's the first time
   privatejoinmessage: online%
   leftmessage: Player user% left server% !
@@ -19,9 +19,6 @@ message:
 commandLogger: true
 timezone: 2
 world-setting:
-  disallowbuild: true
-  disablebreak: true
-  disallowinteract: true
   Blockcreeper: true
   prevent-tnt: true
   Blockender: true

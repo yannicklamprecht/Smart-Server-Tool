@@ -18,12 +18,23 @@ public class ItemMan {
 
 			if (args.length == 1) {
 
-				player.performCommand("give " + sender.getName() + " "
-						+ args[0] + " " + ConfigLoader.getDefaultStack());
+				if(args[0].equalsIgnoreCase("psk")){
+					player.getInventory().addItem(ScullHeadType.Skull(player.getName()));
+					player.sendMessage("A Skullhead from "+ player.getName()+" is added");
+				}else{
+				
+					player.performCommand("give " + sender.getName() + " "
+							+ args[0] + " " + ConfigLoader.getDefaultStack());
+					
+				}
 			} else if (args.length == 2) {
-
+				if(args[0].equalsIgnoreCase("psk")){
+					player.getInventory().addItem(ScullHeadType.Skull(args[1]));
+					player.sendMessage("A Skullhead from "+ args[1]+" is added");
+				}else{
 				player.performCommand("give " + sender.getName() + " "
 						+ args[0] + " " + args[1]);
+				}
 			}
 
 		} else if (Commands.getCI(command)

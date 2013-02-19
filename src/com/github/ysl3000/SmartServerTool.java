@@ -3,12 +3,10 @@ package com.github.ysl3000;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -18,19 +16,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
-
 public class SmartServerTool extends JavaPlugin {
 
 	public static SmartServerTool plugin;
 	public final static Logger logger = Logger.getLogger("Minecraft");
-
-	private static HashMap<Player, Boolean> isMod = new HashMap<Player, Boolean>();
-	private static HashMap<Player, Location> LastL = new HashMap<Player, Location>();
-	private static HashMap<Player, Location> currentL = new HashMap<Player, Location>();
-	private static HashMap<Player, Boolean> isGod = new HashMap<Player, Boolean>();
-	private static HashMap<Player, Boolean> isFly = new HashMap<Player, Boolean>();
-	private static HashMap<Player, Boolean> isHidden = new HashMap<Player, Boolean>();
-	private static HashMap<String, String> Channel = new HashMap<String, String>();
 
 	CommandSender sender;
 	Command cmd;
@@ -43,11 +32,10 @@ public class SmartServerTool extends JavaPlugin {
 	public static String consolehasperformed = "Only Player can perform this command";
 
 	protected FileConfiguration config = null;
-	protected FileConfiguration customConfig = null;
-	protected File customConfigFile = null;
+	protected FileConfiguration spawnConfig = null;
+	protected File spawnConfigFile = null;
 	protected FileConfiguration recipeConfig = null;
 	protected File recipeConfigFile = null;
-	
 
 	public void onEnable() {
 		log = Logger.getLogger("Minecraft");
@@ -55,76 +43,77 @@ public class SmartServerTool extends JavaPlugin {
 
 		new File(mainDirectory).mkdir();
 		new File(mainDirectory + "/CommandLog/").mkdir();
-		new File(mainDirectory + "/Hashmaps/").mkdir();
 
 		new PlayerListener(this);
+		new BlockListener(this);
+		new EntityListener(this);
 		new MOTD(this);
 		new ConfigLoader(this);
 		new RecipeConfigloader(this);
 		new HashmapHandler(this);
-		
+
 		config = this.getConfig();
-		customConfig = this.getCustomConfig();
+		spawnConfig = this.getSpawnConfig();
 		recipeConfig = this.getRecipeConfig();
 
 		this.getConfig().options().copyDefaults(true);
-		this.getCustomConfig().options().copyDefaults(true);
+		this.getSpawnConfig().options().copyDefaults(true);
 		this.getRecipeConfig().options().copyDefaults(true);
-		
-		this.saveConfig();
-		this.saveCustomConfig();
-		this.saveRecipeConfig();
-		
-		this.loadHashmaps();
-		new Recipes(this);
-		
-		
-		
-		
-		
-		
-		Bukkit.setSpawnRadius(0);
 
+		this.saveConfig();
+		this.saveSpawnConfig();
+		this.saveRecipeConfig();
+		new Recipes(this);
+		Bukkit.setSpawnRadius(0);
+		
+		
 		for (World i : Bukkit.getWorlds()) {
 
-			i.setSpawnLocation(
-					(int) this.getCustomConfig().getDouble(i.getName() + ".x"),
-					(int) this.getCustomConfig().getDouble(i.getName() + ".y"),
-					(int) this.getCustomConfig().getDouble(i.getName() + ".z"));
-			
-			
+			if (this.getSpawnConfig().getDouble(i.getName() + ".x") == 0.0
+					&& this.getSpawnConfig().getDouble(i.getName() + ".y") == 0.0
+					&& this.getSpawnConfig().getDouble(i.getName() + ".z") == 0.0) {
 
+				i.setSpawnLocation(
+						(int) this.getSpawnConfig().getDouble(
+								i.getName() + ".x"), i.getHighestBlockYAt(
+								(int) this.getSpawnConfig().getDouble(
+										i.getName() + ".x"),
+								(int) this.getSpawnConfig().getDouble(
+										i.getName() + ".z")), (int) this
+								.getSpawnConfig().getDouble(i.getName() + ".z"));
+
+			} else {
+				try {
+					i.setSpawnLocation(
+							(int) this.getSpawnConfig().getDouble(
+									i.getName() + ".x"),
+							(int) this.getSpawnConfig().getDouble(
+									i.getName() + ".y"),
+							(int) this.getSpawnConfig().getDouble(
+									i.getName() + ".z"));
+				} catch (Exception eN) {
+					
+				}
+			}
 		}
-
 		PluginDescriptionFile pdf = this.getDescription();
 		log.info(pdf.getName() + " version " + pdf.getVersion() + " is enabled");
-
 		if (ConfigLoader.getadvert()) {
-
 			Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
 					new Runnable() {
-
 						@Override
 						public void run() {
-
 							try {
-
 								for (Player p : Bukkit.getOnlinePlayers()) {
-
 									p.sendMessage(ChatColor.RED
 											+ ConfigLoader.getAdvertPrefix()
 											+ " " + ChatColor.GREEN
 											+ ConfigLoader.getAdvertMessage());
 								}
-
 							} catch (Exception e) {
-
 							}
-
 						}
 					}, 0, ConfigLoader.getAdvertTime() * 20L);
-			
-			
 		}
 
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
@@ -134,15 +123,15 @@ public class SmartServerTool extends JavaPlugin {
 
 				for (World i : Bukkit.getWorlds()) {
 
-					getCustomConfig().set(
+					getSpawnConfig().set(
 							i.getName() + ".x",
 							Double.valueOf(Bukkit.getWorld(i.getName())
 									.getSpawnLocation().getX()));
-					getCustomConfig().set(
+					getSpawnConfig().set(
 							i.getName() + ".y",
 							Double.valueOf(Bukkit.getWorld(i.getName())
 									.getSpawnLocation().getY()));
-					getCustomConfig().set(
+					getSpawnConfig().set(
 							i.getName() + ".z",
 							Double.valueOf(Bukkit.getWorld(i.getName())
 									.getSpawnLocation().getZ()));
@@ -155,29 +144,28 @@ public class SmartServerTool extends JavaPlugin {
 
 				try {
 					saveConfig();
-					saveCustomConfig();
+					saveSpawnConfig();
 				} catch (Exception e) {
 					log.warning("Config failed saving!");
 				}
 
 			}
 		}, 50, ConfigLoader.getSaveTimeInterval() * 20L);
-
 	}
 
-	public void onReload(){
+	public void onReload() {
 		plugin.getConfig();
-		plugin.getCustomConfig();
+		plugin.getSpawnConfig();
 		plugin.getRecipeConfig();
 	}
+
 	public void onDisable() {
 
 		log = Logger.getLogger("Minecraft");
 		log.info("Disabled Smart Server Tool");
 		saveConfig();
-		saveCustomConfig();
+		saveSpawnConfig();
 		saveRecipeConfig();
-		this.saveHashmaps();
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd,
@@ -205,10 +193,9 @@ public class SmartServerTool extends JavaPlugin {
 				ChannelChat.ManageChannel(sender, commandLabel, args, cmd);
 				NickName.Nick(sender, commandLabel, args, cmd);
 				SSTH.help(sender, commandLabel, args, cmd);
-				SignChest.Chest(sender, commandLabel, args, cmd);
 			} catch (Exception e) {
 			}
-			
+
 		} else {
 			sender.sendMessage(consolehasperformed);
 		}
@@ -222,42 +209,40 @@ public class SmartServerTool extends JavaPlugin {
 		return mainDirectory;
 	}
 
-	//loading SpawnConfig
-	public void reloadCustomConfig() {
-		if (customConfigFile == null) {
-			customConfigFile = new File(SmartServerTool.getMainDirectory(),
+	public void reloadSpawnConfig() {
+		if (spawnConfigFile == null) {
+			spawnConfigFile = new File(SmartServerTool.getMainDirectory(),
 					"spawn.yml");
 		}
-		customConfig = YamlConfiguration.loadConfiguration(customConfigFile);
+		spawnConfig = YamlConfiguration.loadConfiguration(spawnConfigFile);
 
 		InputStream defConfigStream = getResource("spawn.yml");
 		if (defConfigStream != null) {
 			YamlConfiguration defConfig = YamlConfiguration
 					.loadConfiguration(defConfigStream);
-			customConfig.setDefaults(defConfig);
+			spawnConfig.setDefaults(defConfig);
 		}
 	}
 
-	public FileConfiguration getCustomConfig() {
-		if (customConfig == null) {
-			reloadCustomConfig();
+	public FileConfiguration getSpawnConfig() {
+		if (spawnConfig == null) {
+			reloadSpawnConfig();
 		}
-		return customConfig;
+		return spawnConfig;
 	}
 
-	public void saveCustomConfig() {
-		if (customConfig == null || customConfigFile == null) {
+	public void saveSpawnConfig() {
+		if (spawnConfig == null || spawnConfigFile == null) {
 			return;
 		}
 		try {
-			customConfig.save(customConfigFile);
+			spawnConfig.save(spawnConfigFile);
 		} catch (IOException ex) {
 			Logger.getLogger(JavaPlugin.class.getName()).log(Level.SEVERE,
-					"Could not save config to " + customConfigFile, ex);
+					"Could not save config to " + spawnConfigFile, ex);
 		}
 	}
 
-	//loading RecipeConfig
 	public FileConfiguration getRecipeConfig() {
 		if (recipeConfig == null) {
 			reloadRecipeConfig();
@@ -276,7 +261,7 @@ public class SmartServerTool extends JavaPlugin {
 					"Could not save config to " + recipeConfigFile, ex);
 		}
 	}
-	
+
 	public void reloadRecipeConfig() {
 		if (recipeConfigFile == null) {
 			recipeConfigFile = new File(SmartServerTool.getMainDirectory(),
@@ -289,126 +274,6 @@ public class SmartServerTool extends JavaPlugin {
 			YamlConfiguration defConfig = YamlConfiguration
 					.loadConfiguration(defConfigStream);
 			recipeConfig.setDefaults(defConfig);
-		}
-	}
-	
-	//HashMaps
-	public static HashMap<Player, Boolean> getHMB(String s) {
-
-		HashMap<Player, Boolean> hs = new HashMap<Player, Boolean>();
-
-		if (s.equalsIgnoreCase("isMod")) {
-			hs = isMod;
-		} else if (s.equalsIgnoreCase("isGod")) {
-			hs = isGod;
-		} else if (s.equalsIgnoreCase("isFly")) {
-			hs = isFly;
-		} else if (s.equalsIgnoreCase("isHidden")) {
-			hs = isHidden;
-		}
-
-		return hs;
-	}
-
-	public static HashMap<Player, Location> getHML(String cl) {
-
-		HashMap<Player, Location> pl = new HashMap<Player, Location>();
-		if (cl.equalsIgnoreCase("LastL")) {
-			pl = LastL;
-		} else if (cl.equalsIgnoreCase("currentL")) {
-			pl = currentL;
-		}
-		return pl;
-	}
-
-	public static HashMap<String, String> getChannel() {
-		return Channel;
-	}
-
-	public void loadHashmaps() {
-
-		try {
-			isMod = HashmapLoader.load("isMod.bin");
-		} catch (Exception e) {
-
-			isMod = new HashMap<Player, Boolean>();
-		}
-		try {
-			LastL = HashmapLoader.load("LastL.bin");
-		} catch (Exception e) {
-
-			LastL = new HashMap<Player, Location>();
-		}
-		try {
-			currentL = HashmapLoader.load("currentL.bin");
-		} catch (Exception e) {
-
-			currentL = new HashMap<Player, Location>();
-		}
-		try {
-			isGod = HashmapLoader.load("isGod.bin");
-		} catch (Exception e) {
-
-			isGod = new HashMap<Player, Boolean>();
-
-		}
-		try {
-			isFly = HashmapLoader.load("isFly.bin");
-		} catch (Exception e) {
-
-			isFly = new HashMap<Player, Boolean>();
-		}
-		try {
-			isHidden = HashmapLoader.load("isHidden.bin");
-		} catch (Exception e) {
-
-			isHidden = new HashMap<Player, Boolean>();
-		}
-		try {
-			Channel = HashmapLoader.load("Channel.bin");
-		} catch (Exception e) {
-
-			Channel = new HashMap<String, String>();
-		}
-
-	}
-
-	public void saveHashmaps() {
-		try {
-			HashmapLoader.save(HashmapHandler.getHisMod(), "isMod.bin");
-		} catch (Exception e) {
-
-		}
-		try {
-			HashmapLoader.save(HashmapHandler.getHLastL(), "LastL.bin");
-		} catch (Exception e) {
-
-		}
-		try {
-			HashmapLoader.save(HashmapHandler.getHcurrentL(), "currentL.bin");
-		} catch (Exception e) {
-
-		}
-		try {
-			HashmapLoader.save(HashmapHandler.getHisGod(), "isGod.bin");
-		} catch (Exception e) {
-
-		}
-		try {
-			HashmapLoader.save(HashmapHandler.getHisFly(), "isFly.bin");
-		} catch (Exception e) {
-
-		}
-		try {
-			HashmapLoader.save(HashmapHandler.getHisHidden(), "isHidden.bin");
-		} catch (Exception e) {
-
-		}
-		try {
-			HashmapLoader.save(HashmapHandler.getChannelhashmap(),
-					"Channel.bin");
-		} catch (Exception e) {
-
 		}
 	}
 }

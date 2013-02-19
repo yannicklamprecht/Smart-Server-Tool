@@ -163,19 +163,6 @@ public class Commands {
 	public static boolean getHelp(String cml) {
 		return cml.equalsIgnoreCase("ssth");
 	}
-
-	public static boolean getCommandWorkbench(String cml) {
-		return cml.equalsIgnoreCase("wb");
-	}
-
-	public static boolean getCommandEchantTable(String cml) {
-		return cml.equalsIgnoreCase("en");
-	}
-
-	public static boolean getEnderChest(String cml) {
-		return cml.equalsIgnoreCase("ec");
-	}
-
 	public static boolean getOnlinemode(String cml) {
 		return cml.equalsIgnoreCase("mode");
 	}

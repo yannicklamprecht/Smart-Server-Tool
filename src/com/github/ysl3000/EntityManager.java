@@ -17,7 +17,8 @@ public class EntityManager {
 	public static void removeEntity(CommandSender sender, String command,
 			String[] args, Command cmd) {
 
-		if (Commands.getAL(command) && Permission.hasclearEntities((Player)sender)) {
+		if (Commands.getAL(command)
+				&& Permission.hasclearEntities((Player) sender)) {
 
 			Player player = (Player) sender;
 			setCount(0);
@@ -28,15 +29,13 @@ public class EntityManager {
 				if (args[0].equalsIgnoreCase("-a")) {
 
 					for (Entity e : player.getWorld().getEntities()) {
-
 						EntityManager.removeMonster(e);
 					}
 					EntityManager.setType("monster");
 
 				} else if (args[0].equalsIgnoreCase("-p")) {
 					for (Entity e : player.getWorld().getEntities()) {
-						e.playEffect(EntityEffect.DEATH);
-						EntityManager.removerMobs(e);
+						EntityManager.removeMobs(e);
 					}
 					EntityManager.setType("passive mob");
 				} else if (args[0].equalsIgnoreCase("-i")) {
@@ -45,121 +44,83 @@ public class EntityManager {
 						EntityManager.removeItems(e);
 					}
 					EntityManager.setType("Items");
-				} else if (args[0].equalsIgnoreCase("+a")) {
-					for (Entity e : player.getWorld().getEntities()) {
-
-						if(120 <= player.getWorld().getEntities().size()){
-							e.remove();
-							EntityManager.setCount(EntityManager.getCount() + 1);
-							
-						}
-					}
-					EntityManager.setType("Entities");
 				}
-
-				//
 
 				player.sendMessage(ChatColor.ITALIC + ""
 						+ EntityManager.getCount() + " "
 						+ EntityManager.getType() + " removed");
 			}
 		} else if (Commands.getAL(command)
-				&& !Permission.hasclearEntities((Player)sender)) {
+				&& !Permission.hasclearEntities((Player) sender)) {
 			((Player) sender).sendMessage(SmartServerTool.noperms);
 		}
 
 	}
 
 	public static void removeMonster(Entity e) {
-
 		if (e.getType().equals(EntityType.WOLF)) {
-			e.remove();
-			setCount(getCount() + 1);
-
+			removeEntitiesWithStyle(e);
 		}
 		if (e.getType().equals(EntityType.BLAZE)) {
-			e.remove();
-			setCount(getCount() + 1);
+			removeEntitiesWithStyle(e);
 		}
 		if (e.getType().equals(EntityType.CAVE_SPIDER)) {
-			e.remove();
-			setCount(getCount() + 1);
+			removeEntitiesWithStyle(e);
 		}
 		if (e.getType().equals(EntityType.CREEPER)) {
-			e.remove();
-			setCount(getCount() + 1);
+			removeEntitiesWithStyle(e);
 		}
 		if (e.getType().equals(EntityType.ENDER_DRAGON)) {
-			e.remove();
-			setCount(getCount() + 1);
+			removeEntitiesWithStyle(e);
 		}
 		if (e.getType().equals(EntityType.ENDERMAN)) {
-			e.remove();
-			setCount(getCount() + 1);
+			removeEntitiesWithStyle(e);
 		}
 		if (e.getType().equals(EntityType.GHAST)) {
-			e.remove();
-			setCount(getCount() + 1);
+			removeEntitiesWithStyle(e);
 		}
 		if (e.getType().equals(EntityType.SKELETON)) {
-			e.remove();
-			setCount(getCount() + 1);
+			removeEntitiesWithStyle(e);
 		}
 		if (e.getType().equals(EntityType.SPIDER)) {
-			e.remove();
-			setCount(getCount() + 1);
+			removeEntitiesWithStyle(e);
 		}
 		if (e.getType().equals(EntityType.ZOMBIE)) {
-			e.remove();
-			setCount(getCount() + 1);
+			removeEntitiesWithStyle(e);
 		}
 		if (e.getType().equals(EntityType.SLIME)) {
-			e.remove();
-			setCount(getCount() + 1);
+			removeEntitiesWithStyle(e);
 		}
-
 	}
 
-	public static void removerMobs(Entity e) {
+	public static void removeMobs(Entity e) {
 
 		if (e.getType().equals(EntityType.CHICKEN)) {
-			e.remove();
-			setCount(getCount() + 1);
-
+			removeEntitiesWithStyle(e);
 		} else if (e.getType().equals(EntityType.COW)) {
-			e.remove();
-			setCount(getCount() + 1);
+			removeEntitiesWithStyle(e);
 		} else if (e.getType().equals(EntityType.OCELOT)) {
-			e.remove();
-			setCount(getCount() + 1);
+			removeEntitiesWithStyle(e);
 		} else if (e.getType().equals(EntityType.MUSHROOM_COW)) {
-			e.remove();
-			setCount(getCount() + 1);
+			removeEntitiesWithStyle(e);
 		} else if (e.getType().equals(EntityType.PIG)) {
-			e.remove();
-			setCount(getCount() + 1);
+			removeEntitiesWithStyle(e);
 		} else if (e.getType().equals(EntityType.SHEEP)) {
-			e.remove();
-			setCount(getCount() + 1);
+			removeEntitiesWithStyle(e);
 		} else if (e.getType().equals(EntityType.SNOWMAN)) {
-			e.remove();
-			setCount(getCount() + 1);
+			removeEntitiesWithStyle(e);
 		} else if (e.getType().equals(EntityType.SQUID)) {
-
+			removeEntitiesWithStyle(e);
 		} else if (e.getType().equals(EntityType.WOLF)) {
-			e.remove();
-			setCount(getCount() + 1);
+			removeEntitiesWithStyle(e);
 		}
 
 	}
 
 	public static void removeItems(Entity e) {
-
 		if (e instanceof Item) {
-			e.remove();
-			EntityManager.setCount(EntityManager.getCount() + 1);
+			removeEntitiesWithStyle(e);
 		}
-
 	}
 
 	public static void setCount(int count) {
@@ -177,5 +138,11 @@ public class EntityManager {
 	public static String getType() {
 		return EntityManager.Type;
 	}
-	
+
+	public static void removeEntitiesWithStyle(Entity e) {
+		e.remove();
+		e.playEffect(EntityEffect.DEATH);
+		setCount(getCount() + 1);
+	}
+
 }
