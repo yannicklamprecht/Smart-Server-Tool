@@ -38,11 +38,9 @@ drops:
   glass-sand-drop: true
   glassPane-drop: true
   diamond-ore-drop: true
-  apple-drop: true
   goldenapple-shear: true
 chance:
   diamond-drop-rate: 3
-  apple-drop-rate: 3
   glass-sand-drop-rate: 1
   glassPane-drop-rate: 1
 Misc:

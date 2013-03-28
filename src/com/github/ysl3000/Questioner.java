@@ -10,40 +10,24 @@ public class Questioner {
 	public static void quest(Player player, String commandLabel, String[] args,
 			Command cmd) {
 
-		if (Commands.getAnswer(commandLabel) && Permission.hasAnswerQ(player)) {
+		if (SmartServerTool.getCommands().getAnswer(commandLabel) && SmartServerTool.getPermission().hasAnswerQ(player)) {
 			if (args.length == 0) {
 				player.sendMessage("Use /answer <answer>  to unlock your rights");
 			} else if (args.length == 1) {
 
-				if (args[0].equalsIgnoreCase(ConfigLoader.getAnswer())) {
+				if (args[0].equalsIgnoreCase(SmartServerTool.getCFGL()
+						.getAnswer())) {
 
 					try {
 
 						Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
 								"manuadd " + player.getName() + " "
-										+ ConfigLoader.getDGN());
-
-						/*
-						 * player.performCommand("manuadd " + player.getName() +
-						 * " " + ConfigLoader.getDGN());
-						 */
-
-						// manuadd ysl3000 Builder
-						// Groupmanager
-
+										+ SmartServerTool.getCFGL().getDGN());
 					} catch (Exception e) {
 
 						Bukkit.dispatchCommand(Bukkit.getConsoleSender(),
 								"pex user " + player.getName() + " group set "
-										+ ConfigLoader.getDGN());
-
-						/*
-						 * player.performCommand("pex user " + player.getName()
-						 * + " group set " + ConfigLoader.getDGN());
-						 */
-
-						// pex user <user> group set <group>
-						// Permissions EX
+										+ SmartServerTool.getCFGL().getDGN());
 
 					}
 				}
@@ -55,6 +39,6 @@ public class Questioner {
 	public static void ask(Player player) {
 
 		player.sendMessage(ChatColor.GREEN + "[Question]" + ChatColor.WHITE
-				+ ConfigLoader.getQuestion());
+				+ SmartServerTool.getCFGL().getQuestion());
 	}
 }

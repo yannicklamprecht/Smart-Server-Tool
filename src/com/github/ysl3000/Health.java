@@ -5,14 +5,15 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+
 public class Health {
 
 	public static boolean kill(CommandSender sender, String commandLabel,
 			String[] split, Command cmd) throws Exception {
 
 		Player player = (Player) sender;
-		if (Commands.getKM(commandLabel)
-				&& Permission.hasKm((Player)sender)) {
+		if (SmartServerTool.getCommands().getKM(commandLabel)
+				&& SmartServerTool.getPermission().hasKm((Player)sender)) {
 			
 			if(sender instanceof Player){
 
@@ -21,7 +22,7 @@ public class Health {
 				sender.sendMessage(SmartServerTool.consolehasperformed);
 			}
 		} else if (commandLabel.equalsIgnoreCase("kill")
-				&& Permission.hasKill((Player)sender)) {
+				&& SmartServerTool.getPermission().hasKill((Player)sender)) {
 
 			if (split.length == 0) {
 				
@@ -36,8 +37,8 @@ public class Health {
 
 			}
 
-		} else if ( Commands.getHeal(commandLabel)
-				&& Permission.hasHeal((Player)sender)) {
+		} else if ( SmartServerTool.getCommands().getHeal(commandLabel)
+				&& SmartServerTool.getPermission().hasHeal((Player)sender)) {
 
 			if (split.length == 0) {
 				

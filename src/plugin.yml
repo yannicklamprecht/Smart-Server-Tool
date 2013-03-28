@@ -1,5 +1,5 @@
 name: SmartServerTool
-version: 1.4.7_V11
+version: 1.4.7_V12
 main: com.github.ysl3000.SmartServerTool
 authors:
       - DEV ysl3000
@@ -217,6 +217,17 @@ commands:
  rt:
   usage: /rt
   description: displays current realtime
+ freeze:
+  usage: /freeze <player>
+  description: freezes a player
+  permission: sst.freeze
+  permission-message: sst.freeze
+ psun:
+  usage: /psun
+ prain:
+  usage: /prain
+ preset:
+  usage: /preset
 permissions:
     sst.*:
          description: give all permission

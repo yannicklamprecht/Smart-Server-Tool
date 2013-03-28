@@ -23,7 +23,9 @@ public class Gm {
 			String[] args, Command cmd) {
 
 		Player player = (Player) sender;
-		if (Commands.getGMC(command) && Permission.hasCgamemode((Player)sender)) {
+		if (SmartServerTool.getCommands().getGMC(command)
+				&& SmartServerTool.getPermission()
+						.hasCgamemode((Player) sender)) {
 
 			if (args.length == 0) {
 				if (sender instanceof Player) {
@@ -35,7 +37,9 @@ public class Gm {
 					sender.sendMessage(SmartServerTool.consolehasperformed);
 				}
 
-			} else if (args.length == 1 && Permission.hasCgamemodeO((Player)sender)) {
+			} else if (args.length == 1
+					&& SmartServerTool.getPermission().hasCgamemodeO(
+							(Player) sender)) {
 
 				Player target = Bukkit.getPlayer(args[0]);
 
@@ -55,8 +59,9 @@ public class Gm {
 						+ ChatColor.DARK_PURPLE + target.getName());
 			}
 
-		} else if (Commands.getGMS(command)
-				&& Permission.hasCgamemode((Player)sender)) {
+		} else if (SmartServerTool.getCommands().getGMS(command)
+				&& SmartServerTool.getPermission()
+						.hasCgamemode((Player) sender)) {
 
 			if (args.length == 0) {
 
@@ -68,7 +73,9 @@ public class Gm {
 					sender.sendMessage(SmartServerTool.consolehasperformed);
 				}
 
-			} else if (args.length == 1 && Permission.hasCgamemodeO((Player)sender)) {
+			} else if (args.length == 1
+					&& SmartServerTool.getPermission().hasCgamemodeO(
+							(Player) sender)) {
 
 				Player target = Bukkit.getPlayer(args[0]);
 
@@ -89,8 +96,9 @@ public class Gm {
 						target.getName());
 			}
 
-		} else if (Commands.getGM(command)
-				&& Permission.hasLgamemode((Player)sender)) {
+		} else if (SmartServerTool.getCommands().getGM(command)
+				&& SmartServerTool.getPermission()
+						.hasLgamemode((Player) sender)) {
 
 			if (args.length == 0) {
 
@@ -103,13 +111,15 @@ public class Gm {
 
 			} else if (args.length == 1) {
 
-				if (Permission.hasLgamemodeO((Player)sender)) {
+				if (SmartServerTool.getPermission().hasLgamemodeO(
+						(Player) sender)) {
 
 					Player target = Bukkit.getPlayer(args[0]);
 					sender.sendMessage("Current GameMode of " + ChatColor.GOLD
 							+ target.getDisplayName() + " "
 							+ target.getGameMode());
-				} else if (!Permission.hasLgamemodeO((Player)sender)) {
+				} else if (!SmartServerTool.getPermission().hasLgamemodeO(
+						(Player) sender)) {
 
 					sender.sendMessage("You aren't allowed to lookup others gamemode");
 				}
@@ -125,7 +135,8 @@ public class Gm {
 			String[] args, Command cmd) {
 
 		Player player = (Player) sender;
-		if (Commands.getFly(command) && Permission.hasFly((Player)sender)) {
+		if (SmartServerTool.getCommands().getFly(command)
+				&& SmartServerTool.getPermission().hasFly((Player) sender)) {
 
 			if (args.length == 0) {
 
@@ -135,13 +146,13 @@ public class Gm {
 						player.setAllowFlight(true);
 						player.setFlying(true);
 						player.sendMessage("You can now fly ");
-						HashmapHandler.setFlyStatus(player, true);
+						SmartServerTool.getHSP().setFlyStatus(player, true);
 
 					} else if (player.getAllowFlight() && !player.isFlying()) {
 						player.setFlying(false);
 						player.setAllowFlight(false);
 						player.sendMessage("Fly is now disabled");
-						HashmapHandler.setFlyStatus(player, false);
+						SmartServerTool.getHSP().setFlyStatus(player, false);
 					}
 				} else {
 					sender.sendMessage(SmartServerTool.consolehasperformed);
@@ -151,7 +162,7 @@ public class Gm {
 
 				Player target = Bukkit.getPlayer(args[0]);
 
-				if (Permission.hasFlyO((Player)sender)) {
+				if (SmartServerTool.getPermission().hasFlyO((Player) sender)) {
 
 					if (!target.getAllowFlight() && !target.isFlying()) {
 
@@ -161,7 +172,7 @@ public class Gm {
 								+ target.getDisplayName());
 						target.sendMessage("You can now fly! Allowed by "
 								+ ((Player) sender).getDisplayName());
-						HashmapHandler.setFlyStatus(target, true);
+						SmartServerTool.getHSP().setFlyStatus(target, true);
 
 					} else if (target.getAllowFlight() && !target.isFlying()) {
 
@@ -171,7 +182,7 @@ public class Gm {
 								+ target.getDisplayName());
 						target.sendMessage("Until now you have to walk on feet! Disallowed by "
 								+ ((Player) sender).getDisplayName());
-						HashmapHandler.setFlyStatus(target, false);
+						SmartServerTool.getHSP().setFlyStatus(target, false);
 					} else if (target.getAllowFlight() && target.isFlying()) {
 
 						sender.sendMessage(target.getDisplayName()
@@ -185,8 +196,8 @@ public class Gm {
 				}
 
 			}
-		} else if (Commands.getFly(command)
-				&& !Permission.hasFly((Player)sender)) {
+		} else if (SmartServerTool.getCommands().getFly(command)
+				&& !SmartServerTool.getPermission().hasFly((Player) sender)) {
 
 			sender.sendMessage("No Permission for flying");
 
@@ -199,7 +210,7 @@ public class Gm {
 	public static boolean playerSpeed(CommandSender sender, String command,
 			String[] args, Command cmd) {
 
-		if (Commands.getFS(command)) {
+		if (SmartServerTool.getCommands().getFS(command)) {
 			Player p = (Player) sender;
 
 			if (Float.parseFloat(args[0]) > 0 && Float.parseFloat(args[0]) <= 1) {
@@ -209,7 +220,7 @@ public class Gm {
 				p.sendMessage("Speed has to be between 0.1 and 1.0");
 			}
 
-		} else if (Commands.getWS(command)) {
+		} else if (SmartServerTool.getCommands().getWS(command)) {
 			Player p = (Player) sender;
 
 			if (Float.parseFloat(args[0]) > 0 && Float.parseFloat(args[0]) <= 1) {
@@ -229,17 +240,43 @@ public class Gm {
 			String[] args, Command cmd) {
 
 		Player p = (Player) sender;
-		if (Commands.getGOD(command) && Permission.hasGod((Player)sender)) {
+		if (SmartServerTool.getCommands().getGOD(command)
+				&& SmartServerTool.getPermission().hasGod((Player) sender)) {
 
-			if (HashmapHandler.isGod(p)) {
-				HashmapHandler.setGod(p, false);
+			if (SmartServerTool.getHSP().isGod(p)) {
+				SmartServerTool.getHSP().removeGod(p);
 			} else {
-				HashmapHandler.setGod(p, true);
+				SmartServerTool.getHSP().addGod(p);
 			}
-			p.sendMessage("Godmode set to " + HashmapHandler.isGod(p));
+			p.sendMessage("Godmode set to "
+					+ (SmartServerTool.getHSP().isGod(p) ? "True" : "False"));
 
 		}
 
 		return false;
+	}
+
+	public static void freezePlayer(CommandSender sender, String command,
+			String[] args, Command cmd){
+		
+		Player p = (Player)sender;
+		
+		if(SmartServerTool.getCommands().getFreeze(command) && SmartServerTool.getPermission().hasFreeze(p) ){
+			if(args.length == 1){
+				String type;
+			Player target = Bukkit.getPlayer(args[0]);
+			if(!SmartServerTool.getHSP().isFrozen(target)){
+				SmartServerTool.getHSP().setFrozen(target);
+				type = "Freeze ";
+			}else{
+				SmartServerTool.getHSP().removeFrozen(target);
+				type = "Smelt ";
+			}
+			p.sendMessage(ChatColor.BOLD+type+ target.getDisplayName()+ChatColor.BOLD+"!"+ChatColor.RESET);
+			}else{
+				p.sendMessage(ChatColor.RED+"Wrong Input");
+			}
+		}
+		
 	}
 }

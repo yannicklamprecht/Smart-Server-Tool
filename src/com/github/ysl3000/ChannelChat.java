@@ -11,7 +11,7 @@ public class ChannelChat {
 	public static void ManageChannel(CommandSender sender, String commandLabel,
 			String[] args, Command cmd) {
 
-		if (Commands.getJC(commandLabel)&& Permission.hasjoinChat((Player)sender)) {
+		if (SmartServerTool.getCommands().getJC(commandLabel)&& SmartServerTool.getPermission().hasjoinChat((Player)sender)) {
 
 			if (args.length == 0 || args.length > 2) {
 
@@ -20,19 +20,19 @@ public class ChannelChat {
 			} else if (args.length == 1) {
 				
 				if(args[0].equalsIgnoreCase("g")){
-					HashmapHandler.setChannel(((Player)sender).getName(), "g");
+					SmartServerTool.getHSP().setChannel(((Player)sender).getName(), "g");
 					((Player)sender).sendMessage("Reset to Global channel");
 				}else if(args[0].equalsIgnoreCase("admin")){
 					
 					((Player)sender).sendMessage("You need a password for Admin-Channel! Use /jc Admin <password> !");
 				}
 				else{
-					HashmapHandler.setChannel(((Player) sender).getName(), "["+args[0]+"]");
+					SmartServerTool.getHSP().setChannel(((Player) sender).getName(), "["+args[0]+"]");
 					((Player) sender).sendMessage("Channel " + args[0] + " joined");
 				}
 			}else if(args.length == 2){
-				if(args[0].equalsIgnoreCase("admin") && args[1].equalsIgnoreCase(ConfigLoader.getAdminpassword())){
-					HashmapHandler.setChannel(((Player)sender).getName(), "[Admin]");
+				if(args[0].equalsIgnoreCase("admin") && args[1].equalsIgnoreCase(SmartServerTool.getCFGL().getAdminpassword())){
+					SmartServerTool.getHSP().setChannel(((Player)sender).getName(), "[Admin]");
 					((Player)sender).sendMessage("Channel "+ args[0] + " joined");
 				}else{
 					((Player)sender).sendMessage(ChatColor.RED+"Wrong password");

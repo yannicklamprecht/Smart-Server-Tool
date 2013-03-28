@@ -9,6 +9,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 
+
 public class EntityManager {
 
 	private static int count = 0;
@@ -17,8 +18,8 @@ public class EntityManager {
 	public static void removeEntity(CommandSender sender, String command,
 			String[] args, Command cmd) {
 
-		if (Commands.getAL(command)
-				&& Permission.hasclearEntities((Player) sender)) {
+		if (SmartServerTool.getCommands().getAL(command)
+				&& SmartServerTool.getPermission().hasclearEntities((Player) sender)) {
 
 			Player player = (Player) sender;
 			setCount(0);
@@ -50,8 +51,8 @@ public class EntityManager {
 						+ EntityManager.getCount() + " "
 						+ EntityManager.getType() + " removed");
 			}
-		} else if (Commands.getAL(command)
-				&& !Permission.hasclearEntities((Player) sender)) {
+		} else if (SmartServerTool.getCommands().getAL(command)
+				&& !SmartServerTool.getPermission().hasclearEntities((Player) sender)) {
 			((Player) sender).sendMessage(SmartServerTool.noperms);
 		}
 

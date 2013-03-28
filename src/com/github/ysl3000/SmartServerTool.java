@@ -10,11 +10,27 @@ import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import com.github.ysl3000.Commands.Commander;
+import com.github.ysl3000.Commands.Commands;
+import com.github.ysl3000.Event.BlockListener;
+import com.github.ysl3000.Event.ChestProtectionListener;
+import com.github.ysl3000.Event.EntityListener;
+import com.github.ysl3000.Event.PlayerListener;
+import com.github.ysl3000.Event.SignListener;
+import com.github.ysl3000.Prefixer.MOTD;
+import com.github.ysl3000.Utils.ConfigLoader;
+import com.github.ysl3000.Utils.DateTime;
+import com.github.ysl3000.Utils.HashmapHandler;
+import com.github.ysl3000.Utils.Permission;
+import com.github.ysl3000.Utils.RecipeConfigloader;
+import com.github.ysl3000.Utils.Recipes;
 
 public class SmartServerTool extends JavaPlugin {
 
@@ -37,7 +53,15 @@ public class SmartServerTool extends JavaPlugin {
 	protected FileConfiguration recipeConfig = null;
 	protected File recipeConfigFile = null;
 
+	private static HashmapHandler hsp;
+	private static ConfigLoader cfgl;
+	private static Commands cmds;
+	private static Permission perms;
+	private static DateTime dateTime;
+	private static Commander commander;
+
 	public void onEnable() {
+
 		log = Logger.getLogger("Minecraft");
 		log.info("Smart Server Tool enabled");
 
@@ -47,10 +71,16 @@ public class SmartServerTool extends JavaPlugin {
 		new PlayerListener(this);
 		new BlockListener(this);
 		new EntityListener(this);
+		new SignListener(this);
+		new ChestProtectionListener(this);
 		new MOTD(this);
-		new ConfigLoader(this);
+		cfgl = new ConfigLoader(this);
 		new RecipeConfigloader(this);
-		new HashmapHandler(this);
+		hsp = new HashmapHandler(this);
+		cmds = new Commands();
+		perms = new Permission();
+		dateTime = new DateTime();
+		setCommander(new Commander());
 
 		config = this.getConfig();
 		spawnConfig = this.getSpawnConfig();
@@ -65,8 +95,7 @@ public class SmartServerTool extends JavaPlugin {
 		this.saveRecipeConfig();
 		new Recipes(this);
 		Bukkit.setSpawnRadius(0);
-		
-		
+
 		for (World i : Bukkit.getWorlds()) {
 
 			if (this.getSpawnConfig().getDouble(i.getName() + ".x") == 0.0
@@ -92,13 +121,13 @@ public class SmartServerTool extends JavaPlugin {
 							(int) this.getSpawnConfig().getDouble(
 									i.getName() + ".z"));
 				} catch (Exception eN) {
-					
+
 				}
 			}
 		}
 		PluginDescriptionFile pdf = this.getDescription();
 		log.info(pdf.getName() + " version " + pdf.getVersion() + " is enabled");
-		if (ConfigLoader.getadvert()) {
+		if (getCFGL().getadvert()) {
 			Bukkit.getScheduler().scheduleSyncRepeatingTask(this,
 					new Runnable() {
 						@Override
@@ -106,14 +135,14 @@ public class SmartServerTool extends JavaPlugin {
 							try {
 								for (Player p : Bukkit.getOnlinePlayers()) {
 									p.sendMessage(ChatColor.RED
-											+ ConfigLoader.getAdvertPrefix()
-											+ " " + ChatColor.GREEN
-											+ ConfigLoader.getAdvertMessage());
+											+ getCFGL().getAdvertPrefix() + " "
+											+ ChatColor.GREEN
+											+ getCFGL().getAdvertMessage());
 								}
 							} catch (Exception e) {
 							}
 						}
-					}, 0, ConfigLoader.getAdvertTime() * 20L);
+					}, 0, getCFGL().getAdvertTime() * 20L);
 		}
 
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
@@ -150,7 +179,7 @@ public class SmartServerTool extends JavaPlugin {
 				}
 
 			}
-		}, 50, ConfigLoader.getSaveTimeInterval() * 20L);
+		}, 50, getCFGL().getSaveTimeInterval() * 20L);
 	}
 
 	public void onReload() {
@@ -172,31 +201,10 @@ public class SmartServerTool extends JavaPlugin {
 			String commandLabel, String[] args) {
 
 		if (sender instanceof Player) {
-			try {
-				Gm.toggleGm((Player) sender, commandLabel, args, cmd);
-				Top.toggleop(cmd, sender, args);
-				Time.setTime((Player) sender, commandLabel);
-				Weather.changeWeather((Player) sender, commandLabel);
-				Health.kill(sender, commandLabel, args, cmd);
-				Info.infos(sender, commandLabel, args, cmd);
-				Teleport.tp((Player) sender, commandLabel, args, cmd);
-				SpawnArea.spawn(sender, commandLabel, args, cmd);
-				CommandLogger.commandToLog(sender, commandLabel, args, cmd);
-				HideP.hide(sender, commandLabel, args, cmd);
-				ItemMan.item((Player) sender, commandLabel, args, cmd);
-				KickManager.kick(sender, commandLabel, args, cmd);
-				EntityManager.removeEntity(sender, commandLabel, args, cmd);
-				Inviter.invite(sender, commandLabel, args, cmd);
-				Questioner.quest((Player) sender, commandLabel, args, cmd);
-				Gm.playerSpeed(sender, commandLabel, args, cmd);
-				Gm.godmode(sender, commandLabel, args, cmd);
-				ChannelChat.ManageChannel(sender, commandLabel, args, cmd);
-				NickName.Nick(sender, commandLabel, args, cmd);
-				SSTH.help(sender, commandLabel, args, cmd);
-			} catch (Exception e) {
-			}
 
-		} else {
+			getCommander().runCommands(sender, cmd, commandLabel, args);
+
+		} else if (sender instanceof ConsoleCommandSender) {
 			sender.sendMessage(consolehasperformed);
 		}
 
@@ -275,5 +283,40 @@ public class SmartServerTool extends JavaPlugin {
 					.loadConfiguration(defConfigStream);
 			recipeConfig.setDefaults(defConfig);
 		}
+	}
+
+	public static HashmapHandler getHSP() {
+		return hsp;
+	}
+
+	public static ConfigLoader getCFGL() {
+		return cfgl;
+	}
+
+	public static Commands getCommands() {
+		return cmds;
+	}
+
+	public static Permission getPermission() {
+		return perms;
+	}
+
+	public static DateTime getDateTime() {
+		return dateTime;
+	}
+
+	/**
+	 * @return the commander
+	 */
+	public static Commander getCommander() {
+		return commander;
+	}
+
+	/**
+	 * @param commander
+	 *            the commander to set
+	 */
+	public static void setCommander(Commander commander) {
+		SmartServerTool.commander = commander;
 	}
 }

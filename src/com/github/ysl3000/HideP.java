@@ -14,22 +14,22 @@ public class HideP {
 
 		if (sender instanceof Player) {
 
-			if ((Commands.getHide(command))
-					&& Permission.hasvisible((Player)sender)) {
+			if ((SmartServerTool.getCommands().getHide(command))
+					&& SmartServerTool.getPermission().hasvisible((Player)sender)) {
 
 				Player player = (Player) sender;
 
 				player.sendMessage("You were hidden");
-				HashmapHandler.setHiddenStatus(player, true);
+				SmartServerTool.getHSP().setHiddenStatus(player, true);
 
 				runHide(player);
 
-			} else if (Commands.getShow(command)
-					&& Permission.hasvisible((Player)sender)) {
+			} else if (SmartServerTool.getCommands().getShow(command)
+					&& SmartServerTool.getPermission().hasvisible((Player)sender)) {
 
 				((Player) sender).sendMessage("You you are now shown");
 
-				HashmapHandler.setHiddenStatus((Player) sender, false);
+				SmartServerTool.getHSP().setHiddenStatus((Player) sender, false);
 				runHide((Player) sender);
 			}
 		}
@@ -44,9 +44,9 @@ public class HideP {
 
 	public static void runHide(Player p) {
 
-		if (HashmapHandler.isHiddenStatus(p)) {
+		if (SmartServerTool.getHSP().isHiddenStatus(p)) {
 			for (Player pl : Bukkit.getOnlinePlayers()) {
-				if (!Permission.hascansee(pl)) {
+				if (!SmartServerTool.getPermission().hascansee(pl)) {
 					pl.hidePlayer(p);
 				}
 

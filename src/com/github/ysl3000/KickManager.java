@@ -5,13 +5,14 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+
 public class KickManager {
 
 	public static void kick(CommandSender sender, String command,
 			String[] args, Command cmd) {
 
 		Player player = (Player) sender;
-		if (Commands.getKick(command) && Permission.hasKickAll((Player)sender)) {
+		if (SmartServerTool.getCommands().getKick(command) && SmartServerTool.getPermission().hasKickAll((Player)sender)) {
 
 			if (args.length == 0) {
 
