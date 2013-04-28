@@ -1,8 +1,10 @@
 package com.github.ysl3000;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
@@ -16,7 +18,6 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
-
 import com.github.ysl3000.Commands.Commander;
 import com.github.ysl3000.Commands.Commands;
 import com.github.ysl3000.Event.BlockListener;
@@ -305,18 +306,18 @@ public class SmartServerTool extends JavaPlugin {
 		return dateTime;
 	}
 
-	/**
-	 * @return the commander
-	 */
 	public static Commander getCommander() {
 		return commander;
 	}
 
-	/**
-	 * @param commander
-	 *            the commander to set
-	 */
 	public static void setCommander(Commander commander) {
 		SmartServerTool.commander = commander;
+	}
+	public static void openUrl(String url) throws Exception{
+		
+		if(Desktop.isDesktopSupported()){
+			URI urls = URI.create(url);
+			Desktop.getDesktop().browse(urls);
+		}
 	}
 }

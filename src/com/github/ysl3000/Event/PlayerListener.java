@@ -9,7 +9,6 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerBucketEmptyEvent;
 import org.bukkit.event.player.PlayerBucketFillEvent;
@@ -216,13 +215,6 @@ public class PlayerListener implements Listener {
 						ChatColor.RED + "Need to update Bukkit");
 			}
 		}
-	}
-	@EventHandler
-	public void ItemCraft(PrepareItemCraftEvent e){
-		if(e.getRecipe().equals(Bukkit.getRecipesFor(new ItemStack(Material.HOPPER)))){
-			e.getInventory().setResult(new ItemStack(Material.AIR,1 ));
-		}
-		
 	}
 	
 }

@@ -2,11 +2,14 @@ package com.github.ysl3000.Event;
 
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockPlaceEvent;
+import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.ysl3000.SmartServerTool;
 
@@ -16,10 +19,19 @@ public class ChestProtectionListener implements Listener {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
+	@SuppressWarnings("deprecation")
 	@EventHandler
-	public void onChestCreation(BlockPlaceEvent e) {
-		if (e.getBlock().getType().equals(Material.CHEST)) {
-
+	public void onChestcreate(PrepareItemCraftEvent e) {
+		if (e.getInventory().getResult().getType().equals(Material.CHEST)) {
+			ItemStack is = e.getInventory().getResult();
+			e.getInventory().remove(e.getInventory().getResult());
+			ItemMeta im = is.getItemMeta();
+			im.setDisplayName(e.getViewers().get(0).getName());
+			is.setItemMeta(im);
+			e.getInventory().setResult(is);
+			if(e.getViewers().get(0) instanceof Player){
+				((Player)e.getViewers().get(0)).updateInventory();
+			}
 		}
 	}
 
