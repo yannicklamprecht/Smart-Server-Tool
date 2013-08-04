@@ -12,6 +12,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import com.github.ysl3000.SmartServerTool;
+import com.ysl3000.permissions.Permissions;
 
 public class ChestProtectionListener implements Listener {
 
@@ -44,8 +45,7 @@ public class ChestProtectionListener implements Listener {
 			Chest ch = (Chest) e.getClickedBlock().getState();
 			if (!(ch.getInventory().getName()
 					.equalsIgnoreCase(e.getPlayer().getName())
-					|| ch.getInventory().getName().equalsIgnoreCase("public") || SmartServerTool
-					.getPermission().hasOpenanyChest(e.getPlayer()))) {
+					|| ch.getInventory().getName().equalsIgnoreCase("public") || e.getPlayer().hasPermission(Permissions.openAnyChest))) {
 				e.setCancelled(true);
 				e.getPlayer().sendMessage(
 						"This chest is protected to"

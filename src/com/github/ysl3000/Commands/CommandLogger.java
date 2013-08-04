@@ -18,8 +18,6 @@ public class CommandLogger {
 	public static void commandToLog(CommandSender sender, String command,
 			String[] args, Command cmd) throws Exception {
 
-		if (SmartServerTool.getCFGL().getCommandLogger()) {
-
 			if (sender instanceof Player) {
 
 				Player player = (Player) sender;
@@ -76,9 +74,6 @@ public class CommandLogger {
 			} else {
 				return;
 			}
-		}else{
-			return;
-		}
 
 	}
 }

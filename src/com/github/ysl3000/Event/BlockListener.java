@@ -2,6 +2,7 @@ package com.github.ysl3000.Event;
 
 import java.util.ArrayList;
 import java.util.Random;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -20,6 +21,7 @@ import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.block.BlockIgniteEvent.IgniteCause;
+import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
@@ -28,6 +30,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
 import com.github.ysl3000.SmartServerTool;
+import com.ysl3000.permissions.Permissions;
 
 public class BlockListener implements Listener {
 
@@ -37,18 +40,17 @@ public class BlockListener implements Listener {
 
 	@EventHandler
 	public void onbreak(BlockBreakEvent event) {
-		event.setCancelled(SmartServerTool.getPermission().hasCreate(
-				event.getPlayer())
-				|| SmartServerTool.getCFGL().getNonPermission() ? false : true);
+		event.setCancelled(!event.getPlayer().hasPermission(
+				Permissions.interact)
+				&& !SmartServerTool.getCFGL().getNonPermission());
 	}
 
 	@EventHandler(priority = EventPriority.LOW)
 	public void onbuild(BlockPlaceEvent event) {
-		event.setCancelled(!SmartServerTool.getPermission().hasCreate(
-				event.getPlayer())
+		event.setCancelled(!event.getPlayer().hasPermission(
+				Permissions.interact)
 				&& !SmartServerTool.getCFGL().getNonPermission());
 	}
-	
 
 	@EventHandler
 	public void onPhysics(BlockPhysicsEvent e) {
@@ -180,7 +182,7 @@ public class BlockListener implements Listener {
 					.getClickedBlock().getType().equals(Material.WORKBENCH))) {
 				return;
 			}
-			if (SmartServerTool.getPermission().hasCreate(e.getPlayer())
+			if (e.getPlayer().hasPermission(Permissions.interact)
 					|| SmartServerTool.getCFGL().getNonPermission()) {
 				return;
 			}
@@ -196,16 +198,14 @@ public class BlockListener implements Listener {
 		if (e.getAction().equals(Action.RIGHT_CLICK_AIR)) {
 
 			if (e.getItem().getType().equals(Material.WORKBENCH)
-					&& SmartServerTool.getPermission().hasVWorbench(
-							e.getPlayer())) {
+					&& e.getPlayer().hasPermission(Permissions.openVWorkBench)) {
 				e.getPlayer().openWorkbench(e.getPlayer().getLocation(), true);
 			} else if (e.getItem().getType().equals(Material.ENDER_CHEST)
-					&& SmartServerTool.getPermission().hasVEnderchest(
-							e.getPlayer())) {
+					&& e.getPlayer().hasPermission(Permissions.openEChest)) {
 				e.getPlayer().openInventory(e.getPlayer().getEnderChest());
 			} else if (e.getItem().getType().equals(Material.ENCHANTMENT_TABLE)
-					&& SmartServerTool.getPermission().hasVEnchantingTable(
-							e.getPlayer())) {
+					&& e.getPlayer().hasPermission(
+							Permissions.openVEnchantingTable)) {
 				e.getPlayer().openEnchanting(e.getPlayer().getLocation(), true);
 			} else if (e.getItem().getType().equals(Material.ANVIL)) {
 				e.getPlayer().sendMessage("Will be added soon");
@@ -349,21 +349,30 @@ public class BlockListener implements Listener {
 
 	@EventHandler
 	public void onplayerrBed(PlayerInteractEvent event) {
-		if (SmartServerTool.getPermission().hasCreate(event.getPlayer())
+		if (event.getPlayer().hasPermission(Permissions.interact)
 				|| SmartServerTool.getCFGL().getNonPermission()) {
 			if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
 					&& (event.getClickedBlock().getType().equals(Material.BED) || event
 							.getClickedBlock().getType()
 							.equals(Material.BED_BLOCK))) {
 
-					event.getPlayer().getWorld().setFullTime(24000);
-					event.getPlayer().setBedSpawnLocation(
-							event.getClickedBlock().getLocation());
-					event.getPlayer().sendMessage(
-							ChatColor.BLUE + "Bedspawn location set!");
-				}
+				event.setCancelled(true);
+				event.getPlayer().setPlayerTime(42000, true);
+				event.getPlayer().setBedSpawnLocation(
+						event.getClickedBlock().getLocation());
+				event.getPlayer().sendMessage(
+						ChatColor.BLUE + "Bedspawn location set!");
+				event.setCancelled(false);
+				event.getPlayer().resetPlayerTime();
 			}
-		
+		}
+
+	}
+
+	@EventHandler
+	public void bedenter(PlayerBedEnterEvent e) {
+
+		e.setCancelled(false);
 
 	}
 
@@ -382,5 +391,5 @@ public class BlockListener implements Listener {
 				|| e.getVehicle().getType().equals(Material.MINECART)
 				&& (e.getAttacker() == null) ? true : e.isCancelled());
 	}
-	
+
 }

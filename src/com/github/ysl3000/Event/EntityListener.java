@@ -22,7 +22,9 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.vehicle.VehicleBlockCollisionEvent;
 import org.bukkit.inventory.ItemStack;
+
 import com.github.ysl3000.SmartServerTool;
+import com.ysl3000.permissions.Permissions;
 
 public class EntityListener implements Listener {
 
@@ -73,7 +75,7 @@ public class EntityListener implements Listener {
 				&& (e.getEntity() instanceof Player)) {
 			Player p = (Player) e.getEntity();
 
-			if (!SmartServerTool.getPermission().hasCreate(p)) {
+			if (!p.hasPermission(Permissions.interact)) {
 				e.setCancelled(true);
 				e.getBlock().setType(e.getBlock().getType());
 			}
@@ -138,7 +140,7 @@ public class EntityListener implements Listener {
 		if (e.getClickedBlock().getType().equals(Material.MOB_SPAWNER)
 				&& e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
 
-			if (SmartServerTool.getPermission().hasChangeSpawnerType(e.getPlayer())) {
+			if (e.getPlayer().hasPermission(Permissions.canChangeSpawnerType)) {
 				if ((e.getClickedBlock().getState() instanceof CreatureSpawner)) {
 
 					CreatureSpawner cs = (CreatureSpawner) e.getClickedBlock()

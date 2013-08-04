@@ -3,8 +3,14 @@ package com.github.ysl3000.Event;
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.SkullType;
+import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
+import org.bukkit.block.Skull;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
@@ -12,7 +18,6 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-
 import com.github.ysl3000.SmartServerTool;
 
 public class SignListener implements Listener {
@@ -39,6 +44,10 @@ public class SignListener implements Listener {
 						ChatColor.GREEN + "Succesfully created a [free]-sign");
 
 			}
+		} else if (e.getLine(1).equalsIgnoreCase("[del]")) {
+			e.getPlayer().sendMessage(
+					ChatColor.GREEN
+							+ "Succesfully created a [del]-sign for disposal");
 		}
 
 		e.setLine(0, e.getPlayer().getName());
@@ -48,10 +57,16 @@ public class SignListener implements Listener {
 	@EventHandler
 	public void rclickSign(PlayerInteractEvent e) {
 		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) {
+
+			
 			if (e.getClickedBlock().getType().equals(Material.SIGN)
 					|| e.getClickedBlock().getType().equals(Material.SIGN_POST)) {
 
 				Sign s = (Sign) e.getClickedBlock().getState();
+
+				if (s.getLine(1).startsWith("[") && s.getLine(1).endsWith("]")) {
+					e.setCancelled(true);
+				}
 
 				if (s.getLine(1).equalsIgnoreCase("[free]")) {
 					if (s.getLine(2).isEmpty())
@@ -69,8 +84,15 @@ public class SignListener implements Listener {
 					}
 
 					e.getPlayer().openInventory((Inventory) iv);
-
-					e.setCancelled(true);
+				} else if (s.getLine(1).equalsIgnoreCase("[del]")) {
+					Inventory iv = Bukkit.createInventory(null, 9, "Disposal");
+					e.getPlayer().openInventory(iv);
+				} else if (s.getLine(1).equalsIgnoreCase("[join]")) {
+					if (e.getPlayer().isSneaking()){
+						e.setCancelled(false);
+						return;
+					}
+					this.auslagerung(e.getPlayer(), e.getClickedBlock());
 				}
 			}
 		}
@@ -81,7 +103,7 @@ public class SignListener implements Listener {
 	public void onSignDestroy(PlayerInteractEvent e) {
 
 		if (e.getAction().equals(Action.LEFT_CLICK_BLOCK)
-				&& (e.getClickedBlock().getType().equals(Material.SIGN) || e
+				&& (e.getClickedBlock().getType().equals(Material.WALL_SIGN) || e
 						.getClickedBlock().getType().equals(Material.SIGN_POST))) {
 
 			Sign s = (Sign) e.getClickedBlock().getState();
@@ -92,5 +114,60 @@ public class SignListener implements Listener {
 
 		}
 
+	}
+
+	@EventHandler
+	public void onBlockSignUnderDestroy(PlayerInteractEvent e) {
+		if (e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
+			if (e.getClickedBlock().getRelative(BlockFace.UP).getType()
+					.equals(Material.SIGN_POST)) {
+				e.setCancelled(isBlock(e.getClickedBlock(), BlockFace.UP) ? true
+						: e.isCancelled());
+			} else if (e.getClickedBlock().getRelative(BlockFace.SOUTH)
+					.getType().equals(Material.WALL_SIGN)) {
+				e.setCancelled(isBlock(e.getClickedBlock(), BlockFace.SOUTH) ? true
+						: e.isCancelled());
+			} else if (e.getClickedBlock().getRelative(BlockFace.NORTH)
+					.getType().equals(Material.WALL_SIGN)) {
+				e.setCancelled(isBlock(e.getClickedBlock(), BlockFace.NORTH) ? true
+						: e.isCancelled());
+			} else if (e.getClickedBlock().getRelative(BlockFace.WEST)
+					.getType().equals(Material.WALL_SIGN)) {
+				e.setCancelled(isBlock(e.getClickedBlock(), BlockFace.WEST) ? true
+						: e.isCancelled());
+			} else if (e.getClickedBlock().getRelative(BlockFace.EAST)
+					.getType().equals(Material.WALL_SIGN)) {
+				e.setCancelled(isBlock(e.getClickedBlock(), BlockFace.EAST) ? true
+						: e.isCancelled());
+			}
+		}
+	}
+
+	private boolean isBlock(Block bl, BlockFace bf) {
+		boolean b = false;
+		Block attachedBlock = bl.getRelative(bf).getRelative(
+				((org.bukkit.material.Sign) bl.getRelative(bf).getState()
+						.getData()).getAttachedFace());
+		if (bl.getLocation().equals(attachedBlock.getLocation())) {
+			b = true;
+		}
+		return b;
+	}
+
+	public void auslagerung(Player p, Block clicked) {
+		Block b = p.getWorld().getBlockAt(
+				new Location(p.getWorld(), clicked.getLocation().getX(),
+						clicked.getLocation().getY() + 1, clicked.getLocation()
+								.getZ()));
+
+		if (b.getType().equals(Material.SKULL)) {
+			b.setType(Material.SKULL);
+			Skull sk = (Skull) b.getState();
+			sk.setSkullType(SkullType.PLAYER);
+			sk.setOwner(p.getName());
+			sk.update();
+		} else {
+			p.sendMessage("You Have to place a Skullhead first");
+		}
 	}
 }

@@ -1,5 +1,5 @@
 name: SmartServerTool
-version: 1.4.7_V12
+version: 1.6.2 Rewrote
 main: com.github.ysl3000.SmartServerTool
 authors:
       - DEV ysl3000
@@ -228,6 +228,12 @@ commands:
   usage: /prain
  preset:
   usage: /preset
+ healme:
+  usage: /healme
+  permission: sst.healme
+ info:
+  usage: /info
+  permission: sst.serverinfo
 permissions:
     sst.*:
          description: give all permission
@@ -317,4 +323,7 @@ permissions:
          op: true
     sst.cMc:
          description: allows crafting MagmaContainer
+         op: true
+    sst.openanychest:
+         description: you can open any chest
          op: true

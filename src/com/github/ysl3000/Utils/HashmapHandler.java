@@ -2,8 +2,10 @@ package com.github.ysl3000.Utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
 
 import com.github.ysl3000.SmartServerTool;
 
@@ -15,8 +17,8 @@ public class HashmapHandler {
 	private HashMap<Player, Location> LastL;
 	private HashMap<Player, Location> currentL;
 	private HashMap<Player, Boolean> isFly;
-	private HashMap<Player, Boolean> isHidden;
 	private HashMap<String, String> Channel;
+	private HashMap<Player, ItemStack[]> inventories;
 
 	public HashmapHandler(SmartServerTool plugin) {
 		Ap = new ArrayList<Player>();
@@ -26,8 +28,8 @@ public class HashmapHandler {
 		LastL = new HashMap<Player, Location>();
 		currentL = new HashMap<Player, Location>();
 		isFly = new HashMap<Player, Boolean>();
-		isHidden = new HashMap<Player, Boolean>();
 		Channel = new HashMap<String, String>();
+		inventories = new HashMap<Player, ItemStack[]>();
 	}
 
 	public boolean isInArray(Player p) {
@@ -66,6 +68,14 @@ public class HashmapHandler {
 		this.LastL.put(p, last);
 	}
 
+	public boolean hasLastLocation(Player p) {
+		return LastL.containsKey(p);
+	}
+
+	public void removeLastLocation(Player p) {
+		LastL.remove(p);
+	}
+
 	public Location getCurrentLocation(Player p) {
 		return this.currentL.get(p);
 	}
@@ -94,14 +104,6 @@ public class HashmapHandler {
 		this.isFly.put(p, fly);
 	}
 
-	public boolean isHiddenStatus(Player p) {
-		return this.isHidden.containsKey(p);
-	}
-
-	public void setHiddenStatus(Player p, boolean hidden) {
-		this.isHidden.put(p, hidden);
-	}
-
 	public String getChannel(String name) {
 		return this.Channel.get(name);
 	}
@@ -122,4 +124,21 @@ public class HashmapHandler {
 	public void removeFrozen(Player p) {
 		freeze.remove(p);
 	}
+
+	public void setInventory(Player p) {
+		inventories.put(p, p.getInventory().getContents());
+	}
+
+	public ItemStack[] getInventory(Player p) {
+		return inventories.get(p);
+	}
+
+	public boolean isInventoryIn(Player p) {
+		return inventories.containsKey(p);
+	}
+
+	public void removeInventory(Player p) {
+		inventories.remove(p);
+	}
+
 }

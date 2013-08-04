@@ -7,19 +7,18 @@ import java.io.InputStream;
 import java.net.URI;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
-import com.github.ysl3000.Commands.Commander;
-import com.github.ysl3000.Commands.Commands;
+
 import com.github.ysl3000.Event.BlockListener;
 import com.github.ysl3000.Event.ChestProtectionListener;
 import com.github.ysl3000.Event.EntityListener;
@@ -29,9 +28,48 @@ import com.github.ysl3000.Prefixer.MOTD;
 import com.github.ysl3000.Utils.ConfigLoader;
 import com.github.ysl3000.Utils.DateTime;
 import com.github.ysl3000.Utils.HashmapHandler;
-import com.github.ysl3000.Utils.Permission;
 import com.github.ysl3000.Utils.RecipeConfigloader;
 import com.github.ysl3000.Utils.Recipes;
+import com.ysl3000.cmdexe.Admin;
+import com.ysl3000.cmdexe.BackCommand;
+import com.ysl3000.cmdexe.ChannelChat;
+import com.ysl3000.cmdexe.CheckCurrentGamemode;
+import com.ysl3000.cmdexe.ClearInventory;
+import com.ysl3000.cmdexe.CreativeGamemode;
+import com.ysl3000.cmdexe.DoneCommand;
+import com.ysl3000.cmdexe.EntityManager;
+import com.ysl3000.cmdexe.FlyMode;
+import com.ysl3000.cmdexe.FlySpeedCommand;
+import com.ysl3000.cmdexe.FreezeCommand;
+import com.ysl3000.cmdexe.GetRealTimeCommand;
+import com.ysl3000.cmdexe.Help;
+import com.ysl3000.cmdexe.HomeCommand;
+import com.ysl3000.cmdexe.Inviter;
+import com.ysl3000.cmdexe.KickManager;
+import com.ysl3000.cmdexe.ModCommand;
+import com.ysl3000.cmdexe.NickName;
+import com.ysl3000.cmdexe.OnlinePlayersCommand;
+import com.ysl3000.cmdexe.PlayerHeal;
+import com.ysl3000.cmdexe.PlayerHealMe;
+import com.ysl3000.cmdexe.PlayerKillCommand;
+import com.ysl3000.cmdexe.PlayerKillMeCommand;
+import com.ysl3000.cmdexe.PlayerLastSeen;
+import com.ysl3000.cmdexe.PlayerLookupIpCommand;
+import com.ysl3000.cmdexe.Questioner;
+import com.ysl3000.cmdexe.RepairItem;
+import com.ysl3000.cmdexe.ServerInfo;
+import com.ysl3000.cmdexe.SetSpawnCommand;
+import com.ysl3000.cmdexe.SkullHeadCommand;
+import com.ysl3000.cmdexe.SpawnCommand;
+import com.ysl3000.cmdexe.SurvivalGamemode;
+import com.ysl3000.cmdexe.SwitchCommand;
+import com.ysl3000.cmdexe.TimeDay;
+import com.ysl3000.cmdexe.TimeNight;
+import com.ysl3000.cmdexe.ToggleGodModeCommand;
+import com.ysl3000.cmdexe.WalkSpeedCommand;
+import com.ysl3000.cmdexe.WeatherLookup;
+import com.ysl3000.cmdexe.WeatherStorm;
+import com.ysl3000.cmdexe.WeatherSun;
 
 public class SmartServerTool extends JavaPlugin {
 
@@ -56,10 +94,7 @@ public class SmartServerTool extends JavaPlugin {
 
 	private static HashmapHandler hsp;
 	private static ConfigLoader cfgl;
-	private static Commands cmds;
-	private static Permission perms;
 	private static DateTime dateTime;
-	private static Commander commander;
 
 	public void onEnable() {
 
@@ -74,14 +109,20 @@ public class SmartServerTool extends JavaPlugin {
 		new EntityListener(this);
 		new SignListener(this);
 		new ChestProtectionListener(this);
+
 		new MOTD(this);
 		cfgl = new ConfigLoader(this);
 		new RecipeConfigloader(this);
 		hsp = new HashmapHandler(this);
-		cmds = new Commands();
-		perms = new Permission();
 		dateTime = new DateTime();
-		setCommander(new Commander());
+		if (Bukkit.getServer().getOnlinePlayers().length > 0) {
+			for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+				SmartServerTool.getHSP().setFlyStatus(p, false);
+				SmartServerTool.getHSP().setChannel(p.getName(), "g");
+				p.setSleepingIgnored(SmartServerTool.getCFGL()
+						.isSleepingIgnored());
+			}
+		}
 
 		config = this.getConfig();
 		spawnConfig = this.getSpawnConfig();
@@ -184,31 +225,70 @@ public class SmartServerTool extends JavaPlugin {
 	}
 
 	public void onReload() {
-		plugin.getConfig();
-		plugin.getSpawnConfig();
-		plugin.getRecipeConfig();
+		SmartServerTool.plugin.getConfig();
+		SmartServerTool.plugin.getSpawnConfig();
+		SmartServerTool.plugin.getRecipeConfig();
+
+		for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+			SmartServerTool.getHSP().setFlyStatus(p, false);
+			SmartServerTool.getHSP().setChannel(p.getName(), "g");
+			p.setSleepingIgnored(SmartServerTool.getCFGL().isSleepingIgnored());
+		}
 	}
 
 	public void onDisable() {
 
 		log = Logger.getLogger("Minecraft");
 		log.info("Disabled Smart Server Tool");
-		saveConfig();
-		saveSpawnConfig();
-		saveRecipeConfig();
 	}
 
 	public boolean onCommand(CommandSender sender, Command cmd,
 			String commandLabel, String[] args) {
 
-		if (sender instanceof Player) {
-
-			getCommander().runCommands(sender, cmd, commandLabel, args);
-
-		} else if (sender instanceof ConsoleCommandSender) {
+		if (!(sender instanceof Player)) {
 			sender.sendMessage(consolehasperformed);
 		}
 
+		getCommand("/admin").setExecutor(new Admin());
+		getCommand("back").setExecutor(new BackCommand());
+		getCommand("gm").setExecutor(new CheckCurrentGamemode());
+		getCommand("gmc").setExecutor(new CreativeGamemode());
+		getCommand("done").setExecutor(new DoneCommand());
+		getCommand("fly").setExecutor(new FlyMode());
+		getCommand("fs").setExecutor(new FlySpeedCommand());
+		getCommand("freeze").setExecutor(new FreezeCommand());
+		getCommand("rt").setExecutor(new GetRealTimeCommand());
+		getCommand("home").setExecutor(new HomeCommand());
+		getCommand("mod").setExecutor(new ModCommand());
+		getCommand("online").setExecutor(new OnlinePlayersCommand());
+		getCommand("heal").setExecutor(new PlayerHeal());
+		getCommand("healme").setExecutor(new PlayerHealMe());
+		getCommand("kill").setExecutor(new PlayerKillCommand());
+		getCommand("km").setExecutor(new PlayerKillMeCommand());
+		getCommand("seen").setExecutor(new PlayerLastSeen());
+		getCommand("/ip").setExecutor(new PlayerLookupIpCommand());
+		getCommand("info").setExecutor(new ServerInfo());
+		getCommand("setsp").setExecutor(new SetSpawnCommand());
+		getCommand("spawn").setExecutor(new SpawnCommand());
+		getCommand("gms").setExecutor(new SurvivalGamemode());
+		getCommand("switch").setExecutor(new SwitchCommand());
+		getCommand("td").setExecutor(new TimeDay());
+		getCommand("tn").setExecutor(new TimeNight());
+		getCommand("god").setExecutor(new ToggleGodModeCommand());
+		getCommand("ws").setExecutor(new WalkSpeedCommand());
+		getCommand("wg").setExecutor(new WeatherLookup());
+		getCommand("storm").setExecutor(new WeatherStorm());
+		getCommand("sun").setExecutor(new WeatherSun());
+		getCommand("ssth").setExecutor(new Help());
+		getCommand("al").setExecutor(new EntityManager());
+		getCommand("jc").setExecutor(new ChannelChat());
+		getCommand("invite").setExecutor(new Inviter());
+		getCommand("kick").setExecutor(new KickManager());
+		getCommand("answer").setExecutor(new Questioner());
+		getCommand("nick").setExecutor(new NickName());
+		getCommand("ci").setExecutor(new ClearInventory());
+		getCommand("i").setExecutor(new SkullHeadCommand());
+		getCommand("repair").setExecutor(new RepairItem());
 		return true;
 
 	}
@@ -294,28 +374,13 @@ public class SmartServerTool extends JavaPlugin {
 		return cfgl;
 	}
 
-	public static Commands getCommands() {
-		return cmds;
-	}
-
-	public static Permission getPermission() {
-		return perms;
-	}
-
 	public static DateTime getDateTime() {
 		return dateTime;
 	}
 
-	public static Commander getCommander() {
-		return commander;
-	}
+	public static void openUrl(String url) throws Exception {
 
-	public static void setCommander(Commander commander) {
-		SmartServerTool.commander = commander;
-	}
-	public static void openUrl(String url) throws Exception{
-		
-		if(Desktop.isDesktopSupported()){
+		if (Desktop.isDesktopSupported()) {
 			URI urls = URI.create(url);
 			Desktop.getDesktop().browse(urls);
 		}

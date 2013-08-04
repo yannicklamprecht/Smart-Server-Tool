@@ -14,10 +14,10 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import com.github.ysl3000.HideP;
-import com.github.ysl3000.Questioner;
+
 import com.github.ysl3000.SmartServerTool;
-import com.github.ysl3000.Location.SpawnArea;
+import com.ysl3000.cmdexe.Questioner;
+import com.ysl3000.permissions.Permissions;
 
 public class MOTD implements Listener {
 
@@ -58,7 +58,7 @@ public class MOTD implements Listener {
 					.getResult().name().substring(5, 11));
 		} else if (event.getResult() == PlayerLoginEvent.Result.KICK_FULL) {
 
-			if (SmartServerTool.getPermission().hasJoinFull(event.getPlayer())) {
+			if (event.getPlayer().hasPermission(Permissions.joinFull)) {
 
 				event.setResult(Result.ALLOWED);
 			} else {
@@ -67,13 +67,13 @@ public class MOTD implements Listener {
 			}
 		} else if (event.getResult() == Result.KICK_OTHER) {
 
-			if (SmartServerTool.getPermission().hasJoinService(event.getPlayer())) {
+			if (event.getPlayer().hasPermission(Permissions.joinService)) {
 
 				event.setResult(Result.ALLOWED);
 
 			} else {
 
-				event.setKickMessage(SmartServerTool.getCFGL().getMaintenanceMessage());
+				event.setKickMessage(ChatColor.DARK_RED+SmartServerTool.getCFGL().getMaintenanceMessage());
 			}
 		}
 
@@ -84,8 +84,8 @@ public class MOTD implements Listener {
 
 		if (SmartServerTool.getCFGL().getMaintenance()) {
 
-			event.setMaxPlayers(0);
-			event.setMotd(SmartServerTool.getCFGL().getMaintenanceMessage());
+			event.setMaxPlayers(-2);
+			event.setMotd(ChatColor.DARK_RED+SmartServerTool.getCFGL().getMaintenanceMessage());
 
 		} else {
 			event.setMotd(ChatColor.GOLD + event.getMotd());
@@ -101,9 +101,7 @@ public class MOTD implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		SmartServerTool.getHSP().setFlyStatus(player, false);
-		SmartServerTool.getHSP().setHiddenStatus(player, false);
 		SmartServerTool.getHSP().setChannel(player.getName(), "g");
-		HideP.runHide();
 		message(event);
 		player.setSleepingIgnored(SmartServerTool.getCFGL().isSleepingIgnored());
 	}
@@ -195,12 +193,8 @@ public class MOTD implements Listener {
 						eventPJE.setJoinMessage("");
 
 						Questioner.ask(playerPJE);
+						eventPJE.getPlayer().teleport(eventPJE.getPlayer().getWorld().getSpawnLocation());
 
-						try {
-							SpawnArea.tospawn(playerPJE);
-						} catch (Exception e) {
-
-						}
 						
 						ItemStack starterpack = new ItemStack(Material.MAGMA_CREAM, 1);
 						ItemMeta itemM = starterpack.getItemMeta();
@@ -232,12 +226,7 @@ public class MOTD implements Listener {
 			} else {
 
 				if (!eventPJE.getPlayer().hasPlayedBefore()) {
-
-					try {
-						SpawnArea.tospawn(eventPJE.getPlayer());
-					} catch (Exception e) {
-
-					}
+					eventPJE.getPlayer().teleport(eventPJE.getPlayer().getWorld().getSpawnLocation());
 				} else {
 					return;
 				}
@@ -260,9 +249,6 @@ public class MOTD implements Listener {
 				eventPQE.setQuitMessage(leftmessage);
 			}
 
-			if (SmartServerTool.getHSP().getIsMod(eventPQE.getPlayer()) == true) {
-				Top.doneMe(eventPQE.getPlayer());
-			}
 		}
 
 	}

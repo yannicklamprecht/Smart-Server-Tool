@@ -20,6 +20,7 @@ import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.ItemStack;
 
 import com.github.ysl3000.SmartServerTool;
+import com.ysl3000.permissions.Permissions;
 
 public class PlayerListener implements Listener {
 
@@ -45,10 +46,10 @@ public class PlayerListener implements Listener {
 		}
 		Player target = (Player) etarget;
 		
-		if (SmartServerTool.getPermission().hasInfo(player)) {
+		if (event.getPlayer().hasPermission(Permissions.playerInfo)) {
 			player.sendMessage("Infos of: " + target.getDisplayName());
 			player.sendMessage("Foodlevel: " + target.getFoodLevel());
-			player.sendMessage("Health: " + target.getHealth());
+			player.sendMessage("Health: " + "Not available");
 			player.sendMessage("Ip: " + target.getAddress());
 			player.sendMessage("Op-status: " + target.isOp());
 			player.sendMessage("Gamemode: " + target.getGameMode());
@@ -89,7 +90,7 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void chatHandler(AsyncPlayerChatEvent e) {
-		if (!SmartServerTool.getPermission().hasAllowChat(e.getPlayer())
+		if (!e.getPlayer().hasPermission(Permissions.chat)
 				&& !SmartServerTool.getCFGL().getNonPermission()) {
 			e.setCancelled(true);
 			e.getPlayer().sendMessage(SmartServerTool.noperms);
@@ -98,7 +99,7 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent e) {
-		e.setCancelled(((SmartServerTool.getPermission().hasAllowMove(e.getPlayer()) || SmartServerTool.getCFGL()
+		e.setCancelled(((e.getPlayer().hasPermission(Permissions.move) || SmartServerTool.getCFGL()
 				.getNonPermission())&&  !SmartServerTool.getHSP().isFrozen(e.getPlayer()))? e.isCancelled() : true);
 	}
 
@@ -112,6 +113,7 @@ public class PlayerListener implements Listener {
 				event.setMessage(event.getMessage().substring(5));
 				event.setFormat(ChatColor.AQUA + "[global]" + ChatColor.WHITE
 						+ event.getFormat());
+				
 				return;
 			} else if (event.getMessage().startsWith("@op ")) {
 
@@ -189,13 +191,13 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void nobucketFill(PlayerBucketFillEvent e) {
-		e.setCancelled(!(SmartServerTool.getPermission().hasCreate(e.getPlayer()) || SmartServerTool.getCFGL()
+		e.setCancelled(!(e.getPlayer().hasPermission(Permissions.interact) || SmartServerTool.getCFGL()
 				.getNonPermission()));
 	}
 
 	@EventHandler
 	public void nobucketEmpty(PlayerBucketEmptyEvent e) {
-		e.setCancelled(!(SmartServerTool.getPermission().hasCreate(e.getPlayer()) || SmartServerTool.getCFGL()
+		e.setCancelled(!(e.getPlayer().hasPermission(Permissions.interact) || SmartServerTool.getCFGL()
 				.getNonPermission()));
 	}
 
