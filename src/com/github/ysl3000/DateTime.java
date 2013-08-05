@@ -1,4 +1,5 @@
-package com.github.ysl3000.Utils;
+package com.github.ysl3000;
+
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

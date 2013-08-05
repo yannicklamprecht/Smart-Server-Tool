@@ -92,7 +92,7 @@ public class MOTD implements Listener {
 		}
 	}
 
-	public static void message_trying_to_join(String name, String type) {
+	private void message_trying_to_join(String name, String type) {
 		Bukkit.broadcast(name + "{" + type + "}" + " trying to join",
 				"sst.admin");
 	}
@@ -111,7 +111,7 @@ public class MOTD implements Listener {
 		message(event);
 	}
 
-	public static String name(Player player) {
+	private String name(Player player) {
 
 		String userDisName = null;
 
@@ -120,7 +120,7 @@ public class MOTD implements Listener {
 		return userDisName;
 	}
 
-	public static void message(Event event) {
+	private void message(Event event) {
 
 		if (event instanceof PlayerJoinEvent) {
 
