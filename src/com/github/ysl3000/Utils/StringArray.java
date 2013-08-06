@@ -22,8 +22,8 @@ public class StringArray {
 	}
 
 	public StringArray subStringArray(int value, boolean isEndValue) {
-		return (isEndValue) ? this.subStringArray(0, end) : this
-				.subStringArray(start, array.length);
+		return (isEndValue) ? this.subStringArray(0, value) : this
+				.subStringArray(value, array.length);
 	}
 
 	@Override
