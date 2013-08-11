@@ -1,8 +1,6 @@
 package com.ysl3000.cmdexe;
 
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
+import org.bukkit.command.*;
 import org.bukkit.entity.Player;
 
 public class WalkSpeedCommand implements CommandExecutor {

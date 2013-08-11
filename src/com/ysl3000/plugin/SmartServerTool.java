@@ -5,49 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import com.ysl3000.cmdexe.Admin;
-import com.ysl3000.cmdexe.BackCommand;
-import com.ysl3000.cmdexe.CheckCurrentGamemode;
-import com.ysl3000.cmdexe.CreativeGamemode;
-import com.ysl3000.cmdexe.DoneCommand;
-import com.ysl3000.cmdexe.FlyMode;
-import com.ysl3000.cmdexe.FlySpeedCommand;
-import com.ysl3000.cmdexe.FreezeCommand;
-import com.ysl3000.cmdexe.GetRealTimeCommand;
-import com.ysl3000.cmdexe.HomeCommand;
-import com.ysl3000.cmdexe.ModCommand;
-import com.ysl3000.cmdexe.OnlinePlayersCommand;
-import com.ysl3000.cmdexe.PlayerHeal;
-import com.ysl3000.cmdexe.PlayerHealMe;
-import com.ysl3000.cmdexe.PlayerKillCommand;
-import com.ysl3000.cmdexe.PlayerKillMeCommand;
-import com.ysl3000.cmdexe.PlayerLastSeen;
-import com.ysl3000.cmdexe.PlayerLookupIpCommand;
-import com.ysl3000.cmdexe.ServerInfo;
-import com.ysl3000.cmdexe.SetSpawnCommand;
-import com.ysl3000.cmdexe.SpawnCommand;
-import com.ysl3000.cmdexe.SurvivalGamemode;
-import com.ysl3000.cmdexe.SwitchCommand;
-import com.ysl3000.cmdexe.TimeDay;
-import com.ysl3000.cmdexe.TimeNight;
-import com.ysl3000.cmdexe.ToggleGodModeCommand;
-import com.ysl3000.cmdexe.WalkSpeedCommand;
-import com.ysl3000.cmdexe.WeatherLookup;
-import com.ysl3000.cmdexe.WeatherStorm;
-import com.ysl3000.cmdexe.WeatherSun;
-import com.ysl3000.events.BlockListener;
-import com.ysl3000.events.ChestProtectionListener;
-import com.ysl3000.events.EntityListener;
-import com.ysl3000.events.MOTD;
-import com.ysl3000.events.PlayerListener;
-import com.ysl3000.events.SignListener;
+import com.ysl3000.cmdexe.*;
+import com.ysl3000.events.*;
 import com.ysl3000.utils.ConfigLoader;
 import com.ysl3000.utils.SmartController;
 
@@ -69,7 +33,7 @@ public class SmartServerTool extends JavaPlugin {
 
 		plugin = new SmartServerTool();
 		new File(mainDirectory).mkdir();
-		
+
 		SmartController.getSmartControler();
 
 		this.config = this.getConfig();
@@ -211,8 +175,8 @@ public class SmartServerTool extends JavaPlugin {
 			recipeConfig.setDefaults(defConfig);
 		}
 	}
-	
-	public static ConfigLoader getConfigLoader(){
+
+	public static ConfigLoader getConfigLoader() {
 		return cfg;
 	}
 
