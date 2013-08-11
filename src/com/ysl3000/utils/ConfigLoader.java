@@ -1,6 +1,7 @@
-package com.github.ysl3000.Utils;
+package com.ysl3000.utils;
 
-import com.github.ysl3000.SmartServerTool;
+import com.ysl3000.plugin.SmartServerTool;
+
 
 public class ConfigLoader {
 
@@ -90,12 +91,9 @@ public class ConfigLoader {
 	private  boolean nopermission_needed;
 	
 
-	public ConfigLoader(SmartServerTool smartServerTool) {
-		this.plugin = smartServerTool;
+	public ConfigLoader(SmartServerTool plugin) {
+		this.plugin = plugin;
 
-		//enable/disable Player Joining
-		
-		playerJoining = this.plugin.getConfig().getBoolean("Join.Player");
 		
 		// enable/disable chat-message
 		messageing = this.plugin.getConfig().getBoolean(

@@ -1,6 +1,6 @@
-package com.github.ysl3000.Utils;
+package com.ysl3000.utils;
 
-import com.github.ysl3000.SmartServerTool;
+import com.ysl3000.plugin.SmartServerTool;
 
 public class RecipeConfigloader {
 
@@ -29,28 +29,46 @@ public class RecipeConfigloader {
 	public RecipeConfigloader(SmartServerTool smartServerTool) {
 		this.plugin = smartServerTool;
 
-		enableGlowStone = this.plugin.getRecipeConfig().getBoolean("Furnace.GlowStone");
-		enableIronIngot = this.plugin.getRecipeConfig().getBoolean("Furnace.IronIngot");
-		enableGoldIngot = this.plugin.getRecipeConfig().getBoolean("Furnace.GoldIngot");
-		enableDiamond = this.plugin.getRecipeConfig().getBoolean("Furnace.Diamond");
-		enableNetherBrick = this.plugin.getRecipeConfig().getBoolean("Furnace.NetherBrick");
-		enableSponge = this.plugin.getRecipeConfig().getBoolean("Furnace.Sponge");
-		enableEnchantmentTable = this.plugin.getRecipeConfig().getBoolean("Crafting.EntchantmentTable");
-		enableEggs = this.plugin.getRecipeConfig().getBoolean("Crafting.SpawnEggs");
-		enableWheat = this.plugin.getRecipeConfig().getBoolean("Crafting.Wheat");
-		enableGrass = this.plugin.getRecipeConfig().getBoolean("Crafting.Grass");
-		enableCobbleStone = this.plugin.getRecipeConfig().getBoolean("Crafting.CobbleStone");
+		enableGlowStone = this.plugin.getRecipeConfig().getBoolean(
+				"Furnace.GlowStone");
+		enableIronIngot = this.plugin.getRecipeConfig().getBoolean(
+				"Furnace.IronIngot");
+		enableGoldIngot = this.plugin.getRecipeConfig().getBoolean(
+				"Furnace.GoldIngot");
+		enableDiamond = this.plugin.getRecipeConfig().getBoolean(
+				"Furnace.Diamond");
+		enableNetherBrick = this.plugin.getRecipeConfig().getBoolean(
+				"Furnace.NetherBrick");
+		enableSponge = this.plugin.getRecipeConfig().getBoolean(
+				"Furnace.Sponge");
+		enableEnchantmentTable = this.plugin.getRecipeConfig().getBoolean(
+				"Crafting.EntchantmentTable");
+		enableEggs = this.plugin.getRecipeConfig().getBoolean(
+				"Crafting.SpawnEggs");
+		enableWheat = this.plugin.getRecipeConfig()
+				.getBoolean("Crafting.Wheat");
+		enableGrass = this.plugin.getRecipeConfig()
+				.getBoolean("Crafting.Grass");
+		enableCobbleStone = this.plugin.getRecipeConfig().getBoolean(
+				"Crafting.CobbleStone");
 		enableNet = this.plugin.getRecipeConfig().getBoolean("Crafting.Net");
-		enableSaddle = this.plugin.getRecipeConfig().getBoolean("Crafting.Saddle");
-		enableLongGrass = this.plugin.getRecipeConfig().getBoolean("Crafting.LongGrass");
-		enableChainHelmet = this.plugin.getRecipeConfig().getBoolean("Crafting.Chain.Helmet");
-		enableChainChest = this.plugin.getRecipeConfig().getBoolean("Crafting.Chain.Chest");
-		enableChainLegg = this.plugin.getRecipeConfig().getBoolean("Crafting.Chain.Legg");
-		enableChainFeet = this.plugin.getRecipeConfig().getBoolean("Crafting.Chain.Feet");
-		enableCommandBlock = this.plugin.getRecipeConfig().getBoolean("Crafting.CommandBlock");
+		enableSaddle = this.plugin.getRecipeConfig().getBoolean(
+				"Crafting.Saddle");
+		enableLongGrass = this.plugin.getRecipeConfig().getBoolean(
+				"Crafting.LongGrass");
+		enableChainHelmet = this.plugin.getRecipeConfig().getBoolean(
+				"Crafting.Chain.Helmet");
+		enableChainChest = this.plugin.getRecipeConfig().getBoolean(
+				"Crafting.Chain.Chest");
+		enableChainLegg = this.plugin.getRecipeConfig().getBoolean(
+				"Crafting.Chain.Legg");
+		enableChainFeet = this.plugin.getRecipeConfig().getBoolean(
+				"Crafting.Chain.Feet");
+		enableCommandBlock = this.plugin.getRecipeConfig().getBoolean(
+				"Crafting.CommandBlock");
 	}
-	
-	public static boolean getisEntchantmentTable(){
+
+	public static boolean getisEntchantmentTable() {
 		return enableEnchantmentTable;
 	}
 

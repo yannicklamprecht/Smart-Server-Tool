@@ -1,4 +1,4 @@
-package com.github.ysl3000.Event;
+package com.ysl3000.events;
 
 import org.bukkit.Material;
 import org.bukkit.block.Chest;
@@ -11,8 +11,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.github.ysl3000.SmartServerTool;
 import com.ysl3000.permissions.Permissions;
+import com.ysl3000.plugin.SmartServerTool;
 
 public class ChestProtectionListener implements Listener {
 
@@ -30,8 +30,8 @@ public class ChestProtectionListener implements Listener {
 			im.setDisplayName(e.getViewers().get(0).getName());
 			is.setItemMeta(im);
 			e.getInventory().setResult(is);
-			if(e.getViewers().get(0) instanceof Player){
-				((Player)e.getViewers().get(0)).updateInventory();
+			if (e.getViewers().get(0) instanceof Player) {
+				((Player) e.getViewers().get(0)).updateInventory();
 			}
 		}
 	}
@@ -45,7 +45,8 @@ public class ChestProtectionListener implements Listener {
 			Chest ch = (Chest) e.getClickedBlock().getState();
 			if (!(ch.getInventory().getName()
 					.equalsIgnoreCase(e.getPlayer().getName())
-					|| ch.getInventory().getName().equalsIgnoreCase("public") || e.getPlayer().hasPermission(Permissions.openAnyChest))) {
+					|| ch.getInventory().getName().equalsIgnoreCase("public") || e
+					.getPlayer().hasPermission(Permissions.openAnyChest))) {
 				e.setCancelled(true);
 				e.getPlayer().sendMessage(
 						"This chest is protected to"

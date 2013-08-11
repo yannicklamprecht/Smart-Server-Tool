@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.github.ysl3000.SmartServerTool;
+import com.ysl3000.utils.SmartController;
 
 public class BackCommand implements CommandExecutor {
 
@@ -15,11 +15,13 @@ public class BackCommand implements CommandExecutor {
 
 		Player player = (Player) sender;
 
-		if (SmartServerTool.getHSP().getLastLocation(player) == null) {
+		if (SmartController.getSmartControler().getHashmaps().getSmartPLayers()
+				.get(player).getLastLocation() == null) {
 			player.sendMessage("Last location not found");
 			return true;
 		}
-		player.teleport(SmartServerTool.getHSP().getLastLocation(player));
+		player.teleport(SmartController.getSmartControler().getHashmaps()
+				.getSmartPLayers().get(player).getLastLocation());
 		return true;
 	}
 

@@ -5,7 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.github.ysl3000.SmartServerTool;
+import com.ysl3000.utils.SmartController;
 
 public class ToggleGodModeCommand implements CommandExecutor {
 
@@ -16,13 +16,18 @@ public class ToggleGodModeCommand implements CommandExecutor {
 		Player p = (Player) sender;
 		if (p.hasPermission(cmd.getPermission())) {
 
-			if (SmartServerTool.getHSP().getIsMod(p)) {
-				SmartServerTool.getHSP().removeIsMOD(p);
+			if (SmartController.getSmartControler().getHashmaps()
+					.getSmartPLayers().get(p).isGod()) {
+				SmartController.getSmartControler().getHashmaps()
+						.getSmartPLayers().get(p).setGod(false);
 			} else {
-				SmartServerTool.getHSP().setIsMOD(p);
+				SmartController.getSmartControler().getHashmaps()
+						.getSmartPLayers().get(p).setGod(true);
 			}
 			p.sendMessage("Godmode set to "
-					+ SmartServerTool.getHSP().getIsMod(p));
+					+ (SmartController.getSmartControler().getHashmaps()
+							.getSmartPLayers().get(p).isGod() ? "True"
+							: "False"));
 
 		}
 

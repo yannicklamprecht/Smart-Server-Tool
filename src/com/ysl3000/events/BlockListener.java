@@ -1,6 +1,5 @@
-package com.github.ysl3000.Event;
+package com.ysl3000.events;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import org.bukkit.ChatColor;
@@ -18,19 +17,18 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
+import org.bukkit.event.block.BlockIgniteEvent.IgniteCause;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
-import org.bukkit.event.block.BlockIgniteEvent.IgniteCause;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import com.github.ysl3000.SmartServerTool;
 import com.ysl3000.permissions.Permissions;
+import com.ysl3000.plugin.SmartServerTool;
 
 public class BlockListener implements Listener {
 
@@ -41,30 +39,36 @@ public class BlockListener implements Listener {
 	@EventHandler
 	public void onbreak(BlockBreakEvent event) {
 		event.setCancelled(!event.getPlayer().hasPermission(
-				Permissions.interact)
-				&& !SmartServerTool.getCFGL().getNonPermission());
+				Permissions.modifyBlock)
+				|| SmartServerTool.getConfigLoader()
+						.getNonPermission() ? false : true);
 	}
 
 	@EventHandler(priority = EventPriority.LOW)
 	public void onbuild(BlockPlaceEvent event) {
 		event.setCancelled(!event.getPlayer().hasPermission(
-				Permissions.interact)
-				&& !SmartServerTool.getCFGL().getNonPermission());
+				Permissions.modifyBlock)
+				&& !SmartServerTool.getConfigLoader()
+						.getNonPermission());
 	}
 
 	@EventHandler
 	public void onPhysics(BlockPhysicsEvent e) {
 		if (e.getBlock().getType().equals(Material.TRAP_DOOR)) {
-			e.setCancelled(SmartServerTool.getCFGL().getPhysicsTrapdoor());
+			e.setCancelled(SmartServerTool
+					.getConfigLoader().getPhysicsTrapdoor());
 		}
 		if (e.getBlock().getType().equals(Material.TORCH)) {
-			e.setCancelled(SmartServerTool.getCFGL().getPhysicsTorch());
+			e.setCancelled(SmartServerTool
+					.getConfigLoader().getPhysicsTorch());
 		}
 		if (e.getBlock().getType().equals(Material.SAND)) {
-			e.setCancelled(SmartServerTool.getCFGL().getPhysicsSand());
+			e.setCancelled(SmartServerTool
+					.getConfigLoader().getPhysicsSand());
 		}
 		if (e.getBlock().getType().equals(Material.GRAVEL)) {
-			e.setCancelled(SmartServerTool.getCFGL().getPhysicsGravel());
+			e.setCancelled(SmartServerTool
+					.getConfigLoader().getPhysicsGravel());
 		}
 		if (e.getBlock().getType().equals(Material.DIAMOND_BLOCK)) {
 			if (e.getBlock().getBlockPower() == 1) {
@@ -101,17 +105,18 @@ public class BlockListener implements Listener {
 
 	@EventHandler
 	public void onblockburn(BlockBurnEvent event) {
-		event.setCancelled(SmartServerTool.getCFGL().isBlockburn());
+		event.setCancelled(SmartServerTool
+				.getConfigLoader().isBlockburn());
 	}
 
 	@EventHandler
 	public void onblockig(BlockIgniteEvent event) {
-		event.setCancelled(event.getCause().equals(IgniteCause.LAVA) ? SmartServerTool
-				.getCFGL().isLavaspread() : event.getCause().equals(
-				IgniteCause.LIGHTNING) ? SmartServerTool.getCFGL()
-				.isLightning_spread() : event.getCause().equals(
-				IgniteCause.SPREAD) ? SmartServerTool.getCFGL()
-				.isNormalspread() : false);
+		event.setCancelled(event.getCause().equals(IgniteCause.LAVA) ? SmartServerTool.getConfigLoader().isLavaspread()
+				: event.getCause().equals(IgniteCause.LIGHTNING) ? SmartServerTool.getConfigLoader()
+						.isLightning_spread()
+						: event.getCause().equals(IgniteCause.SPREAD) ? SmartServerTool.getConfigLoader()
+								.isNormalspread()
+								: false);
 	}
 
 	@EventHandler
@@ -122,16 +127,18 @@ public class BlockListener implements Listener {
 				return;
 			Random rando = new Random();
 			if (event.getBlock().getType().equals(Material.DIAMOND_ORE)
-					&& (rando.nextInt(SmartServerTool.getCFGL()
-							.getDiamondDropChance()) == 1 || SmartServerTool
-							.getCFGL().getDiamondDropChance() == 1)
-					&& SmartServerTool.getCFGL().isDiamondDrop()) {
+					&& (rando.nextInt(SmartServerTool
+							.getConfigLoader().getDiamondDropChance()) == 1 || SmartServerTool.getConfigLoader()
+							.getDiamondDropChance() == 1)
+					&& SmartServerTool.getConfigLoader()
+							.isDiamondDrop()) {
 				event.getBlock()
 						.getWorld()
 						.dropItem(event.getBlock().getLocation(),
 								new ItemStack(Material.DIAMOND_PICKAXE));
 			} else if (event.getBlock().getType().equals(Material.LEAVES)
-					&& SmartServerTool.getCFGL().isAppleShear()
+					&& SmartServerTool.getConfigLoader()
+							.isAppleShear()
 					&& event.getPlayer().getItemInHand().getType()
 							.equals(Material.SHEARS)) {
 				event.getBlock()
@@ -140,10 +147,11 @@ public class BlockListener implements Listener {
 								new ItemStack(Material.GOLDEN_APPLE, 1));
 
 			} else if (event.getBlock().getTypeId() == 102
-					&& (rando.nextInt(SmartServerTool.getCFGL()
-							.getGlassPaneDropChance()) == 1 || SmartServerTool
-							.getCFGL().getGlassPaneDropChance() == 1)
-					&& SmartServerTool.getCFGL().isGlassPaneDrop()) {
+					&& (rando.nextInt(SmartServerTool
+							.getConfigLoader().getGlassPaneDropChance()) == 1 || SmartServerTool.getConfigLoader()
+							.getGlassPaneDropChance() == 1)
+					&& SmartServerTool.getConfigLoader()
+							.isGlassPaneDrop()) {
 
 				event.getBlock()
 						.getWorld()
@@ -151,10 +159,11 @@ public class BlockListener implements Listener {
 								new ItemStack(102, 1));
 
 			} else if (event.getBlock().getType().equals(Material.GLASS)
-					&& (rando.nextInt(SmartServerTool.getCFGL()
-							.getGlassSandDropChance()) == 1 || SmartServerTool
-							.getCFGL().getGlassSandDropChance() == 1)
-					&& SmartServerTool.getCFGL().isGlassSandDrop()) {
+					&& (rando.nextInt(SmartServerTool
+							.getConfigLoader().getGlassSandDropChance()) == 1 || SmartServerTool.getConfigLoader()
+							.getGlassSandDropChance() == 1)
+					&& SmartServerTool.getConfigLoader()
+							.isGlassSandDrop()) {
 				event.getBlock()
 						.getWorld()
 						.dropItem(event.getBlock().getLocation(),
@@ -182,8 +191,7 @@ public class BlockListener implements Listener {
 					.getClickedBlock().getType().equals(Material.WORKBENCH))) {
 				return;
 			}
-			if (e.getPlayer().hasPermission(Permissions.interact)
-					|| SmartServerTool.getCFGL().getNonPermission()) {
+			if (e.getPlayer().hasPermission(Permissions.interact)) {
 				return;
 			}
 			e.setCancelled(true);
@@ -207,99 +215,9 @@ public class BlockListener implements Listener {
 					&& e.getPlayer().hasPermission(
 							Permissions.openVEnchantingTable)) {
 				e.getPlayer().openEnchanting(e.getPlayer().getLocation(), true);
-			} else if (e.getItem().getType().equals(Material.ANVIL)) {
-				e.getPlayer().sendMessage("Will be added soon");
 
-			} else if (e.getItem().getType().equals(Material.MAGMA_CREAM)) {
-				if (e.getItem().getItemMeta().getDisplayName() != null
-						&& (e.getItem().getItemMeta().getDisplayName()
-								.equalsIgnoreCase("advanced_pack") || e
-								.getItem().getItemMeta().getDisplayName()
-								.equalsIgnoreCase("starter_pack"))) {
-					if (inventoryIsEmpty(e.getPlayer().getInventory(), 3)) {
-
-						if (e.getItem().getAmount() == 1) {
-							e.getPlayer().getInventory()
-									.remove(e.getPlayer().getItemInHand());
-						} else {
-							e.getPlayer()
-									.getItemInHand()
-									.setAmount(
-											e.getPlayer().getItemInHand()
-													.getAmount() - 1);
-						}
-
-						addStuffForMagmaCream(e.getPlayer(), e.getItem()
-								.getItemMeta().getDisplayName());
-
-					} else {
-						e.getPlayer()
-								.sendMessage(
-										ChatColor.RED
-												+ "Not enough space in inventory to extract stuff"
-												+ ChatColor.RESET);
-					}
-				}
 			}
 		}
-	}
-
-	private static boolean inventoryIsEmpty(Inventory iv, int minfree) {
-		int ivs = 0;
-		for (int i = iv.getSize(); i > 0; i--) {
-			if (iv.getItem(i) == null) {
-				ivs++;
-			}
-		}
-		if (ivs >= minfree) {
-			return true;
-		} else {
-			return false;
-		}
-
-	}
-
-	@SuppressWarnings("deprecation")
-	private static void addStuffForMagmaCream(Player p, String pack_data) {
-		if (pack_data.equalsIgnoreCase("starter_pack")) {
-			ArrayList<Material> list = new ArrayList<Material>();
-
-			list.add(Material.WOOD_AXE);
-			list.add(Material.WOOD_HOE);
-			list.add(Material.WOOD_PICKAXE);
-			list.add(Material.WOOD_SPADE);
-			list.add(Material.WOOD_SWORD);
-
-			for (Material mat : list) {
-				if (p.getInventory().contains(mat)) {
-					addictItems(p, mat);
-				} else {
-					p.getInventory().addItem(new ItemStack(mat, 1));
-				}
-			}
-
-		} else if (pack_data.equalsIgnoreCase("advanced_pack")) {
-			ArrayList<Material> list = new ArrayList<Material>();
-
-			list.add(Material.WORKBENCH);
-			list.add(Material.ENCHANTMENT_TABLE);
-			list.add(Material.ENDER_CHEST);
-			for (Material mat : list) {
-				if (p.getInventory().contains(mat)) {
-					addictItems(p, mat);
-				} else {
-					p.getInventory().addItem(new ItemStack(mat, 1));
-				}
-			}
-		}
-		p.updateInventory();
-	}
-
-	private static void addictItems(Player p, Material mat) {
-		p.getInventory().setItem(
-				p.getInventory().first(mat),
-				new ItemStack(mat, p.getInventory()
-						.getItem(p.getInventory().first(mat)).getAmount() + 1));
 	}
 
 	@EventHandler
@@ -349,8 +267,7 @@ public class BlockListener implements Listener {
 
 	@EventHandler
 	public void onplayerrBed(PlayerInteractEvent event) {
-		if (event.getPlayer().hasPermission(Permissions.interact)
-				|| SmartServerTool.getCFGL().getNonPermission()) {
+		if (event.getPlayer().hasPermission(Permissions.modifyBlock)) {
 			if (event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
 					&& (event.getClickedBlock().getType().equals(Material.BED) || event
 							.getClickedBlock().getType()

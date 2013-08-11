@@ -16,6 +16,7 @@ public class PlayerLookupIpCommand implements CommandExecutor {
 		Player player = (Player) sender;
 
 		if (player.hasPermission(cmd.getPermission())) {
+			if(args.length != 1)return false;
 			Player target = Bukkit.getPlayer(args[0]);
 
 			if (target == null) {

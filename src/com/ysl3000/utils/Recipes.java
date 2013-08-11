@@ -1,4 +1,4 @@
-package com.github.ysl3000.Utils;
+package com.ysl3000.utils;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.FurnaceRecipe;
@@ -8,7 +8,7 @@ import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.material.SpawnEgg;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import com.github.ysl3000.SmartServerTool;
+import com.ysl3000.plugin.SmartServerTool;
 
 public class Recipes extends JavaPlugin {
 

@@ -52,8 +52,6 @@ Question:
   answer: peace
   unlockGroupName: Builder
   question: What word doesn't match in the rules??
-Join:
-  Player: false
 disable-physics:
   Gravel: false
   Sand: false

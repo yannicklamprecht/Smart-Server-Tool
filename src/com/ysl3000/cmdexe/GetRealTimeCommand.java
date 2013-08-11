@@ -6,7 +6,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.ysl3000.permissions.Utility;
+import com.ysl3000.utils.Utility;
 
 public class GetRealTimeCommand implements CommandExecutor {
 

@@ -1,4 +1,4 @@
-package com.github.ysl3000.Prefixer;
+package com.ysl3000.events;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -15,16 +15,19 @@ import org.bukkit.event.server.ServerListPingEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.github.ysl3000.SmartServerTool;
-import com.ysl3000.cmdexe.Questioner;
 import com.ysl3000.permissions.Permissions;
+import com.ysl3000.plugin.SmartServerTool;
+import com.ysl3000.utils.Prefix;
+import com.ysl3000.utils.SmartController;
+import com.ysl3000.utils.SmartPlayer;
+import com.ysl3000.utils.Utility;
 
 public class MOTD implements Listener {
 
-	private static String coremessage;
-	private static String joinmessage;
-	private static String privateJoinmessage;
-	private static String leftmessage;
+	private String coremessage;
+	private String joinmessage;
+	private String privateJoinmessage;
+	private String leftmessage;
 
 	public MOTD(SmartServerTool plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -33,13 +36,13 @@ public class MOTD implements Listener {
 	@EventHandler
 	public void login(PlayerLoginEvent event) {
 
-		if (SmartServerTool.getCFGL().getMaintenance()) {
+		if (SmartServerTool.getConfigLoader().getMaintenance()) {
 
 			event.setResult(Result.KICK_OTHER);
 
 		}
 		if (event.getPlayer().getName().equalsIgnoreCase("Player")
-				&& SmartServerTool.getCFGL().isBloggingPlayerJoin()) {
+				&& SmartServerTool.getConfigLoader().isBloggingPlayerJoin()) {
 
 			event.setResult(Result.KICK_OTHER);
 			event.setKickMessage("Player you are not allowed to join, because of stupidness");
@@ -47,13 +50,15 @@ public class MOTD implements Listener {
 
 		if (event.getResult() == PlayerLoginEvent.Result.KICK_WHITELIST) {
 
-			event.setKickMessage(SmartServerTool.getCFGL().getWhitelistmessage());
+			event.setKickMessage(SmartServerTool.getConfigLoader()
+					.getWhitelistmessage());
 
 			message_trying_to_join(event.getPlayer().getDisplayName(), event
 					.getResult().name().substring(5, 14));
 		} else if (event.getResult() == PlayerLoginEvent.Result.KICK_BANNED) {
 
-			event.setKickMessage(SmartServerTool.getCFGL().getBanmessage());
+			event.setKickMessage(SmartServerTool.getConfigLoader()
+					.getBanmessage());
 			message_trying_to_join(event.getPlayer().getDisplayName(), event
 					.getResult().name().substring(5, 11));
 		} else if (event.getResult() == PlayerLoginEvent.Result.KICK_FULL) {
@@ -63,7 +68,8 @@ public class MOTD implements Listener {
 				event.setResult(Result.ALLOWED);
 			} else {
 
-				event.setKickMessage(SmartServerTool.getCFGL().getFullmessage());
+				event.setKickMessage(SmartServerTool.getConfigLoader()
+						.getFullmessage());
 			}
 		} else if (event.getResult() == Result.KICK_OTHER) {
 
@@ -73,7 +79,9 @@ public class MOTD implements Listener {
 
 			} else {
 
-				event.setKickMessage(ChatColor.DARK_RED+SmartServerTool.getCFGL().getMaintenanceMessage());
+				event.setKickMessage(ChatColor.DARK_RED
+						+ SmartServerTool.getConfigLoader()
+								.getMaintenanceMessage());
 			}
 		}
 
@@ -82,10 +90,11 @@ public class MOTD implements Listener {
 	@EventHandler
 	public void serverlistcheck(ServerListPingEvent event) {
 
-		if (SmartServerTool.getCFGL().getMaintenance()) {
+		if (SmartServerTool.getConfigLoader().getMaintenance()) {
 
 			event.setMaxPlayers(-2);
-			event.setMotd(ChatColor.DARK_RED+SmartServerTool.getCFGL().getMaintenanceMessage());
+			event.setMotd(ChatColor.DARK_RED
+					+ SmartServerTool.getConfigLoader().getMaintenanceMessage());
 
 		} else {
 			event.setMotd(ChatColor.GOLD + event.getMotd());
@@ -100,14 +109,17 @@ public class MOTD implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
-		SmartServerTool.getHSP().setFlyStatus(player, false);
-		SmartServerTool.getHSP().setChannel(player.getName(), "g");
+		SmartController.getSmartControler().getHashmaps().getSmartPLayers()
+		.put(event.getPlayer(), new SmartPlayer(event.getPlayer()));
 		message(event);
-		player.setSleepingIgnored(SmartServerTool.getCFGL().isSleepingIgnored());
+		player.setSleepingIgnored(SmartServerTool.getConfigLoader()
+				.isSleepingIgnored());
 	}
 
 	@EventHandler
 	public void onPlayerLeft(PlayerQuitEvent event) {
+		SmartController.getSmartControler().getHashmaps().getSmartPLayers()
+				.remove(event.getPlayer());
 		message(event);
 	}
 
@@ -125,11 +137,11 @@ public class MOTD implements Listener {
 		if (event instanceof PlayerJoinEvent) {
 
 			PlayerJoinEvent eventPJE = (PlayerJoinEvent) event;
-			if (SmartServerTool.getCFGL().isMessaging()) {
+			if (SmartServerTool.getConfigLoader().isMessaging()) {
 
 				Player playerPJE = eventPJE.getPlayer();
-				if (SmartServerTool.getCFGL().getRandomColor()) {
-					Prefix.Pfix(playerPJE);
+				if (SmartServerTool.getConfigLoader().getRandomColor()) {
+					Prefix.getPrefixer().Pfix(playerPJE);
 				}
 
 				if (Runtime.getRuntime().availableProcessors() == 1) {
@@ -141,8 +153,10 @@ public class MOTD implements Listener {
 							.availableProcessors() + " cores");
 				}
 
-				joinmessage = SmartServerTool.getCFGL().getJoinmessage();
-				privateJoinmessage = SmartServerTool.getCFGL().getPrivatJoinMessage();
+				joinmessage = SmartServerTool.getConfigLoader()
+						.getJoinmessage();
+				privateJoinmessage = SmartServerTool.getConfigLoader()
+						.getPrivatJoinMessage();
 
 				joinmessage = joinmessage.replace("user%", "" + ChatColor.GOLD
 						+ name(playerPJE) + ChatColor.WHITE);
@@ -155,9 +169,12 @@ public class MOTD implements Listener {
 						"time%",
 						ChatColor.GOLD
 								+ ""
-								+ SmartServerTool.getDateTime().getRealTime(SmartServerTool.getCFGL()
-										.getTimeFormat().replace("%dp", ":"),
-										System.currentTimeMillis())
+								+ Utility.getTime(
+										System.currentTimeMillis(),
+										SmartServerTool.getConfigLoader()
+												.getTimeFormat()
+												.replace("%dp", ":"))
+
 								+ ChatColor.WHITE);
 				joinmessage = joinmessage.replace("n%", "\n");
 				joinmessage = joinmessage.replace("v%", ChatColor.GREEN
@@ -170,14 +187,15 @@ public class MOTD implements Listener {
 						ChatColor.GRAY + "Online ("
 								+ Bukkit.getServer().getOnlinePlayers().length
 								+ "/" + Bukkit.getMaxPlayers() + "): "
-								+ listPlayers());
+								+ Utility.listPlayers());
 				privateJoinmessage = privateJoinmessage.replace("n%", "\n");
 
-				if (SmartServerTool.getCFGL().getMaintenance()) {
+				if (SmartServerTool.getConfigLoader().getMaintenance()) {
 
 					for (Player p : Bukkit.getOnlinePlayers()) {
 
-						p.sendMessage(SmartServerTool.getCFGL().getMaintenanceMessage());
+						p.sendMessage(SmartServerTool.getConfigLoader()
+								.getMaintenanceMessage());
 
 					}
 
@@ -188,28 +206,25 @@ public class MOTD implements Listener {
 
 						for (Player p : Bukkit.getOnlinePlayers()) {
 							p.sendMessage(joinmessage.concat(" "
-									+ SmartServerTool.getCFGL().getFirstJoinMessage()));
+									+ SmartServerTool.getConfigLoader()
+											.getFirstJoinMessage()));
 						}
 						eventPJE.setJoinMessage("");
-
-						Questioner.ask(playerPJE);
-						eventPJE.getPlayer().teleport(eventPJE.getPlayer().getWorld().getSpawnLocation());
-
-						
-						ItemStack starterpack = new ItemStack(Material.MAGMA_CREAM, 1);
+						ItemStack starterpack = new ItemStack(
+								Material.MAGMA_CREAM, 1);
 						ItemMeta itemM = starterpack.getItemMeta();
 						itemM.setDisplayName("starter_pack");
 						starterpack.setItemMeta(itemM);
 						playerPJE.getInventory().addItem(starterpack);
-						
-						
-						if(playerPJE.isOp()){
-							ItemStack advancedpack = new ItemStack(Material.MAGMA_CREAM, 1);
+
+						if (playerPJE.isOp()) {
+							ItemStack advancedpack = new ItemStack(
+									Material.MAGMA_CREAM, 1);
 							ItemMeta advanced_itemM = starterpack.getItemMeta();
 							advanced_itemM.setDisplayName("advanced_pack");
 							starterpack.setItemMeta(advanced_itemM);
 							playerPJE.getInventory().addItem(advancedpack);
-							
+
 						}
 
 					} else {
@@ -226,7 +241,8 @@ public class MOTD implements Listener {
 			} else {
 
 				if (!eventPJE.getPlayer().hasPlayedBefore()) {
-					eventPJE.getPlayer().teleport(eventPJE.getPlayer().getWorld().getSpawnLocation());
+					eventPJE.getPlayer().teleport(
+							eventPJE.getPlayer().getWorld().getSpawnLocation());
 				} else {
 					return;
 				}
@@ -236,9 +252,10 @@ public class MOTD implements Listener {
 
 			PlayerQuitEvent eventPQE = (PlayerQuitEvent) event;
 
-			if (SmartServerTool.getCFGL().isMessaging()) {
+			if (SmartServerTool.getConfigLoader().isMessaging()) {
 				leftmessage = null;
-				leftmessage = SmartServerTool.getCFGL().getLeftmessage();
+				leftmessage = SmartServerTool.getConfigLoader()
+						.getLeftmessage();
 
 				Player playerPQE = eventPQE.getPlayer();
 				leftmessage = leftmessage.replace("user%", ChatColor.GOLD
@@ -251,24 +268,6 @@ public class MOTD implements Listener {
 
 		}
 
-	}
-
-	public static String listPlayers() {
-
-		Player ar[] = Bukkit.getOnlinePlayers();
-		String liste = "";
-		for (Player p : Bukkit.getOnlinePlayers()) {
-
-			if (p.equals(ar[Bukkit.getOnlinePlayers().length - 1])) {
-
-				liste += p.getDisplayName();
-			} else {
-
-				liste += p.getDisplayName() + ", ";
-			}
-		}
-
-		return liste;
 	}
 
 }

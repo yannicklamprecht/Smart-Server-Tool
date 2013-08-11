@@ -1,11 +1,9 @@
-package com.github.ysl3000.Event;
+package com.ysl3000.events;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,10 +15,10 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
-import org.bukkit.inventory.ItemStack;
 
-import com.github.ysl3000.SmartServerTool;
 import com.ysl3000.permissions.Permissions;
+import com.ysl3000.plugin.SmartServerTool;
+import com.ysl3000.utils.SmartController;
 
 public class PlayerListener implements Listener {
 
@@ -45,8 +43,8 @@ public class PlayerListener implements Listener {
 			return;
 		}
 		Player target = (Player) etarget;
-		
-		if (event.getPlayer().hasPermission(Permissions.playerInfo)) {
+
+		if (player.hasPermission(Permissions.playerInfo)) {
 			player.sendMessage("Infos of: " + target.getDisplayName());
 			player.sendMessage("Foodlevel: " + target.getFoodLevel());
 			player.sendMessage("Health: " + "Not available");
@@ -84,23 +82,28 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void playerteleport(PlayerTeleportEvent event) {
-		SmartServerTool.getHSP().setLastLocation(event.getPlayer(), event.getFrom());
-		SmartServerTool.getHSP().setCurrentLocation(event.getPlayer(), event.getTo());
+		SmartController.getSmartControler().getHashmaps().getSmartPLayers()
+				.get(event.getPlayer()).setLastLocation(event.getFrom());
+		SmartController.getSmartControler().getHashmaps().getSmartPLayers()
+				.get(event.getPlayer()).setCurrentLocation(event.getTo());
 	}
 
 	@EventHandler
 	public void chatHandler(AsyncPlayerChatEvent e) {
 		if (!e.getPlayer().hasPermission(Permissions.chat)
-				&& !SmartServerTool.getCFGL().getNonPermission()) {
+				&& !SmartServerTool.getConfigLoader().getNonPermission()) {
 			e.setCancelled(true);
-			e.getPlayer().sendMessage(SmartServerTool.noperms);
+			e.getPlayer().sendMessage("NoPermissions");
 		}
 	}
 
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent e) {
-		e.setCancelled(((e.getPlayer().hasPermission(Permissions.move) || SmartServerTool.getCFGL()
-				.getNonPermission())&&  !SmartServerTool.getHSP().isFrozen(e.getPlayer()))? e.isCancelled() : true);
+		e.setCancelled(((e.getPlayer().hasPermission(Permissions.move) || SmartServerTool
+				.getConfigLoader().getNonPermission())
+				&& !SmartController.getSmartControler().getHashmaps()
+						.getSmartPLayers().get(e.getPlayer()).isFrozen() ? e
+				.isCancelled() : true));
 	}
 
 	@EventHandler
@@ -113,7 +116,7 @@ public class PlayerListener implements Listener {
 				event.setMessage(event.getMessage().substring(5));
 				event.setFormat(ChatColor.AQUA + "[global]" + ChatColor.WHITE
 						+ event.getFormat());
-				
+
 				return;
 			} else if (event.getMessage().startsWith("@op ")) {
 
@@ -133,21 +136,11 @@ public class PlayerListener implements Listener {
 				}
 				event.setCancelled(true);
 			}
-		} else {
-			if (SmartServerTool.getHSP().getChannel(event.getPlayer().getName())
-					.equalsIgnoreCase("g")) {
-				event.setFormat(ChatColor.AQUA + "[global]" + ChatColor.WHITE
-						+ event.getFormat());
-			} else {
-				removeRecipients(event,
-						SmartServerTool.getHSP().getChannel(event.getPlayer().getName()),
-						false);
-			}
 		}
 
 	}
 
-	public static String privateMessage(AsyncPlayerChatEvent event, String[] cs) {
+	public String privateMessage(AsyncPlayerChatEvent event, String[] cs) {
 
 		return ChatColor.GRAY
 				+ "(from "
@@ -161,7 +154,7 @@ public class PlayerListener implements Listener {
 				+ event.getMessage().substring(cs[0].length() + 1);
 	}
 
-	public static void removeRecipients(AsyncPlayerChatEvent event,
+	public void removeRecipients(AsyncPlayerChatEvent event,
 			String channelname, boolean opCall) {
 
 		Player[] recipients = event.getRecipients().toArray(new Player[0]);
@@ -174,49 +167,20 @@ public class PlayerListener implements Listener {
 				if (!recipients[i].isOp()) {
 					event.getRecipients().remove(recipients[i]);
 				}
-
-			} else {
-				if (!(SmartServerTool.getHSP().getChannel(recipients[i].getName())
-						.equalsIgnoreCase(SmartServerTool.getHSP().getChannel(event
-								.getPlayer().getName())))) {
-
-					event.getRecipients().remove(recipients[i]);
-
-				}
 			}
-
 		}
-
 	}
 
 	@EventHandler
 	public void nobucketFill(PlayerBucketFillEvent e) {
-		e.setCancelled(!(e.getPlayer().hasPermission(Permissions.interact) || SmartServerTool.getCFGL()
-				.getNonPermission()));
+		e.setCancelled(!(e.getPlayer().hasPermission(Permissions.interact) || SmartServerTool
+				.getConfigLoader().getNonPermission()));
 	}
 
 	@EventHandler
 	public void nobucketEmpty(PlayerBucketEmptyEvent e) {
-		e.setCancelled(!(e.getPlayer().hasPermission(Permissions.interact) || SmartServerTool.getCFGL()
-				.getNonPermission()));
+		e.setCancelled(!(e.getPlayer().hasPermission(Permissions.interact) || SmartServerTool
+				.getConfigLoader().getNonPermission()));
 	}
 
-	@EventHandler
-	public void addItemsToMonster(PlayerInteractEntityEvent e) {
-		if (e.getPlayer().getItemInHand().getType()
-				.equals(Material.DIAMOND_HELMET)
-				&& e.getRightClicked() instanceof LivingEntity) {
-			try {
-				LivingEntity le = (LivingEntity) e.getRightClicked();
-
-				le.getEquipment().setHelmet(
-						new ItemStack(e.getPlayer().getItemInHand().getType(),
-								e.getPlayer().getItemInHand().getAmount()));
-			} catch (Exception ex) {
-				e.getPlayer().sendMessage(
-						ChatColor.RED + "Need to update Bukkit");
-			}
-		}
-	}
-	
 }

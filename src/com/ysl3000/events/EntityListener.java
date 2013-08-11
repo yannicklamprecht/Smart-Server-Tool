@@ -1,4 +1,4 @@
-package com.github.ysl3000.Event;
+package com.ysl3000.events;
 
 import org.bukkit.EntityEffect;
 import org.bukkit.GameMode;
@@ -23,8 +23,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.vehicle.VehicleBlockCollisionEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.github.ysl3000.SmartServerTool;
 import com.ysl3000.permissions.Permissions;
+import com.ysl3000.plugin.SmartServerTool;
+import com.ysl3000.utils.SmartController;
 
 public class EntityListener implements Listener {
 
@@ -55,7 +56,7 @@ public class EntityListener implements Listener {
 
 	@EventHandler
 	public void onPlayerDeath(PlayerDeathEvent event) throws Exception {
-		if (SmartServerTool.getCFGL().isXpsave()) {
+		if (SmartServerTool.getConfigLoader().isXpsave()) {
 			event.setDroppedExp(0);
 			event.setNewExp((int) event.getEntity().getPlayer()
 					.getTotalExperience());
@@ -65,7 +66,7 @@ public class EntityListener implements Listener {
 	@EventHandler
 	public void onenderpick(EntityChangeBlockEvent event) {
 		event.setCancelled(event.getEntityType().equals(EntityType.ENDERMAN) ? SmartServerTool
-				.getCFGL().isBender() : event.isCancelled());
+				.getConfigLoader().isBender() : event.isCancelled());
 	}
 
 	@EventHandler
@@ -75,7 +76,7 @@ public class EntityListener implements Listener {
 				&& (e.getEntity() instanceof Player)) {
 			Player p = (Player) e.getEntity();
 
-			if (!p.hasPermission(Permissions.interact)) {
+			if (!p.hasPermission(Permissions.modifyBlock)) {
 				e.setCancelled(true);
 				e.getBlock().setType(e.getBlock().getType());
 			}
@@ -88,7 +89,7 @@ public class EntityListener implements Listener {
 		if ((event.getBlock().getTypeId() == 70)
 				|| (event.getBlock().getTypeId() == 72)) {
 
-			if (SmartServerTool.getCFGL().isPlayerPressPlate()) {
+			if (SmartServerTool.getConfigLoader().isPlayerPressPlate()) {
 
 				event.setCancelled((event.getEntity() instanceof Player) ? event
 						.isCancelled() : true);
@@ -109,8 +110,8 @@ public class EntityListener implements Listener {
 			} catch (NullPointerException eN) {
 
 			}
-			e.setCancelled(SmartServerTool.getHSP().isGod(
-					(Player) e.getEntity())
+			e.setCancelled(SmartController.getSmartControler().getHashmaps()
+					.getSmartPLayers().get((Player) e.getEntity()).isGod()
 					|| (hasShoesWithNameJump && e.getCause().name()
 							.equalsIgnoreCase("fall"))
 					|| ((Player) e.getEntity()).getGameMode().equals(
@@ -122,14 +123,17 @@ public class EntityListener implements Listener {
 
 	@EventHandler
 	public void nofood(FoodLevelChangeEvent e) {
-		e.setCancelled(e.getEntityType().equals(EntityType.PLAYER) ? SmartServerTool
-				.getHSP().isGod((Player) e.getEntity()) : e.isCancelled());
+		e.setCancelled(e.getEntityType().equals(EntityType.PLAYER) ? SmartController
+				.getSmartControler().getHashmaps().getSmartPLayers()
+				.get((Player) e.getEntity()).isGod()
+				: e.isCancelled());
 	}
 
 	@EventHandler
 	public void Explode(EntityExplodeEvent event) {
 		event.setCancelled(event.getEntityType().equals(EntityType.CREEPER) ? SmartServerTool
-				.getCFGL().isBcreeper() : SmartServerTool.getCFGL().isTntsave());
+				.getConfigLoader().isBcreeper() : SmartServerTool
+				.getConfigLoader().isTntsave());
 	}
 
 	@EventHandler

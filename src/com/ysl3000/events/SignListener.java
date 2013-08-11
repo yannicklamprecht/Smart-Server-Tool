@@ -1,4 +1,4 @@
-package com.github.ysl3000.Event;
+package com.ysl3000.events;
 
 import org.apache.commons.lang.StringUtils;
 import org.bukkit.Bukkit;
@@ -18,7 +18,8 @@ import org.bukkit.event.block.SignChangeEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import com.github.ysl3000.SmartServerTool;
+
+import com.ysl3000.plugin.SmartServerTool;
 
 public class SignListener implements Listener {
 

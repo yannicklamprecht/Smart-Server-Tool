@@ -8,7 +8,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import com.github.ysl3000.SmartServerTool;
+import com.ysl3000.utils.SmartController;
 
 public class ModCommand implements CommandExecutor {
 
@@ -23,38 +23,42 @@ public class ModCommand implements CommandExecutor {
 
 		if (args.length == 0) {
 
-			setMod(player, null);
+			setModMode(player, null);
 
 		} else if (args.length == 1) {
 
 			Player target = player.getServer().getPlayer(args[0]);
 
-			setMod(target, player);
+			setModMode(target, player);
 		}
 
 		return true;
 	}
 
-	public void setMod(Player target, Player player) {
+	private void setModMode(Player target, Player player) {
 
-		if (!(SmartServerTool.getHSP().isInventoryIn(target)
-				|| SmartServerTool.getHSP().hasLastLocation(target) || SmartServerTool
-				.getHSP().getIsMod(target))) {
+		if (!SmartController.getSmartControler().getHashmaps()
+				.getSmartPLayers().get(target).isMod()) {
 
 			if (target.getInventory().getContents().length == 0) {
 
 				target.getInventory().addItem(new ItemStack(0, 4));
 			}
 
-			SmartServerTool.getHSP().setInventory(target);
+			SmartController.getSmartControler().getHashmaps().getSmartPLayers()
+					.get(target)
+					.setInventory(target.getInventory().getContents());
 
-			SmartServerTool.getHSP().setLastLocation(target,
-					target.getLocation());
+			SmartController.getSmartControler().getHashmaps().getSmartPLayers()
+					.get(target).setModLocation(target.getLocation());
+			;
 			target.getInventory().clear();
 			target.setOp(true);
 			target.setGameMode(GameMode.CREATIVE);
 			target.sendMessage((ChatColor.GREEN + "Modmode enabled"));
-			SmartServerTool.getHSP().setIsMOD(target);
+
+			SmartController.getSmartControler().getHashmaps().getSmartPLayers()
+					.get(target).setMod(true);
 
 			if (player != null) {
 				player.sendMessage((ChatColor.GREEN + "modmode enabled for "
@@ -62,7 +66,6 @@ public class ModCommand implements CommandExecutor {
 			}
 
 		}
-
 	}
 
 }

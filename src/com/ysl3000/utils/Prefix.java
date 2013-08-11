@@ -1,21 +1,31 @@
-package com.github.ysl3000.Prefixer;
-
+package com.ysl3000.utils;
 
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 public class Prefix {
 
-	private static int i = 0;
+	private static Prefix pfix;
+	private int i = 0;
 
-	public static void Pfix(Player player) {
+	private Prefix() {
+	}
+
+	public static Prefix getPrefixer() {
+		if (pfix == null) {
+			pfix = new Prefix();
+		}
+		return pfix;
+	}
+
+	public void Pfix(Player player) {
 
 		listName(player);
 		displayName(player);
 
 	}
 
-	public static void listName(Player player) {
+	public void listName(Player player) {
 
 		if (player.getName().length() <= 14) {
 			player.setPlayerListName(ChatColor.AQUA + player.getName());
@@ -27,9 +37,8 @@ public class Prefix {
 
 	}
 
-	public static void displayName(Player player) {
-		
-		
+	public void displayName(Player player) {
+
 		while (i < 13) {
 
 			if (i == 0) {
@@ -105,34 +114,29 @@ public class Prefix {
 		}
 
 	}
-	
-public static void displayName(Player player, String name) {
-		
-		
+
+	public void displayName(Player player, String name) {
+
 		while (i < 13) {
 
 			if (i == 0) {
 
-				player.setDisplayName(ChatColor.RED + name
-						+ ChatColor.WHITE);
+				player.setDisplayName(ChatColor.RED + name + ChatColor.WHITE);
 
 				i++;
 				break;
 			} else if (i == 1) {
 
-				player.setDisplayName(ChatColor.AQUA + name
-						+ ChatColor.WHITE);
+				player.setDisplayName(ChatColor.AQUA + name + ChatColor.WHITE);
 
 				i++;
 				break;
 			} else if (i == 2) {
-				player.setDisplayName(ChatColor.YELLOW + name
-						+ ChatColor.WHITE);
+				player.setDisplayName(ChatColor.YELLOW + name + ChatColor.WHITE);
 				i++;
 				break;
 			} else if (i == 3) {
-				player.setDisplayName(ChatColor.BLUE + name
-						+ ChatColor.WHITE);
+				player.setDisplayName(ChatColor.BLUE + name + ChatColor.WHITE);
 				i++;
 				break;
 			} else if (i == 4) {
@@ -166,21 +170,18 @@ public static void displayName(Player player, String name) {
 				i++;
 				break;
 			} else if (i == 10) {
-				player.setDisplayName(ChatColor.GOLD + name
-						+ ChatColor.WHITE);
+				player.setDisplayName(ChatColor.GOLD + name + ChatColor.WHITE);
 				i++;
 				break;
 			} else if (i == 11) {
-				player.setDisplayName(ChatColor.GRAY + name
-						+ ChatColor.WHITE);
+				player.setDisplayName(ChatColor.GRAY + name + ChatColor.WHITE);
 				i++;
 				break;
 			} else if (i == 12) {
-				player.setDisplayName(ChatColor.GREEN + name
-						+ ChatColor.WHITE);
+				player.setDisplayName(ChatColor.GREEN + name + ChatColor.WHITE);
 				i = 0;
 				break;
 			}
 		}
-}
+	}
 }

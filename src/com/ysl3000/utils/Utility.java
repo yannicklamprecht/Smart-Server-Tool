@@ -1,4 +1,4 @@
-package com.ysl3000.permissions;
+package com.ysl3000.utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -1,6 +1,6 @@
 name: SmartServerTool
 version: 1.6.2 Rewrote
-main: com.github.ysl3000.SmartServerTool
+main: com.ysl3000.plugin.SmartServerTool
 authors:
       - DEV ysl3000
 description: provides you some simple Server Commands! This mostly refers to a Vanilla-like server.
@@ -70,26 +70,11 @@ commands:
   description: get ip of player
   permission: sst.ip
   permission-message: sst.ip
- tpt:
-  usage: /tpt <player>
-  description: tp to player
-  permission: sst.tp
-  permission-message: sst.tp
- tpo:
-  usage: /tpo <player>
-  description: tp player to you
-  permission: sst.tpo
-  permission-message: sst.tpo
  switch:
   usage: /switch <player>
   description: tp to player and player tp to old location
   permission: sst.switch
   permisssion-message: sst.switch
- /mem:
-  usage: //mem
-  description: memory
-  permission: sst.mem
-  permission-message: sst.mem
  setsp:
   usage: /setsp
   description: setspawn
@@ -110,29 +95,11 @@ commands:
   description: enter modmode
   permission: sst.mod
   permission-message: sst.mod
- /cpu:
-  usage: //cpu
-  description: show cpu
- ci:
-  usage: /ci
-  description: clear inventory
-  permission: sst.ci
-  permission-message: sst.ci
  fly:
   usage: /fly <player>
   description: toggle fly
   permission: sst.fly
   permission-message: sst.fly
- hide:
-  usage: /hide <player>
-  description: hide/s you/others
-  permission: sst.visible
-  permission-message: sst.visible
- show:
-  usage: /show <player>
-  description: show/s you/others
-  permission: sst.visible
-  permission-message: sst.visible
  back:
   usage: /back
   description: teleport to last location
@@ -141,47 +108,6 @@ commands:
   description: leave modmode
   permission: sst.mod
   permission-message: sst.mod
- seed:
-  usage: /seed
-  description: shows seed
- i:
-  usage: /i <itemid/name>[:typeid] [amount]
-  description: adds item
-  permission: sst.item
-  permission-message: You need sst.item
- cm:
-  usage: /cm <true/false>
-  description: toggle servicemode
-  permission: sst.cm
-  permission-message: sst.cm
- repair:
-  usage: /repair
-  description: repair your tool in hand
-  permission: sst.repair
-  permission-message: sst.repair
- kick:
-  usage: /kick <player/-a> reason
-  description: kicks all player except yourself
-  permission: sst.kickall
-  permission-message: sst.kickall
- sstv:
-  usage: /sstv
-  description: shows version
- al:
-   usage: /al
-   description: removes monster
-   permission: sst.al
-   permission-message: sst.al
- invite:
-   usage: /invite <player>
-   description: add's player to Whitelist
-   permission: sst.invite
-   permission-message: sst.invite
- answer:
-   usage: /answer <answer>
-   description: add to a group
-   permission: sst.answer
-   permission-message: sst.answer
  fs:
    usage: /fs <amount>
    description: set flyspeed
@@ -191,49 +117,26 @@ commands:
  god:
   usage: /god
   permission: sst.god
- jc:
-  usage: /jc channel
-  description: chat in a private chat
-  permission: sst.jc
-  permission-message: sst.jc
- nick:
-  usage: /nick <name/-r>
-  description: nick's you
- ssth:
-  usage: /ssth
-  description: shows SST-help
- mode:
-  usage: /mode
-  description: check's onlinemode
- list:
-  usage: /list
-  description: lists onlineplayer
  online:
-  usage: /online
+  flagrate: [list]
+  usage: /list
   description: lists onlineplayer
  seen:
   usage: /seen
   description: check first&last seen
- rt:
-  usage: /rt
-  description: displays current realtime
  freeze:
   usage: /freeze <player>
   description: freezes a player
   permission: sst.freeze
   permission-message: sst.freeze
- psun:
-  usage: /psun
- prain:
-  usage: /prain
- preset:
-  usage: /preset
  healme:
   usage: /healme
   permission: sst.healme
  info:
   usage: /info
   permission: sst.serverinfo
+ rt:
+  usage: /rt
 permissions:
     sst.*:
          description: give all permission

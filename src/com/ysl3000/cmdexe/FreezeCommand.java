@@ -1,13 +1,12 @@
 package com.ysl3000.cmdexe;
 
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.github.ysl3000.SmartServerTool;
+import com.ysl3000.utils.SmartController;
 
 public class FreezeCommand implements CommandExecutor {
 
@@ -20,17 +19,18 @@ public class FreezeCommand implements CommandExecutor {
 		if (p.hasPermission(cmd.getPermission())) {
 			if (args.length == 1) {
 				String type;
-				Player target = Bukkit.getPlayer(args[0]);
-				if (!SmartServerTool.getHSP().isFrozen(target)) {
+				if (!SmartController.getSmartControler().getHashmaps()
+						.getSmartPLayers().get(p).isFrozen()) {
 					type = "Freeze ";
 
-					new TimeThread(3000, target);
+					new TimeThread(3000, p);
 
 				} else {
-					SmartServerTool.getHSP().removeFrozen(target);
+					SmartController.getSmartControler().getHashmaps()
+							.getSmartPLayers().get(p).setFrozen(false);
 					type = "Smelt ";
 				}
-				p.sendMessage(ChatColor.BOLD + type + target.getDisplayName()
+				p.sendMessage(ChatColor.BOLD + type + p.getDisplayName()
 						+ ChatColor.BOLD + "!" + ChatColor.RESET);
 			} else {
 				p.sendMessage(ChatColor.RED + "Wrong Input");
@@ -61,14 +61,16 @@ public class FreezeCommand implements CommandExecutor {
 
 		public void run() {
 
-			SmartServerTool.getHSP().setFrozen(this.getPlayer());
+			SmartController.getSmartControler().getHashmaps().getSmartPLayers()
+					.get(this.getPlayer()).setFrozen(true);
 			try {
 				Thread.sleep(this.time);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 
-			SmartServerTool.getHSP().removeFrozen(this.getPlayer());
+			SmartController.getSmartControler().getHashmaps().getSmartPLayers()
+					.get(this.getPlayer()).setFrozen(false);
 			p.sendMessage("You're now allowed to move");
 		}
 
