@@ -23,8 +23,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.vehicle.VehicleBlockCollisionEvent;
 import org.bukkit.inventory.ItemStack;
 
-import com.ysl3000.permissions.Permissions;
 import com.ysl3000.plugin.SmartServerTool;
+import com.ysl3000.utils.Permissions;
 import com.ysl3000.utils.SmartController;
 
 public class EntityListener implements Listener {
@@ -86,8 +86,8 @@ public class EntityListener implements Listener {
 	@EventHandler
 	public void onEntityPP(EntityInteractEvent event) {
 
-		if ((event.getBlock().getTypeId() == 70)
-				|| (event.getBlock().getTypeId() == 72)) {
+		if (event.getBlock().getType().equals(Material.STONE_PLATE)
+				|| event.getBlock().getType().equals(Material.WOOD_PLATE)) {
 
 			if (SmartServerTool.getConfigLoader().isPlayerPressPlate()) {
 
@@ -110,10 +110,8 @@ public class EntityListener implements Listener {
 			} catch (NullPointerException eN) {
 
 			}
-			e.setCancelled(SmartController.getSmartControler().getHashmaps()
-					.getSmartPLayers().get((Player) e.getEntity()).isGod()
-					|| (hasShoesWithNameJump && e.getCause().name()
-							.equalsIgnoreCase("fall"))
+			e.setCancelled((hasShoesWithNameJump && e.getCause().name()
+					.equalsIgnoreCase("fall"))
 					|| ((Player) e.getEntity()).getGameMode().equals(
 							GameMode.CREATIVE));
 
@@ -123,10 +121,15 @@ public class EntityListener implements Listener {
 
 	@EventHandler
 	public void nofood(FoodLevelChangeEvent e) {
-		e.setCancelled(e.getEntityType().equals(EntityType.PLAYER) ? SmartController
-				.getSmartControler().getHashmaps().getSmartPLayers()
-				.get((Player) e.getEntity()).isGod()
-				: e.isCancelled());
+		if (e.getEntity() instanceof Player) {
+			Player p = (Player) e.getEntity();
+			if (p.getFoodLevel() > e.getFoodLevel()) {
+				e.setCancelled(SmartController.getSmartControler()
+						.getHashmaps().getSmartPLayers().get(p.getUniqueId()).isGod());
+
+			}
+
+		}
 	}
 
 	@EventHandler
@@ -211,4 +214,5 @@ public class EntityListener implements Listener {
 		}
 
 	}
+
 }

@@ -16,8 +16,8 @@ import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
 
-import com.ysl3000.permissions.Permissions;
 import com.ysl3000.plugin.SmartServerTool;
+import com.ysl3000.utils.Permissions;
 import com.ysl3000.utils.SmartController;
 
 public class PlayerListener implements Listener {
@@ -83,9 +83,9 @@ public class PlayerListener implements Listener {
 	@EventHandler
 	public void playerteleport(PlayerTeleportEvent event) {
 		SmartController.getSmartControler().getHashmaps().getSmartPLayers()
-				.get(event.getPlayer()).setLastLocation(event.getFrom());
+				.get(event.getPlayer().getUniqueId()).setLastLocation(event.getFrom());
 		SmartController.getSmartControler().getHashmaps().getSmartPLayers()
-				.get(event.getPlayer()).setCurrentLocation(event.getTo());
+				.get(event.getPlayer().getUniqueId()).setCurrentLocation(event.getTo());
 	}
 
 	@EventHandler
@@ -99,11 +99,11 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent e) {
-		e.setCancelled(((e.getPlayer().hasPermission(Permissions.move) || SmartServerTool
-				.getConfigLoader().getNonPermission())
-				&& !SmartController.getSmartControler().getHashmaps()
-						.getSmartPLayers().get(e.getPlayer()).isFrozen() ? e
-				.isCancelled() : true));
+		e.setCancelled((!(e.getPlayer().hasPermission(Permissions.move) || SmartServerTool
+				.getConfigLoader().getNonPermission()) && !SmartController
+				.getSmartControler().getHashmaps().getSmartPLayers()
+				.get(e.getPlayer().getUniqueId()).isFrozen()));
+
 	}
 
 	@EventHandler
@@ -111,14 +111,7 @@ public class PlayerListener implements Listener {
 
 		if (event.getMessage().startsWith("@")) {
 
-			if (event.getMessage().startsWith("@all ")) {
-
-				event.setMessage(event.getMessage().substring(5));
-				event.setFormat(ChatColor.AQUA + "[global]" + ChatColor.WHITE
-						+ event.getFormat());
-
-				return;
-			} else if (event.getMessage().startsWith("@op ")) {
+			if (event.getMessage().startsWith("@op ")) {
 
 				event.setMessage(event.getMessage().substring(4));
 				removeRecipients(event, ChatColor.RED + "[Need-OP]", true);

@@ -1,12 +1,14 @@
 package com.ysl3000.utils;
 
+import java.util.UUID;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public class SmartPlayer {
 
-	private Player player;
+	private UUID player;
 	private boolean isMod;
 	private boolean isGod;
 	private boolean isFrozen;
@@ -17,18 +19,18 @@ public class SmartPlayer {
 	private String channel;
 
 	public SmartPlayer(Player player) {
-		this.player = player;
-		this.isMod=false;
-		this.isGod=false;
-		this.isFrozen=false;
-		this.lastLocation=player.getLocation();
-		this.currentLocation=player.getLocation();
-		this.modLocation=player.getLocation();
-		this.inventory=player.getInventory().getContents();
-		this.channel="g";
+		this.player = player.getUniqueId();
+		this.isMod = false;
+		this.isGod = false;
+		this.isFrozen = false;
+		this.lastLocation = player.getLocation();
+		this.currentLocation = player.getLocation();
+		this.modLocation = player.getLocation();
+		this.inventory = player.getInventory().getContents();
+		this.channel = "g";
 	}
 
-	public Player getPlayer() {
+	public UUID getPlayerAsUUID() {
 		return player;
 	}
 

@@ -7,7 +7,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.SkullType;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 import org.bukkit.block.Skull;
 import org.bukkit.entity.Player;
@@ -50,9 +49,6 @@ public class SignListener implements Listener {
 					ChatColor.GREEN
 							+ "Succesfully created a [del]-sign for disposal");
 		}
-
-		e.setLine(0, e.getPlayer().getName());
-
 	}
 
 	@EventHandler
@@ -72,7 +68,7 @@ public class SignListener implements Listener {
 				if (s.getLine(1).equalsIgnoreCase("[free]")) {
 					if (s.getLine(2).isEmpty())
 						return;
-					int itemtype = Integer.parseInt(s.getLine(2));
+					Material itemtype = Material.getMaterial(s.getLine(2));
 					int chestSize = Integer.parseInt(s.getLine(3));
 
 					Inventory iv = Bukkit.createInventory(null, chestSize,
@@ -100,24 +96,7 @@ public class SignListener implements Listener {
 
 	}
 
-	@EventHandler
-	public void onSignDestroy(PlayerInteractEvent e) {
-
-		if (e.getAction().equals(Action.LEFT_CLICK_BLOCK)
-				&& (e.getClickedBlock().getType().equals(Material.WALL_SIGN) || e
-						.getClickedBlock().getType().equals(Material.SIGN_POST))) {
-
-			Sign s = (Sign) e.getClickedBlock().getState();
-
-			if (!s.getLine(0).equalsIgnoreCase(e.getPlayer().getName())) {
-				e.setCancelled(true);
-			}
-
-		}
-
-	}
-
-	@EventHandler
+	/*@EventHandler
 	public void onBlockSignUnderDestroy(PlayerInteractEvent e) {
 		if (e.getAction().equals(Action.LEFT_CLICK_BLOCK)) {
 			if (e.getClickedBlock().getRelative(BlockFace.UP).getType()
@@ -142,9 +121,9 @@ public class SignListener implements Listener {
 						: e.isCancelled());
 			}
 		}
-	}
+	}*/
 
-	private boolean isBlock(Block bl, BlockFace bf) {
+	/*private boolean isBlock(Block bl, BlockFace bf) {
 		boolean b = false;
 		Block attachedBlock = bl.getRelative(bf).getRelative(
 				((org.bukkit.material.Sign) bl.getRelative(bf).getState()
@@ -153,7 +132,7 @@ public class SignListener implements Listener {
 			b = true;
 		}
 		return b;
-	}
+	}*/
 
 	public void auslagerung(Player p, Block clicked) {
 		Block b = p.getWorld().getBlockAt(

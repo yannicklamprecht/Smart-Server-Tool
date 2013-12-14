@@ -2,7 +2,6 @@ package com.ysl3000.events;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
@@ -12,11 +11,9 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerListPingEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import com.ysl3000.permissions.Permissions;
 import com.ysl3000.plugin.SmartServerTool;
+import com.ysl3000.utils.Permissions;
 import com.ysl3000.utils.Prefix;
 import com.ysl3000.utils.SmartController;
 import com.ysl3000.utils.SmartPlayer;
@@ -110,10 +107,11 @@ public class MOTD implements Listener {
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
 		SmartController.getSmartControler().getHashmaps().getSmartPLayers()
-		.put(event.getPlayer(), new SmartPlayer(event.getPlayer()));
+		.put(event.getPlayer().getUniqueId(), new SmartPlayer(event.getPlayer()));
 		message(event);
 		player.setSleepingIgnored(SmartServerTool.getConfigLoader()
 				.isSleepingIgnored());
+		Prefix.getPrefixer().Pfix(player);
 	}
 
 	@EventHandler
@@ -210,22 +208,6 @@ public class MOTD implements Listener {
 											.getFirstJoinMessage()));
 						}
 						eventPJE.setJoinMessage("");
-						ItemStack starterpack = new ItemStack(
-								Material.MAGMA_CREAM, 1);
-						ItemMeta itemM = starterpack.getItemMeta();
-						itemM.setDisplayName("starter_pack");
-						starterpack.setItemMeta(itemM);
-						playerPJE.getInventory().addItem(starterpack);
-
-						if (playerPJE.isOp()) {
-							ItemStack advancedpack = new ItemStack(
-									Material.MAGMA_CREAM, 1);
-							ItemMeta advanced_itemM = starterpack.getItemMeta();
-							advanced_itemM.setDisplayName("advanced_pack");
-							starterpack.setItemMeta(advanced_itemM);
-							playerPJE.getInventory().addItem(advancedpack);
-
-						}
 
 					} else {
 

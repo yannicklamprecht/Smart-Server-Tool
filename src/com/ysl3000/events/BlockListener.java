@@ -27,8 +27,8 @@ import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.Vector;
 
-import com.ysl3000.permissions.Permissions;
 import com.ysl3000.plugin.SmartServerTool;
+import com.ysl3000.utils.Permissions;
 
 public class BlockListener implements Listener {
 
@@ -40,35 +40,30 @@ public class BlockListener implements Listener {
 	public void onbreak(BlockBreakEvent event) {
 		event.setCancelled(!event.getPlayer().hasPermission(
 				Permissions.modifyBlock)
-				|| SmartServerTool.getConfigLoader()
-						.getNonPermission() ? false : true);
+				&&!SmartServerTool.getConfigLoader().getNonPermission());
 	}
 
 	@EventHandler(priority = EventPriority.LOW)
 	public void onbuild(BlockPlaceEvent event) {
 		event.setCancelled(!event.getPlayer().hasPermission(
 				Permissions.modifyBlock)
-				&& !SmartServerTool.getConfigLoader()
-						.getNonPermission());
+				&& !SmartServerTool.getConfigLoader().getNonPermission());
 	}
 
 	@EventHandler
 	public void onPhysics(BlockPhysicsEvent e) {
 		if (e.getBlock().getType().equals(Material.TRAP_DOOR)) {
-			e.setCancelled(SmartServerTool
-					.getConfigLoader().getPhysicsTrapdoor());
+			e.setCancelled(SmartServerTool.getConfigLoader()
+					.getPhysicsTrapdoor());
 		}
 		if (e.getBlock().getType().equals(Material.TORCH)) {
-			e.setCancelled(SmartServerTool
-					.getConfigLoader().getPhysicsTorch());
+			e.setCancelled(SmartServerTool.getConfigLoader().getPhysicsTorch());
 		}
 		if (e.getBlock().getType().equals(Material.SAND)) {
-			e.setCancelled(SmartServerTool
-					.getConfigLoader().getPhysicsSand());
+			e.setCancelled(SmartServerTool.getConfigLoader().getPhysicsSand());
 		}
 		if (e.getBlock().getType().equals(Material.GRAVEL)) {
-			e.setCancelled(SmartServerTool
-					.getConfigLoader().getPhysicsGravel());
+			e.setCancelled(SmartServerTool.getConfigLoader().getPhysicsGravel());
 		}
 		if (e.getBlock().getType().equals(Material.DIAMOND_BLOCK)) {
 			if (e.getBlock().getBlockPower() == 1) {
@@ -105,18 +100,17 @@ public class BlockListener implements Listener {
 
 	@EventHandler
 	public void onblockburn(BlockBurnEvent event) {
-		event.setCancelled(SmartServerTool
-				.getConfigLoader().isBlockburn());
+		event.setCancelled(SmartServerTool.getConfigLoader().isBlockburn());
 	}
 
 	@EventHandler
 	public void onblockig(BlockIgniteEvent event) {
-		event.setCancelled(event.getCause().equals(IgniteCause.LAVA) ? SmartServerTool.getConfigLoader().isLavaspread()
-				: event.getCause().equals(IgniteCause.LIGHTNING) ? SmartServerTool.getConfigLoader()
-						.isLightning_spread()
-						: event.getCause().equals(IgniteCause.SPREAD) ? SmartServerTool.getConfigLoader()
-								.isNormalspread()
-								: false);
+		event.setCancelled(event.getCause().equals(IgniteCause.LAVA) ? SmartServerTool
+				.getConfigLoader().isLavaspread() : event.getCause().equals(
+				IgniteCause.LIGHTNING) ? SmartServerTool.getConfigLoader()
+				.isLightning_spread() : event.getCause().equals(
+				IgniteCause.SPREAD) ? SmartServerTool.getConfigLoader()
+				.isNormalspread() : false);
 	}
 
 	@EventHandler
@@ -127,18 +121,16 @@ public class BlockListener implements Listener {
 				return;
 			Random rando = new Random();
 			if (event.getBlock().getType().equals(Material.DIAMOND_ORE)
-					&& (rando.nextInt(SmartServerTool
-							.getConfigLoader().getDiamondDropChance()) == 1 || SmartServerTool.getConfigLoader()
-							.getDiamondDropChance() == 1)
-					&& SmartServerTool.getConfigLoader()
-							.isDiamondDrop()) {
+					&& (rando.nextInt(SmartServerTool.getConfigLoader()
+							.getDiamondDropChance()) == 1 || SmartServerTool
+							.getConfigLoader().getDiamondDropChance() == 1)
+					&& SmartServerTool.getConfigLoader().isDiamondDrop()) {
 				event.getBlock()
 						.getWorld()
 						.dropItem(event.getBlock().getLocation(),
 								new ItemStack(Material.DIAMOND_PICKAXE));
 			} else if (event.getBlock().getType().equals(Material.LEAVES)
-					&& SmartServerTool.getConfigLoader()
-							.isAppleShear()
+					&& SmartServerTool.getConfigLoader().isAppleShear()
 					&& event.getPlayer().getItemInHand().getType()
 							.equals(Material.SHEARS)) {
 				event.getBlock()
@@ -146,24 +138,22 @@ public class BlockListener implements Listener {
 						.dropItem(event.getBlock().getLocation(),
 								new ItemStack(Material.GOLDEN_APPLE, 1));
 
-			} else if (event.getBlock().getTypeId() == 102
-					&& (rando.nextInt(SmartServerTool
-							.getConfigLoader().getGlassPaneDropChance()) == 1 || SmartServerTool.getConfigLoader()
-							.getGlassPaneDropChance() == 1)
-					&& SmartServerTool.getConfigLoader()
-							.isGlassPaneDrop()) {
+			} else if (event.getBlock().getType().equals(Material.THIN_GLASS)
+					&& (rando.nextInt(SmartServerTool.getConfigLoader()
+							.getGlassPaneDropChance()) == 1 || SmartServerTool
+							.getConfigLoader().getGlassPaneDropChance() == 1)
+					&& SmartServerTool.getConfigLoader().isGlassPaneDrop()) {
 
 				event.getBlock()
 						.getWorld()
 						.dropItem(event.getBlock().getLocation(),
-								new ItemStack(102, 1));
+								new ItemStack(Material.THIN_GLASS, 1));
 
 			} else if (event.getBlock().getType().equals(Material.GLASS)
-					&& (rando.nextInt(SmartServerTool
-							.getConfigLoader().getGlassSandDropChance()) == 1 || SmartServerTool.getConfigLoader()
-							.getGlassSandDropChance() == 1)
-					&& SmartServerTool.getConfigLoader()
-							.isGlassSandDrop()) {
+					&& (rando.nextInt(SmartServerTool.getConfigLoader()
+							.getGlassSandDropChance()) == 1 || SmartServerTool
+							.getConfigLoader().getGlassSandDropChance() == 1)
+					&& SmartServerTool.getConfigLoader().isGlassSandDrop()) {
 				event.getBlock()
 						.getWorld()
 						.dropItem(event.getBlock().getLocation(),

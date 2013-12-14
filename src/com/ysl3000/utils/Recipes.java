@@ -1,6 +1,7 @@
 package com.ysl3000.utils;
 
 import org.bukkit.Material;
+import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -96,8 +97,7 @@ public class Recipes extends JavaPlugin {
 
 	private void registerEggs() {
 		if (RecipeConfigloader.getisEggEnabled()) {
-			ShapedRecipe villager = new ShapedRecipe(
-					new SpawnEgg((byte) 120).toItemStack(1))
+			ShapedRecipe villager = new ShapedRecipe(new SpawnEgg(EntityType.VILLAGER).toItemStack(1))
 					.shape(new String[] { "rcr", "rer", "rlr" })
 					.setIngredient('r', Material.EMERALD)
 					.setIngredient('c', Material.WORKBENCH)
@@ -105,7 +105,7 @@ public class Recipes extends JavaPlugin {
 					.setIngredient('e', Material.EGG);
 
 			ShapedRecipe wolf = new ShapedRecipe(
-					new SpawnEgg((byte) 95).toItemStack(1))
+					new SpawnEgg(EntityType.WOLF).toItemStack(1))
 					.shape(new String[] { "rbr", "rer", "rcr" })
 					.setIngredient('r', Material.EMERALD)
 					.setIngredient('b', Material.BONE)
@@ -113,7 +113,7 @@ public class Recipes extends JavaPlugin {
 					.setIngredient('e', Material.EGG);
 
 			ShapedRecipe schwein = new ShapedRecipe(
-					new SpawnEgg((byte) 90).toItemStack(1))
+					new SpawnEgg(EntityType.PIG).toItemStack(1))
 					.shape(new String[] { "rbr", "rer", "rcr" })
 					.setIngredient('r', Material.EMERALD)
 					.setIngredient('b', Material.BONE)
@@ -121,7 +121,7 @@ public class Recipes extends JavaPlugin {
 					.setIngredient('e', Material.EGG);
 
 			ShapedRecipe schaf = new ShapedRecipe(
-					new SpawnEgg((byte) 91).toItemStack(1))
+					new SpawnEgg(EntityType.SHEEP).toItemStack(1))
 					.shape(new String[] { "rbr", "rer", "rcr" })
 					.setIngredient('r', Material.EMERALD)
 					.setIngredient('b', Material.BONE)
@@ -129,7 +129,7 @@ public class Recipes extends JavaPlugin {
 					.setIngredient('e', Material.EGG);
 
 			ShapedRecipe kuh = new ShapedRecipe(
-					new SpawnEgg((byte) 92).toItemStack(1))
+					new SpawnEgg(EntityType.COW).toItemStack(1))
 					.shape(new String[] { "rbr", "rer", "rcr" })
 					.setIngredient('r', Material.EMERALD)
 					.setIngredient('b', Material.BONE)
@@ -137,7 +137,7 @@ public class Recipes extends JavaPlugin {
 					.setIngredient('e', Material.EGG);
 
 			ShapedRecipe huhn = new ShapedRecipe(
-					new SpawnEgg((byte) 93).toItemStack(1))
+					new SpawnEgg(EntityType.CHICKEN).toItemStack(1))
 					.shape(new String[] { "rbr", "rer", "rcr" })
 					.setIngredient('r', Material.EMERALD)
 					.setIngredient('b', Material.BONE)

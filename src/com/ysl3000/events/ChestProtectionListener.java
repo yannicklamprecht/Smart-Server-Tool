@@ -11,8 +11,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import com.ysl3000.permissions.Permissions;
 import com.ysl3000.plugin.SmartServerTool;
+import com.ysl3000.utils.Permissions;
 
 public class ChestProtectionListener implements Listener {
 

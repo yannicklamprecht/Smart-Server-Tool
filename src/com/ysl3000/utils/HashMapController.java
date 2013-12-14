@@ -1,18 +1,17 @@
 package com.ysl3000.utils;
 
 import java.util.HashMap;
-
-import org.bukkit.entity.Player;
+import java.util.UUID;
 
 public class HashMapController {
 
-	private HashMap<Player,SmartPlayer> players;
+	private HashMap<UUID,SmartPlayer> players;
 
 	public HashMapController() {
-		this.players = new HashMap<Player, SmartPlayer>();
+		this.players = new HashMap<UUID, SmartPlayer>();
 	}
 
-	public HashMap<Player,SmartPlayer> getSmartPLayers(){
+	public HashMap<UUID,SmartPlayer> getSmartPLayers(){
 		return players;
 	}
 }
