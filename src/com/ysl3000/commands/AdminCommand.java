@@ -1,14 +1,16 @@
 /**
-* AdminCommand.java
-* 
-* Created on , 11:34:15 by @author Yannick Lamprecht
-*
-* SmartServerToolRewrote Copyright (C) 11.12.2013  Yannick Lamprecht
-* This program comes with ABSOLUTELY NO WARRANTY;
-* This is free software, and you are welcome to redistribute it
-* under certain conditions;
-*/
+ * AdminCommand.java
+ * 
+ * Created on , 11:34:15 by @author Yannick Lamprecht
+ *
+ * SmartServerToolRewrote Copyright (C) 11.12.2013  Yannick Lamprecht
+ * This program comes with ABSOLUTELY NO WARRANTY;
+ * This is free software, and you are welcome to redistribute it
+ * under certain conditions;
+ */
 package com.ysl3000.commands;
+
+import lib.CustomCommand;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -16,13 +18,12 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.ysl3000.lib.CustomCommand;
 
 /**
  * @author yannicklamprecht
- *
+ * 
  */
-public class AdminCommand extends CustomCommand{
+public class AdminCommand extends CustomCommand {
 
 	/**
 	 * @param name
@@ -32,8 +33,7 @@ public class AdminCommand extends CustomCommand{
 	 * @param cmdexe
 	 */
 	public AdminCommand() {
-		super("/admin", "Toggle Op", "//admin",
-				"sst.admin", new CommandExecutor(){
+		super("/admin","Toggle op", "//admin","sst.admin", new CommandExecutor() {
 
 					@Override
 					public boolean onCommand(CommandSender sender, Command cmd,
@@ -41,13 +41,17 @@ public class AdminCommand extends CustomCommand{
 						Player player = (Player) sender;
 
 						if (args.length == 0) {
-							if (!player.isOp() && player.hasPermission(cmd.getPermission())) {
+							if (!player.isOp()
+									&& player
+											.hasPermission(cmd.getPermission())) {
 
 								player.setOp(true);
 
 								player.sendMessage((ChatColor.GREEN + "Op enabled"));
 
-							} else if (player.isOp() && player.hasPermission(cmd.getPermission())) {
+							} else if (player.isOp()
+									&& player
+											.hasPermission(cmd.getPermission())) {
 
 								player.setOp(false);
 
@@ -58,6 +62,7 @@ public class AdminCommand extends CustomCommand{
 						}
 
 						return true;
-					}});
+					}
+				});
 	}
 }

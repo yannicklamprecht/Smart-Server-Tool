@@ -10,6 +10,9 @@
 */
 package com.ysl3000.commands;
 
+
+import lib.CustomCommand;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -18,7 +21,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.ysl3000.lib.CustomCommand;
+
 
 /**
  * @author yannicklamprecht
@@ -57,6 +60,11 @@ public class Spawn extends CustomCommand{
 							} else if (args.length == 1) {
 								Player target = Bukkit.getPlayer(args[0]);
 
+								if(target == null){
+									player.sendMessage("Player not online");
+									return true;
+								}
+								
 								target.teleport(lc);
 
 								player.sendMessage("You teleported " + target.getDisplayName()

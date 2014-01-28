@@ -10,9 +10,6 @@
  */
 package com.ysl3000.threads;
 
-import org.bukkit.entity.Player;
-
-import com.ysl3000.utils.SmartController;
 
 /**
  * @author yannicklamprecht
@@ -21,16 +18,14 @@ import com.ysl3000.utils.SmartController;
 public class TimeThread extends Thread {
 
 	private long time;
-	private Player p;
+	private TimeAction before;
+	private TimeAction after;
 
-	public TimeThread(long time, Player p) {
+	public TimeThread(long time, TimeAction before, TimeAction after) {
 		this.setTime(time);
-		this.p = p;
+		this.before = before;
+		this.after = after;
 		this.start();
-	}
-
-	public Player getPlayer() {
-		return p;
 	}
 
 	public void setTime(long time) {
@@ -38,18 +33,12 @@ public class TimeThread extends Thread {
 	}
 
 	public void run() {
-
-		SmartController.getSmartControler().getHashmaps().getSmartPLayers()
-				.get(this.getPlayer().getUniqueId()).setFrozen(true);
+		before.perform();
 		try {
 			Thread.sleep(this.time);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}
-
-		SmartController.getSmartControler().getHashmaps().getSmartPLayers()
-				.get(this.getPlayer().getUniqueId()).setFrozen(false);
-		p.sendMessage("You're now allowed to move");
+		after.perform();
 	}
-
 }

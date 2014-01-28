@@ -32,12 +32,12 @@ public class Recipes extends JavaPlugin {
 		registerChainAmor();
 		registerSaddle();
 
-		if (RecipeConfigloader.getisSpongeEnabled()) {
+		if (RecipeConfigloader.createAndReturnRecipeConfig(plugin).isFurnaceSponge()) {
 			FurnaceRecipe sponge = new FurnaceRecipe(new ItemStack(
 					Material.SPONGE, 1), Material.SANDSTONE);
 			plugin.getServer().addRecipe(sponge);
 		}
-		if (RecipeConfigloader.getisEntchantmentTable()) {
+		if (RecipeConfigloader.createAndReturnRecipeConfig(plugin).isCraftingEnchantmentTable()) {
 			ShapedRecipe sr = new ShapedRecipe(new ItemStack(
 					Material.ENCHANTMENT_TABLE, 1))
 					.shape(new String[] { "   ", " b ", "www" })
@@ -47,19 +47,19 @@ public class Recipes extends JavaPlugin {
 			this.plugin.getServer().addRecipe(sr);
 		}
 
-		if (RecipeConfigloader.getisWheatEnabled()) {
+		if (RecipeConfigloader.createAndReturnRecipeConfig(plugin).isCrafttingWeed()) {
 			ShapelessRecipe wheat = new ShapelessRecipe(new ItemStack(
 					Material.SEEDS, 3)).addIngredient(Material.WHEAT);
 			this.plugin.getServer().addRecipe(wheat);
 		}
 
-		if (RecipeConfigloader.getisNetherBrickEnabled()) {
+		if (RecipeConfigloader.createAndReturnRecipeConfig(plugin).isFurnaceNetherBrick()) {
 			FurnaceRecipe nbrick = new FurnaceRecipe(new ItemStack(
 					Material.NETHER_BRICK, 1), Material.NETHERRACK);
 			this.plugin.getServer().addRecipe(nbrick);
 		}
 
-		if (RecipeConfigloader.getisNetEnabled()) {
+		if (RecipeConfigloader.createAndReturnRecipeConfig(plugin).isCraftingNet()) {
 			ShapelessRecipe netz1 = new ShapelessRecipe(new ItemStack(
 					Material.STRING, 3)).addIngredient(Material.WEB);
 
@@ -71,14 +71,14 @@ public class Recipes extends JavaPlugin {
 			this.plugin.getServer().addRecipe(netz2);
 		}
 
-		if (RecipeConfigloader.getisLongGrassEnabled()) {
+		if (RecipeConfigloader.createAndReturnRecipeConfig(plugin).isCraftingLongGrass()) {
 			ShapelessRecipe LongGrass = new ShapelessRecipe(new ItemStack(
 					Material.LONG_GRASS, 3, (short) 1))
 					.addIngredient(Material.GRASS);
 			this.plugin.getServer().addRecipe(LongGrass);
 		}
 
-		if (RecipeConfigloader.getisCommandBlockEnabled()) {
+		if (RecipeConfigloader.createAndReturnRecipeConfig(plugin).isCraftingCommandBlock()) {
 			ShapedRecipe commandBlock = new ShapedRecipe(new ItemStack(
 					Material.COMMAND, 1))
 					.shape(new String[] { "nmn", "mdm", "nmn" })
@@ -96,7 +96,7 @@ public class Recipes extends JavaPlugin {
 	}
 
 	private void registerEggs() {
-		if (RecipeConfigloader.getisEggEnabled()) {
+		if (RecipeConfigloader.createAndReturnRecipeConfig(plugin).isCraftingEgg()) {
 			ShapedRecipe villager = new ShapedRecipe(new SpawnEgg(EntityType.VILLAGER).toItemStack(1))
 					.shape(new String[] { "rcr", "rer", "rlr" })
 					.setIngredient('r', Material.EMERALD)
@@ -154,7 +154,7 @@ public class Recipes extends JavaPlugin {
 	}
 
 	private void registerGlowstones() {
-		if (RecipeConfigloader.getisGlowStoneEnabled()) {
+		if (RecipeConfigloader.createAndReturnRecipeConfig(plugin).isCraftingGlowStone()) {
 			ShapedRecipe glows1 = new ShapedRecipe(new ItemStack(
 					Material.GLOWSTONE)).shape(
 					new String[] { "rr ", "rr ", "   " }).setIngredient('r',
@@ -179,7 +179,7 @@ public class Recipes extends JavaPlugin {
 	}
 
 	private void registerIronIngot() {
-		if (RecipeConfigloader.getisIronIngotEnabled()) {
+		if (RecipeConfigloader.createAndReturnRecipeConfig(plugin).isFurnaceIronIngot()) {
 			FurnaceRecipe ironingot1 = new FurnaceRecipe(new ItemStack(
 					Material.IRON_INGOT, 1), Material.IRON_PICKAXE);
 			FurnaceRecipe ironingot2 = new FurnaceRecipe(new ItemStack(
@@ -196,7 +196,7 @@ public class Recipes extends JavaPlugin {
 	}
 
 	private void registerGoldIngot() {
-		if (RecipeConfigloader.getisGoldIngotEnabled()) {
+		if (RecipeConfigloader.createAndReturnRecipeConfig(plugin).isFurnaceGoldIngot()) {
 			FurnaceRecipe goldingot1 = new FurnaceRecipe(new ItemStack(
 					Material.GOLD_INGOT, 1), Material.GOLD_PICKAXE);
 			FurnaceRecipe goldingot2 = new FurnaceRecipe(new ItemStack(
@@ -213,7 +213,7 @@ public class Recipes extends JavaPlugin {
 	}
 
 	private void registerDiamond() {
-		if (RecipeConfigloader.getisDiamondEnabled()) {
+		if (RecipeConfigloader.createAndReturnRecipeConfig(plugin).isFurnaceDiamondIngot()) {
 			FurnaceRecipe diamond1 = new FurnaceRecipe(new ItemStack(
 					Material.DIAMOND, 1), Material.DIAMOND_PICKAXE);
 			FurnaceRecipe diamond2 = new FurnaceRecipe(new ItemStack(
@@ -230,7 +230,7 @@ public class Recipes extends JavaPlugin {
 	}
 
 	private void registerGrass() {
-		if (RecipeConfigloader.getisGrassEnabled()) {
+		if (RecipeConfigloader.createAndReturnRecipeConfig(plugin).isCraftingGrass()) {
 			ShapedRecipe grass1 = new ShapedRecipe(new ItemStack(
 					Material.GRASS, 2)).shape(
 					new String[] { "ee ", "ee ", "   " }).setIngredient('e',
@@ -255,7 +255,7 @@ public class Recipes extends JavaPlugin {
 	}
 
 	private void registerMossyCobble() {
-		if (RecipeConfigloader.getisCobbleStoneEnabled()) {
+		if (RecipeConfigloader.createAndReturnRecipeConfig(plugin).isCraftingCobblestone()) {
 
 			ShapedRecipe oldcobble1 = new ShapedRecipe(new ItemStack(
 					Material.MOSSY_COBBLESTONE, 1))
@@ -299,7 +299,7 @@ public class Recipes extends JavaPlugin {
 	}
 
 	private void registerChainAmor() {
-		if (RecipeConfigloader.getisChainHelmet()) {
+		if (RecipeConfigloader.createAndReturnRecipeConfig(plugin).isCraftingChainHelmet()) {
 			ShapedRecipe chain_helm1 = new ShapedRecipe(new ItemStack(
 					Material.CHAINMAIL_HELMET, 1))
 					.shape(new String[] { "gdg", "g g", "   " })
@@ -314,7 +314,7 @@ public class Recipes extends JavaPlugin {
 			this.plugin.getServer().addRecipe(chain_helm1);
 			this.plugin.getServer().addRecipe(chain_helm2);
 		}
-		if (RecipeConfigloader.getisChainChestEnabled()) {
+		if (RecipeConfigloader.createAndReturnRecipeConfig(plugin).isCraftingChainChest()) {
 			ShapedRecipe chain_chestplate = new ShapedRecipe(new ItemStack(
 					Material.CHAINMAIL_CHESTPLATE, 1))
 					.shape(new String[] { "g g", "gdg", "ggg" })
@@ -322,7 +322,7 @@ public class Recipes extends JavaPlugin {
 					.setIngredient('d', Material.DIAMOND);
 			this.plugin.getServer().addRecipe(chain_chestplate);
 		}
-		if (RecipeConfigloader.getisChainLeggEnabled()) {
+		if (RecipeConfigloader.createAndReturnRecipeConfig(plugin).isCraftingChainLegg()) {
 			ShapedRecipe chain_leggings = new ShapedRecipe(new ItemStack(
 					Material.CHAINMAIL_LEGGINGS, 1))
 					.shape(new String[] { "gdg", "g g", "g g" })
@@ -330,7 +330,7 @@ public class Recipes extends JavaPlugin {
 					.setIngredient('d', Material.DIAMOND);
 			this.plugin.getServer().addRecipe(chain_leggings);
 		}
-		if (RecipeConfigloader.getisChainFeetEnabled()) {
+		if (RecipeConfigloader.createAndReturnRecipeConfig(plugin).isCraftingChainFeet()) {
 			ShapedRecipe chain_boots1 = new ShapedRecipe(new ItemStack(
 					Material.CHAINMAIL_BOOTS, 1)).shape(
 					new String[] { "g g", "g g", "   " }).setIngredient('g',
@@ -347,7 +347,7 @@ public class Recipes extends JavaPlugin {
 	}
 
 	private void registerSaddle() {
-		if (RecipeConfigloader.getisSaddleEnabled()) {
+		if (RecipeConfigloader.createAndReturnRecipeConfig(plugin).isCraftingSadle()) {
 			ShapelessRecipe sattel1 = new ShapelessRecipe(new ItemStack(
 					Material.LEATHER, 3)).addIngredient(Material.SADDLE);
 

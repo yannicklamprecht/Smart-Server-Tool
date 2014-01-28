@@ -10,13 +10,16 @@
 */
 package com.ysl3000.commands;
 
+
+import lib.CustomCommand;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.ysl3000.lib.CustomCommand;
+
 
 /**
  * @author yannicklamprecht

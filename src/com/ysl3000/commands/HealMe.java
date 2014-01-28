@@ -10,13 +10,16 @@
 */
 package com.ysl3000.commands;
 
+
+import lib.CustomCommand;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.ysl3000.lib.CustomCommand;
+
 
 /**
  * @author yannicklamprecht
@@ -45,6 +48,8 @@ public class HealMe extends CustomCommand{
 							player.setHealth(20.0);
 							player.setFoodLevel(20);
 							player.sendMessage(ChatColor.GREEN + "Healed!");
+						}else{
+							sender.sendMessage(cmd.getPermissionMessage());
 						}
 
 						return true;

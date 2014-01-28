@@ -28,5 +28,4 @@ public class Permissions {
 	public static final Permission openVEnchantingTable = new Permission("sst.vetable");
 	public static final Permission interact= new Permission("sst.interact");
 	public static final Permission chat= new Permission("sst.chat");
-	
 }

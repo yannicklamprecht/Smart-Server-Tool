@@ -15,15 +15,19 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import com.ysl3000.plugin.SmartServerTool;
+import com.ysl3000.utils.ConfigFactorizer;
+import com.ysl3000.utils.HashMapController;
 import com.ysl3000.utils.Permissions;
-import com.ysl3000.utils.SmartController;
+import com.ysl3000.utils.SmartPlayer;
 
 public class PlayerListener implements Listener {
-
+	private JavaPlugin plugin;
 	public PlayerListener(SmartServerTool plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+		this.plugin=plugin;
 	}
 
 	@EventHandler
@@ -82,16 +86,27 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void playerteleport(PlayerTeleportEvent event) {
-		SmartController.getSmartControler().getHashmaps().getSmartPLayers()
-				.get(event.getPlayer().getUniqueId()).setLastLocation(event.getFrom());
-		SmartController.getSmartControler().getHashmaps().getSmartPLayers()
-				.get(event.getPlayer().getUniqueId()).setCurrentLocation(event.getTo());
+
+		if (!HashMapController.getHashMapControler()
+				.getSmartPLayers().containsKey(event.getPlayer().getUniqueId())) {
+			HashMapController.getHashMapControler()
+					.getSmartPLayers()
+					.put(event.getPlayer().getUniqueId(),
+							new SmartPlayer(event.getPlayer()));
+		}
+		HashMapController.getHashMapControler().getSmartPLayers()
+				.get(event.getPlayer().getUniqueId())
+				.setLastLocation(event.getFrom());
+		HashMapController.getHashMapControler().getSmartPLayers()
+				.get(event.getPlayer().getUniqueId())
+				.setCurrentLocation(event.getTo());
 	}
 
 	@EventHandler
 	public void chatHandler(AsyncPlayerChatEvent e) {
 		if (!e.getPlayer().hasPermission(Permissions.chat)
-				&& !SmartServerTool.getConfigLoader().getNonPermission()) {
+				&& !ConfigFactorizer.createAndReturn(this.plugin)
+						.getNonPermission()) {
 			e.setCancelled(true);
 			e.getPlayer().sendMessage("NoPermissions");
 		}
@@ -99,9 +114,16 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void onPlayerMove(PlayerMoveEvent e) {
-		e.setCancelled((!(e.getPlayer().hasPermission(Permissions.move) || SmartServerTool
-				.getConfigLoader().getNonPermission()) && !SmartController
-				.getSmartControler().getHashmaps().getSmartPLayers()
+		if (!HashMapController.getHashMapControler()
+				.getSmartPLayers().containsKey(e.getPlayer().getUniqueId())) {
+			HashMapController.getHashMapControler()
+					.getSmartPLayers()
+					.put(e.getPlayer().getUniqueId(),
+							new SmartPlayer(e.getPlayer()));
+		}
+
+		e.setCancelled((!(e.getPlayer().hasPermission(Permissions.move) || ConfigFactorizer
+				.createAndReturn(this.plugin).getNonPermission()) && !HashMapController.getHashMapControler().getSmartPLayers()
 				.get(e.getPlayer().getUniqueId()).isFrozen()));
 
 	}
@@ -114,7 +136,8 @@ public class PlayerListener implements Listener {
 			if (event.getMessage().startsWith("@op ")) {
 
 				event.setMessage(event.getMessage().substring(4));
-				removeRecipients(event, ChatColor.RED + "[Need-OP]", true);
+				removeRecipients(event, ChatColor.RED + "[Need-OP]"
+						+ ChatColor.RESET, true);
 				event.getPlayer().sendMessage(ChatColor.GRAY + "Request sent!");
 			} else {
 				try {
@@ -166,14 +189,14 @@ public class PlayerListener implements Listener {
 
 	@EventHandler
 	public void nobucketFill(PlayerBucketFillEvent e) {
-		e.setCancelled(!(e.getPlayer().hasPermission(Permissions.interact) || SmartServerTool
-				.getConfigLoader().getNonPermission()));
+		e.setCancelled(!(e.getPlayer().hasPermission(Permissions.interact) || ConfigFactorizer
+				.createAndReturn(this.plugin).getNonPermission()));
 	}
 
 	@EventHandler
 	public void nobucketEmpty(PlayerBucketEmptyEvent e) {
-		e.setCancelled(!(e.getPlayer().hasPermission(Permissions.interact) || SmartServerTool
-				.getConfigLoader().getNonPermission()));
+		e.setCancelled(!(e.getPlayer().hasPermission(Permissions.interact) || ConfigFactorizer
+				.createAndReturn(this.plugin).getNonPermission()));
 	}
 
 }

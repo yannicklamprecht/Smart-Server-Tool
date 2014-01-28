@@ -1,146 +1,82 @@
 package com.ysl3000.utils;
 
-import com.ysl3000.plugin.SmartServerTool;
+import lib.ResourceYamlConfigLoader;
 
-public class RecipeConfigloader {
+import org.bukkit.plugin.java.JavaPlugin;
 
-	private SmartServerTool plugin;
+public class RecipeConfigloader{
 
-	private static boolean enableEnchantmentTable;
-	private static boolean enableSponge;
-	private static boolean enableEggs;
-	private static boolean enableGlowStone;
-	private static boolean enableIronIngot;
-	private static boolean enableGoldIngot;
-	private static boolean enableDiamond;
-	private static boolean enableWheat;
-	private static boolean enableGrass;
-	private static boolean enableNetherBrick;
-	private static boolean enableCobbleStone;
-	private static boolean enableNet;
-	private static boolean enableSaddle;
-	private static boolean enableLongGrass;
-	private static boolean enableChainHelmet;
-	private static boolean enableChainChest;
-	private static boolean enableChainLegg;
-	private static boolean enableChainFeet;
-	private static boolean enableCommandBlock;
-
-	public RecipeConfigloader(SmartServerTool smartServerTool) {
-		this.plugin = smartServerTool;
-
-		enableGlowStone = this.plugin.getRecipeConfig().getBoolean(
-				"Furnace.GlowStone");
-		enableIronIngot = this.plugin.getRecipeConfig().getBoolean(
-				"Furnace.IronIngot");
-		enableGoldIngot = this.plugin.getRecipeConfig().getBoolean(
-				"Furnace.GoldIngot");
-		enableDiamond = this.plugin.getRecipeConfig().getBoolean(
-				"Furnace.Diamond");
-		enableNetherBrick = this.plugin.getRecipeConfig().getBoolean(
-				"Furnace.NetherBrick");
-		enableSponge = this.plugin.getRecipeConfig().getBoolean(
-				"Furnace.Sponge");
-		enableEnchantmentTable = this.plugin.getRecipeConfig().getBoolean(
-				"Crafting.EntchantmentTable");
-		enableEggs = this.plugin.getRecipeConfig().getBoolean(
-				"Crafting.SpawnEggs");
-		enableWheat = this.plugin.getRecipeConfig()
-				.getBoolean("Crafting.Wheat");
-		enableGrass = this.plugin.getRecipeConfig()
-				.getBoolean("Crafting.Grass");
-		enableCobbleStone = this.plugin.getRecipeConfig().getBoolean(
-				"Crafting.CobbleStone");
-		enableNet = this.plugin.getRecipeConfig().getBoolean("Crafting.Net");
-		enableSaddle = this.plugin.getRecipeConfig().getBoolean(
-				"Crafting.Saddle");
-		enableLongGrass = this.plugin.getRecipeConfig().getBoolean(
-				"Crafting.LongGrass");
-		enableChainHelmet = this.plugin.getRecipeConfig().getBoolean(
-				"Crafting.Chain.Helmet");
-		enableChainChest = this.plugin.getRecipeConfig().getBoolean(
-				"Crafting.Chain.Chest");
-		enableChainLegg = this.plugin.getRecipeConfig().getBoolean(
-				"Crafting.Chain.Legg");
-		enableChainFeet = this.plugin.getRecipeConfig().getBoolean(
-				"Crafting.Chain.Feet");
-		enableCommandBlock = this.plugin.getRecipeConfig().getBoolean(
-				"Crafting.CommandBlock");
+	private static RecipeConfig recipe;
+	
+	public static RecipeConfig createAndReturnRecipeConfig(JavaPlugin plugin){
+		if(recipe==null){
+			recipe = new RecipeConfig(plugin);
+		}
+		return recipe;
 	}
+}
+class RecipeConfig extends ResourceYamlConfigLoader{
 
-	public static boolean getisEntchantmentTable() {
-		return enableEnchantmentTable;
+	public RecipeConfig(JavaPlugin plugin) {
+		super("SmartServerTool/", "recipe.yml", true, plugin);
 	}
-
-	public static boolean getisEggEnabled() {
-		return enableEggs;
+	public boolean isCraftingGlowStone(){
+		return this.config.getBoolean("Furnace.GlowStone");
 	}
-
-	public static boolean getisSpongeEnabled() {
-		return enableSponge;
+	public boolean isFurnaceIronIngot(){
+		return this.config.getBoolean("Furnace.IronIngot");
 	}
-
-	public static boolean getisGlowStoneEnabled() {
-		return enableGlowStone;
+	
+	public boolean isFurnaceGoldIngot(){
+		return this.config.getBoolean("Furnace.GoldIngot");
 	}
-
-	public static boolean getisIronIngotEnabled() {
-		return enableIronIngot;
+	public boolean isFurnaceDiamondIngot(){
+		return this.config.getBoolean("Furnace.Diamond");
 	}
-
-	public static boolean getisGoldIngotEnabled() {
-		return enableGoldIngot;
+	public boolean isFurnaceNetherBrick(){
+		return this.config.getBoolean("Furnace.NetherBrick");
 	}
-
-	public static boolean getisDiamondEnabled() {
-		return enableDiamond;
+	public boolean isFurnaceSponge(){
+		return this.config.getBoolean("Furnace.Sponge");
 	}
-
-	public static boolean getisWheatEnabled() {
-		return enableWheat;
+	public boolean isCraftingEnchantmentTable(){
+		return this.config.getBoolean("Crafting.EntchantmentTable");
 	}
-
-	public static boolean getisGrassEnabled() {
-		return enableGrass;
+	public boolean isCraftingEgg(){
+		return this.config.getBoolean("Crafting.SpawnEggs");
 	}
-
-	public static boolean getisNetherBrickEnabled() {
-		return enableNetherBrick;
+	public boolean isCrafttingWeed(){
+		return this.config.getBoolean("Crafting.Wheat");
 	}
-
-	public static boolean getisCobbleStoneEnabled() {
-		return enableCobbleStone;
+	public boolean isCraftingGrass(){
+		return this.config.getBoolean("Crafting.Grass");
 	}
-
-	public static boolean getisNetEnabled() {
-		return enableNet;
+	public boolean isCraftingCobblestone(){
+		return this.config.getBoolean("Crafting.CobbleStone");
 	}
-
-	public static boolean getisSaddleEnabled() {
-		return enableSaddle;
+	public boolean isCraftingNet(){
+		return this.config.getBoolean("Crafting.Net");
 	}
-
-	public static boolean getisLongGrassEnabled() {
-		return enableLongGrass;
+	public boolean isCraftingSadle(){
+		return this.config.getBoolean("Crafting.Saddle");
 	}
-
-	public static boolean getisChainHelmet() {
-		return enableChainHelmet;
+	public boolean isCraftingLongGrass(){
+		return this.config.getBoolean("Crafting.LongGrass");
 	}
-
-	public static boolean getisChainChestEnabled() {
-		return enableChainChest;
+	public boolean isCraftingChainHelmet(){
+		return this.config.getBoolean("Crafting.Chain.Helmet");
 	}
-
-	public static boolean getisChainLeggEnabled() {
-		return enableChainLegg;
+	public boolean isCraftingChainChest(){
+		return this.config.getBoolean("Crafting.Chain.Chest");
 	}
-
-	public static boolean getisChainFeetEnabled() {
-		return enableChainFeet;
+	public boolean isCraftingChainLegg(){
+		return this.config.getBoolean("Crafting.Chain.Legg");
 	}
-
-	public static boolean getisCommandBlockEnabled() {
-		return enableCommandBlock;
+	public boolean isCraftingChainFeet(){
+		return this.config.getBoolean("Crafting.Chain.Feet");
 	}
+	public boolean isCraftingCommandBlock(){
+		return this.config.getBoolean("Crafting.CommandBlock");
+	}
+	
 }

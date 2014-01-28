@@ -10,13 +10,16 @@
 */
 package com.ysl3000.commands;
 
+
+import lib.CustomCommand;
+
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.ysl3000.lib.CustomCommand;
+
 
 /**
  * @author yannicklamprecht
@@ -33,7 +36,7 @@ public class SwitchLocation extends CustomCommand{
 	 */
 	public SwitchLocation() {
 		super("switch",
-				"tp to player and player tp to old location",
+				"swap position with player",
 				"/switch <player>", "sst.switch", new CommandExecutor() {
 					
 					@Override
@@ -48,8 +51,11 @@ public class SwitchLocation extends CustomCommand{
 							if (args.length == 0) {
 								player.sendMessage("Not enough arguments");
 							} else if (args.length == 1) {
-
 								Player target = player.getServer().getPlayer(args[0]);
+								if(target == null){
+									player.sendMessage("Not online");
+									return true;
+								}
 
 								Location loca = player.getLocation();
 								player.teleport(target.getLocation());
@@ -63,15 +69,12 @@ public class SwitchLocation extends CustomCommand{
 											+ " changed position with you. Changed by "
 											+ player.getDisplayName());
 								}
-
 							} else {
 								player.sendMessage("to many arguments");
 							}
-
 						}
 						return true;
 					}
 				});
 	}
-
 }

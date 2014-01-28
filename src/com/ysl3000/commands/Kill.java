@@ -10,12 +10,15 @@
  */
 package com.ysl3000.commands;
 
+
+import lib.CustomCommand;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.ysl3000.lib.CustomCommand;
+
 
 /**
  * @author yannicklamprecht
@@ -59,6 +62,8 @@ public class Kill extends CustomCommand {
 								player.sendMessage(target.getDisplayName()
 										+ " killed successfully");
 							}
+						}else{
+							sender.sendMessage(cmd.getPermissionMessage());
 						}
 						return true;
 					}

@@ -3,6 +3,7 @@ package com.ysl3000.events;
 import java.util.Random;
 
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -25,45 +26,53 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.vehicle.VehicleDestroyEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
 import com.ysl3000.plugin.SmartServerTool;
+import com.ysl3000.utils.ConfigFactorizer;
 import com.ysl3000.utils.Permissions;
 
 public class BlockListener implements Listener {
 
+	private JavaPlugin plugin;
+
 	public BlockListener(SmartServerTool plugin) {
+		this.plugin = plugin;
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
 	}
 
 	@EventHandler
 	public void onbreak(BlockBreakEvent event) {
-		event.setCancelled(!event.getPlayer().hasPermission(
-				Permissions.modifyBlock)
-				&&!SmartServerTool.getConfigLoader().getNonPermission());
+		event.setCancelled((!event.getPlayer().hasPermission(
+				Permissions.modifyBlock) && !ConfigFactorizer.createAndReturn(
+				this.plugin).getNonPermission()) ? true : event.isCancelled());
 	}
 
 	@EventHandler(priority = EventPriority.LOW)
 	public void onbuild(BlockPlaceEvent event) {
-		event.setCancelled(!event.getPlayer().hasPermission(
-				Permissions.modifyBlock)
-				&& !SmartServerTool.getConfigLoader().getNonPermission());
+		event.setCancelled((!event.getPlayer().hasPermission(
+				Permissions.modifyBlock) && !ConfigFactorizer.createAndReturn(
+				this.plugin).getNonPermission()) ? true : event.isCancelled());
 	}
 
 	@EventHandler
 	public void onPhysics(BlockPhysicsEvent e) {
 		if (e.getBlock().getType().equals(Material.TRAP_DOOR)) {
-			e.setCancelled(SmartServerTool.getConfigLoader()
+			e.setCancelled(ConfigFactorizer.createAndReturn(this.plugin)
 					.getPhysicsTrapdoor());
 		}
 		if (e.getBlock().getType().equals(Material.TORCH)) {
-			e.setCancelled(SmartServerTool.getConfigLoader().getPhysicsTorch());
+			e.setCancelled(ConfigFactorizer.createAndReturn(this.plugin)
+					.getPhysicsTorch());
 		}
 		if (e.getBlock().getType().equals(Material.SAND)) {
-			e.setCancelled(SmartServerTool.getConfigLoader().getPhysicsSand());
+			e.setCancelled(ConfigFactorizer.createAndReturn(this.plugin)
+					.getPhysicsSand());
 		}
 		if (e.getBlock().getType().equals(Material.GRAVEL)) {
-			e.setCancelled(SmartServerTool.getConfigLoader().getPhysicsGravel());
+			e.setCancelled(ConfigFactorizer.createAndReturn(this.plugin)
+					.getPhysicsGravel());
 		}
 		if (e.getBlock().getType().equals(Material.DIAMOND_BLOCK)) {
 			if (e.getBlock().getBlockPower() == 1) {
@@ -100,17 +109,18 @@ public class BlockListener implements Listener {
 
 	@EventHandler
 	public void onblockburn(BlockBurnEvent event) {
-		event.setCancelled(SmartServerTool.getConfigLoader().isBlockburn());
+		event.setCancelled(ConfigFactorizer.createAndReturn(this.plugin)
+				.isFireSpead());
 	}
 
 	@EventHandler
 	public void onblockig(BlockIgniteEvent event) {
-		event.setCancelled(event.getCause().equals(IgniteCause.LAVA) ? SmartServerTool
-				.getConfigLoader().isLavaspread() : event.getCause().equals(
-				IgniteCause.LIGHTNING) ? SmartServerTool.getConfigLoader()
-				.isLightning_spread() : event.getCause().equals(
-				IgniteCause.SPREAD) ? SmartServerTool.getConfigLoader()
-				.isNormalspread() : false);
+		event.setCancelled(event.getCause().equals(IgniteCause.LAVA) ? ConfigFactorizer
+				.createAndReturn(this.plugin).isLavaspread() : event.getCause()
+				.equals(IgniteCause.LIGHTNING) ? ConfigFactorizer
+				.createAndReturn(this.plugin).isLightning_spread() : event
+				.getCause().equals(IgniteCause.SPREAD) ? ConfigFactorizer
+				.createAndReturn(this.plugin).isNormalspread() : false);
 	}
 
 	@EventHandler
@@ -121,16 +131,19 @@ public class BlockListener implements Listener {
 				return;
 			Random rando = new Random();
 			if (event.getBlock().getType().equals(Material.DIAMOND_ORE)
-					&& (rando.nextInt(SmartServerTool.getConfigLoader()
-							.getDiamondDropChance()) == 1 || SmartServerTool
-							.getConfigLoader().getDiamondDropChance() == 1)
-					&& SmartServerTool.getConfigLoader().isDiamondDrop()) {
+					&& (rando.nextInt(ConfigFactorizer.createAndReturn(
+							this.plugin).getDiamondDropChance()) == 1 || ConfigFactorizer
+							.createAndReturn(this.plugin)
+							.getDiamondDropChance() == 1)
+					&& ConfigFactorizer.createAndReturn(this.plugin)
+							.isDiamondDrop()) {
 				event.getBlock()
 						.getWorld()
 						.dropItem(event.getBlock().getLocation(),
 								new ItemStack(Material.DIAMOND_PICKAXE));
 			} else if (event.getBlock().getType().equals(Material.LEAVES)
-					&& SmartServerTool.getConfigLoader().isAppleShear()
+					&& ConfigFactorizer.createAndReturn(this.plugin)
+							.isAppleShear()
 					&& event.getPlayer().getItemInHand().getType()
 							.equals(Material.SHEARS)) {
 				event.getBlock()
@@ -138,26 +151,35 @@ public class BlockListener implements Listener {
 						.dropItem(event.getBlock().getLocation(),
 								new ItemStack(Material.GOLDEN_APPLE, 1));
 
-			} else if (event.getBlock().getType().equals(Material.THIN_GLASS)
-					&& (rando.nextInt(SmartServerTool.getConfigLoader()
-							.getGlassPaneDropChance()) == 1 || SmartServerTool
-							.getConfigLoader().getGlassPaneDropChance() == 1)
-					&& SmartServerTool.getConfigLoader().isGlassPaneDrop()) {
+			} else if ((event.getBlock().getType().equals(Material.THIN_GLASS) || event
+					.getBlock().getType().equals(Material.STAINED_GLASS_PANE))
+					&& (rando.nextInt(ConfigFactorizer.createAndReturn(
+							this.plugin).getGlassPaneDropChance()) == 1 || ConfigFactorizer
+							.createAndReturn(this.plugin)
+							.getGlassPaneDropChance() == 1)
+					&& ConfigFactorizer.createAndReturn(this.plugin)
+							.isGlassPaneDrop()) {
 
-				event.getBlock()
-						.getWorld()
-						.dropItem(event.getBlock().getLocation(),
-								new ItemStack(Material.THIN_GLASS, 1));
-
-			} else if (event.getBlock().getType().equals(Material.GLASS)
-					&& (rando.nextInt(SmartServerTool.getConfigLoader()
-							.getGlassSandDropChance()) == 1 || SmartServerTool
-							.getConfigLoader().getGlassSandDropChance() == 1)
-					&& SmartServerTool.getConfigLoader().isGlassSandDrop()) {
-				event.getBlock()
-						.getWorld()
-						.dropItem(event.getBlock().getLocation(),
-								new ItemStack(Material.SAND, 1));
+				if (!event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
+					event.getBlock()
+							.getWorld()
+							.dropItem(
+									event.getBlock().getLocation(),
+									new ItemStack(event.getBlock().getType(), 1));
+				}
+			} else if ((event.getBlock().getType().equals(Material.GLASS) || event
+					.getBlock().getType().equals(Material.STAINED_GLASS))
+					&& (rando.nextInt(ConfigFactorizer.createAndReturn(
+							this.plugin).getGlassSandDropChance()) == 1 || ConfigFactorizer
+							.createAndReturn(this.plugin)
+							.getGlassSandDropChance() == 1)
+					&& ConfigFactorizer.createAndReturn(this.plugin).isGlassSandDrop()) {
+				if (!event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
+					event.getBlock()
+							.getWorld()
+							.dropItem(event.getBlock().getLocation(),
+									new ItemStack(Material.SAND, 1));
+				}
 
 			} else if (event.getBlock().getType().equals(Material.ENDER_CHEST)) {
 				event.setCancelled(true);

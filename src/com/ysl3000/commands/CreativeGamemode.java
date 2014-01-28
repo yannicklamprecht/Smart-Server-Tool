@@ -10,6 +10,9 @@
 */
 package com.ysl3000.commands;
 
+
+import lib.CustomCommand;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -18,7 +21,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.ysl3000.lib.CustomCommand;
 import com.ysl3000.utils.Permissions;
 
 /**

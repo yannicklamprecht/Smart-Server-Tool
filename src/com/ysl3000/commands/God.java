@@ -10,13 +10,16 @@
  */
 package com.ysl3000.commands;
 
+
+import lib.CustomCommand;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.ysl3000.lib.CustomCommand;
-import com.ysl3000.utils.SmartController;
+import com.ysl3000.utils.HashMapController;
+import com.ysl3000.utils.SmartPlayer;
 
 /**
  * @author yannicklamprecht
@@ -44,23 +47,30 @@ public class God extends CustomCommand {
 
 						Player p = (Player) sender;
 						if (p.hasPermission(cmd.getPermission())) {
+							
+							if (!HashMapController.getHashMapControler()
+									.getSmartPLayers().containsKey(p.getUniqueId())) {
+								HashMapController.getHashMapControler()
+										.getSmartPLayers()
+										.put(p.getUniqueId(),
+												new SmartPlayer(p));
+							}
+							
 
-							if (SmartController.getSmartControler()
-									.getHashmaps().getSmartPLayers().get(p.getUniqueId())
+							if (HashMapController.getHashMapControler().getSmartPLayers().get(p.getUniqueId())
 									.isGod()) {
-								SmartController.getSmartControler()
-										.getHashmaps().getSmartPLayers().get(p.getUniqueId())
+								HashMapController.getHashMapControler().getSmartPLayers().get(p.getUniqueId())
 										.setGod(false);
 							} else {
-								SmartController.getSmartControler()
-										.getHashmaps().getSmartPLayers().get(p.getUniqueId())
+								HashMapController.getHashMapControler().getSmartPLayers().get(p.getUniqueId())
 										.setGod(true);
 							}
 							p.sendMessage("Godmode set to "
-									+ (SmartController.getSmartControler()
-											.getHashmaps().getSmartPLayers()
+									+ (HashMapController.getHashMapControler().getSmartPLayers()
 											.get(p.getUniqueId()).isGod() ? "True" : "False"));
 
+						}else{
+							sender.sendMessage(cmd.getPermissionMessage());
 						}
 
 						return true;

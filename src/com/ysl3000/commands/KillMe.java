@@ -10,12 +10,15 @@
 */
 package com.ysl3000.commands;
 
+
+import lib.CustomCommand;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.ysl3000.lib.CustomCommand;
+
 
 /**
  * @author yannicklamprecht
@@ -45,6 +48,8 @@ public class KillMe extends CustomCommand{
 						if (player.hasPermission(cmd.getPermission())) {
 								player.setHealth(0.0);
 								
+						}else{
+							sender.sendMessage(cmd.getPermissionMessage());
 						}
 						
 						return true;

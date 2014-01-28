@@ -10,6 +10,9 @@
  */
 package com.ysl3000.commands;
 
+
+import lib.CustomCommand;
+
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
@@ -17,8 +20,8 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.ysl3000.lib.CustomCommand;
-import com.ysl3000.utils.SmartController;
+import com.ysl3000.utils.HashMapController;
+import com.ysl3000.utils.SmartPlayer;
 
 /**
  * @author yannicklamprecht
@@ -59,18 +62,24 @@ public class DoneCommand extends CustomCommand {
 
 					private void done(Player target, Player player) {
 
-						if (SmartController.getSmartControler().getHashmaps()
+						if (!HashMapController.getHashMapControler()
+								.getSmartPLayers().containsKey(target.getUniqueId())) {
+							HashMapController.getHashMapControler()
+									.getSmartPLayers()
+									.put(target.getUniqueId(),
+											new SmartPlayer(target.getPlayer()));
+						}
+						
+						if (HashMapController.getHashMapControler()
 								.getSmartPLayers().get(target.getUniqueId()).isMod()) {
 
 							target.setGameMode(GameMode.SURVIVAL);
 							target.getInventory().clear();
 							target.getInventory().setContents(
-									SmartController.getSmartControler()
-											.getHashmaps().getSmartPLayers()
+									HashMapController.getHashMapControler().getSmartPLayers()
 											.get(target.getUniqueId())
 											.getInventory());
-							target.teleport(SmartController.getSmartControler()
-									.getHashmaps().getSmartPLayers()
+							target.teleport(HashMapController.getHashMapControler().getSmartPLayers()
 									.get(target.getUniqueId()).getModLocation());
 
 							if (player != null) {
@@ -79,7 +88,7 @@ public class DoneCommand extends CustomCommand {
 										.getName()));
 							}
 							target.sendMessage((ChatColor.RED + "modmode disabled"));
-							SmartController.getSmartControler().getHashmaps()
+							HashMapController.getHashMapControler()
 									.getSmartPLayers()
 									.get(target.getUniqueId()).setMod(false);
 

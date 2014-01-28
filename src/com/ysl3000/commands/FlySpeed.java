@@ -10,12 +10,15 @@
 */
 package com.ysl3000.commands;
 
+
+import lib.CustomCommand;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.ysl3000.lib.CustomCommand;
+
 
 /**
  * @author yannicklamprecht
@@ -31,18 +34,22 @@ public class FlySpeed extends CustomCommand{
 	 * @param cmdexe
 	 */
 	public FlySpeed() {
-		super("fs", "Set flyspeed", "/fs <amount>",
-				null, new CommandExecutor() {
+		super("fs", "Set flyspeed", "/fs <amount>","", new CommandExecutor() {
 					
 					@Override
 					public boolean onCommand(CommandSender sender, Command cmd, String commandLabel,
 							String[] args) {
 						
-						if (args.length != 1)
-							return false;
+						if(!(sender instanceof Player))return true;
+						
+						if (args.length != 1){ sender.sendMessage(cmd.getUsage()); return false;}
 						Player p = (Player) sender;
 						
-
+						try{
+							Float.parseFloat(args[0]);
+						}catch(NumberFormatException e){
+							return false;
+						}
 						if (Float.parseFloat(args[0]) > 0 && Float.parseFloat(args[0]) <= 1) {
 							p.setFlySpeed(Float.parseFloat(args[0]));
 
@@ -50,9 +57,7 @@ public class FlySpeed extends CustomCommand{
 						} else {
 							p.sendMessage("Speed has to be between 0.1 and 1.0");
 						}
-
 						return true;
-						
 					}
 				});
 		

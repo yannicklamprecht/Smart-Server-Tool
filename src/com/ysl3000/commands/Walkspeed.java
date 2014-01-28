@@ -10,12 +10,15 @@
 */
 package com.ysl3000.commands;
 
+
+import lib.CustomCommand;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.ysl3000.lib.CustomCommand;
+
 
 /**
  * @author yannicklamprecht
@@ -40,16 +43,17 @@ public class Walkspeed extends CustomCommand{
 						
 						if(!(sender instanceof Player))return false;
 						
-						if(args.length!=1)return false;
-						
-						
+						if(args.length!=1){ sender.sendMessage(cmd.getUsage()); return false;}
 						Player p = (Player) sender;
-
+						try{
 						if (Float.parseFloat(args[0]) > 0 && Float.parseFloat(args[0]) <= 1) {
 							p.setWalkSpeed(Float.parseFloat(args[0]));
 							p.sendMessage("Walkspeed set to " + p.getWalkSpeed());
 						} else {
 							p.sendMessage("Speed has to be between 0.1 and 1.0");
+						}
+						}catch(NumberFormatException e){
+							return true;
 						}
 
 						return true;

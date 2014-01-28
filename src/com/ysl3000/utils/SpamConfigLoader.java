@@ -23,7 +23,7 @@ public class SpamConfigLoader {
 	private String fileName = "spam.yml";
 	private FileConfiguration config;
 	private ArrayList<String> spamlist;
-
+//TODO Cast to my Configformat
 	public SpamConfigLoader() {
 		this.config = YamlConfiguration.loadConfiguration(new File(
 				SmartServerTool.mainDirectory, fileName));

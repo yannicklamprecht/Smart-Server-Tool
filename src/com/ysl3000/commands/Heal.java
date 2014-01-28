@@ -10,13 +10,16 @@
  */
 package com.ysl3000.commands;
 
+
+import lib.CustomCommand;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.ysl3000.lib.CustomCommand;
+
 
 /**
  * @author yannicklamprecht
@@ -32,7 +35,7 @@ public class Heal extends CustomCommand {
 	 * @param cmdexe
 	 */
 	public Heal() {
-		super("heal", "heal", "/heal <player>", "sst.heal",
+		super("heal", "heal someone", "/heal <player>", "sst.heal",
 				new CommandExecutor() {
 
 					@Override
@@ -65,6 +68,8 @@ public class Heal extends CustomCommand {
 
 							player.sendMessage(ChatColor.GREEN + "You healed "
 									+ ChatColor.DARK_PURPLE + target.getName());
+						}else{
+							sender.sendMessage(cmd.getPermissionMessage());
 						}
 
 						return true;

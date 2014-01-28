@@ -11,50 +11,43 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerListPingEvent;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import com.ysl3000.plugin.SmartServerTool;
+import com.ysl3000.utils.ConfigFactorizer;
+import com.ysl3000.utils.HashMapController;
 import com.ysl3000.utils.Permissions;
 import com.ysl3000.utils.Prefix;
-import com.ysl3000.utils.SmartController;
 import com.ysl3000.utils.SmartPlayer;
 import com.ysl3000.utils.Utility;
 
 public class MOTD implements Listener {
 
-	private String coremessage;
-	private String joinmessage;
-	private String privateJoinmessage;
-	private String leftmessage;
-
+	private JavaPlugin plugin;
+	
 	public MOTD(SmartServerTool plugin) {
 		plugin.getServer().getPluginManager().registerEvents(this, plugin);
+		this.plugin=plugin;
 	}
 
 	@EventHandler
 	public void login(PlayerLoginEvent event) {
 
-		if (SmartServerTool.getConfigLoader().getMaintenance()) {
+		if (ConfigFactorizer.createAndReturn(this.plugin).getMaintenance()) {
 
 			event.setResult(Result.KICK_OTHER);
 
 		}
-		if (event.getPlayer().getName().equalsIgnoreCase("Player")
-				&& SmartServerTool.getConfigLoader().isBloggingPlayerJoin()) {
-
-			event.setResult(Result.KICK_OTHER);
-			event.setKickMessage("Player you are not allowed to join, because of stupidness");
-		}
-
 		if (event.getResult() == PlayerLoginEvent.Result.KICK_WHITELIST) {
 
-			event.setKickMessage(SmartServerTool.getConfigLoader()
+			event.setKickMessage(ConfigFactorizer.createAndReturn(this.plugin)
 					.getWhitelistmessage());
 
 			message_trying_to_join(event.getPlayer().getDisplayName(), event
 					.getResult().name().substring(5, 14));
 		} else if (event.getResult() == PlayerLoginEvent.Result.KICK_BANNED) {
 
-			event.setKickMessage(SmartServerTool.getConfigLoader()
+			event.setKickMessage(ConfigFactorizer.createAndReturn(this.plugin)
 					.getBanmessage());
 			message_trying_to_join(event.getPlayer().getDisplayName(), event
 					.getResult().name().substring(5, 11));
@@ -65,7 +58,7 @@ public class MOTD implements Listener {
 				event.setResult(Result.ALLOWED);
 			} else {
 
-				event.setKickMessage(SmartServerTool.getConfigLoader()
+				event.setKickMessage(ConfigFactorizer.createAndReturn(this.plugin)
 						.getFullmessage());
 			}
 		} else if (event.getResult() == Result.KICK_OTHER) {
@@ -77,7 +70,7 @@ public class MOTD implements Listener {
 			} else {
 
 				event.setKickMessage(ChatColor.DARK_RED
-						+ SmartServerTool.getConfigLoader()
+						+ ConfigFactorizer.createAndReturn(this.plugin)
 								.getMaintenanceMessage());
 			}
 		}
@@ -87,11 +80,11 @@ public class MOTD implements Listener {
 	@EventHandler
 	public void serverlistcheck(ServerListPingEvent event) {
 
-		if (SmartServerTool.getConfigLoader().getMaintenance()) {
+		if (ConfigFactorizer.createAndReturn(this.plugin).getMaintenance()) {
 
 			event.setMaxPlayers(-2);
 			event.setMotd(ChatColor.DARK_RED
-					+ SmartServerTool.getConfigLoader().getMaintenanceMessage());
+					+ ConfigFactorizer.createAndReturn(this.plugin).getMaintenanceMessage());
 
 		} else {
 			event.setMotd(ChatColor.GOLD + event.getMotd());
@@ -106,18 +99,18 @@ public class MOTD implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
-		SmartController.getSmartControler().getHashmaps().getSmartPLayers()
+		HashMapController.getHashMapControler().getSmartPLayers()
 		.put(event.getPlayer().getUniqueId(), new SmartPlayer(event.getPlayer()));
 		message(event);
-		player.setSleepingIgnored(SmartServerTool.getConfigLoader()
+		player.setSleepingIgnored(ConfigFactorizer.createAndReturn(this.plugin)
 				.isSleepingIgnored());
 		Prefix.getPrefixer().Pfix(player);
 	}
 
 	@EventHandler
 	public void onPlayerLeft(PlayerQuitEvent event) {
-		SmartController.getSmartControler().getHashmaps().getSmartPLayers()
-				.remove(event.getPlayer());
+		HashMapController.getHashMapControler().getSmartPLayers()
+				.remove(event.getPlayer().getUniqueId());
 		message(event);
 	}
 
@@ -134,11 +127,14 @@ public class MOTD implements Listener {
 
 		if (event instanceof PlayerJoinEvent) {
 
+			String coremessage;
+			String privateJoinmessage;
+			String joinmessage;
 			PlayerJoinEvent eventPJE = (PlayerJoinEvent) event;
-			if (SmartServerTool.getConfigLoader().isMessaging()) {
+			if (ConfigFactorizer.createAndReturn(this.plugin).isMessaging()) {
 
 				Player playerPJE = eventPJE.getPlayer();
-				if (SmartServerTool.getConfigLoader().getRandomColor()) {
+				if (ConfigFactorizer.createAndReturn(this.plugin).getRandomColor()) {
 					Prefix.getPrefixer().Pfix(playerPJE);
 				}
 
@@ -151,9 +147,9 @@ public class MOTD implements Listener {
 							.availableProcessors() + " cores");
 				}
 
-				joinmessage = SmartServerTool.getConfigLoader()
+				joinmessage = ConfigFactorizer.createAndReturn(this.plugin)
 						.getJoinmessage();
-				privateJoinmessage = SmartServerTool.getConfigLoader()
+				privateJoinmessage = ConfigFactorizer.createAndReturn(this.plugin)
 						.getPrivatJoinMessage();
 
 				joinmessage = joinmessage.replace("user%", "" + ChatColor.GOLD
@@ -169,7 +165,7 @@ public class MOTD implements Listener {
 								+ ""
 								+ Utility.getTime(
 										System.currentTimeMillis(),
-										SmartServerTool.getConfigLoader()
+										ConfigFactorizer.createAndReturn(this.plugin)
 												.getTimeFormat()
 												.replace("%dp", ":"))
 
@@ -188,11 +184,11 @@ public class MOTD implements Listener {
 								+ Utility.listPlayers());
 				privateJoinmessage = privateJoinmessage.replace("n%", "\n");
 
-				if (SmartServerTool.getConfigLoader().getMaintenance()) {
+				if (ConfigFactorizer.createAndReturn(this.plugin).getMaintenance()) {
 
 					for (Player p : Bukkit.getOnlinePlayers()) {
 
-						p.sendMessage(SmartServerTool.getConfigLoader()
+						p.sendMessage(ConfigFactorizer.createAndReturn(this.plugin)
 								.getMaintenanceMessage());
 
 					}
@@ -204,7 +200,7 @@ public class MOTD implements Listener {
 
 						for (Player p : Bukkit.getOnlinePlayers()) {
 							p.sendMessage(joinmessage.concat(" "
-									+ SmartServerTool.getConfigLoader()
+									+ ConfigFactorizer.createAndReturn(this.plugin)
 											.getFirstJoinMessage()));
 						}
 						eventPJE.setJoinMessage("");
@@ -233,10 +229,10 @@ public class MOTD implements Listener {
 		} else if (event instanceof PlayerQuitEvent) {
 
 			PlayerQuitEvent eventPQE = (PlayerQuitEvent) event;
+			String leftmessage;
 
-			if (SmartServerTool.getConfigLoader().isMessaging()) {
-				leftmessage = null;
-				leftmessage = SmartServerTool.getConfigLoader()
+			if (ConfigFactorizer.createAndReturn(this.plugin).isMessaging()) {
+				leftmessage = ConfigFactorizer.createAndReturn(this.plugin)
 						.getLeftmessage();
 
 				Player playerPQE = eventPQE.getPlayer();

@@ -10,6 +10,9 @@
 */
 package com.ysl3000.commands;
 
+
+import lib.CustomCommand;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -17,9 +20,10 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.ysl3000.lib.CustomCommand;
+import com.ysl3000.threads.TimeAction;
 import com.ysl3000.threads.TimeThread;
-import com.ysl3000.utils.SmartController;
+import com.ysl3000.utils.HashMapController;
+import com.ysl3000.utils.SmartPlayer;
 
 /**
  * @author yannicklamprecht
@@ -49,6 +53,7 @@ public class Freeze extends CustomCommand{
 						if (p.hasPermission(cmd.getPermission())) {
 							if (args.length >= 1 && args.length <= 2) {
 
+								try{
 								long time = Long.parseLong(args[0]);
 
 								if (args.length == 1) {
@@ -60,12 +65,18 @@ public class Freeze extends CustomCommand{
 									freezePlayer(p, psender, time);
 								}
 
+								}catch(NumberFormatException e){
+									return true;
+								}
 							} else {
 
 								p.sendMessage(ChatColor.RED + "Wrong Input");
 							}
 
+						}else{
+							sender.sendMessage(cmd.getPermissionMessage());
 						}
+							
 
 						return true;
 						
@@ -73,16 +84,40 @@ public class Freeze extends CustomCommand{
 					}
 		
 				
-		private void freezePlayer(Player p, Player sender, long time) {
+		private void freezePlayer(final Player p, Player sender, long time) {
 			String type;
-			if (!SmartController.getSmartControler().getHashmaps()
+			
+			if (!HashMapController.getHashMapControler()
+					.getSmartPLayers().containsKey(p.getUniqueId())) {
+				HashMapController.getHashMapControler()
+						.getSmartPLayers()
+						.put(p.getUniqueId(),
+								new SmartPlayer(p));
+			}
+			
+			
+			if (!HashMapController.getHashMapControler()
 					.getSmartPLayers().get(p.getUniqueId()).isFrozen()) {
 				type = "Freeze ";
 
-				new TimeThread(time, p);
+				new TimeThread(time, new TimeAction() {
+					@Override
+					public void perform() {
+						HashMapController.getHashMapControler().getSmartPLayers()
+						.get(p.getUniqueId()).setFrozen(true);
+						
+					}
+				}, new TimeAction() {
+					@Override
+					public void perform() {
+						HashMapController.getHashMapControler().getSmartPLayers()
+						.get(p.getUniqueId()).setFrozen(false);
+						p.sendMessage("You're now allowed to move");
+					}
+				});
 
 			} else {
-				SmartController.getSmartControler().getHashmaps().getSmartPLayers()
+				HashMapController.getHashMapControler().getSmartPLayers()
 						.get(p.getUniqueId()).setFrozen(false);
 				type = "Smelt ";
 			}

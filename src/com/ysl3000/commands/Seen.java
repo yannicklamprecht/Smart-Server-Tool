@@ -10,6 +10,9 @@
 */
 package com.ysl3000.commands;
 
+
+import lib.CustomCommand;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -18,7 +21,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.ysl3000.lib.CustomCommand;
 import com.ysl3000.utils.Utility;
 
 /**
@@ -35,7 +37,7 @@ public class Seen extends CustomCommand{
 	 * @param cmdexe
 	 */
 	public Seen() {
-		super("seen", "check first&last seen",
+		super("seen", "check first/last seen",
 				"/seen <player>", "sst.seen", new CommandExecutor() {
 					
 					@Override
@@ -43,6 +45,11 @@ public class Seen extends CustomCommand{
 							String[] args) {
 						
 						if(!(sender instanceof Player))return false;
+						
+						if(!sender.hasPermission(cmd.getPermission())){
+							sender.sendMessage(cmd.getPermissionMessage());
+							return false;
+						}
 						
 						Player player = (Player) sender;
 
