@@ -4,3 +4,7 @@
 *.metadata
 *.settings
 *.classpath
+
+.idea
+target
+
