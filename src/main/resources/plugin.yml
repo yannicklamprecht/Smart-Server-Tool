@@ -2,94 +2,94 @@ name: SmartServerTool
 version: 1.7.2 v.1 Iplementation v.12
 main: com.ysl3000.plugin.SmartServerTool
 authors:
-      - ysl3000
+  - ysl3000
 description: provides you some simple Server Commands! This mostly refers to a Vanilla-like server.
 permissions:
-    sst.*:
-         description: give all permission
-         children:
-             sst.admin: true
-             sst.mod: true
-             sst.gm: true
-             sst.time: true
-             sst.weather: true
-             sst.km: true
-             sst.kill: true
-             sst.wg: true
-             sst.heal: true
-             sst.tp: true
-             sst.tpo: true
-             sst.ip: true
-             sst.switch: true
-             sst.setsp: true
-             sst.spawn: true
-             sst.seth: true
-             sst.home: true
-             sst.ci: true
-             sst.fly: true
-             sst.visible: true
-             sst.item: true
-             sst.repair: true
-             sst.nolog: true
-             sst.gamemode: true
-             sst.flyo: true
-             sst.cansee: true
-             sst.info: true
-             sst.create: true
-             sst.gmo: true
-             sst.joinfull: true
-             sst.joinservice: true
-             sst.chat: true
-             sst.move: true
-             sst.changetype: true
-             sst.plugins: true
-    sst.nolog:
-         description: No Logging of Commands
-         default: false
-    sst.gamemodeo:
-         description: allow entering other people gmc
-         default: false
-    sst.flyo:
-         description: allow you to enable others to fly
-         default: false
-    sst.cansee:
-         description: you can see hidden player
-         default: false
-    sst.info:
-         description: allow playerinfo
-         default: op
-    sst.create:
-         description: allows creating buildings
-    sst.gmo:
-         description: allow you looking up others gamemode
-    sst.joinfull:
-         description: allows you to join full server
-    sst.joinservice:
-         description: allows you to join server while in servicemode
-    sst.autofly:
-         description: enables fly on join
-         default: false
-    sst.chat:
-         description: enables chatting
-         default: op
-    sst.move:
-         description: enables moving
-         default: op
-    sst.changetype:
-         description: allows changing mobspawner
-         default: false
-    sst.vwbench:
-         description: allows opening vwbench
-         op: true
-    sst.vechest:
-         description: allows opening vechest
-         op: true
-    sst.vetable:
-         description: allows opening vetable
-         op: true
-    sst.cMc:
-         description: allows crafting MagmaContainer
-         op: true
-    sst.openanychest:
-         description: you can open any chest
-         op: true
+  sst.*:
+    description: give all permission
+    children:
+      sst.admin: true
+      sst.mod: true
+      sst.gm: true
+      sst.time: true
+      sst.weather: true
+      sst.km: true
+      sst.kill: true
+      sst.wg: true
+      sst.heal: true
+      sst.tp: true
+      sst.tpo: true
+      sst.ip: true
+      sst.switch: true
+      sst.setsp: true
+      sst.spawn: true
+      sst.seth: true
+      sst.home: true
+      sst.ci: true
+      sst.fly: true
+      sst.visible: true
+      sst.item: true
+      sst.repair: true
+      sst.nolog: true
+      sst.gamemode: true
+      sst.flyo: true
+      sst.cansee: true
+      sst.info: true
+      sst.create: true
+      sst.gmo: true
+      sst.joinfull: true
+      sst.joinservice: true
+      sst.chat: true
+      sst.move: true
+      sst.changetype: true
+      sst.plugins: true
+  sst.nolog:
+    description: No Logging of Commands
+    default: false
+  sst.gamemodeo:
+    description: allow entering other people gmc
+    default: false
+  sst.flyo:
+    description: allow you to enable others to fly
+    default: false
+  sst.cansee:
+    description: you can see hidden player
+    default: false
+  sst.info:
+    description: allow playerinfo
+    default: op
+  sst.create:
+    description: allows creating buildings
+  sst.gmo:
+    description: allow you looking up others gamemode
+  sst.joinfull:
+    description: allows you to join full server
+  sst.joinservice:
+    description: allows you to join server while in servicemode
+  sst.autofly:
+    description: enables fly on join
+    default: false
+  sst.chat:
+    description: enables chatting
+    default: op
+  sst.move:
+    description: enables moving
+    default: op
+  sst.changetype:
+    description: allows changing mobspawner
+    default: false
+  sst.vwbench:
+    description: allows opening vwbench
+    op: true
+  sst.vechest:
+    description: allows opening vechest
+    op: true
+  sst.vetable:
+    description: allows opening vetable
+    op: true
+  sst.cMc:
+    description: allows crafting MagmaContainer
+    op: true
+  sst.openanychest:
+    description: you can open any chest
+    op: true

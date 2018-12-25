@@ -5,50 +5,50 @@ package com.ysl3000.config.settings;
  */
 public class Messages {
 
-    private boolean enabled = true;
-    private boolean enablbeRandomChatColor = true;
-    private String timeformat = "MM dd, yyyy HH%dpmm";
-    private Service service = new Service();
-    private PlayerMessage player = new PlayerMessage();
+  private boolean enabled = true;
+  private boolean enablbeRandomChatColor = true;
+  private String timeformat = "MM dd, yyyy HH%dpmm";
+  private Service service = new Service();
+  private PlayerMessage player = new PlayerMessage();
 
 
-    public boolean isEnabled() {
-        return enabled;
-    }
+  public boolean isEnabled() {
+    return enabled;
+  }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+  public void setEnabled(boolean enabled) {
+    this.enabled = enabled;
+  }
 
-    public boolean isEnablbeRandomChatColor() {
-        return enablbeRandomChatColor;
-    }
+  public boolean isEnablbeRandomChatColor() {
+    return enablbeRandomChatColor;
+  }
 
-    public void setEnablbeRandomChatColor(boolean enablbeRandomChatColor) {
-        this.enablbeRandomChatColor = enablbeRandomChatColor;
-    }
+  public void setEnablbeRandomChatColor(boolean enablbeRandomChatColor) {
+    this.enablbeRandomChatColor = enablbeRandomChatColor;
+  }
 
-    public String getTimeformat() {
-        return timeformat;
-    }
+  public String getTimeformat() {
+    return timeformat;
+  }
 
-    public void setTimeformat(String timeformat) {
-        this.timeformat = timeformat;
-    }
+  public void setTimeformat(String timeformat) {
+    this.timeformat = timeformat;
+  }
 
-    public Service getService() {
-        return service;
-    }
+  public Service getService() {
+    return service;
+  }
 
-    public void setService(Service service) {
-        this.service = service;
-    }
+  public void setService(Service service) {
+    this.service = service;
+  }
 
-    public PlayerMessage getPlayer() {
-        return player;
-    }
+  public PlayerMessage getPlayer() {
+    return player;
+  }
 
-    public void setPlayer(PlayerMessage player) {
-        this.player = player;
-    }
+  public void setPlayer(PlayerMessage player) {
+    this.player = player;
+  }
 }

@@ -3,10 +3,9 @@
  * <p>
  * Created on , 15:06:54 by @author Yannick Lamprecht
  * <p>
- * SmartServerToolRewrote Copyright (C) 11.12.2013  Yannick Lamprecht
- * This program comes with ABSOLUTELY NO WARRANTY;
- * This is free software, and you are welcome to redistribute it
- * under certain conditions;
+ * SmartServerToolRewrote Copyright (C) 11.12.2013  Yannick Lamprecht This program comes with
+ * ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under
+ * certain conditions;
  */
 package com.ysl3000.commands;
 
@@ -23,23 +22,23 @@ import org.bukkit.entity.Player;
 public class Storm extends CustomCommand {
 
 
-    public Storm() {
-        super("storm", "Set storm", "/storm",
-                "sst.weather");
+  public Storm() {
+    super("storm", "Set storm", "/storm",
+        "sst.weather");
+  }
+
+  @Override
+  public boolean execute(CommandSender sender, String s, String[] strings) {
+    if (!(sender instanceof Player)) {
+      return false;
     }
 
-    @Override
-    public boolean execute(CommandSender sender, String s, String[] strings) {
-        if (!(sender instanceof Player)) {
-            return false;
-        }
-
-        Player p = (Player) sender;
-        if (p.hasPermission(this.getPermission())) {
-            p.getWorld().setStorm(true);
-            p.getWorld().setThundering(true);
-            p.sendMessage("Weather set to " + ChatColor.GOLD + "Storm");
-        }
-        return true;
+    Player p = (Player) sender;
+    if (p.hasPermission(this.getPermission())) {
+      p.getWorld().setStorm(true);
+      p.getWorld().setThundering(true);
+      p.sendMessage("Weather set to " + ChatColor.GOLD + "Storm");
     }
+    return true;
+  }
 }

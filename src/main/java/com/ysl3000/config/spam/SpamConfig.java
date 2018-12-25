@@ -10,7 +10,7 @@ public class SpamConfig implements ISpamConfig {
 
   private List<String> spammessages = new ArrayList<>();
 
-  public SpamConfig(){
+  public SpamConfig() {
     spammessages.add("asshole");
     spammessages.add("ape is a swearword");
   }

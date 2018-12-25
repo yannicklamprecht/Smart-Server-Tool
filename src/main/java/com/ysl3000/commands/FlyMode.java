@@ -11,77 +11,77 @@ import org.bukkit.entity.Player;
 public class FlyMode extends CustomCommand {
 
 
-    public FlyMode() {
-        super("fly", "toggle fly", "/fly <player>", "sst.fly");
+  public FlyMode() {
+    super("fly", "toggle fly", "/fly <player>", "sst.fly");
+  }
+
+  @Override
+  public boolean execute(CommandSender sender, String s, String[] args) {
+    if (!(sender instanceof Player)) {
+      return false;
     }
+    Player player = (Player) sender;
 
-    @Override
-    public boolean execute(CommandSender sender, String s, String[] args) {
-        if (!(sender instanceof Player)) {
-            return false;
+    if (player.hasPermission(this.getPermission())) {
+
+      if (args.length == 0) {
+
+        if (!player.getAllowFlight()
+            && !player.isFlying()) {
+
+          player.setAllowFlight(true);
+          player.setFlying(true);
+          player.sendMessage("You can now fly ");
+        } else if (player.getAllowFlight()
+            && !player.isFlying()) {
+          player.setFlying(false);
+          player.setAllowFlight(false);
+          player.sendMessage("Fly is now disabled");
         }
-        Player player = (Player) sender;
+      } else if (args.length == 1) {
 
-        if (player.hasPermission(this.getPermission())) {
+        Player target = Bukkit.getPlayer(args[0]);
 
-            if (args.length == 0) {
+        if (player.hasPermission(Permissions.flyOther)) {
 
-                if (!player.getAllowFlight()
-                        && !player.isFlying()) {
+          if (!target.getAllowFlight()
+              && !target.isFlying()) {
 
-                    player.setAllowFlight(true);
-                    player.setFlying(true);
-                    player.sendMessage("You can now fly ");
-                } else if (player.getAllowFlight()
-                        && !player.isFlying()) {
-                    player.setFlying(false);
-                    player.setAllowFlight(false);
-                    player.sendMessage("Fly is now disabled");
-                }
-            } else if (args.length == 1) {
+            target.setAllowFlight(true);
+            target.setFlying(true);
+            sender.sendMessage("Set fly on for "
+                + target.getDisplayName());
+            target.sendMessage("You can now fly! Allowed by "
+                + ((Player) sender)
+                .getDisplayName());
 
-                Player target = Bukkit.getPlayer(args[0]);
+          } else if (target.getAllowFlight()
+              && !target.isFlying()) {
 
-                if (player.hasPermission(Permissions.flyOther)) {
+            target.setFlying(false);
+            target.setAllowFlight(false);
+            sender.sendMessage("Set fly off for "
+                + target.getDisplayName());
+            target.sendMessage("Until now you have to walk on feet! Disallowed by "
+                + ((Player) sender)
+                .getDisplayName());
+          } else if (target.getAllowFlight()
+              && target.isFlying()) {
 
-                    if (!target.getAllowFlight()
-                            && !target.isFlying()) {
+            sender.sendMessage(target
+                .getDisplayName()
+                + " is flying! Only if player is on earth you can disble that!");
 
-                        target.setAllowFlight(true);
-                        target.setFlying(true);
-                        sender.sendMessage("Set fly on for "
-                                + target.getDisplayName());
-                        target.sendMessage("You can now fly! Allowed by "
-                                + ((Player) sender)
-                                .getDisplayName());
-
-                    } else if (target.getAllowFlight()
-                            && !target.isFlying()) {
-
-                        target.setFlying(false);
-                        target.setAllowFlight(false);
-                        sender.sendMessage("Set fly off for "
-                                + target.getDisplayName());
-                        target.sendMessage("Until now you have to walk on feet! Disallowed by "
-                                + ((Player) sender)
-                                .getDisplayName());
-                    } else if (target.getAllowFlight()
-                            && target.isFlying()) {
-
-                        sender.sendMessage(target
-                                .getDisplayName()
-                                + " is flying! Only if player is on earth you can disble that!");
-
-                    }
-                } else {
-                    sender.sendMessage("No permission for flying others");
-                }
-
-            }
-
+          }
         } else {
-            sender.sendMessage(this.getPermissionMessage());
+          sender.sendMessage("No permission for flying others");
         }
-        return true;
+
+      }
+
+    } else {
+      sender.sendMessage(this.getPermissionMessage());
     }
+    return true;
+  }
 }

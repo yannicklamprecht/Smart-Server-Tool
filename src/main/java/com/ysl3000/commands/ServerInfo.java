@@ -13,36 +13,38 @@ import org.bukkit.entity.Player;
 public class ServerInfo extends CustomCommand {
 
 
-    public ServerInfo() {
-        super("serverinfo", "get Serverinfo",
-                "/serverinfo", "sst.info");
+  public ServerInfo() {
+    super("serverinfo", "get Serverinfo",
+        "/serverinfo", "sst.info");
+  }
+
+  @Override
+  public boolean execute(CommandSender sender, String s, String[] strings) {
+      if (!(sender instanceof Player)) {
+          return false;
+      }
+
+    Player player = (Player) sender;
+    if (player.hasPermission(this.getPermission())) {
+      double total = (((Runtime.getRuntime().totalMemory()) / 1024.0) / 1024);
+      double max = (((Runtime.getRuntime().maxMemory()) / 1024.0) / 1024);
+      int cpu = Runtime.getRuntime().availableProcessors();
+
+      sender.sendMessage("Current memoryuse "
+          + total
+          + "/"
+          + max
+          + " mb\nThis host has: "
+          + cpu
+          + " cpu's\nThe seed is : "
+          + Bukkit.getWorld(player.getWorld().getName()).getSeed()
+          + "\nServer is in "
+          + (Bukkit.getOnlineMode() ? ChatColor.GREEN + "online"
+          : ChatColor.RED + "offline") + ChatColor.RESET
+          + "-mode\n" + ChatColor.GRAY + "Online ("
+          + Bukkit.getServer().getOnlinePlayers().size() + "/"
+          + Bukkit.getMaxPlayers() + ")");
     }
-
-    @Override
-    public boolean execute(CommandSender sender, String s, String[] strings) {
-        if (!(sender instanceof Player)) return false;
-
-        Player player = (Player) sender;
-        if (player.hasPermission(this.getPermission())) {
-            double total = (((Runtime.getRuntime().totalMemory()) / 1024.0) / 1024);
-            double max = (((Runtime.getRuntime().maxMemory()) / 1024.0) / 1024);
-            int cpu = Runtime.getRuntime().availableProcessors();
-
-            sender.sendMessage("Current memoryuse "
-                    + total
-                    + "/"
-                    + max
-                    + " mb\nThis host has: "
-                    + cpu
-                    + " cpu's\nThe seed is : "
-                    + Bukkit.getWorld(player.getWorld().getName()).getSeed()
-                    + "\nServer is in "
-                    + (Bukkit.getOnlineMode() ? ChatColor.GREEN + "online"
-                    : ChatColor.RED + "offline") + ChatColor.RESET
-                    + "-mode\n" + ChatColor.GRAY + "Online ("
-                    + Bukkit.getServer().getOnlinePlayers().size() + "/"
-                    + Bukkit.getMaxPlayers() + ")");
-        }
-        return true;
-    }
+    return true;
+  }
 }

@@ -3,10 +3,9 @@
  * <p>
  * Created on , 11:53:56 by @author Yannick Lamprecht
  * <p>
- * SmartServerToolRewrote Copyright (C) 11.12.2013  Yannick Lamprecht
- * This program comes with ABSOLUTELY NO WARRANTY;
- * This is free software, and you are welcome to redistribute it
- * under certain conditions;
+ * SmartServerToolRewrote Copyright (C) 11.12.2013  Yannick Lamprecht This program comes with
+ * ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under
+ * certain conditions;
  */
 package com.ysl3000.commands;
 
@@ -22,46 +21,48 @@ import org.bukkit.entity.Player;
  */
 public class CheckCurrentGamemode extends CustomCommand {
 
-    public CheckCurrentGamemode() {
-        super("gm", "Current GameMode", "/gm", "sst.gm");
+  public CheckCurrentGamemode() {
+    super("gm", "Current GameMode", "/gm", "sst.gm");
+  }
+
+  @Override
+  public boolean execute(CommandSender sender, String s, String[] args) {
+
+    if (!(sender instanceof Player)) {
+      return false;
     }
 
-    @Override
-    public boolean execute(CommandSender sender, String s, String[] args) {
+    Player player = (Player) sender;
 
-        if (!(sender instanceof Player)) return false;
+    if (player.hasPermission(this.getPermission())) {
 
-        Player player = (Player) sender;
+      if (args.length == 0) {
 
-        if (player.hasPermission(this.getPermission())) {
+        player.sendMessage("Current GameMode " + ChatColor.GOLD
+            + player.getGameMode());
 
-            if (args.length == 0) {
+      } else if (args.length == 1) {
 
-                player.sendMessage("Current GameMode " + ChatColor.GOLD
-                        + player.getGameMode());
+        if (player.hasPermission(Permissions.gmlookupOther)) {
 
-            } else if (args.length == 1) {
-
-                if (player.hasPermission(Permissions.gmlookupOther)) {
-
-                    Player target = Bukkit.getPlayer(args[0]);
-                    if (target == null) {
-                        player.sendMessage("Player not found!");
-                        return false;
-                    }
-                    sender.sendMessage("Current GameMode of " + ChatColor.GOLD
-                            + target.getDisplayName() + " "
-                            + target.getGameMode());
-                } else {
-
-                    sender.sendMessage("You aren't allowed to lookup others gamemode");
-                }
-            }
-
+          Player target = Bukkit.getPlayer(args[0]);
+          if (target == null) {
+            player.sendMessage("Player not found!");
+            return false;
+          }
+          sender.sendMessage("Current GameMode of " + ChatColor.GOLD
+              + target.getDisplayName() + " "
+              + target.getGameMode());
         } else {
-            sender.sendMessage(this.getPermissionMessage());
-        }
 
-        return true;
+          sender.sendMessage("You aren't allowed to lookup others gamemode");
+        }
+      }
+
+    } else {
+      sender.sendMessage(this.getPermissionMessage());
     }
+
+    return true;
+  }
 }

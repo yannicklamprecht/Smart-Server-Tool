@@ -7,7 +7,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 // todo refactor -> make data driven load as json or yaml
 public class Recipes extends JavaPlugin {
 
-    private SmartServerTool plugin;
+  private SmartServerTool plugin;
 
     /*public Recipes(SmartServerTool plugin) {
         this.plugin = plugin;

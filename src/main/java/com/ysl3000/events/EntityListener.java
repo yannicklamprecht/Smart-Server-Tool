@@ -30,137 +30,145 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
 public class EntityListener implements Listener {
-    private WorldSettings worldSettings;
-    private Misc misc;
 
-    public EntityListener(WorldSettings worldSettings, Misc misc) {
-        this.worldSettings = worldSettings;
-        this.misc = misc;
-    }
+  private WorldSettings worldSettings;
+  private Misc misc;
 
-    @EventHandler
-    public void colly(VehicleBlockCollisionEvent e) {
-        if (e.getBlock().getType().equals(Material.DISPENSER)) {
-            e.getVehicle().leaveVehicle();
-            e.getVehicle().playEffect(EntityEffect.WOLF_SMOKE);
-            e.getVehicle().remove();
-            if (e.getBlock().getState() instanceof Dispenser) {
-                Dispenser dp = (Dispenser) e.getBlock().getState();
-                if (e.getVehicle() instanceof StorageMinecart) {
-                    dp.getInventory().addItem(
-                            new ItemStack(Material.CHEST_MINECART));
-                } else if (e.getVehicle() instanceof PoweredMinecart) {
-                    dp.getInventory().addItem(
-                            new ItemStack(Material.FURNACE_MINECART));
-                } else if (e.getVehicle() instanceof Minecart) {
-                    dp.getInventory().addItem(new ItemStack(Material.MINECART));
-                }
-            }
+  public EntityListener(WorldSettings worldSettings, Misc misc) {
+    this.worldSettings = worldSettings;
+    this.misc = misc;
+  }
+
+  @EventHandler
+  public void colly(VehicleBlockCollisionEvent e) {
+    if (e.getBlock().getType().equals(Material.DISPENSER)) {
+      e.getVehicle().leaveVehicle();
+      e.getVehicle().playEffect(EntityEffect.WOLF_SMOKE);
+      e.getVehicle().remove();
+      if (e.getBlock().getState() instanceof Dispenser) {
+        Dispenser dp = (Dispenser) e.getBlock().getState();
+        if (e.getVehicle() instanceof StorageMinecart) {
+          dp.getInventory().addItem(
+              new ItemStack(Material.CHEST_MINECART));
+        } else if (e.getVehicle() instanceof PoweredMinecart) {
+          dp.getInventory().addItem(
+              new ItemStack(Material.FURNACE_MINECART));
+        } else if (e.getVehicle() instanceof Minecart) {
+          dp.getInventory().addItem(new ItemStack(Material.MINECART));
         }
+      }
+    }
+  }
+
+  @EventHandler
+  public void onenderpick(EntityChangeBlockEvent event) {
+    if (event.getEntityType().equals(EntityType.ENDERMAN) && worldSettings.isBlockEnder()) {
+      event.setCancelled(true);
+    }
+  }
+
+  @EventHandler
+  public void onplayerdivideWater(EntityChangeBlockEvent e) {
+    if ((e.getBlock().getType().equals(Material.WATER) || e.getBlock()
+        .getType().equals(Material.LAVA))
+        && (e.getEntity() instanceof Player)) {
+      Player p = (Player) e.getEntity();
+
+      if (!p.hasPermission(Permissions.modifyBlock)) {
+        e.setCancelled(true);
+        e.getBlock().setType(e.getBlock().getType());
+      }
+    }
+  }
+
+  @EventHandler
+  public void onEntityPP(EntityInteractEvent event) {
+    if ((event.getBlock().getType().equals(Material.STONE_PRESSURE_PLATE)
+        || Tag.WOODEN_PRESSURE_PLATES.isTagged(event.getBlock().getType())) && misc
+        .isSavePlayerPressPlate()) {
+      event.setCancelled((!(event.getEntity() instanceof Player)) || event
+          .isCancelled());
     }
 
-    @EventHandler
-    public void onenderpick(EntityChangeBlockEvent event) {
-        if (event.getEntityType().equals(EntityType.ENDERMAN) && worldSettings.isBlockEnder()) {
+  }
+
+  @EventHandler
+  public void playerdamage(EntityDamageEvent e) {
+
+    if (e.getEntityType().equals(EntityType.PLAYER)) {
+
+      boolean hasShoesWithNameJump = false;
+
+      PlayerInventory inventory = ((Player) e.getEntity()).getInventory();
+      if (inventory != null && inventory.getBoots() != null) {
+        ItemStack boots = inventory.getBoots();
+        hasShoesWithNameJump = (boots.hasItemMeta()
+            && boots.getItemMeta().hasDisplayName()
+            && boots.getItemMeta().getDisplayName().equalsIgnoreCase("Jump"));
+
+      }
+      e.setCancelled((hasShoesWithNameJump
+          && e.getCause() == EntityDamageEvent.DamageCause.FALL)
+          || ((Player) e.getEntity()).getGameMode().equals(
+          GameMode.CREATIVE));
+
+    }
+
+  }
+
+  @EventHandler
+  public void explode(EntityExplodeEvent event) {
+
+    if (event.getEntityType() == EntityType.CREEPER) {
+        if (worldSettings.isBlockCreeper()) {
+            event.setCancelled(true);
+        }
+    } else {
+        if (worldSettings.isPreventTnt()) {
             event.setCancelled(true);
         }
     }
+  }
 
-    @EventHandler
-    public void onplayerdivideWater(EntityChangeBlockEvent e) {
-        if ((e.getBlock().getType().equals(Material.WATER) || e.getBlock()
-                .getType().equals(Material.LAVA))
-                && (e.getEntity() instanceof Player)) {
-            Player p = (Player) e.getEntity();
+  @EventHandler
+  public void onPlayerCreatureSpawnerChange(PlayerInteractEvent e) {
+      if (e.getClickedBlock() == null) {
+          return;
+      }
+    if ((e.getClickedBlock().getType().equals(Material.SPAWNER))
+        && (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) && (e.getPlayer()
+        .hasPermission(Permissions.canChangeSpawnerType))
+        && ((e.getClickedBlock().getState() instanceof CreatureSpawner))) {
+      CreatureSpawner cs = (CreatureSpawner) e.getClickedBlock()
+          .getState();
 
-            if (!p.hasPermission(Permissions.modifyBlock)) {
-                e.setCancelled(true);
-                e.getBlock().setType(e.getBlock().getType());
-            }
-        }
+      EntityType next = getNext(cs.getSpawnedType());
+
+      cs.setSpawnedType(next);
+      e.getPlayer().sendMessage("Mobtype set to " + next);
+    }
+  }
+
+  private EntityType getNext(EntityType entityType) {
+    int index = entityType.ordinal();
+    index++;
+
+    if (index > EntityType.values().length) {
+      index = 0;
+    }
+    return EntityType.values()[index];
+  }
+
+  @EventHandler
+  public void onSmoke(PlayerMoveEvent e) {
+
+    Location l = new Location(e.getPlayer().getWorld(), 0, e.getPlayer()
+        .getWorld().getHighestBlockYAt(0, 0), 0);
+
+    if (e.getPlayer().getLocation().distance(l) < 10) {
+      e.getPlayer().getWorld()
+          .playEffect(l, Effect.MOBSPAWNER_FLAMES, 0, 0);
     }
 
-    @EventHandler
-    public void onEntityPP(EntityInteractEvent event) {
-        if ((event.getBlock().getType().equals(Material.STONE_PRESSURE_PLATE)
-                || Tag.WOODEN_PRESSURE_PLATES.isTagged(event.getBlock().getType())) && misc.isSavePlayerPressPlate()) {
-            event.setCancelled((!(event.getEntity() instanceof Player)) || event
-                    .isCancelled());
-        }
-
-    }
-
-    @EventHandler
-    public void playerdamage(EntityDamageEvent e) {
-
-        if (e.getEntityType().equals(EntityType.PLAYER)) {
-
-            boolean hasShoesWithNameJump = false;
-
-            PlayerInventory inventory = ((Player) e.getEntity()).getInventory();
-            if (inventory != null && inventory.getBoots() != null) {
-                ItemStack boots = inventory.getBoots();
-                hasShoesWithNameJump = (boots.hasItemMeta()
-                        && boots.getItemMeta().hasDisplayName()
-                        && boots.getItemMeta().getDisplayName().equalsIgnoreCase("Jump"));
-
-            }
-            e.setCancelled((hasShoesWithNameJump
-                    && e.getCause() == EntityDamageEvent.DamageCause.FALL)
-                    || ((Player) e.getEntity()).getGameMode().equals(
-                    GameMode.CREATIVE));
-
-        }
-
-    }
-
-    @EventHandler
-    public void explode(EntityExplodeEvent event) {
-
-        if (event.getEntityType() == EntityType.CREEPER) {
-            if (worldSettings.isBlockCreeper()) event.setCancelled(true);
-        } else {
-            if (worldSettings.isPreventTnt()) event.setCancelled(true);
-        }
-    }
-
-    @EventHandler
-    public void onPlayerCreatureSpawnerChange(PlayerInteractEvent e) {
-        if (e.getClickedBlock() == null)
-            return;
-        if ((e.getClickedBlock().getType().equals(Material.SPAWNER))
-                && (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) && (e.getPlayer().hasPermission(Permissions.canChangeSpawnerType))
-                && ((e.getClickedBlock().getState() instanceof CreatureSpawner))) {
-            CreatureSpawner cs = (CreatureSpawner) e.getClickedBlock()
-                    .getState();
-
-            EntityType next = getNext(cs.getSpawnedType());
-
-            cs.setSpawnedType(next);
-            e.getPlayer().sendMessage("Mobtype set to " + next);
-        }
-    }
-
-    private EntityType getNext(EntityType entityType) {
-        int index = entityType.ordinal();
-        index++;
-
-        if (index > EntityType.values().length) {
-            index = 0;
-        }
-        return EntityType.values()[index];
-    }
-
-    @EventHandler
-    public void onSmoke(PlayerMoveEvent e) {
-
-        Location l = new Location(e.getPlayer().getWorld(), 0, e.getPlayer()
-                .getWorld().getHighestBlockYAt(0, 0), 0);
-
-        if (e.getPlayer().getLocation().distance(l) < 10) {
-            e.getPlayer().getWorld()
-                    .playEffect(l, Effect.MOBSPAWNER_FLAMES, 0, 0);
-        }
-
-    }
+  }
 }

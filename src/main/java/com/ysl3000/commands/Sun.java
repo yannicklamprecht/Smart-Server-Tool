@@ -11,25 +11,25 @@ import org.bukkit.entity.Player;
  */
 public class Sun extends CustomCommand {
 
-    public Sun() {
-        super("sun", "Set sun", "/sun", "sst.weather");
+  public Sun() {
+    super("sun", "Set sun", "/sun", "sst.weather");
+  }
+
+  @Override
+  public boolean execute(CommandSender sender, String s, String[] strings) {
+    if (!(sender instanceof Player)) {
+      return false;
     }
 
-    @Override
-    public boolean execute(CommandSender sender, String s, String[] strings) {
-        if (!(sender instanceof Player)) {
-            return false;
-        }
+    Player player = (Player) sender;
+    if (player.hasPermission(this.getPermission())) {
 
-        Player player = (Player) sender;
-        if (player.hasPermission(this.getPermission())) {
-
-            player.getWorld().setThundering(false);
-            player.getWorld().setStorm(false);
-            player.sendMessage("Weather set to " + ChatColor.GOLD
-                    + "Sun");
-        }
-
-        return true;
+      player.getWorld().setThundering(false);
+      player.getWorld().setStorm(false);
+      player.sendMessage("Weather set to " + ChatColor.GOLD
+          + "Sun");
     }
+
+    return true;
+  }
 }

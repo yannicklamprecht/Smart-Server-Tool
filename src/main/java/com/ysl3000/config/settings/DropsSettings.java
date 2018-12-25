@@ -5,40 +5,40 @@ package com.ysl3000.config.settings;
  */
 public class DropsSettings {
 
-    private boolean glassSand= true;
-    private boolean glassPane = true;
-    private boolean diamondOre = true;
-    private boolean goldenAppleShear = true;
+  private boolean glassSand = true;
+  private boolean glassPane = true;
+  private boolean diamondOre = true;
+  private boolean goldenAppleShear = true;
 
-    public boolean isGlassSand() {
-        return glassSand;
-    }
+  public boolean isGlassSand() {
+    return glassSand;
+  }
 
-    public void setGlassSand(boolean glassSand) {
-        this.glassSand = glassSand;
-    }
+  public void setGlassSand(boolean glassSand) {
+    this.glassSand = glassSand;
+  }
 
-    public boolean isGlassPane() {
-        return glassPane;
-    }
+  public boolean isGlassPane() {
+    return glassPane;
+  }
 
-    public void setGlassPane(boolean glassPane) {
-        this.glassPane = glassPane;
-    }
+  public void setGlassPane(boolean glassPane) {
+    this.glassPane = glassPane;
+  }
 
-    public boolean isDiamondOre() {
-        return diamondOre;
-    }
+  public boolean isDiamondOre() {
+    return diamondOre;
+  }
 
-    public void setDiamondOre(boolean diamondOre) {
-        this.diamondOre = diamondOre;
-    }
+  public void setDiamondOre(boolean diamondOre) {
+    this.diamondOre = diamondOre;
+  }
 
-    public boolean isGoldenAppleShear() {
-        return goldenAppleShear;
-    }
+  public boolean isGoldenAppleShear() {
+    return goldenAppleShear;
+  }
 
-    public void setGoldenAppleShear(boolean goldenAppleShear) {
-        this.goldenAppleShear = goldenAppleShear;
-    }
+  public void setGoldenAppleShear(boolean goldenAppleShear) {
+    this.goldenAppleShear = goldenAppleShear;
+  }
 }

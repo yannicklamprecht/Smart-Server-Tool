@@ -8,23 +8,23 @@ import java.util.List;
  */
 public class RecipeShapelessConfig {
 
-    private List<Item> ingredients = new ArrayList<>();
+  private List<Item> ingredients = new ArrayList<>();
 
-    private Item result = new Item();
+  private Item result = new Item();
 
-    public List<Item> getIngredients() {
-        return ingredients;
-    }
+  public List<Item> getIngredients() {
+    return ingredients;
+  }
 
-    public void setIngredients(List<Item> ingredients) {
-        this.ingredients = ingredients;
-    }
+  public void setIngredients(List<Item> ingredients) {
+    this.ingredients = ingredients;
+  }
 
-    public Item getResult() {
-        return result;
-    }
+  public Item getResult() {
+    return result;
+  }
 
-    public void setResult(Item result) {
-        this.result = result;
-    }
+  public void setResult(Item result) {
+    this.result = result;
+  }
 }

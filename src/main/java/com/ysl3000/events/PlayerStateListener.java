@@ -12,34 +12,35 @@ import org.bukkit.event.entity.PlayerDeathEvent;
  * @author yannicklamprecht
  */
 public class PlayerStateListener implements Listener {
-    private SmartPlayers smartPlayers;
-    private WorldSettings worldSettings;
 
-    public PlayerStateListener(SmartPlayers smartPlayers, WorldSettings worldSettings) {
-        this.smartPlayers = smartPlayers;
-        this.worldSettings = worldSettings;
+  private SmartPlayers smartPlayers;
+  private WorldSettings worldSettings;
+
+  public PlayerStateListener(SmartPlayers smartPlayers, WorldSettings worldSettings) {
+    this.smartPlayers = smartPlayers;
+    this.worldSettings = worldSettings;
+  }
+
+  @EventHandler
+  public void onPlayerDeath(PlayerDeathEvent event) {
+    if (worldSettings.isXpSave()) {
+      event.setDroppedExp(0);
+      event.setNewExp(event.getEntity().getPlayer()
+          .getTotalExperience());
     }
+  }
 
-    @EventHandler
-    public void onPlayerDeath(PlayerDeathEvent event) {
-        if (worldSettings.isXpSave()) {
-            event.setDroppedExp(0);
-            event.setNewExp(event.getEntity().getPlayer()
-                    .getTotalExperience());
-        }
+  @EventHandler
+  public void nofood(FoodLevelChangeEvent e) {
+    if (e.getEntity() instanceof Player) {
+      Player p = (Player) e.getEntity();
+      if (p.getFoodLevel() > e.getFoodLevel()) {
+        e.setCancelled(smartPlayers.getPlayerByUUID(p.getUniqueId()).isGod());
+
+      }
+
     }
-
-    @EventHandler
-    public void nofood(FoodLevelChangeEvent e) {
-        if (e.getEntity() instanceof Player) {
-            Player p = (Player) e.getEntity();
-            if (p.getFoodLevel() > e.getFoodLevel()) {
-                e.setCancelled(smartPlayers.getPlayerByUUID(p.getUniqueId()).isGod());
-
-            }
-
-        }
-    }
+  }
 
 
 }

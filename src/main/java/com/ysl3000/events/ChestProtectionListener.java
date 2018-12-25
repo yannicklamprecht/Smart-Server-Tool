@@ -14,37 +14,37 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class ChestProtectionListener implements Listener {
 
-	@EventHandler
-	public void onChestcreate(PrepareItemCraftEvent e) {
-		if (e.getInventory().getResult().getType().equals(Material.CHEST)) {
-			ItemStack is = e.getInventory().getResult();
-			e.getInventory().remove(e.getInventory().getResult());
-			ItemMeta im = is.getItemMeta();
-			im.setDisplayName(e.getViewers().get(0).getName());
-			is.setItemMeta(im);
-			e.getInventory().setResult(is);
-			if (e.getViewers().get(0) instanceof Player) {
-				((Player) e.getViewers().get(0)).updateInventory();
-			}
-		}
-	}
+  @EventHandler
+  public void onChestcreate(PrepareItemCraftEvent e) {
+    if (e.getInventory().getResult().getType().equals(Material.CHEST)) {
+      ItemStack is = e.getInventory().getResult();
+      e.getInventory().remove(e.getInventory().getResult());
+      ItemMeta im = is.getItemMeta();
+      im.setDisplayName(e.getViewers().get(0).getName());
+      is.setItemMeta(im);
+      e.getInventory().setResult(is);
+      if (e.getViewers().get(0) instanceof Player) {
+        ((Player) e.getViewers().get(0)).updateInventory();
+      }
+    }
+  }
 
-	@EventHandler
-	public void onChestOpen(PlayerInteractEvent e) {
+  @EventHandler
+  public void onChestOpen(PlayerInteractEvent e) {
 
-		if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)
-				&& e.getClickedBlock().getType().equals(Material.CHEST)) {
+    if (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)
+        && e.getClickedBlock().getType().equals(Material.CHEST)) {
 
-			Chest ch = (Chest) e.getClickedBlock().getState();
-			if (!(ch.getInventory().getName()
-					.equalsIgnoreCase(e.getPlayer().getName())
-					|| ch.getInventory().getName().equalsIgnoreCase("public") || e
-					.getPlayer().hasPermission(Permissions.openAnyChest))) {
-				e.setCancelled(true);
-				e.getPlayer().sendMessage(
-						"This chest is protected to"
-								+ ch.getInventory().getName());
-			}
-		}
-	}
+      Chest ch = (Chest) e.getClickedBlock().getState();
+      if (!(ch.getInventory().getName()
+          .equalsIgnoreCase(e.getPlayer().getName())
+          || ch.getInventory().getName().equalsIgnoreCase("public") || e
+          .getPlayer().hasPermission(Permissions.openAnyChest))) {
+        e.setCancelled(true);
+        e.getPlayer().sendMessage(
+            "This chest is protected to"
+                + ch.getInventory().getName());
+      }
+    }
+  }
 }

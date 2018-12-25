@@ -8,10 +8,10 @@ Crafting:
   Saddle: true
   LongGrass: true
   Chain:
-   Helmet: true
-   Chest: true
-   Legg: true
-   Feet: true
+    Helmet: true
+    Chest: true
+    Legg: true
+    Feet: true
   CommandBlock: true
 Furnace:
   GlowStone: true

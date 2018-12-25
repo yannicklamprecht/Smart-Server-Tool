@@ -13,56 +13,56 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class EventRegistry {
 
-    private PluginManager pluginManager;
-    private JavaPlugin javaPlugin;
+  private PluginManager pluginManager;
+  private JavaPlugin javaPlugin;
 
-    private SmartSettings smartSettings;
-    private SmartPlayers smartPlayers;
-    private Utility utility;
-    private Prefix prefix;
+  private SmartSettings smartSettings;
+  private SmartPlayers smartPlayers;
+  private Utility utility;
+  private Prefix prefix;
 
-    public EventRegistry(JavaPlugin javaPlugin, SmartAdapter smartAdapter) {
-        this.pluginManager = javaPlugin.getServer().getPluginManager();
-        this.javaPlugin = javaPlugin;
-        this.smartSettings = smartAdapter.getSmartSettings();
-        this.smartPlayers = smartAdapter.getSmartPlayers();
-        this.utility = smartAdapter.getUtility();
-        this.prefix = smartAdapter.getPrefix();
+  public EventRegistry(JavaPlugin javaPlugin, SmartAdapter smartAdapter) {
+    this.pluginManager = javaPlugin.getServer().getPluginManager();
+    this.javaPlugin = javaPlugin;
+    this.smartSettings = smartAdapter.getSmartSettings();
+    this.smartPlayers = smartAdapter.getSmartPlayers();
+    this.utility = smartAdapter.getUtility();
+    this.prefix = smartAdapter.getPrefix();
+  }
+
+
+  public void register() {
+    registerEvents(
+        new PlayerConnectionListener(smartPlayers),
+        new ChestProtectionListener(),
+        new BlockListener(smartSettings),
+        new EntityListener(smartSettings.getWorldSettings(), smartSettings.getMisc()),
+        new PlayerListener(smartPlayers, smartSettings),
+        new SignListener(),
+        new MOTD(utility, smartSettings.getMessages(), prefix, smartSettings.getMisc()),
+        new PlayerStateListener(smartPlayers, smartSettings.getWorldSettings())
+    );
+  }
+
+
+  private void registerEvents(Listener... listeners) {
+    for (Listener listener : listeners) {
+      pluginManager.registerEvents(listener, javaPlugin);
     }
+  }
 
 
-    public void register() {
-        registerEvents(
-                new PlayerConnectionListener(smartPlayers),
-                new ChestProtectionListener(),
-                new BlockListener(smartSettings),
-                new EntityListener(smartSettings.getWorldSettings(), smartSettings.getMisc()),
-                new PlayerListener(smartPlayers, smartSettings),
-                new SignListener(),
-                new MOTD(utility, smartSettings.getMessages(), prefix, smartSettings.getMisc()),
-                new PlayerStateListener(smartPlayers, smartSettings.getWorldSettings())
-        );
-    }
+  public interface SmartAdapter {
 
+    SmartSettings getSmartSettings();
 
-    private void registerEvents(Listener... listeners) {
-        for (Listener listener : listeners) {
-            pluginManager.registerEvents(listener, javaPlugin);
-        }
-    }
+    SmartPlayers getSmartPlayers();
 
+    Utility getUtility();
 
-    public interface SmartAdapter {
+    Prefix getPrefix();
 
-        SmartSettings getSmartSettings();
-
-        SmartPlayers getSmartPlayers();
-
-        Utility getUtility();
-
-        Prefix getPrefix();
-
-    }
+  }
 
 
 }

@@ -11,20 +11,20 @@ import org.bukkit.event.player.PlayerQuitEvent;
  */
 public class PlayerConnectionListener implements Listener {
 
-    private SmartPlayers smartPlayers;
+  private SmartPlayers smartPlayers;
 
-    public PlayerConnectionListener(SmartPlayers smartPlayers) {
-        this.smartPlayers = smartPlayers;
-    }
+  public PlayerConnectionListener(SmartPlayers smartPlayers) {
+    this.smartPlayers = smartPlayers;
+  }
 
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent playerJoinEvent){
-        smartPlayers.add(playerJoinEvent.getPlayer());
-    }
+  @EventHandler
+  public void onPlayerJoin(PlayerJoinEvent playerJoinEvent) {
+    smartPlayers.add(playerJoinEvent.getPlayer());
+  }
 
-    @EventHandler
-    public void onPlayerQuit(PlayerQuitEvent playerQuitEvent){
-        smartPlayers.remove(playerQuitEvent.getPlayer());
-    }
+  @EventHandler
+  public void onPlayerQuit(PlayerQuitEvent playerQuitEvent) {
+    smartPlayers.remove(playerQuitEvent.getPlayer());
+  }
 
 }
