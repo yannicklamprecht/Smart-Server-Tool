@@ -1,6 +1,4 @@
-package com.ysl3000.config;
-
-import com.ysl3000.config.settings.*;
+package com.ysl3000.config.settings;
 
 /**
  * Created by ysl3000

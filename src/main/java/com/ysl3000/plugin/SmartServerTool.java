@@ -2,19 +2,19 @@ package com.ysl3000.plugin;
 
 
 import com.ysl3000.commands.CommandRegistry;
-import com.ysl3000.config.SmartSettings;
+import com.ysl3000.config.ConfigurationProvider;
+import com.ysl3000.config.data.ConfigPosition;
 import com.ysl3000.config.data.WorldSpawnLocation;
+import com.ysl3000.config.settings.SmartSettings;
 import com.ysl3000.events.EventRegistry;
+import com.ysl3000.utils.ISpamConfig;
 import com.ysl3000.utils.Prefix;
 import com.ysl3000.utils.SpamFilter;
 import com.ysl3000.utils.Utility;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.yaml.snakeyaml.Yaml;
 
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.logging.Filter;
 import java.util.logging.Logger;
@@ -29,6 +29,8 @@ public class SmartServerTool extends JavaPlugin {
 
     private SmartSettings smartSettings;
     private WorldSpawnLocation worldSpawnLocation;
+    private ISpamConfig iSpamConfig;
+    private ConfigurationProvider configProvider;
 
     private class SmartAdapterImpl implements EventRegistry.SmartAdapter {
 
@@ -56,19 +58,10 @@ public class SmartServerTool extends JavaPlugin {
 
     @Override
     public void reloadConfig() {
-
-        File settingsFile = new File(getDataFolder(), "settings.yml");
-        File worldSpawnFile = new File(getDataFolder(), "worlds.yml");
-
         try {
-            settingsFile.createNewFile();
-            this.smartSettings = new Yaml()
-                    .loadAs(new FileReader(settingsFile), SmartSettings.class);
-
-            worldSpawnFile.createNewFile();
-            this.worldSpawnLocation = new Yaml()
-                    .loadAs(new FileReader(worldSpawnFile), WorldSpawnLocation.class);
-
+            this.smartSettings = configProvider.getSmartSettings();
+            this.worldSpawnLocation = configProvider.getWorldSpawnLocation();
+            this.iSpamConfig = configProvider.getSpamConfig();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -76,7 +69,7 @@ public class SmartServerTool extends JavaPlugin {
 
     @Override
     public void onLoad() {
-        Filter f = new SpamFilter(spamConfigLoader);
+        Filter f = new SpamFilter(iSpamConfig);
         Bukkit.getLogger().setFilter(f);
         Logger.getLogger("Minecraft").setFilter(f);
     }
@@ -89,6 +82,7 @@ public class SmartServerTool extends JavaPlugin {
     @Override
     public void onEnable() {
         this.smartPlayers = new SmartPlayers();
+        this.configProvider = new ConfigurationProvider(getDataFolder());
         reloadConfig();
         this.commandRegistry = new CommandRegistry(smartPlayers);
         this.commandRegistry.registerCommands();
@@ -96,11 +90,8 @@ public class SmartServerTool extends JavaPlugin {
         this.eventRegistry.register();
 
         Bukkit.getWorlds().forEach(world -> {
-            Location spawnLocation = worldSpawnLocation.getSpawnpointForWorld(world);
-
-            if (spawnLocation != null) {
-                world.setSpawnLocation(spawnLocation);
-            }
+            ConfigPosition position = worldSpawnLocation.getSpawnpointForWorld(world.getName());
+            world.setSpawnLocation(new Location(world,position.getX(),position.getY(),position.getZ()));
         });
     }
 }

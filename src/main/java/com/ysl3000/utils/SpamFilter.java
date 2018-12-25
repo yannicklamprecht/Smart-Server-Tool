@@ -9,10 +9,10 @@ import java.util.logging.LogRecord;
  */
 public class SpamFilter implements Filter {
 
-    private SpamConfigLoader spamConfigLoader;
+    private ISpamConfig spamConfig;
 
-    public SpamFilter(SpamConfigLoader spamConfigLoader) {
-        this.spamConfigLoader = spamConfigLoader;
+    public SpamFilter(ISpamConfig spamConfig) {
+        this.spamConfig = spamConfig;
     }
 
     /*
@@ -22,7 +22,7 @@ public class SpamFilter implements Filter {
      */
     @Override
     public boolean isLoggable(LogRecord arg0) {
-        return spamConfigLoader.isSpam(arg0.getMessage());
+        return spamConfig.isSpam(arg0.getMessage());
     }
 
 }
