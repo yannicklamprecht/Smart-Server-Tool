@@ -2,8 +2,8 @@ package com.ysl3000.config;
 
 import com.ysl3000.config.data.WorldSpawnLocation;
 import com.ysl3000.config.settings.SmartSettings;
-import com.ysl3000.utils.ISpamConfig;
-import com.ysl3000.utils.SpamConfig;
+import com.ysl3000.config.spam.ISpamConfig;
+import com.ysl3000.config.spam.SpamConfig;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 

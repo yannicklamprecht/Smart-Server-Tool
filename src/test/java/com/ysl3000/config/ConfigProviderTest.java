@@ -2,7 +2,7 @@ package com.ysl3000.config;
 
 import com.ysl3000.config.data.WorldSpawnLocation;
 import com.ysl3000.config.settings.SmartSettings;
-import com.ysl3000.utils.ISpamConfig;
+import com.ysl3000.config.spam.ISpamConfig;
 import java.io.File;
 import java.io.IOException;
 import org.junit.Assert;

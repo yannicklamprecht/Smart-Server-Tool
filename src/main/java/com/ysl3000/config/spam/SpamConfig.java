@@ -1,4 +1,4 @@
-package com.ysl3000.utils;
+package com.ysl3000.config.spam;
 
 import java.util.ArrayList;
 import java.util.List;

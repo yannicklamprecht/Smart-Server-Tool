@@ -1,5 +1,6 @@
 package com.ysl3000.utils;
 
+import com.ysl3000.config.spam.ISpamConfig;
 import java.util.logging.Filter;
 import java.util.logging.LogRecord;
 

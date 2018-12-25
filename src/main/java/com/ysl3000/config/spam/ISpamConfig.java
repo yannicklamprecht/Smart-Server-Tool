@@ -1,4 +1,4 @@
-package com.ysl3000.utils;
+package com.ysl3000.config.spam;
 
 /**
  * Created by ysl3000
