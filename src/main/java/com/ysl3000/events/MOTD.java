@@ -1,5 +1,6 @@
 package com.ysl3000.events;
 
+import com.ysl3000.plugin.SmartPlayers;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -23,10 +24,12 @@ public class MOTD implements Listener {
 
 	private JavaPlugin plugin;
 	private Utility utility;
+	private SmartPlayers smartPlayers;
 	
-	public MOTD(SmartServerTool plugin, Utility utility) {
+	public MOTD(SmartServerTool plugin, Utility utility, SmartPlayers smartPlayers) {
         this.utility = utility;
 		this.plugin=plugin;
+		this.smartPlayers = smartPlayers;
 	}
 
 	@EventHandler
@@ -98,9 +101,107 @@ public class MOTD implements Listener {
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		Player player = event.getPlayer();
-		HashMapController.getHashMapControler().getSmartPLayers()
-		.put(event.getPlayer().getUniqueId(), new SmartPlayer(event.getPlayer()));
-		message(event);
+
+
+		// todo refactor build message elsewhere
+
+		String coremessage;
+		String privateJoinmessage;
+		String joinmessage;
+
+		if (ConfigFactorizer.createAndReturn(this.plugin).isMessaging()) {
+
+			if (ConfigFactorizer.createAndReturn(this.plugin).getRandomColor()) {
+				Prefix.getPrefixer().Pfix(player);
+			}
+
+			if (Runtime.getRuntime().availableProcessors() == 1) {
+
+				coremessage = Runtime.getRuntime()
+						.availableProcessors() + " core";
+			} else {
+				coremessage = Runtime.getRuntime()
+						.availableProcessors() + " cores";
+			}
+
+			joinmessage = ConfigFactorizer.createAndReturn(this.plugin)
+					.getJoinmessage();
+			privateJoinmessage = ConfigFactorizer.createAndReturn(this.plugin)
+					.getPrivatJoinMessage();
+
+			joinmessage = joinmessage.replace("user%", "" + ChatColor.GOLD
+					+ name(player) + ChatColor.WHITE);
+			joinmessage = joinmessage.replace("server%", ""
+					+ ChatColor.GREEN + Bukkit.getServerName()
+					+ ChatColor.WHITE);
+			joinmessage = joinmessage.replace("core%", "" + coremessage);
+
+			joinmessage = joinmessage.replace(
+					"time%",
+					ChatColor.GOLD
+							+ ""
+							+ utility.getTime(
+							System.currentTimeMillis(),
+							ConfigFactorizer.createAndReturn(this.plugin)
+									.getTimeFormat()
+									.replace("%dp", ":"))
+
+							+ ChatColor.WHITE);
+			joinmessage = joinmessage.replace("n%", "\n");
+			joinmessage = joinmessage.replace("v%", ChatColor.GREEN
+					+ Bukkit.getVersion().substring(11, 16)
+					+ ChatColor.WHITE);
+			joinmessage = joinmessage.replace("b%",
+					Bukkit.getBukkitVersion());
+
+			privateJoinmessage = privateJoinmessage.replace("online%",
+					ChatColor.GRAY + "Online ("
+							+ Bukkit.getServer().getOnlinePlayers().size()
+							+ "/" + Bukkit.getMaxPlayers() + "): "
+							+ utility.listPlayers());
+			privateJoinmessage = privateJoinmessage.replace("n%", "\n");
+
+			if (ConfigFactorizer.createAndReturn(this.plugin).getMaintenance()) {
+
+				for (Player p : Bukkit.getOnlinePlayers()) {
+
+					p.sendMessage(ConfigFactorizer.createAndReturn(this.plugin)
+							.getMaintenanceMessage());
+
+				}
+
+				event.setJoinMessage("");
+			} else {
+
+				if (!player.hasPlayedBefore()) {
+
+					for (Player p : Bukkit.getOnlinePlayers()) {
+						p.sendMessage(joinmessage.concat(" "
+								+ ConfigFactorizer.createAndReturn(this.plugin)
+								.getFirstJoinMessage()));
+					}
+					event.setJoinMessage("");
+
+				} else {
+
+					for (Player p : Bukkit.getOnlinePlayers()) {
+
+						p.sendMessage(joinmessage);
+					}
+					event.setJoinMessage("");
+
+				}
+			}
+			player.sendMessage(privateJoinmessage);
+		} else {
+
+			if (!player.hasPlayedBefore()) {
+				player.teleport(
+						player.getWorld().getSpawnLocation());
+			}
+		}
+
+
 		player.setSleepingIgnored(ConfigFactorizer.createAndReturn(this.plugin)
 				.isSleepingIgnored());
 		Prefix.getPrefixer().Pfix(player);
@@ -108,141 +209,24 @@ public class MOTD implements Listener {
 
 	@EventHandler
 	public void onPlayerLeft(PlayerQuitEvent event) {
-		HashMapController.getHashMapControler().getSmartPLayers()
-				.remove(event.getPlayer().getUniqueId());
-		message(event);
+		String leftmessage;
+
+		if (ConfigFactorizer.createAndReturn(this.plugin).isMessaging()) {
+			leftmessage = ConfigFactorizer.createAndReturn(this.plugin)
+					.getLeftmessage();
+
+			Player playerPQE = event.getPlayer();
+			leftmessage = leftmessage.replace("user%", ChatColor.GOLD
+					+ name(playerPQE) + ChatColor.WHITE);
+			leftmessage = leftmessage.replace("server%", ChatColor.GREEN
+					+ Bukkit.getServerName() + ChatColor.WHITE);
+
+			event.setQuitMessage(leftmessage);
+		}
 	}
 
 	private String name(Player player) {
-
-		String userDisName;
-
-		userDisName = player.getName();
-
-		return userDisName;
-	}
-
-	private void message(Event event) {
-
-		if (event instanceof PlayerJoinEvent) {
-
-			String coremessage;
-			String privateJoinmessage;
-			String joinmessage;
-			PlayerJoinEvent eventPJE = (PlayerJoinEvent) event;
-			if (ConfigFactorizer.createAndReturn(this.plugin).isMessaging()) {
-
-				Player playerPJE = eventPJE.getPlayer();
-				if (ConfigFactorizer.createAndReturn(this.plugin).getRandomColor()) {
-					Prefix.getPrefixer().Pfix(playerPJE);
-				}
-
-				if (Runtime.getRuntime().availableProcessors() == 1) {
-
-					coremessage = Runtime.getRuntime()
-                            .availableProcessors() + " core";
-				} else {
-					coremessage = Runtime.getRuntime()
-                            .availableProcessors() + " cores";
-				}
-
-				joinmessage = ConfigFactorizer.createAndReturn(this.plugin)
-						.getJoinmessage();
-				privateJoinmessage = ConfigFactorizer.createAndReturn(this.plugin)
-						.getPrivatJoinMessage();
-
-				joinmessage = joinmessage.replace("user%", "" + ChatColor.GOLD
-						+ name(playerPJE) + ChatColor.WHITE);
-				joinmessage = joinmessage.replace("server%", ""
-						+ ChatColor.GREEN + Bukkit.getServerName()
-						+ ChatColor.WHITE);
-				joinmessage = joinmessage.replace("core%", "" + coremessage);
-
-				joinmessage = joinmessage.replace(
-						"time%",
-						ChatColor.GOLD
-								+ ""
-								+ utility.getTime(
-										System.currentTimeMillis(),
-										ConfigFactorizer.createAndReturn(this.plugin)
-												.getTimeFormat()
-												.replace("%dp", ":"))
-
-								+ ChatColor.WHITE);
-				joinmessage = joinmessage.replace("n%", "\n");
-				joinmessage = joinmessage.replace("v%", ChatColor.GREEN
-						+ Bukkit.getVersion().substring(11, 16)
-						+ ChatColor.WHITE);
-				joinmessage = joinmessage.replace("b%",
-						Bukkit.getBukkitVersion());
-
-				privateJoinmessage = privateJoinmessage.replace("online%",
-						ChatColor.GRAY + "Online ("
-								+ Bukkit.getServer().getOnlinePlayers().size()
-								+ "/" + Bukkit.getMaxPlayers() + "): "
-								+ utility.listPlayers());
-				privateJoinmessage = privateJoinmessage.replace("n%", "\n");
-
-				if (ConfigFactorizer.createAndReturn(this.plugin).getMaintenance()) {
-
-					for (Player p : Bukkit.getOnlinePlayers()) {
-
-						p.sendMessage(ConfigFactorizer.createAndReturn(this.plugin)
-								.getMaintenanceMessage());
-
-					}
-
-					eventPJE.setJoinMessage("");
-				} else {
-
-					if (!playerPJE.hasPlayedBefore()) {
-
-						for (Player p : Bukkit.getOnlinePlayers()) {
-							p.sendMessage(joinmessage.concat(" "
-									+ ConfigFactorizer.createAndReturn(this.plugin)
-											.getFirstJoinMessage()));
-						}
-						eventPJE.setJoinMessage("");
-
-					} else {
-
-						for (Player p : Bukkit.getOnlinePlayers()) {
-
-							p.sendMessage(joinmessage);
-						}
-						eventPJE.setJoinMessage("");
-
-					}
-				}
-				eventPJE.getPlayer().sendMessage(privateJoinmessage);
-			} else {
-
-				if (!eventPJE.getPlayer().hasPlayedBefore()) {
-					eventPJE.getPlayer().teleport(
-							eventPJE.getPlayer().getWorld().getSpawnLocation());
-				}
-			}
-
-		} else if (event instanceof PlayerQuitEvent) {
-
-			PlayerQuitEvent eventPQE = (PlayerQuitEvent) event;
-			String leftmessage;
-
-			if (ConfigFactorizer.createAndReturn(this.plugin).isMessaging()) {
-				leftmessage = ConfigFactorizer.createAndReturn(this.plugin)
-						.getLeftmessage();
-
-				Player playerPQE = eventPQE.getPlayer();
-				leftmessage = leftmessage.replace("user%", ChatColor.GOLD
-						+ name(playerPQE) + ChatColor.WHITE);
-				leftmessage = leftmessage.replace("server%", ChatColor.GREEN
-						+ Bukkit.getServerName() + ChatColor.WHITE);
-
-				eventPQE.setQuitMessage(leftmessage);
-			}
-
-		}
-
+		return player.getName();
 	}
 
 }

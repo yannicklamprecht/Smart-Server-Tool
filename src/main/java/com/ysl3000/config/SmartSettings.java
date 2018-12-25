@@ -9,14 +9,12 @@ public class SmartSettings {
     private boolean physicsTorch = false;
     private boolean physicsGravel = false;
     private boolean noPermissionsNeeded = false;
-    private boolean fireSpread = false;
-    private boolean lightningSpread = false;
-    private boolean normalSpread = false;
-    private boolean lavaSpread = false;
+
 
     private Messages messages = new Messages();
     private DropsSettings drops = new DropsSettings();
     private DropRateChance chance = new DropRateChance();
+    private WorldSettings worldSettings = new WorldSettings();
 
     public boolean isPhysicsSand() {
         return physicsSand;
@@ -50,38 +48,6 @@ public class SmartSettings {
         this.noPermissionsNeeded = noPermissionsNeeded;
     }
 
-    public boolean isFireSpread() {
-        return fireSpread;
-    }
-
-    public void setFireSpread(boolean fireSpread) {
-        this.fireSpread = fireSpread;
-    }
-
-    public boolean isLightningSpread() {
-        return lightningSpread;
-    }
-
-    public void setLightningSpread(boolean lightningSpread) {
-        this.lightningSpread = lightningSpread;
-    }
-
-    public boolean isNormalSpread() {
-        return normalSpread;
-    }
-
-    public void setNormalSpread(boolean normalSpread) {
-        this.normalSpread = normalSpread;
-    }
-
-    public boolean isLavaSpread() {
-        return lavaSpread;
-    }
-
-    public void setLavaSpread(boolean lavaSpread) {
-        this.lavaSpread = lavaSpread;
-    }
-
     public Messages getMessages() {
         return messages;
     }
@@ -104,5 +70,13 @@ public class SmartSettings {
 
     public void setDrops(DropsSettings drops) {
         this.drops = drops;
+    }
+
+    public WorldSettings getWorldSettings() {
+        return worldSettings;
+    }
+
+    public void setWorldSettings(WorldSettings worldSettings) {
+        this.worldSettings = worldSettings;
     }
 }

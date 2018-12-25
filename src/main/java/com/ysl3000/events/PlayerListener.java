@@ -1,5 +1,6 @@
 package com.ysl3000.events;
 
+import com.ysl3000.plugin.SmartPlayers;
 import com.ysl3000.plugin.SmartServerTool;
 import com.ysl3000.utils.Permissions;
 import com.ysl3000.utils.SmartPlayer;
@@ -10,16 +11,25 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.*;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
+import org.bukkit.event.player.PlayerBucketEmptyEvent;
+import org.bukkit.event.player.PlayerBucketFillEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
+import org.bukkit.event.player.PlayerTeleportEvent;
+import org.bukkit.event.player.PlayerToggleSneakEvent;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class PlayerListener implements Listener {
     private JavaPlugin plugin;
+    private SmartPlayers smartPlayers;
 
-    public PlayerListener(SmartServerTool plugin) {
+    public PlayerListener(SmartServerTool plugin, SmartPlayers smartPlayers) {
         this.plugin = plugin;
+        this.smartPlayers = smartPlayers;
     }
 
     @EventHandler
@@ -81,20 +91,9 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void playerteleport(PlayerTeleportEvent event) {
-
-        if (!HashMapController.getHashMapControler()
-                .getSmartPLayers().containsKey(event.getPlayer().getUniqueId())) {
-            HashMapController.getHashMapControler()
-                    .getSmartPLayers()
-                    .put(event.getPlayer().getUniqueId(),
-                            new SmartPlayer(event.getPlayer()));
-        }
-        HashMapController.getHashMapControler().getSmartPLayers()
-                .get(event.getPlayer().getUniqueId())
-                .setLastLocation(event.getFrom());
-        HashMapController.getHashMapControler().getSmartPLayers()
-                .get(event.getPlayer().getUniqueId())
-                .setCurrentLocation(event.getTo());
+        SmartPlayer smartPlayer = smartPlayers.getPlayerByUUID(event.getPlayer().getUniqueId());
+        smartPlayer.setLastLocation(event.getFrom());
+        smartPlayer.setCurrentLocation(event.getTo());
     }
 
     @EventHandler
@@ -109,17 +108,10 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
-        if (!HashMapController.getHashMapControler()
-                .getSmartPLayers().containsKey(e.getPlayer().getUniqueId())) {
-            HashMapController.getHashMapControler()
-                    .getSmartPLayers()
-                    .put(e.getPlayer().getUniqueId(),
-                            new SmartPlayer(e.getPlayer()));
-        }
+       SmartPlayer smartPlayer = smartPlayers.getPlayerByUUID(e.getPlayer().getUniqueId());
 
         e.setCancelled((!(e.getPlayer().hasPermission(Permissions.move) || ConfigFactorizer
-                .createAndReturn(this.plugin).getNonPermission()) && !HashMapController.getHashMapControler().getSmartPLayers()
-                .get(e.getPlayer().getUniqueId()).isFrozen()));
+                .createAndReturn(this.plugin).getNonPermission()) && !smartPlayer.isFrozen()));
 
     }
 

@@ -1,6 +1,7 @@
 package com.ysl3000.events;
 
 import com.ysl3000.config.SmartSettings;
+import com.ysl3000.config.WorldSettings;
 import com.ysl3000.utils.Permissions;
 import org.bukkit.*;
 import org.bukkit.block.Block;
@@ -28,7 +29,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class BlockListener implements Listener {
 
 
-    Tag<Material> STAINED_GLASS = new Tag<Material>() {
+    private static final Tag<Material> STAINED_GLASS = new Tag<Material>() {
         @Override
         public boolean isTagged(Material material) {
             return getValues().contains(material);
@@ -57,9 +58,11 @@ public class BlockListener implements Listener {
     };
 
     private SmartSettings smartSettings;
+    private WorldSettings worldSettings;
 
     public BlockListener(SmartSettings smartSettings) {
         this.smartSettings = smartSettings;
+        this.worldSettings = smartSettings.getWorldSettings();
     }
 
     @EventHandler
@@ -119,14 +122,14 @@ public class BlockListener implements Listener {
 
     @EventHandler
     public void onblockburn(BlockBurnEvent event) {
-        event.setCancelled(smartSettings.isFireSpread());
+        event.setCancelled(worldSettings.isPreventFireSpread());
     }
 
     @EventHandler
     public void onblockig(BlockIgniteEvent event) {
-        event.setCancelled(event.getCause().equals(IgniteCause.LAVA) ? smartSettings.isLavaSpread() : event.getCause()
-                .equals(IgniteCause.LIGHTNING) ? smartSettings.isLightningSpread() : event
-                .getCause().equals(IgniteCause.SPREAD) && smartSettings.isNormalSpread());
+        event.setCancelled(event.getCause().equals(IgniteCause.LAVA) ? worldSettings.isPreventLavaSpread() : event.getCause()
+                .equals(IgniteCause.LIGHTNING) ? worldSettings.isStrikeSpread() : event
+                .getCause().equals(IgniteCause.SPREAD) && worldSettings.isGeneralSpread());
     }
 
     @EventHandler

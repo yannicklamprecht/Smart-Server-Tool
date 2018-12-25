@@ -11,20 +11,22 @@
 package com.ysl3000.commands;
 
 
-import com.ysl3000.utils.HashMapController;
+import com.ysl3000.plugin.SmartPlayers;
 import com.ysl3000.utils.SmartPlayer;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
  * @author yannicklamprecht
- *
  */
 public class God extends CustomCommand {
 
+    private SmartPlayers smartPlayers;
 
-    public God() {
+
+    public God(SmartPlayers smartPlayers) {
         super("god", "Toggle godmode", "/god", "sst.god");
+        this.smartPlayers = smartPlayers;
     }
 
     @Override
@@ -35,27 +37,10 @@ public class God extends CustomCommand {
         Player p = (Player) sender;
         if (p.hasPermission(this.getPermission())) {
 
-            // todo inject smartPlayer
-            if (!HashMapController.getHashMapControler()
-                    .getSmartPLayers().containsKey(p.getUniqueId())) {
-                HashMapController.getHashMapControler()
-                        .getSmartPLayers()
-                        .put(p.getUniqueId(),
-                                new SmartPlayer(p));
-            }
+            SmartPlayer smartPlayer = smartPlayers.getPlayerByUUID(p.getUniqueId());
+            smartPlayer.setGod(!smartPlayer.isGod());
 
-
-            if (HashMapController.getHashMapControler().getSmartPLayers().get(p.getUniqueId())
-                    .isGod()) {
-                HashMapController.getHashMapControler().getSmartPLayers().get(p.getUniqueId())
-                        .setGod(false);
-            } else {
-                HashMapController.getHashMapControler().getSmartPLayers().get(p.getUniqueId())
-                        .setGod(true);
-            }
-            p.sendMessage("Godmode set to "
-                    + (HashMapController.getHashMapControler().getSmartPLayers()
-                    .get(p.getUniqueId()).isGod() ? "True" : "False"));
+            p.sendMessage("Godmode set to " + (smartPlayer.isGod() ? "True" : "False"));
 
         } else {
             sender.sendMessage(this.getPermissionMessage());

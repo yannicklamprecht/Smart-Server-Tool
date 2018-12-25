@@ -1,7 +1,6 @@
 package com.ysl3000.events;
 
 import com.ysl3000.plugin.SmartServerTool;
-import com.ysl3000.utils.ConfigFactorizer;
 import com.ysl3000.utils.Permissions;
 import org.bukkit.*;
 import org.bukkit.block.CreatureSpawner;
@@ -22,6 +21,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.vehicle.VehicleBlockCollisionEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class EntityListener implements Listener {
@@ -93,15 +93,17 @@ public class EntityListener implements Listener {
         if (e.getEntityType().equals(EntityType.PLAYER)) {
 
             boolean hasShoesWithNameJump = false;
-            try {
-                hasShoesWithNameJump = ((Player) e.getEntity()).getInventory()
-                        .getBoots().getItemMeta().getDisplayName()
-                        .equalsIgnoreCase("Jump");
-            } catch (NullPointerException eN) {
+
+            PlayerInventory inventory = ((Player) e.getEntity()).getInventory();
+            if (inventory != null && inventory.getBoots() != null) {
+                ItemStack boots = inventory.getBoots();
+                hasShoesWithNameJump = (boots.hasItemMeta()
+                        && boots.getItemMeta().hasDisplayName()
+                        && boots.getItemMeta().getDisplayName().equalsIgnoreCase("Jump"));
 
             }
-            e.setCancelled((hasShoesWithNameJump && e.getCause().name()
-                    .equalsIgnoreCase("fall"))
+            e.setCancelled((hasShoesWithNameJump
+                    && e.getCause() == EntityDamageEvent.DamageCause.FALL)
                     || ((Player) e.getEntity()).getGameMode().equals(
                     GameMode.CREATIVE));
 
@@ -122,24 +124,23 @@ public class EntityListener implements Listener {
             return;
         if ((e.getClickedBlock().getType().equals(Material.SPAWNER))
                 && (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) && (e.getPlayer().hasPermission(Permissions.canChangeSpawnerType))
-                    && ((e.getClickedBlock().getState() instanceof CreatureSpawner))) {
-                CreatureSpawner cs = (CreatureSpawner) e.getClickedBlock()
-                        .getState();
+                && ((e.getClickedBlock().getState() instanceof CreatureSpawner))) {
+            CreatureSpawner cs = (CreatureSpawner) e.getClickedBlock()
+                    .getState();
 
-                EntityType next = getNext(cs.getSpawnedType());
+            EntityType next = getNext(cs.getSpawnedType());
 
-                cs.setSpawnedType(next);
-                e.getPlayer().sendMessage(
-                        "Mobtype set to " + next);
-            }
+            cs.setSpawnedType(next);
+            e.getPlayer().sendMessage("Mobtype set to " + next);
+        }
     }
 
-    private EntityType getNext(EntityType entityType){
+    private EntityType getNext(EntityType entityType) {
         int index = entityType.ordinal();
         index++;
 
-        if(index>EntityType.values().length){
-            index=0;
+        if (index > EntityType.values().length) {
+            index = 0;
         }
         return EntityType.values()[index];
     }

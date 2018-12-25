@@ -19,21 +19,23 @@ import org.bukkit.entity.Player;
 
 /**
  * @author yannicklamprecht
- *
  */
 public class Online extends CustomCommand {
 
-    public Online() {
+    private Utility utility;
+
+    public Online(Utility utility) {
         super("online", "lists onlineplayer", "/online",
                 "");
+        this.utility = utility;
     }
 
     @Override
     public boolean execute(CommandSender sender, String s, String[] strings) {
         if (!(sender instanceof Player)) return false;
-        ((Player) sender).sendMessage(ChatColor.GRAY + "Online ("
+        sender.sendMessage(ChatColor.GRAY + "Online ("
                 + Bukkit.getServer().getOnlinePlayers().size() + "/"
-                + Bukkit.getMaxPlayers() + "): " + Utility.listPlayers());
+                + Bukkit.getMaxPlayers() + "): " + utility.listPlayers());
 
         return true;
     }
