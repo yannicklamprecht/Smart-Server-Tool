@@ -1,6 +1,5 @@
 package com.ysl3000.plugin;
 
-import com.ysl3000.utils.SmartPlayer;
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;

@@ -3,7 +3,11 @@ package com.ysl3000.utils;
 import com.ysl3000.plugin.SmartServerTool;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
-import org.bukkit.inventory.*;
+import org.bukkit.inventory.FurnaceRecipe;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.Recipe;
+import org.bukkit.inventory.ShapedRecipe;
+import org.bukkit.inventory.ShapelessRecipe;
 import org.bukkit.material.SpawnEgg;
 import org.bukkit.plugin.java.JavaPlugin;
 

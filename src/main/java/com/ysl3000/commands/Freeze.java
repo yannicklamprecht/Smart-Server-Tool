@@ -3,7 +3,7 @@ package com.ysl3000.commands;
 
 import com.ysl3000.plugin.SmartPlayers;
 import com.ysl3000.threads.TimeThread;
-import com.ysl3000.utils.SmartPlayer;
+import com.ysl3000.plugin.SmartPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

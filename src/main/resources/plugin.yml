@@ -1,9 +1,8 @@
 name: SmartServerTool
 version: 1.7.2 v.1 Iplementation v.12
 main: com.ysl3000.plugin.SmartServerTool
-depend: [CommandAPI]
 authors:
-      - DEV ysl3000
+      - ysl3000
 description: provides you some simple Server Commands! This mostly refers to a Vanilla-like server.
 permissions:
     sst.*:
@@ -11,7 +10,6 @@ permissions:
          children:
              sst.admin: true
              sst.mod: true
-             sst.gamemode: true
              sst.gm: true
              sst.time: true
              sst.weather: true
@@ -50,9 +48,6 @@ permissions:
          default: false
     sst.gamemodeo:
          description: allow entering other people gmc
-         default: false
-    sst.gamemodeo:
-         description: allow entering other people gms
          default: false
     sst.flyo:
          description: allow you to enable others to fly

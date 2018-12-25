@@ -1,10 +1,15 @@
 package com.ysl3000.events;
 
-import com.ysl3000.plugin.SmartPlayers;
+import com.ysl3000.config.settings.Messages;
+import com.ysl3000.config.settings.Misc;
+import com.ysl3000.config.settings.PlayerMessage;
+import com.ysl3000.config.settings.Service;
+import com.ysl3000.utils.Permissions;
+import com.ysl3000.utils.Prefix;
+import com.ysl3000.utils.Utility;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -12,221 +17,197 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.server.ServerListPingEvent;
-import org.bukkit.plugin.java.JavaPlugin;
-
-import com.ysl3000.plugin.SmartServerTool;
-import com.ysl3000.utils.Permissions;
-import com.ysl3000.utils.Prefix;
-import com.ysl3000.utils.SmartPlayer;
-import com.ysl3000.utils.Utility;
 
 public class MOTD implements Listener {
 
-	private JavaPlugin plugin;
-	private Utility utility;
-	private SmartPlayers smartPlayers;
-	
-	public MOTD(SmartServerTool plugin, Utility utility, SmartPlayers smartPlayers) {
+    private Utility utility;
+    private PlayerMessage playerMessage;
+    private Service service;
+    private Messages messages;
+    private Prefix prefix;
+    private Misc misc;
+
+    public MOTD(Utility utility, Messages messages, Prefix prefix, Misc misc) {
         this.utility = utility;
-		this.plugin=plugin;
-		this.smartPlayers = smartPlayers;
-	}
+        this.playerMessage = messages.getPlayer();
+        this.messages = messages;
+        this.service = messages.getService();
+        this.prefix = prefix;
+        this.misc = misc;
+    }
 
-	@EventHandler
-	public void login(PlayerLoginEvent event) {
+    @EventHandler
+    public void login(PlayerLoginEvent event) {
 
-		if (ConfigFactorizer.createAndReturn(this.plugin).getMaintenance()) {
+        if (service.isUnderConstruction()) {
+            event.setResult(Result.KICK_OTHER);
+        }
+        if (event.getResult() == PlayerLoginEvent.Result.KICK_WHITELIST) {
 
-			event.setResult(Result.KICK_OTHER);
+            event.setKickMessage(service.getWhitelist());
 
-		}
-		if (event.getResult() == PlayerLoginEvent.Result.KICK_WHITELIST) {
+            messageTryingToJoin(event.getPlayer().getDisplayName(), event
+                    .getResult().name().substring(5, 14));
+        } else if (event.getResult() == PlayerLoginEvent.Result.KICK_BANNED) {
 
-			event.setKickMessage(ConfigFactorizer.createAndReturn(this.plugin)
-					.getWhitelistmessage());
+            event.setKickMessage(service.getBan());
+            messageTryingToJoin(event.getPlayer().getDisplayName(), event
+                    .getResult().name().substring(5, 11));
+        } else if (event.getResult() == PlayerLoginEvent.Result.KICK_FULL) {
 
-			messageTryingToJoin(event.getPlayer().getDisplayName(), event
-					.getResult().name().substring(5, 14));
-		} else if (event.getResult() == PlayerLoginEvent.Result.KICK_BANNED) {
+            if (event.getPlayer().hasPermission(Permissions.joinFull)) {
 
-			event.setKickMessage(ConfigFactorizer.createAndReturn(this.plugin)
-					.getBanmessage());
-			messageTryingToJoin(event.getPlayer().getDisplayName(), event
-					.getResult().name().substring(5, 11));
-		} else if (event.getResult() == PlayerLoginEvent.Result.KICK_FULL) {
+                event.setResult(Result.ALLOWED);
+            } else {
 
-			if (event.getPlayer().hasPermission(Permissions.joinFull)) {
+                event.setKickMessage(service.getServerfull());
+            }
+        } else if (event.getResult() == Result.KICK_OTHER) {
 
-				event.setResult(Result.ALLOWED);
-			} else {
+            if (event.getPlayer().hasPermission(Permissions.joinService)) {
 
-				event.setKickMessage(ConfigFactorizer.createAndReturn(this.plugin)
-						.getFullmessage());
-			}
-		} else if (event.getResult() == Result.KICK_OTHER) {
+                event.setResult(Result.ALLOWED);
 
-			if (event.getPlayer().hasPermission(Permissions.joinService)) {
+            } else {
 
-				event.setResult(Result.ALLOWED);
+                event.setKickMessage(ChatColor.DARK_RED
+                        + service.getConstruction());
+            }
+        }
 
-			} else {
+    }
 
-				event.setKickMessage(ChatColor.DARK_RED
-						+ ConfigFactorizer.createAndReturn(this.plugin)
-								.getMaintenanceMessage());
-			}
-		}
+    private void messageTryingToJoin(String name, String type) {
+        Bukkit.broadcast(name + "{" + type + "}" + " trying to join",
+                "sst.admin");
+    }
 
-	}
+    @EventHandler
+    public void serverlistcheck(ServerListPingEvent event) {
 
-	@EventHandler
-	public void serverlistcheck(ServerListPingEvent event) {
+        if (service.isUnderConstruction()) {
 
-		if (ConfigFactorizer.createAndReturn(this.plugin).getMaintenance()) {
+            event.setMaxPlayers(-2);
+            event.setMotd(ChatColor.DARK_RED
+                    + service.getConstruction());
 
-			event.setMaxPlayers(-2);
-			event.setMotd(ChatColor.DARK_RED
-					+ ConfigFactorizer.createAndReturn(this.plugin).getMaintenanceMessage());
+        } else {
+            event.setMotd(ChatColor.GOLD + event.getMotd());
+        }
+    }
 
-		} else {
-			event.setMotd(ChatColor.GOLD + event.getMotd());
-		}
-	}
-
-	private void messageTryingToJoin(String name, String type) {
-		Bukkit.broadcast(name + "{" + type + "}" + " trying to join",
-				"sst.admin");
-	}
-
-	@EventHandler
-	public void onPlayerJoin(PlayerJoinEvent event) {
-		Player player = event.getPlayer();
+    @EventHandler
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        Player player = event.getPlayer();
 
 
-		// todo refactor build message elsewhere
+        // todo refactor build message elsewhere
 
-		String coremessage;
-		String privateJoinmessage;
-		String joinmessage;
+        String coremessage;
+        String privateJoinmessage;
+        String joinmessage;
 
-		if (ConfigFactorizer.createAndReturn(this.plugin).isMessaging()) {
+        if (messages.isEnabled()) {
 
-			if (ConfigFactorizer.createAndReturn(this.plugin).getRandomColor()) {
-				Prefix.getPrefixer().Pfix(player);
-			}
+            if (messages.isEnablbeRandomChatColor()) {
+                prefix.setPrefixAndListName(player);
+            }
 
-			if (Runtime.getRuntime().availableProcessors() == 1) {
+            if (Runtime.getRuntime().availableProcessors() == 1) {
 
-				coremessage = Runtime.getRuntime()
-						.availableProcessors() + " core";
-			} else {
-				coremessage = Runtime.getRuntime()
-						.availableProcessors() + " cores";
-			}
+                coremessage = Runtime.getRuntime()
+                        .availableProcessors() + " core";
+            } else {
+                coremessage = Runtime.getRuntime()
+                        .availableProcessors() + " cores";
+            }
 
-			joinmessage = ConfigFactorizer.createAndReturn(this.plugin)
-					.getJoinmessage();
-			privateJoinmessage = ConfigFactorizer.createAndReturn(this.plugin)
-					.getPrivatJoinMessage();
+            joinmessage = playerMessage.getJoinMessage();
+            privateJoinmessage = playerMessage.getPrivateJoinMessage();
 
-			joinmessage = joinmessage.replace("user%", "" + ChatColor.GOLD
-					+ name(player) + ChatColor.WHITE);
-			joinmessage = joinmessage.replace("server%", ""
-					+ ChatColor.GREEN + Bukkit.getServerName()
-					+ ChatColor.WHITE);
-			joinmessage = joinmessage.replace("core%", "" + coremessage);
+            joinmessage = joinmessage.replace("user%", "" + ChatColor.GOLD
+                    + player.getName() + ChatColor.WHITE);
+            joinmessage = joinmessage.replace("server%", ""
+                    + ChatColor.GREEN + Bukkit.getServerName()
+                    + ChatColor.WHITE);
+            joinmessage = joinmessage.replace("core%", "" + coremessage);
 
-			joinmessage = joinmessage.replace(
-					"time%",
-					ChatColor.GOLD
-							+ ""
-							+ utility.getTime(
-							System.currentTimeMillis(),
-							ConfigFactorizer.createAndReturn(this.plugin)
-									.getTimeFormat()
-									.replace("%dp", ":"))
+            joinmessage = joinmessage.replace(
+                    "time%",
+                    ChatColor.GOLD
+                            + ""
+                            + utility.getTime(
+                            System.currentTimeMillis(),
+                            messages.getTimeformat().replace("%dp", ":"))
 
-							+ ChatColor.WHITE);
-			joinmessage = joinmessage.replace("n%", "\n");
-			joinmessage = joinmessage.replace("v%", ChatColor.GREEN
-					+ Bukkit.getVersion().substring(11, 16)
-					+ ChatColor.WHITE);
-			joinmessage = joinmessage.replace("b%",
-					Bukkit.getBukkitVersion());
+                            + ChatColor.WHITE);
+            joinmessage = joinmessage.replace("n%", "\n");
+            joinmessage = joinmessage.replace("v%", ChatColor.GREEN
+                    + Bukkit.getVersion().substring(11, 16)
+                    + ChatColor.WHITE);
+            joinmessage = joinmessage.replace("b%",
+                    Bukkit.getBukkitVersion());
 
-			privateJoinmessage = privateJoinmessage.replace("online%",
-					ChatColor.GRAY + "Online ("
-							+ Bukkit.getServer().getOnlinePlayers().size()
-							+ "/" + Bukkit.getMaxPlayers() + "): "
-							+ utility.listPlayers());
-			privateJoinmessage = privateJoinmessage.replace("n%", "\n");
+            privateJoinmessage = privateJoinmessage.replace("online%",
+                    ChatColor.GRAY + "Online ("
+                            + Bukkit.getServer().getOnlinePlayers().size()
+                            + "/" + Bukkit.getMaxPlayers() + "): "
+                            + utility.listPlayers());
+            privateJoinmessage = privateJoinmessage.replace("n%", "\n");
 
-			if (ConfigFactorizer.createAndReturn(this.plugin).getMaintenance()) {
+            if (service.isUnderConstruction()) {
 
-				for (Player p : Bukkit.getOnlinePlayers()) {
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    p.sendMessage(service.getConstruction());
+                }
 
-					p.sendMessage(ConfigFactorizer.createAndReturn(this.plugin)
-							.getMaintenanceMessage());
+                event.setJoinMessage("");
+            } else {
 
-				}
+                if (!player.hasPlayedBefore()) {
 
-				event.setJoinMessage("");
-			} else {
+                    for (Player p : Bukkit.getOnlinePlayers()) {
+                        p.sendMessage(joinmessage.concat(" " + playerMessage.getFirstJoin()));
+                    }
+                    event.setJoinMessage("");
 
-				if (!player.hasPlayedBefore()) {
+                } else {
 
-					for (Player p : Bukkit.getOnlinePlayers()) {
-						p.sendMessage(joinmessage.concat(" "
-								+ ConfigFactorizer.createAndReturn(this.plugin)
-								.getFirstJoinMessage()));
-					}
-					event.setJoinMessage("");
+                    for (Player p : Bukkit.getOnlinePlayers()) {
 
-				} else {
+                        p.sendMessage(joinmessage);
+                    }
+                    event.setJoinMessage("");
 
-					for (Player p : Bukkit.getOnlinePlayers()) {
+                }
+            }
+            player.sendMessage(privateJoinmessage);
+        } else {
 
-						p.sendMessage(joinmessage);
-					}
-					event.setJoinMessage("");
-
-				}
-			}
-			player.sendMessage(privateJoinmessage);
-		} else {
-
-			if (!player.hasPlayedBefore()) {
-				player.teleport(
-						player.getWorld().getSpawnLocation());
-			}
-		}
+            if (!player.hasPlayedBefore()) {
+                player.teleport(
+                        player.getWorld().getSpawnLocation());
+            }
+        }
 
 
-		player.setSleepingIgnored(ConfigFactorizer.createAndReturn(this.plugin)
-				.isSleepingIgnored());
-		Prefix.getPrefixer().Pfix(player);
-	}
+        player.setSleepingIgnored(misc.isSleepingIgnored());
+        prefix.setPrefixAndListName(player);
+    }
 
-	@EventHandler
-	public void onPlayerLeft(PlayerQuitEvent event) {
-		String leftmessage;
+    @EventHandler
+    public void onPlayerLeft(PlayerQuitEvent event) {
+        if (messages.isEnabled()) {
+            String leftmessage = playerMessage.getLeftMessage();
 
-		if (ConfigFactorizer.createAndReturn(this.plugin).isMessaging()) {
-			leftmessage = ConfigFactorizer.createAndReturn(this.plugin)
-					.getLeftmessage();
+            Player player = event.getPlayer();
+            leftmessage = leftmessage.replace("user%", ChatColor.GOLD
+                    + player.getName() + ChatColor.WHITE);
+            leftmessage = leftmessage.replace("server%", ChatColor.GREEN
+                    + Bukkit.getServerName() + ChatColor.WHITE);
 
-			Player playerPQE = event.getPlayer();
-			leftmessage = leftmessage.replace("user%", ChatColor.GOLD
-					+ name(playerPQE) + ChatColor.WHITE);
-			leftmessage = leftmessage.replace("server%", ChatColor.GREEN
-					+ Bukkit.getServerName() + ChatColor.WHITE);
-
-			event.setQuitMessage(leftmessage);
-		}
-	}
-
-	private String name(Player player) {
-		return player.getName();
-	}
+            event.setQuitMessage(leftmessage);
+        }
+    }
 
 }

@@ -1,5 +1,7 @@
 package com.ysl3000.config;
 
+import com.ysl3000.config.settings.*;
+
 /**
  * Created by ysl3000
  */
@@ -15,6 +17,8 @@ public class SmartSettings {
     private DropsSettings drops = new DropsSettings();
     private DropRateChance chance = new DropRateChance();
     private WorldSettings worldSettings = new WorldSettings();
+    private Misc misc = new Misc();
+    private AdvertisingSettings advertisingSettings = new AdvertisingSettings();
 
     public boolean isPhysicsSand() {
         return physicsSand;
@@ -78,5 +82,21 @@ public class SmartSettings {
 
     public void setWorldSettings(WorldSettings worldSettings) {
         this.worldSettings = worldSettings;
+    }
+
+    public Misc getMisc() {
+        return misc;
+    }
+
+    public void setMisc(Misc misc) {
+        this.misc = misc;
+    }
+
+    public AdvertisingSettings getAdvertisingSettings() {
+        return advertisingSettings;
+    }
+
+    public void setAdvertisingSettings(AdvertisingSettings advertisingSettings) {
+        this.advertisingSettings = advertisingSettings;
     }
 }

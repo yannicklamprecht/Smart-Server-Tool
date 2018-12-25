@@ -7,7 +7,7 @@ public class Prefix {
 
 	private int i = 0;
 
-	public void Pfix(Player player) {
+	public void setPrefixAndListName(Player player) {
 
 		listName(player);
 		displayName(player);

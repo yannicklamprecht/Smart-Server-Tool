@@ -1,18 +1,12 @@
-/**
- * SpamConfigLoader.java
- * 
- * Created on 02.09.2013, 20:48:36 by @author yannicklamprecht
- */
 package com.ysl3000.utils;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
-import com.ysl3000.plugin.SmartServerTool;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Optional;
 
 
 /**
@@ -20,35 +14,20 @@ import com.ysl3000.plugin.SmartServerTool;
  * 
  */
 public class SpamConfigLoader {
-	private String fileName = "spam.yml";
 	private FileConfiguration config;
-	private ArrayList<String> spamlist;
-//TODO Cast to my Configformat
-	public SpamConfigLoader() {
-		this.config = YamlConfiguration.loadConfiguration(new File(
-				SmartServerTool.mainDirectory, fileName));
-		ArrayList<String> defaults = new ArrayList<String>();
-		defaults.add("Reached end of stream");
 
-		if (this.config.getStringList("spammessage") == null) {
-			config.set("spammessage", defaults);
-			this.config.options().copyDefaults(true);
-			this.saveConfigurationFile();
-		}
-		initSpamList();
-	}
+	private File spamConfigFile;
 
-	private void initSpamList() {
-		spamlist = (ArrayList<String>) this.config.getStringList("spammessage");
 
-	}
+	public SpamConfigLoader(File directory) {
+		this.spamConfigFile = new File(directory,"spam.yml");
 
-	public ArrayList<String> getSpamList() {
-		return spamlist;
+		this.config = YamlConfiguration.loadConfiguration(spamConfigFile);
+
 	}
 
 	public boolean isSpam(String value) {
-		for (String s : spamlist) {
+		for (String s : Optional.ofNullable(config.getStringList("spammessage")).orElse(new ArrayList<>())) {
 			if (value.startsWith(s) || value.contains(s)) {
 				return true;
 			}
@@ -57,9 +36,8 @@ public class SpamConfigLoader {
 	}
 
 	public void saveConfigurationFile() {
-				
 		try {
-			this.config.save(new File(SmartServerTool.mainDirectory, fileName));
+			this.config.save(spamConfigFile);
 		} catch (IOException e) {
 			System.out.println("FAILED");
 		}

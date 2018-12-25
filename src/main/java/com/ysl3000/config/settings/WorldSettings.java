@@ -1,4 +1,4 @@
-package com.ysl3000.config;
+package com.ysl3000.config.settings;
 
 /**
  * Created by ysl3000

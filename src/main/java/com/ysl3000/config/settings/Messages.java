@@ -1,23 +1,23 @@
-package com.ysl3000.config;
+package com.ysl3000.config.settings;
 
 /**
  * Created by ysl3000
  */
 public class Messages {
 
-    private boolean enable = true;
+    private boolean enabled = true;
     private boolean enablbeRandomChatColor = true;
     private String timeformat = "MM dd, yyyy HH%dpmm";
     private Service service = new Service();
     private PlayerMessage player = new PlayerMessage();
 
 
-    public boolean isEnable() {
-        return enable;
+    public boolean isEnabled() {
+        return enabled;
     }
 
-    public void setEnable(boolean enable) {
-        this.enable = enable;
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 
     public boolean isEnablbeRandomChatColor() {

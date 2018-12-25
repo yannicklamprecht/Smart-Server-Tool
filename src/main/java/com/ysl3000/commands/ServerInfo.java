@@ -1,13 +1,3 @@
-/**
- * ServerInfo.java
- * <p>
- * Created on , 17:24:32 by @author Yannick Lamprecht
- * <p>
- * SmartServerToolRewrote Copyright (C) 11.12.2013  Yannick Lamprecht
- * This program comes with ABSOLUTELY NO WARRANTY;
- * This is free software, and you are welcome to redistribute it
- * under certain conditions;
- */
 package com.ysl3000.commands;
 
 

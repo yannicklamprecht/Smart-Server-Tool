@@ -1,8 +1,14 @@
 package com.ysl3000.events;
 
-import com.ysl3000.plugin.SmartServerTool;
+import com.ysl3000.config.settings.Misc;
+import com.ysl3000.config.settings.WorldSettings;
 import com.ysl3000.utils.Permissions;
-import org.bukkit.*;
+import org.bukkit.Effect;
+import org.bukkit.EntityEffect;
+import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.block.Dispenser;
 import org.bukkit.entity.EntityType;
@@ -22,13 +28,14 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.vehicle.VehicleBlockCollisionEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class EntityListener implements Listener {
-    private JavaPlugin plugin;
+    private WorldSettings worldSettings;
+    private Misc misc;
 
-    public EntityListener(SmartServerTool plugin) {
-        this.plugin = plugin;
+    public EntityListener(WorldSettings worldSettings, Misc misc) {
+        this.worldSettings = worldSettings;
+        this.misc = misc;
     }
 
     @EventHandler
@@ -54,8 +61,9 @@ public class EntityListener implements Listener {
 
     @EventHandler
     public void onenderpick(EntityChangeBlockEvent event) {
-        event.setCancelled(event.getEntityType().equals(EntityType.ENDERMAN) ? ConfigFactorizer
-                .createAndReturn(this.plugin).isBender() : event.isCancelled());
+        if (event.getEntityType().equals(EntityType.ENDERMAN) && worldSettings.isBlockEnder()) {
+            event.setCancelled(true);
+        }
     }
 
     @EventHandler
@@ -74,21 +82,16 @@ public class EntityListener implements Listener {
 
     @EventHandler
     public void onEntityPP(EntityInteractEvent event) {
-
-        if (event.getBlock().getType().equals(Material.STONE_PRESSURE_PLATE)
-                || Tag.WOODEN_PRESSURE_PLATES.isTagged(event.getBlock().getType())) {
-
-            if (ConfigFactorizer.createAndReturn(this.plugin)
-                    .isPlayerPressPlate()) {
-
-                event.setCancelled((!(event.getEntity() instanceof Player)) || event
-                        .isCancelled());
-            }
+        if ((event.getBlock().getType().equals(Material.STONE_PRESSURE_PLATE)
+                || Tag.WOODEN_PRESSURE_PLATES.isTagged(event.getBlock().getType())) && misc.isSavePlayerPressPlate()) {
+            event.setCancelled((!(event.getEntity() instanceof Player)) || event
+                    .isCancelled());
         }
+
     }
 
     @EventHandler
-    public void playerdammage(EntityDamageEvent e) {
+    public void playerdamage(EntityDamageEvent e) {
 
         if (e.getEntityType().equals(EntityType.PLAYER)) {
 
@@ -112,10 +115,13 @@ public class EntityListener implements Listener {
     }
 
     @EventHandler
-    public void Explode(EntityExplodeEvent event) {
-        event.setCancelled(event.getEntityType().equals(EntityType.CREEPER) ? ConfigFactorizer
-                .createAndReturn(this.plugin).isBcreeper() : ConfigFactorizer
-                .createAndReturn(this.plugin).isTntsave());
+    public void explode(EntityExplodeEvent event) {
+
+        if (event.getEntityType() == EntityType.CREEPER) {
+            if (worldSettings.isBlockCreeper()) event.setCancelled(true);
+        } else {
+            if (worldSettings.isPreventTnt()) event.setCancelled(true);
+        }
     }
 
     @EventHandler

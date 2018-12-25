@@ -1,7 +1,7 @@
 package com.ysl3000.events;
 
 import com.ysl3000.config.SmartSettings;
-import com.ysl3000.config.WorldSettings;
+import com.ysl3000.config.settings.WorldSettings;
 import com.ysl3000.utils.Permissions;
 import org.bukkit.*;
 import org.bukkit.block.Block;

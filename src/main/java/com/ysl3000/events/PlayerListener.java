@@ -1,9 +1,9 @@
 package com.ysl3000.events;
 
+import com.ysl3000.config.SmartSettings;
 import com.ysl3000.plugin.SmartPlayers;
-import com.ysl3000.plugin.SmartServerTool;
 import com.ysl3000.utils.Permissions;
-import com.ysl3000.utils.SmartPlayer;
+import com.ysl3000.plugin.SmartPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -11,25 +11,17 @@ import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerBucketEmptyEvent;
-import org.bukkit.event.player.PlayerBucketFillEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.event.player.PlayerTeleportEvent;
-import org.bukkit.event.player.PlayerToggleSneakEvent;
+import org.bukkit.event.player.*;
 import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class PlayerListener implements Listener {
-    private JavaPlugin plugin;
     private SmartPlayers smartPlayers;
+    private SmartSettings smartSettings;
 
-    public PlayerListener(SmartServerTool plugin, SmartPlayers smartPlayers) {
-        this.plugin = plugin;
+    public PlayerListener(SmartPlayers smartPlayers, SmartSettings smartSettings) {
         this.smartPlayers = smartPlayers;
+        this.smartSettings = smartSettings;
     }
 
     @EventHandler
@@ -99,8 +91,7 @@ public class PlayerListener implements Listener {
     @EventHandler
     public void chatHandler(AsyncPlayerChatEvent e) {
         if (!e.getPlayer().hasPermission(Permissions.chat)
-                && !ConfigFactorizer.createAndReturn(this.plugin)
-                .getNonPermission()) {
+                && !smartSettings.isNoPermissionsNeeded()) {
             e.setCancelled(true);
             e.getPlayer().sendMessage("NoPermissions");
         }
@@ -108,10 +99,10 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
-       SmartPlayer smartPlayer = smartPlayers.getPlayerByUUID(e.getPlayer().getUniqueId());
+        SmartPlayer smartPlayer = smartPlayers.getPlayerByUUID(e.getPlayer().getUniqueId());
 
-        e.setCancelled((!(e.getPlayer().hasPermission(Permissions.move) || ConfigFactorizer
-                .createAndReturn(this.plugin).getNonPermission()) && !smartPlayer.isFrozen()));
+        e.setCancelled((!(e.getPlayer().hasPermission(Permissions.move)
+                || smartSettings.isNoPermissionsNeeded()) && !smartPlayer.isFrozen()));
 
     }
 
@@ -172,14 +163,12 @@ public class PlayerListener implements Listener {
 
     @EventHandler
     public void nobucketFill(PlayerBucketFillEvent e) {
-        e.setCancelled(!(e.getPlayer().hasPermission(Permissions.interact) || ConfigFactorizer
-                .createAndReturn(this.plugin).getNonPermission()));
+        e.setCancelled(!(e.getPlayer().hasPermission(Permissions.interact) || smartSettings.isNoPermissionsNeeded()));
     }
 
     @EventHandler
     public void nobucketEmpty(PlayerBucketEmptyEvent e) {
-        e.setCancelled(!(e.getPlayer().hasPermission(Permissions.interact) || ConfigFactorizer
-                .createAndReturn(this.plugin).getNonPermission()));
+        e.setCancelled(!(e.getPlayer().hasPermission(Permissions.interact) || smartSettings.isNoPermissionsNeeded()));
     }
 
 }

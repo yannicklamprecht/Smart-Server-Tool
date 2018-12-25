@@ -1,4 +1,4 @@
-package com.ysl3000.utils;
+package com.ysl3000.plugin;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
