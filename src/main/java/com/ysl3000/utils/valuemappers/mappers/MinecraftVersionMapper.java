@@ -1,6 +1,7 @@
-package com.ysl3000.utils.valuemappers;
+package com.ysl3000.utils.valuemappers.mappers;
 
 import com.ysl3000.utils.MessageWrapper;
+import com.ysl3000.utils.valuemappers.ValueMapper;
 import org.bukkit.Server;
 
 /**

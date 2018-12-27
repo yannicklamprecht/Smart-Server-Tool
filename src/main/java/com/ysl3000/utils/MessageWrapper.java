@@ -36,4 +36,8 @@ public class MessageWrapper {
     this.message = this.message.replace(placeholder,value);
     return this;
   }
+
+  public static MessageWrapper of(String message, Object... objects){
+    return new MessageWrapper(message,objects);
+  }
 }

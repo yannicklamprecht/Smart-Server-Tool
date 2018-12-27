@@ -1,6 +1,6 @@
 name: SmartServerTool
-version: 1.7.2 v.1 Iplementation v.12
-main: com.ysl3000.plugin.SmartServerTool
+version: 18.12 - MC 1.13.2
+main: com.ysl3000.SmartServerTool
 authors:
   - ysl3000
 description: provides you some simple Server Commands! This mostly refers to a Vanilla-like server.

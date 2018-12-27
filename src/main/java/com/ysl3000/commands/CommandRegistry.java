@@ -1,6 +1,6 @@
 package com.ysl3000.commands;
 
-import com.ysl3000.plugin.SmartPlayers;
+import com.ysl3000.SmartPlayers;
 import com.ysl3000.utils.Utility;
 import java.lang.reflect.Field;
 import org.bukkit.Bukkit;

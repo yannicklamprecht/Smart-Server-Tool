@@ -1,5 +1,8 @@
 package com.ysl3000.config.settings;
 
+import com.ysl3000.config.settings.messages.PlayerMessage;
+import com.ysl3000.config.settings.messages.Service;
+
 /**
  * Created by ysl3000
  */

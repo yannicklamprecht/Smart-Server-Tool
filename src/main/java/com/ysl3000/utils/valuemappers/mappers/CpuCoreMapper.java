@@ -1,6 +1,7 @@
-package com.ysl3000.utils.valuemappers;
+package com.ysl3000.utils.valuemappers.mappers;
 
 import com.ysl3000.utils.MessageWrapper;
+import com.ysl3000.utils.valuemappers.ValueMapper;
 
 /**
  * Created by ysl3000
@@ -9,7 +10,7 @@ public class CpuCoreMapper implements ValueMapper {
 
   private String coreMessageValue;
 
-  public CpuCoreMapper(){
+  public CpuCoreMapper() {
     StringBuilder stringBuilder = new StringBuilder();
     int processors = Runtime.getRuntime().availableProcessors();
     stringBuilder.append(processors);

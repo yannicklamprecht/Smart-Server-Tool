@@ -1,4 +1,4 @@
-package com.ysl3000.plugin;
+package com.ysl3000;
 
 import java.util.HashMap;
 import java.util.Map;

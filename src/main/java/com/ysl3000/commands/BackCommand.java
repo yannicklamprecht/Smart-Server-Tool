@@ -1,7 +1,7 @@
 package com.ysl3000.commands;
 
-import com.ysl3000.plugin.SmartPlayer;
-import com.ysl3000.plugin.SmartPlayers;
+import com.ysl3000.SmartPlayer;
+import com.ysl3000.SmartPlayers;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 

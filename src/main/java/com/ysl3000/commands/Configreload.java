@@ -1,6 +1,6 @@
 package com.ysl3000.commands;
 
-import com.ysl3000.plugin.SmartServerTool;
+import com.ysl3000.SmartServerTool;
 import org.bukkit.command.CommandSender;
 
 public class Configreload extends CustomCommand {

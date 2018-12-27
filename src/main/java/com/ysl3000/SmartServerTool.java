@@ -1,4 +1,4 @@
-package com.ysl3000.plugin;
+package com.ysl3000;
 
 
 import com.ysl3000.commands.CommandRegistry;
@@ -13,10 +13,12 @@ import com.ysl3000.events.EventRegistry;
 import com.ysl3000.utils.Prefix;
 import com.ysl3000.utils.SpamFilter;
 import com.ysl3000.utils.Utility;
+import com.ysl3000.utils.valuemappers.MessageBuilder;
 import java.io.IOException;
 import java.util.logging.Filter;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -32,6 +34,7 @@ public class SmartServerTool extends JavaPlugin {
   private WorldSpawnLocation worldSpawnLocation;
   private ISpamConfig iSpamConfig;
   private ConfigurationProvider configProvider;
+  private MessageBuilder messageBuilder;
 
   @Override
   public void reloadConfig() {
@@ -61,6 +64,7 @@ public class SmartServerTool extends JavaPlugin {
     this.smartPlayers = new SmartPlayers();
     this.configProvider = new ConfigurationProvider(getDataFolder());
     this.reloadConfig();
+    this.messageBuilder = new MessageBuilder(getServer(), smartSettings.getMessages());
     this.commandRegistry = new CommandRegistry(smartPlayers);
     this.commandRegistry.registerCommands();
     this.eventRegistry = new EventRegistry(this, new SmartAdapterImpl());
@@ -92,13 +96,18 @@ public class SmartServerTool extends JavaPlugin {
     }
 
     @Override
-    public Utility getUtility() {
-      return utility;
+    public Prefix getPrefix() {
+      return prefix;
     }
 
     @Override
-    public Prefix getPrefix() {
-      return prefix;
+    public Server getServer() {
+      return SmartServerTool.this.getServer();
+    }
+
+    @Override
+    public MessageBuilder getMessageBuilder() {
+      return messageBuilder;
     }
   }
 }

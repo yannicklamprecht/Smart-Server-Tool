@@ -1,7 +1,7 @@
 package com.ysl3000.events;
 
 import com.ysl3000.config.settings.WorldSettings;
-import com.ysl3000.plugin.SmartPlayers;
+import com.ysl3000.SmartPlayers;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

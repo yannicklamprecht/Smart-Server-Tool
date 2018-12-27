@@ -8,27 +8,30 @@ import java.util.Map;
  */
 public class WorldSpawnLocation {
 
-  private Map<String, IConfigPosition> worldSpawns = new HashMap<>();
+  private Map<String, ConfigPosition> worldSpawns = new HashMap<>();
 
   public WorldSpawnLocation() {
     worldSpawns.put("world", new ConfigPosition());
   }
 
 
-  public Map<String, IConfigPosition> getWorldSpawns() {
+  public Map<String, ConfigPosition> getWorldSpawns() {
     return worldSpawns;
   }
 
-  public void setWorldSpawns(Map<String, IConfigPosition> worldSpawns) {
+  public void setWorldSpawns(Map<String, ConfigPosition> worldSpawns) {
     this.worldSpawns = worldSpawns;
   }
 
 
   public IConfigPosition getSpawnpointForWorld(String worldName) {
-    return worldSpawns.computeIfAbsent(worldName,worldNameAbsent -> new ConfigPosition(worldNameAbsent, 0, 0, 0));
+    return worldSpawns.computeIfAbsent(worldName,
+        worldNameAbsent -> new ConfigPosition(worldNameAbsent, 0, 0, 0));
   }
 
   public void setSpawnPointForWorld(String worldName, IConfigPosition position) {
-    worldSpawns.put(worldName, position);
+    ConfigPosition configPosition = new ConfigPosition();
+    configPosition.copyOf(position);
+    worldSpawns.put(worldName, configPosition);
   }
 }

@@ -1,8 +1,8 @@
 package com.ysl3000.commands;
 
 
-import com.ysl3000.plugin.SmartPlayer;
-import com.ysl3000.plugin.SmartPlayers;
+import com.ysl3000.SmartPlayer;
+import com.ysl3000.SmartPlayers;
 import com.ysl3000.threads.TimeThread;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

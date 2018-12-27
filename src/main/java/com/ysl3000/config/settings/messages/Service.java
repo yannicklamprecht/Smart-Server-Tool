@@ -1,4 +1,4 @@
-package com.ysl3000.config.settings;
+package com.ysl3000.config.settings.messages;
 
 /**
  * Created by ysl3000
@@ -9,7 +9,7 @@ public class Service {
   private String ban = "You are a Bunny! You got banned from this server";
   private String serverfull = "I'm sorry! The Server is full!";
   private boolean isUnderConstruction = false;
-  private String construction = "Server is under construction";
+  private String construction = "&4Server is under construction";
 
   public String getWhitelist() {
     return whitelist;

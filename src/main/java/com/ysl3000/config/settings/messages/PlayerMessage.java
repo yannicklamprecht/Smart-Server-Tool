@@ -1,14 +1,15 @@
-package com.ysl3000.config.settings;
+package com.ysl3000.config.settings.messages;
 
 /**
  * Created by ysl3000
  */
 public class PlayerMessage {
 
-  private String privateJoinMessage = "%online%";
+  private String privateJoinMessage = "Online({online_players}/{max_players}): {list_players} ";
   private String firstJoin = "It's the first time";
-  private String joinMessage = "%user% on %server% running %v% %b% on %core% ! %n% It's time% !";
-  private String leftMessage = "Player %user% left %server% !";
+  private String joinMessage = "Welcome {player_display_name} on {server_name} running {minecraft_version} {bukkit_version} on {core}! \n It's {time}!";
+  private String leftMessage = "Player {player_display_name} left {server_name}!";
+  private String tryingToJoinMessage = "{player_name} {login_result} trying to join";
 
 
   public String getPrivateJoinMessage() {
@@ -41,5 +42,13 @@ public class PlayerMessage {
 
   public void setLeftMessage(String leftMessage) {
     this.leftMessage = leftMessage;
+  }
+
+  public String getTryingToJoinMessage() {
+    return tryingToJoinMessage;
+  }
+
+  public void setTryingToJoinMessage(String tryingToJoinMessage) {
+    this.tryingToJoinMessage = tryingToJoinMessage;
   }
 }
