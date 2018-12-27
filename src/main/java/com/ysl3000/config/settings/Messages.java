@@ -7,7 +7,7 @@ public class Messages {
 
   private boolean enabled = true;
   private boolean enablbeRandomChatColor = true;
-  private String timeformat = "MM dd, yyyy HH%dpmm";
+  private String timeformat = "MM dd, yyyy HH:mm";
   private Service service = new Service();
   private PlayerMessage player = new PlayerMessage();
 

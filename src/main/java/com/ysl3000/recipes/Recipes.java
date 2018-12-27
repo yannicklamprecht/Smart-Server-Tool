@@ -1,4 +1,4 @@
-package com.ysl3000.utils;
+package com.ysl3000.recipes;
 
 import com.ysl3000.plugin.SmartServerTool;
 import org.bukkit.plugin.java.JavaPlugin;

@@ -3,7 +3,9 @@ package com.ysl3000.plugin;
 
 import com.ysl3000.commands.CommandRegistry;
 import com.ysl3000.config.ConfigurationProvider;
-import com.ysl3000.config.data.ConfigPosition;
+import com.ysl3000.config.adapter.ConfigPositionAdapter;
+import com.ysl3000.config.adapter.LocationAdapter;
+import com.ysl3000.config.data.IConfigPosition;
 import com.ysl3000.config.data.WorldSpawnLocation;
 import com.ysl3000.config.settings.SmartSettings;
 import com.ysl3000.config.spam.ISpamConfig;
@@ -15,7 +17,7 @@ import java.io.IOException;
 import java.util.logging.Filter;
 import java.util.logging.Logger;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class SmartServerTool extends JavaPlugin {
@@ -51,25 +53,31 @@ public class SmartServerTool extends JavaPlugin {
 
   @Override
   public void onDisable() {
-
+    Bukkit.getWorlds().forEach(this::setConfigFromWorldSpawnLocation);
   }
 
   @Override
   public void onEnable() {
     this.smartPlayers = new SmartPlayers();
     this.configProvider = new ConfigurationProvider(getDataFolder());
-    reloadConfig();
+    this.reloadConfig();
     this.commandRegistry = new CommandRegistry(smartPlayers);
     this.commandRegistry.registerCommands();
     this.eventRegistry = new EventRegistry(this, new SmartAdapterImpl());
     this.eventRegistry.register();
-
-    Bukkit.getWorlds().forEach(world -> {
-      ConfigPosition position = worldSpawnLocation.getSpawnpointForWorld(world.getName());
-      world
-          .setSpawnLocation(new Location(world, position.getX(), position.getY(), position.getZ()));
-    });
+    Bukkit.getWorlds().forEach(this::setWorldSpawnLocationFromConfig);
   }
+
+  private void setWorldSpawnLocationFromConfig(World world) {
+    IConfigPosition position = worldSpawnLocation.getSpawnpointForWorld(world.getName());
+    world.setSpawnLocation(new LocationAdapter(position));
+  }
+
+  private void setConfigFromWorldSpawnLocation(World world) {
+    IConfigPosition position = worldSpawnLocation.getSpawnpointForWorld(world.getName());
+    position.copyOf(new ConfigPositionAdapter(world.getSpawnLocation()));
+  }
+
 
   private class SmartAdapterImpl implements EventRegistry.SmartAdapter {
 

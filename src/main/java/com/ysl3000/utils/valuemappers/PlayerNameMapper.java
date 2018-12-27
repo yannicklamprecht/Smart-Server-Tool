@@ -1,0 +1,16 @@
+package com.ysl3000.utils.valuemappers;
+
+import com.ysl3000.utils.MessageWrapper;
+import org.bukkit.entity.Player;
+
+/**
+ * Created by ysl3000
+ */
+public class PlayerNameMapper implements ValueMapper {
+
+  @Override
+  public void injectPlaceholder(MessageWrapper message) {
+    message.get(Player.class)
+        .ifPresent(player -> message.replace("{player_name}", player.getName()));
+  }
+}
