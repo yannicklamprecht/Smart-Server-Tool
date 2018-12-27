@@ -1,4 +1,4 @@
-package com.ysl3000.utils.valuemappers;
+package com.ysl3000.stubs;
 
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.entity.PlayerMock;

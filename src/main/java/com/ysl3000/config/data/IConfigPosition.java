@@ -27,4 +27,5 @@ public interface IConfigPosition {
   String getName();
 
   void setName(String name);
+
 }

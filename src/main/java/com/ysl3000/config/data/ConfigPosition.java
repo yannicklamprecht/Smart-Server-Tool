@@ -1,9 +1,31 @@
 package com.ysl3000.config.data;
 
+import java.util.Objects;
+
 /**
  * Created by ysl3000
  */
 public class ConfigPosition implements IConfigPosition {
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof ConfigPosition)) {
+      return false;
+    }
+    ConfigPosition that = (ConfigPosition) o;
+    return Double.compare(that.x, x) == 0 &&
+        Double.compare(that.y, y) == 0 &&
+        Double.compare(that.z, z) == 0 &&
+        name.equals(that.name);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(name, x, y, z);
+  }
 
   private String name;
   private double x;
@@ -56,4 +78,5 @@ public class ConfigPosition implements IConfigPosition {
   public void setName(String name) {
     this.name = name;
   }
+
 }

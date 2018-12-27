@@ -14,6 +14,10 @@ public class WorldSpawnLocation {
     worldSpawns.put("world", new ConfigPosition());
   }
 
+  public WorldSpawnLocation(boolean no){
+
+  }
+
 
   public Map<String, ConfigPosition> getWorldSpawns() {
     return worldSpawns;

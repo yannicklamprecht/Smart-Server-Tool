@@ -1,13 +1,13 @@
 package com.ysl3000.config.adapter;
 
-import com.ysl3000.config.data.IConfigPosition;
+import com.ysl3000.config.data.ConfigPosition;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 /**
  * Created by ysl3000
  */
-public class ConfigPositionAdapter implements IConfigPosition {
+public class ConfigPositionAdapter extends ConfigPosition {
 
 
   private Location location;

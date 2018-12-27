@@ -2,6 +2,7 @@ package com.ysl3000.config.adapter;
 
 
 import com.ysl3000.config.data.IConfigPosition;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 /**
@@ -12,7 +13,7 @@ public class LocationAdapter extends Location {
   private IConfigPosition configPosition;
 
   public LocationAdapter(IConfigPosition configPosition) {
-    super(null, 0, 0, 0);
+    super(Bukkit.getWorld(configPosition.getName()), configPosition.getX(),configPosition.getY(),configPosition.getZ());
     this.configPosition = configPosition;
   }
 
@@ -45,6 +46,4 @@ public class LocationAdapter extends Location {
   public void setZ(double z) {
     configPosition.setZ(z);
   }
-
-
 }

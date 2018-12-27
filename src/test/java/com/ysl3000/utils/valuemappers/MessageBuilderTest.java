@@ -2,12 +2,17 @@ package com.ysl3000.utils.valuemappers;
 
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
+import be.seeseemelk.mockbukkit.WorldMock;
 import com.ysl3000.config.settings.Messages;
+import com.ysl3000.stubs.SmartMockBukkit;
+import com.ysl3000.stubs.SmartPlayerMock;
+import com.ysl3000.stubs.SmartServerMock;
 import com.ysl3000.utils.MessageWrapper;
 import com.ysl3000.utils.Utility;
 import java.util.UUID;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,12 +29,17 @@ public class MessageBuilderTest {
   @Before
   public void setUp() {
 
-    this.server = new SmartServerMock();
+    this.server = new SmartServerMock(new WorldMock());
 
     Messages messages = new Messages();
     Utility utility = new Utility(server);
     this.messageBuilder = new MessageBuilder(server, messages, utility);
 
+  }
+
+  @After
+  public void tearDown(){
+    SmartMockBukkit.unset();
   }
 
 
@@ -50,6 +60,8 @@ public class MessageBuilderTest {
     String message = this.messageBuilder.replaceMessageValues(messageWrapper).getMessage();
     Assert.assertEquals("DisplayName should be injected successfully", "Hey SmartServerTool",
         message);
+
+    MockBukkit.unload();
   }
 
   @Test
@@ -62,9 +74,5 @@ public class MessageBuilderTest {
 
     Assert.assertEquals("LoginResult should be injected successfully",
         "Kicked because your're banned", message);
-
-
   }
-
-
 }
