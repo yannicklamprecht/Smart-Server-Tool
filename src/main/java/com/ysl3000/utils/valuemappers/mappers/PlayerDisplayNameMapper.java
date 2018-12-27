@@ -12,7 +12,9 @@ public class PlayerDisplayNameMapper implements ValueMapper {
   @Override
   public void injectPlaceholder(MessageWrapper message) {
     message.get(Player.class)
-        .ifPresent(player -> message.replace("{player_display_name}", player.getDisplayName()));
+        .ifPresent(player -> {
+          message.replace("{player_display_name}", player.getDisplayName());
+        });
 
   }
 }

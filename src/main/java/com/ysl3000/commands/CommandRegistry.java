@@ -14,10 +14,11 @@ public class CommandRegistry {
 
   private SimpleCommandMap commandMap;
   private SmartPlayers smartPlayers;
-  private Utility utility = new Utility();
+  private Utility utility;
 
-  public CommandRegistry(SmartPlayers smartPlayers) {
+  public CommandRegistry(SmartPlayers smartPlayers, Utility utility) {
     this.smartPlayers = smartPlayers;
+    this.utility = utility;
 
     try {
       Class<?> server = Bukkit.getServer().getClass();

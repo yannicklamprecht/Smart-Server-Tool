@@ -3,10 +3,17 @@ package com.ysl3000.utils;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.stream.Collectors;
-import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.entity.Player;
 
 public class Utility {
+
+
+  private Server server;
+
+  public Utility(Server server) {
+    this.server = server;
+  }
 
   public void tospawn(Player player) {
     player.teleport(player.getWorld().getSpawnLocation());
@@ -18,7 +25,7 @@ public class Utility {
 
   public String listPlayers() {
     return String.join(",",
-        Bukkit.getOnlinePlayers().stream().map(Player::getDisplayName).collect(Collectors.toSet())
+        server.getOnlinePlayers().stream().map(Player::getDisplayName).collect(Collectors.toSet())
     );
   }
 }

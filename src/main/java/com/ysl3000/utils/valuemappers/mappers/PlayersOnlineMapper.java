@@ -13,8 +13,9 @@ public class PlayersOnlineMapper implements ValueMapper {
   private Server server;
   private Utility utility;
 
-  public PlayersOnlineMapper(Server server) {
+  public PlayersOnlineMapper(Server server, Utility utility) {
     this.server = server;
+    this.utility = utility;
   }
 
   @Override

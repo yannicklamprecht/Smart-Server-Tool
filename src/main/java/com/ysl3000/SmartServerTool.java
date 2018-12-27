@@ -26,7 +26,7 @@ public class SmartServerTool extends JavaPlugin {
 
   private CommandRegistry commandRegistry;
   private EventRegistry eventRegistry;
-  private Utility utility = new Utility();
+  private Utility utility;
   private Prefix prefix = new Prefix();
   private SmartPlayers smartPlayers;
 
@@ -61,11 +61,12 @@ public class SmartServerTool extends JavaPlugin {
 
   @Override
   public void onEnable() {
+    this.utility = new Utility(getServer());
     this.smartPlayers = new SmartPlayers();
     this.configProvider = new ConfigurationProvider(getDataFolder());
     this.reloadConfig();
-    this.messageBuilder = new MessageBuilder(getServer(), smartSettings.getMessages());
-    this.commandRegistry = new CommandRegistry(smartPlayers);
+    this.messageBuilder = new MessageBuilder(getServer(), smartSettings.getMessages(), utility);
+    this.commandRegistry = new CommandRegistry(smartPlayers, utility);
     this.commandRegistry.registerCommands();
     this.eventRegistry = new EventRegistry(this, new SmartAdapterImpl());
     this.eventRegistry.register();
