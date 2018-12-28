@@ -1,4 +1,4 @@
-package com.ysl3000.config;
+package com.ysl3000.config.data;
 
 import com.ysl3000.config.data.ConfigPosition;
 import com.ysl3000.config.data.IConfigPosition;

@@ -1,6 +1,5 @@
-package com.ysl3000.config;
+package com.ysl3000.config.data;
 
-import com.ysl3000.config.data.ConfigPosition;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
