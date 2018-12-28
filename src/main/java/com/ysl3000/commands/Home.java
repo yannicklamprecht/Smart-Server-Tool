@@ -41,7 +41,7 @@ public class Home extends CustomCommand {
           player.teleport(player.getBedSpawnLocation());
         } else if (args.length == 1) {
 
-          if (player.hasPermission(Permissions.homeOther)) {
+          if (player.hasPermission(Permissions.HOME_OTHER)) {
 
             if (player.getServer().getPlayer(args[0]).isOnline()) {
               Player target;

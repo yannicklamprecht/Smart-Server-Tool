@@ -46,7 +46,7 @@ public class CreativeGamemode extends CustomCommand {
       }
 
     } else if (args.length == 1
-        && player.hasPermission(Permissions.gamemodeOther)) {
+        && player.hasPermission(Permissions.GAMEMODE_OTHER)) {
 
       Player target = Bukkit.getPlayer(args[0]);
 

@@ -39,7 +39,7 @@ public class ChestProtectionListener implements Listener {
       if (!(ch.getInventory().getName()
           .equalsIgnoreCase(e.getPlayer().getName())
           || ch.getInventory().getName().equalsIgnoreCase("public") || e
-          .getPlayer().hasPermission(Permissions.openAnyChest))) {
+          .getPlayer().hasPermission(Permissions.OPEN_ANY_CHEST))) {
         e.setCancelled(true);
         e.getPlayer().sendMessage(
             "This chest is protected to"

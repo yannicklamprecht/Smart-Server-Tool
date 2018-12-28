@@ -66,14 +66,14 @@ public class MOTD implements Listener {
       case ALLOWED:
         break;
       case KICK_FULL:
-        if (event.getPlayer().hasPermission(Permissions.joinFull)) {
+        if (event.getPlayer().hasPermission(Permissions.JOIN_FULL)) {
           event.setResult(Result.ALLOWED);
         } else {
           event.setKickMessage(service.getServerfull());
         }
         break;
       case KICK_OTHER:
-        if (event.getPlayer().hasPermission(Permissions.joinService)) {
+        if (event.getPlayer().hasPermission(Permissions.JOIN_SERVICE)) {
           event.setResult(Result.ALLOWED);
         } else {
           event.setKickMessage(

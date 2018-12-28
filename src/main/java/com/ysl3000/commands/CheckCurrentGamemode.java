@@ -43,7 +43,7 @@ public class CheckCurrentGamemode extends CustomCommand {
 
       } else if (args.length == 1) {
 
-        if (player.hasPermission(Permissions.gmlookupOther)) {
+        if (player.hasPermission(Permissions.GM_LOOKUP_OTHER)) {
 
           Player target = Bukkit.getPlayer(args[0]);
           if (target == null) {

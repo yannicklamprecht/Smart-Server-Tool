@@ -42,7 +42,7 @@ public class FlyMode extends CustomCommand {
 
         Player target = Bukkit.getPlayer(args[0]);
 
-        if (player.hasPermission(Permissions.flyOther)) {
+        if (player.hasPermission(Permissions.FLY_OTHER)) {
 
           if (!target.getAllowFlight()
               && !target.isFlying()) {

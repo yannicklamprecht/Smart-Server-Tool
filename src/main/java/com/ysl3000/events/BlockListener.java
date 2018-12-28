@@ -77,13 +77,13 @@ public class BlockListener implements Listener {
   @EventHandler
   public void onbreak(BlockBreakEvent event) {
     event.setCancelled((!event.getPlayer().hasPermission(
-        Permissions.modifyBlock) && !smartSettings.isNoPermissionsNeeded() || event.isCancelled()));
+        Permissions.MODIFY_BLOCK) && !smartSettings.isNoPermissionsNeeded() || event.isCancelled()));
   }
 
   @EventHandler(priority = EventPriority.LOW)
   public void onbuild(BlockPlaceEvent event) {
     event.setCancelled((!event.getPlayer().hasPermission(
-        Permissions.modifyBlock) && !smartSettings.isNoPermissionsNeeded()) || event.isCancelled());
+        Permissions.MODIFY_BLOCK) && !smartSettings.isNoPermissionsNeeded()) || event.isCancelled());
   }
 
   @EventHandler
@@ -216,7 +216,7 @@ public class BlockListener implements Listener {
           .getClickedBlock().getType().equals(Material.CRAFTING_TABLE))) {
         return;
       }
-      if (e.getPlayer().hasPermission(Permissions.interact)) {
+      if (e.getPlayer().hasPermission(Permissions.INTERACT)) {
         return;
       }
       e.setCancelled(true);
@@ -231,14 +231,14 @@ public class BlockListener implements Listener {
     if (e.getAction().equals(Action.RIGHT_CLICK_AIR)) {
 
       if (e.getItem().getType().equals(Material.CRAFTING_TABLE)
-          && e.getPlayer().hasPermission(Permissions.openVWorkBench)) {
+          && e.getPlayer().hasPermission(Permissions.OPEN_VIRTUAL_WORKBENCH)) {
         e.getPlayer().openWorkbench(e.getPlayer().getLocation(), true);
       } else if (e.getItem().getType().equals(Material.ENDER_CHEST)
-          && e.getPlayer().hasPermission(Permissions.openEChest)) {
+          && e.getPlayer().hasPermission(Permissions.OPEN_VIRTUAL_ENDER_CHEST)) {
         e.getPlayer().openInventory(e.getPlayer().getEnderChest());
       } else if (e.getItem().getType().equals(Material.ENCHANTING_TABLE)
           && e.getPlayer().hasPermission(
-          Permissions.openVEnchantingTable)) {
+          Permissions.OBEN_VIRTUAL_ENDCHANTING_TABLE)) {
         e.getPlayer().openEnchanting(e.getPlayer().getLocation(), true);
 
       }
@@ -300,7 +300,7 @@ public class BlockListener implements Listener {
 
   @EventHandler
   public void onplayerrBed(PlayerInteractEvent event) {
-    if (event.getPlayer().hasPermission(Permissions.modifyBlock)
+    if (event.getPlayer().hasPermission(Permissions.MODIFY_BLOCK)
         && event.getAction().equals(Action.RIGHT_CLICK_BLOCK)
         && (event.getClickedBlock().getBlockData() instanceof Bed)) {
 

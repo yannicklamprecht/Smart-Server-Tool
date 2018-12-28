@@ -74,7 +74,7 @@ public class EntityListener implements Listener {
         && (e.getEntity() instanceof Player)) {
       Player p = (Player) e.getEntity();
 
-      if (!p.hasPermission(Permissions.modifyBlock)) {
+      if (!p.hasPermission(Permissions.MODIFY_BLOCK)) {
         e.setCancelled(true);
         e.getBlock().setType(e.getBlock().getType());
       }
@@ -137,7 +137,7 @@ public class EntityListener implements Listener {
       }
     if ((e.getClickedBlock().getType().equals(Material.SPAWNER))
         && (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) && (e.getPlayer()
-        .hasPermission(Permissions.canChangeSpawnerType))
+        .hasPermission(Permissions.CAN_CAHNGE_SPAWNER_TYPE))
         && ((e.getClickedBlock().getState() instanceof CreatureSpawner))) {
       CreatureSpawner cs = (CreatureSpawner) e.getClickedBlock()
           .getState();

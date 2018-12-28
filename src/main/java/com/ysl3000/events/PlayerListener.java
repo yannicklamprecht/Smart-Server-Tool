@@ -50,7 +50,7 @@ public class PlayerListener implements Listener {
     }
     Player target = (Player) etarget;
 
-    if (player.hasPermission(Permissions.playerInfo)) {
+    if (player.hasPermission(Permissions.PLAYER_INFO)) {
       player.sendMessage("Infos of: " + target.getDisplayName());
       player.sendMessage("Foodlevel: " + target.getFoodLevel());
       player.sendMessage("Health: " + "Not available");
@@ -98,7 +98,7 @@ public class PlayerListener implements Listener {
 
   @EventHandler
   public void chatHandler(AsyncPlayerChatEvent e) {
-    if (!e.getPlayer().hasPermission(Permissions.chat)
+    if (!e.getPlayer().hasPermission(Permissions.CHAT)
         && !smartSettings.isNoPermissionsNeeded()) {
       e.setCancelled(true);
       e.getPlayer().sendMessage("NoPermissions");
@@ -109,7 +109,7 @@ public class PlayerListener implements Listener {
   public void onPlayerMove(PlayerMoveEvent e) {
     SmartPlayer smartPlayer = smartPlayers.getPlayerByUUID(e.getPlayer().getUniqueId());
 
-    e.setCancelled((!(e.getPlayer().hasPermission(Permissions.move)
+    e.setCancelled((!(e.getPlayer().hasPermission(Permissions.MOVE)
         || smartSettings.isNoPermissionsNeeded()) && !smartPlayer.isFrozen()));
 
   }
@@ -171,13 +171,13 @@ public class PlayerListener implements Listener {
 
   @EventHandler
   public void nobucketFill(PlayerBucketFillEvent e) {
-    e.setCancelled(!(e.getPlayer().hasPermission(Permissions.interact) || smartSettings
+    e.setCancelled(!(e.getPlayer().hasPermission(Permissions.INTERACT) || smartSettings
         .isNoPermissionsNeeded()));
   }
 
   @EventHandler
   public void nobucketEmpty(PlayerBucketEmptyEvent e) {
-    e.setCancelled(!(e.getPlayer().hasPermission(Permissions.interact) || smartSettings
+    e.setCancelled(!(e.getPlayer().hasPermission(Permissions.INTERACT) || smartSettings
         .isNoPermissionsNeeded()));
   }
 
