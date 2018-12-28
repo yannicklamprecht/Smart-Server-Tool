@@ -1,0 +1,61 @@
+################################################################################
+# everything that is starting with disallow uses permission, if value is true  #
+# possible message variables  %user, %server, %core                            #
+# possible timemessage variables %time                                         #
+################################################################################
+message:
+  enable: true
+  enable-random-chatcolor: true
+  timeformat: MMM dd, yyyy HH%dpmm
+  service:
+    whitelist: You aren't whitelisted on this server
+    ban: You are a Bunny! You got banned from this server
+    serverfull: I'm sorry! The Server is full!
+    is-under-construction: false
+    construction:  Server is under construction
+  player:
+    privatejoinmessage: online%
+    firstjoin:  It's the first time
+    joinmessage: user% on server% running v% b% on core% ! n% It's time% !
+    leftmessage: Player user% left server% !
+world-setting:
+  block-creeper: true
+  prevent-tnt: true
+  block-ender: true
+  xpsave: true
+  prevent-fire-spread: true
+  prevent-lava-spread: true
+  general-spread: true
+  flint-and-steal-spread: true
+  strike-spread: true
+advertising:
+  enabled: true
+  time-between-adverts: 300
+  advert-message: SmartServerTool
+  advert-prefix: [News]
+config-save-interval: 150
+drops:
+  glass-sand-drop: true
+  glassPane-drop: true
+  diamond-ore-drop: true
+  goldenapple-shear: true
+chance:
+  diamond-drop-rate: 3
+  glass-sand-drop-rate: 1
+  glassPane-drop-rate: 1
+Misc:
+  Save-Player-PressPlate: false
+  item-amount: 20
+  Sleeping-Ignored: false
+  adminchat-password: SST
+question:
+  answer: peace
+  unlockGroupName: Builder
+  question: What word doesn't match in the rules??
+disable-physics:
+  Gravel: false
+  Sand: false
+  Torch: true
+  Trapdoor: true
+disable:
+  permission: false

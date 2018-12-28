@@ -1,0 +1,7 @@
+!!com.ysl3000.config.data.WorldSpawnLocation
+worldSpawns:
+  world:
+    name: world
+    x: 0.0
+    y: 0.0
+    z: 0.0

@@ -1,6 +1,9 @@
 .DS_Store
-*.class
 *.project
 *.metadata
 *.settings
 *.classpath
+
+.idea
+target
+!.idea/codeStyles/
