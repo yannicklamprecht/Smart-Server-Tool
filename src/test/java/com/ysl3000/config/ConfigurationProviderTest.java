@@ -12,7 +12,7 @@ import org.junit.Test;
 /**
  * Created by ysl3000
  */
-public class ConfigProviderTest {
+public class ConfigurationProviderTest {
 
   private ConfigurationProvider configurationProvider;
 
@@ -47,7 +47,7 @@ public class ConfigProviderTest {
 
 
   @Test
-  public void nssholeShouldBeaSwearWord() throws IOException {
+  public void assholeShouldBeaSwearWord() throws IOException {
     ISpamConfig spamConfig = configurationProvider.getSpamConfig();
 
     Assert.assertTrue("Asshole should be a spam word", spamConfig.isSpam("asshole"));

@@ -3,6 +3,7 @@ package com.ysl3000.utils;
 import org.bukkit.permissions.Permission;
 
 public class Permissions {
+  private Permissions(){}
 
   public static final Permission gamemodeOther = new Permission(
       "sst.gamemodeo");
