@@ -33,7 +33,7 @@ public class GetWeather extends CustomCommand {
     Player player = (Player) sender;
     if (player.hasPermission(this.getPermission())) {
       player.sendMessage("Current Weather in " + player.getWorld().getName() + " is "
-          + ChatColor.GOLD + (player.getWorld().isThundering()) != null ? "rainy" : "sunny");
+          + ChatColor.GOLD + (player.getWorld().isThundering() ? "rainy" : "sunny"));
     } else {
       sender.sendMessage(this.getPermissionMessage());
     }

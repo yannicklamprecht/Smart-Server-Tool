@@ -17,6 +17,12 @@
           <target>8</target>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.sonarsource.scanner.maven</groupId>
+        <artifactId>sonar-maven-plugin</artifactId>
+        <version>3.5.0.1254</version>
+      </plugin>
+
     </plugins>
   </build>
 
@@ -67,5 +73,30 @@
     </repository>
 
   </repositories>
+
+
+  <profiles>
+    <profile>
+      <id>sonar</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <!-- Optional URL to server. Default value is http://localhost:9000 -->
+        <sonar.host.url>
+          https://sonarcloud.io
+        </sonar.host.url>
+        <sonar.projectKey>
+          yannicklamprecht_Smart-Server-Tool
+        </sonar.projectKey>
+        <sonar.organization>
+          yannicklamprecht-github
+        </sonar.organization>
+        <sonar.login>
+          e908005b7fdef0e610fe7004fbf7def324073625
+        </sonar.login>
+      </properties>
+    </profile>
+  </profiles>
 
 </project>

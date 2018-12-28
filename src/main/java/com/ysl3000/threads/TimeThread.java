@@ -1,12 +1,3 @@
-/**
- * TimeThread.java
- * <p>
- * Created on , 19:11:02 by @author Yannick Lamprecht
- * <p>
- * SmartServerToolRewrote Copyright (C) 11.12.2013  Yannick Lamprecht This program comes with
- * ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under
- * certain conditions;
- */
 package com.ysl3000.threads;
 
 
@@ -31,12 +22,14 @@ public class TimeThread extends Thread {
     this.time = time;
   }
 
+  @Override
   public void run() {
     before.perform();
     try {
       Thread.sleep(this.time);
     } catch (InterruptedException e) {
       e.printStackTrace();
+      Thread.currentThread().interrupt();
     }
     after.perform();
   }
