@@ -1,12 +1,3 @@
-/**
- * DoneCommand.java
- * <p>
- * Created on , 14:27:17 by @author Yannick Lamprecht
- * <p>
- * SmartServerToolRewrote Copyright (C) 11.12.2013  Yannick Lamprecht This program comes with
- * ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under
- * certain conditions;
- */
 package com.ysl3000.commands;
 
 
@@ -20,6 +11,7 @@ import org.bukkit.entity.Player;
 /**
  * @author yannicklamprecht
  */
+// todo add multilanguage support
 public class DoneCommand extends CustomCommand {
 
 
@@ -40,13 +32,13 @@ public class DoneCommand extends CustomCommand {
     Player player = (Player) sender;
     if (player.hasPermission(this.getPermission())) {
       if (args.length == 0) {
-
-        done(player, null); // todo refactor do not pass nullable instead overload method
-
+        done(player);
+        player.sendMessage((ChatColor.RED + "modmode disabled"));
       } else if (args.length == 1) {
-        Player target = player.getServer().getPlayer(
-            args[0]);
-        done(target, player);
+        Player target = player.getServer().getPlayer(args[0]);
+        done(target);
+        target.sendMessage(ChatColor.RED + "modmode disabled by " + player.getName());
+        player.sendMessage(ChatColor.RED + "modmode disabled for " + target.getName());
       }
 
     }
@@ -54,25 +46,15 @@ public class DoneCommand extends CustomCommand {
     return true;
   }
 
-  private void done(Player target, Player player) {
 
+  private void done(Player target) {
     SmartPlayer smartPlayer = smartPlayers.getPlayerByUUID(target.getUniqueId());
-
     if (smartPlayer.isMod()) {
       target.setGameMode(GameMode.SURVIVAL);
       target.getInventory().clear();
       target.getInventory().setContents(smartPlayer.getInventory());
       target.teleport(smartPlayer.getModLocation());
-      target.sendMessage((ChatColor.RED + "modmode disabled"));
       smartPlayer.setMod(false);
-
-      if (player != null) {
-        player.sendMessage((ChatColor.RED
-            + "modmode disabled for " + target
-            .getName()));
-      }
-
     }
-
   }
 }

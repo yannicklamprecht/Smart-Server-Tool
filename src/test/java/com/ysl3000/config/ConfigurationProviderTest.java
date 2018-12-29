@@ -1,8 +1,8 @@
 package com.ysl3000.config;
 
+import com.ysl3000.config.data.SpawnLocation;
 import com.ysl3000.config.data.WorldSpawnLocation;
 import com.ysl3000.config.settings.SmartSettings;
-import com.ysl3000.config.spam.ISpamConfig;
 import java.io.File;
 import java.io.IOException;
 import org.junit.Assert;
@@ -20,44 +20,40 @@ public class ConfigurationProviderTest {
   public void setup() {
     File dataFolder = new File("./src/test/resources/");
     dataFolder.mkdirs();
-    this.configurationProvider = new ConfigurationProvider(dataFolder);
+    this.configurationProvider = new ConfigurationProvider(dataFolder,
+        ClassLoader.getSystemClassLoader());
   }
 
 
   @Test
-  public void testSmartSettings() throws IOException {
-    SmartSettings smartSettings = configurationProvider.getSmartSettings();
+  public void testSmartSettings() {
+    SmartSettings smartSettings = configurationProvider.loadSmartSettings();
+    Assert.assertNotNull(smartSettings);
   }
 
   @Test
-  public void testFirstJoinMessage() throws IOException {
-    SmartSettings smartSettings = configurationProvider.getSmartSettings();
+  public void testFirstJoinMessage() {
+    SmartSettings smartSettings = configurationProvider.loadSmartSettings();
 
     Assert.assertEquals("Message of first join is wrong", "It's the first time",
         smartSettings.getMessages().getPlayer().getFirstJoin());
   }
 
   @Test
-  public void testWorldSettings() throws IOException {
+  public void testWorldSettings() {
     WorldSpawnLocation worldSpawnLocation = configurationProvider.getWorldSpawnLocation();
-
-    worldSpawnLocation.getSpawnpointForWorld("world");
-
-  }
-
-
-  @Test
-  public void assholeShouldBeaSwearWord() throws IOException {
-    ISpamConfig spamConfig = configurationProvider.getSpamConfig();
-
-    Assert.assertTrue("Asshole should be a spam word", spamConfig.isSpam("asshole"));
+    Assert.assertNotNull(worldSpawnLocation);
   }
 
   @Test
-  public void nudesShouldNotBeASwearWord() throws IOException {
-    ISpamConfig spamConfig = configurationProvider.getSpamConfig();
+  public void safeSpawn() throws IOException {
 
-    Assert.assertFalse("Nudes should not be a spam word", spamConfig.isSpam("nudes"));
+    WorldSpawnLocation worldSpawnLocation = new WorldSpawnLocation();
+    worldSpawnLocation.getWorldSpawns().add(new SpawnLocation("world", 1337, 13, 14, 0, 0));
+    worldSpawnLocation.getWorldSpawns().add(new SpawnLocation("world_nether", 1337, 13, 14, 0, 0));
+
+    configurationProvider.saveWorldSpawns(worldSpawnLocation);
+
   }
 
 }

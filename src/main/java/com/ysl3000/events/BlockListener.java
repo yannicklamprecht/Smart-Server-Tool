@@ -144,7 +144,7 @@ public class BlockListener implements Listener {
   }
 
   @EventHandler
-  public void BlockDrops(BlockBreakEvent event) {
+  public void onBlockBreak(BlockBreakEvent event) {
     if (!event.isCancelled()) {
       if (event.getPlayer().getInventory().getItemInMainHand().getEnchantments()
           .containsKey(Enchantment.LOOT_BONUS_BLOCKS)) {

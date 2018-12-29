@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 /**
  * @author yannicklamprecht
  */
+// todo multilang support and some cleanup
 public class FlyMode extends CustomCommand {
 
 
@@ -44,32 +45,25 @@ public class FlyMode extends CustomCommand {
 
         if (player.hasPermission(Permissions.FLY_OTHER)) {
 
-          if (!target.getAllowFlight()
-              && !target.isFlying()) {
+          if (!target.getAllowFlight() && !target.isFlying()) {
 
             target.setAllowFlight(true);
             target.setFlying(true);
-            sender.sendMessage("Set fly on for "
-                + target.getDisplayName());
-            target.sendMessage("You can now fly! Allowed by "
-                + ((Player) sender)
-                .getDisplayName());
+            sender.sendMessage("Set fly on for " + target.getDisplayName());
+            target.sendMessage("You can now fly! Allowed by " + ((Player) sender).getDisplayName());
 
-          } else if (target.getAllowFlight()
-              && !target.isFlying()) {
+          } else if (target.getAllowFlight() && !target.isFlying()) {
 
             target.setFlying(false);
             target.setAllowFlight(false);
-            sender.sendMessage("Set fly off for "
-                + target.getDisplayName());
-            target.sendMessage("Until now you have to walk on feet! Disallowed by "
-                + ((Player) sender)
-                .getDisplayName());
+            sender.sendMessage("Set fly off for " + target.getDisplayName());
+            target.sendMessage(
+                "Until now you have to walk on feet! Disallowed by " + ((Player) sender)
+                    .getDisplayName());
           } else if (target.getAllowFlight()
               && target.isFlying()) {
 
-            sender.sendMessage(target
-                .getDisplayName()
+            sender.sendMessage(target.getDisplayName()
                 + " is flying! Only if player is on earth you can disble that!");
 
           }

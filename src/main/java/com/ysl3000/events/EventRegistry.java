@@ -1,6 +1,7 @@
 package com.ysl3000.events;
 
 import com.ysl3000.SmartPlayers;
+import com.ysl3000.config.data.WorldSpawnWrapper;
 import com.ysl3000.config.settings.SmartSettings;
 import com.ysl3000.utils.Prefix;
 import com.ysl3000.utils.valuemappers.MessageBuilder;
@@ -22,6 +23,7 @@ public class EventRegistry {
   private Prefix prefix;
   private Server server;
   private MessageBuilder messageBuilder;
+  private WorldSpawnWrapper worldSpawnWrapper;
 
   public EventRegistry(JavaPlugin javaPlugin, SmartAdapter smartAdapter) {
     this.pluginManager = javaPlugin.getServer().getPluginManager();
@@ -31,6 +33,7 @@ public class EventRegistry {
     this.prefix = smartAdapter.getPrefix();
     this.server = smartAdapter.getServer();
     this.messageBuilder = smartAdapter.getMessageBuilder();
+    this.worldSpawnWrapper = smartAdapter.getWorldSpawnWrapper();
   }
 
 
@@ -44,7 +47,8 @@ public class EventRegistry {
         new SignListener(),
         new MOTD(smartSettings.getMessages(), prefix, smartSettings.getMisc(),
             server, messageBuilder),
-        new PlayerStateListener(smartPlayers, smartSettings.getWorldSettings())
+        new PlayerStateListener(smartPlayers, smartSettings.getWorldSettings()),
+        new WorldSpawnListener(worldSpawnWrapper)
     );
   }
 
@@ -67,6 +71,8 @@ public class EventRegistry {
     Server getServer();
 
     MessageBuilder getMessageBuilder();
+
+    WorldSpawnWrapper getWorldSpawnWrapper();
   }
 
 

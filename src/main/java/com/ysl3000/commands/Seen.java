@@ -47,7 +47,7 @@ public class Seen extends CustomCommand {
     if (args.length == 0) {
       player.sendMessage("Use /seen <player>");
     } else if (args.length == 1) {
-      OfflinePlayer op = Bukkit.getOfflinePlayer(args[0]);
+      OfflinePlayer op = Bukkit.getServer().getOfflinePlayer(args[0]);
 
       if (op.hasPlayedBefore()) {
         player.sendMessage(ChatColor.GREEN

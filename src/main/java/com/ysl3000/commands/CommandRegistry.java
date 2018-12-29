@@ -1,8 +1,11 @@
 package com.ysl3000.commands;
 
 import com.ysl3000.SmartPlayers;
+import com.ysl3000.config.data.WorldSpawnWrapper;
 import com.ysl3000.utils.Utility;
 import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.SimpleCommandMap;
@@ -12,20 +15,26 @@ import org.bukkit.command.SimpleCommandMap;
  */
 public class CommandRegistry {
 
+  private static final Logger LOGGER = Logger.getLogger(CommandRegistry.class.getName());
+
+  private final WorldSpawnWrapper worldSpawnWrapper;
   private SimpleCommandMap commandMap;
   private SmartPlayers smartPlayers;
   private Utility utility;
 
-  public CommandRegistry(SmartPlayers smartPlayers, Utility utility) {
+  public CommandRegistry(SmartPlayers smartPlayers, Utility utility,
+      WorldSpawnWrapper worldSpawnWrapper) {
     this.smartPlayers = smartPlayers;
     this.utility = utility;
+    this.worldSpawnWrapper = worldSpawnWrapper;
 
     try {
       Class<?> server = Bukkit.getServer().getClass();
       Field commandMapField = server.getDeclaredField("commandMap");
       commandMapField.setAccessible(true);
       this.commandMap = ((SimpleCommandMap) commandMapField.get(Bukkit.getServer()));
-    } catch (Exception ignored) {
+    } catch (Exception e) {
+      LOGGER.throwing("CraftServer", "field:commandMap", e);
     }
 
   }
@@ -53,7 +62,7 @@ public class CommandRegistry {
         new ServerInfo(),
         new PlayerLookUpIp(),
         new SwitchLocation(),
-        new SetSpawn(),
+        new SetSpawn(worldSpawnWrapper),
         new Spawn(),
         new Home(),
         new Walkspeed(),
@@ -68,15 +77,6 @@ public class CommandRegistry {
   }
 
   private void register(Command... commands) {
-    for (Command command : commands) {
-      command.register(commandMap);
-    }
-
+    commandMap.registerAll("sst", Arrays.asList(commands));
   }
-
-
-  private void unregister(Command command) {
-    command.unregister(commandMap);
-  }
-
 }

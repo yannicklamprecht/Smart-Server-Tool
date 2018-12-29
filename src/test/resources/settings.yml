@@ -18,16 +18,18 @@ messages:
   enabled: true
   player:
     firstJoin: It's the first time
-    joinMessage: '%user% on %server% running %v% %b% on %core% ! %n% It''s time% !'
-    leftMessage: Player %user% left %server% !
-    privateJoinMessage: '%online%'
+    joinMessage: "Welcome {player_display_name} on {server_name} running {minecraft_version}\
+      \ {bukkit_version} on {core}! \n It's {time}!"
+    leftMessage: Player {player_display_name} left {server_name}!
+    privateJoinMessage: 'Online({online_players}/{max_players}): {list_players} '
+    tryingToJoinMessage: '{player_name} {login_result} trying to join'
   service:
     ban: You are a Bunny! You got banned from this server
-    construction: Server is under construction
+    construction: '&4Server is under construction'
     serverfull: I'm sorry! The Server is full!
     underConstruction: false
     whitelist: You aren't whitelisted on this server
-  timeformat: MM dd, yyyy HH%dpmm
+  timeformat: MM dd, yyyy HH:mm
 misc:
   defaultStackSize: 64
   enableRandomChatcolor: true

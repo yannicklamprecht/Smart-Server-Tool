@@ -1,11 +1,14 @@
 package com.ysl3000.threads;
 
 
+import java.util.logging.Logger;
+
 /**
  * @author yannicklamprecht
- *
  */
 public class TimeThread extends Thread {
+
+  private static final Logger LOGGER = Logger.getLogger(TimeThread.class.getName());
 
   private long time;
   private TimeAction before;
@@ -28,7 +31,7 @@ public class TimeThread extends Thread {
     try {
       Thread.sleep(this.time);
     } catch (InterruptedException e) {
-      e.printStackTrace();
+      LOGGER.throwing(Thread.class.getName(), "sleep", e);
       Thread.currentThread().interrupt();
     }
     after.perform();
