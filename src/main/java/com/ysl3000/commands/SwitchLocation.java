@@ -1,15 +1,7 @@
-/**
- * SwitchLocation.java
- * <p>
- * Created on , 17:31:35 by @author Yannick Lamprecht
- * <p>
- * SmartServerToolRewrote Copyright (C) 11.12.2013  Yannick Lamprecht This program comes with
- * ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under
- * certain conditions;
- */
 package com.ysl3000.commands;
 
 
+import com.ysl3000.config.settings.CommandConfig;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -22,10 +14,8 @@ import org.bukkit.entity.Player;
 public class SwitchLocation extends CustomCommand {
 
 
-  public SwitchLocation() {
-    super("switch",
-        "swap position with player",
-        "/switch <player>", "sst.switch");
+  public SwitchLocation(CommandConfig commandConfig) {
+    super(commandConfig);
   }
 
   @Override

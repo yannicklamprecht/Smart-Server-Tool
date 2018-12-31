@@ -11,6 +11,7 @@ package com.ysl3000.commands;
 
 
 import com.ysl3000.config.data.WorldSpawnWrapper;
+import com.ysl3000.config.settings.CommandConfig;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -23,9 +24,8 @@ public class SetSpawn extends CustomCommand {
   private WorldSpawnWrapper worldSpawnWrapper;
 
 
-  public SetSpawn(WorldSpawnWrapper worldSpawnWrapper) {
-    super("setsp", "setspawn", "/setsp",
-        "sst.setsp");
+  public SetSpawn(CommandConfig commandConfig,WorldSpawnWrapper worldSpawnWrapper) {
+    super(commandConfig);
     this.worldSpawnWrapper = worldSpawnWrapper;
   }
 

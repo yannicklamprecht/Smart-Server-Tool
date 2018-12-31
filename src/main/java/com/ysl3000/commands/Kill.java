@@ -10,6 +10,7 @@
 package com.ysl3000.commands;
 
 
+import com.ysl3000.config.settings.CommandConfig;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -21,8 +22,8 @@ import org.bukkit.entity.Player;
 public class Kill extends CustomCommand {
 
 
-  public Kill() {
-    super("Kill", "kill player", "/kill <player>", "sst.kill");
+  public Kill(CommandConfig commandConfig) {
+    super(commandConfig);
   }
 
   @Override

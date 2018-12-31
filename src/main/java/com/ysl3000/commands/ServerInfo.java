@@ -1,6 +1,7 @@
 package com.ysl3000.commands;
 
 
+import com.ysl3000.config.settings.CommandConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -13,9 +14,8 @@ import org.bukkit.entity.Player;
 public class ServerInfo extends CustomCommand {
 
 
-  public ServerInfo() {
-    super("serverinfo", "get Serverinfo",
-        "/serverinfo", "sst.info");
+  public ServerInfo(CommandConfig commandConfig) {
+    super(commandConfig);
   }
 
   @Override
@@ -30,6 +30,7 @@ public class ServerInfo extends CustomCommand {
       double max = (((Runtime.getRuntime().maxMemory()) / 1024.0) / 1024);
       int cpu = Runtime.getRuntime().availableProcessors();
 
+      // todo inject message
       sender.sendMessage("Current memoryuse "
           + total
           + "/"

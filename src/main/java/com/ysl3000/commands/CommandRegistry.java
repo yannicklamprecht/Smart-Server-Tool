@@ -25,7 +25,7 @@ public class CommandRegistry {
   private SimpleCommandMap commandMap;
   private SmartPlayers smartPlayers;
   private Utility utility;
-  private CommandConfigContainer commandConfigContainer;
+  private CommandConfigContainer configContainer;
   private PlayerMessage playerMessage;
   private MessageBuilder messageBuilder;
   private JavaPlugin javaPlugin;
@@ -38,7 +38,7 @@ public class CommandRegistry {
     this.smartPlayers = smartPlayers;
     this.utility = utility;
     this.worldSpawnWrapper = worldSpawnWrapper;
-    this.commandConfigContainer = commandConfigContainer;
+    this.configContainer = commandConfigContainer;
     this.playerMessage = playerMessage;
     this.messageBuilder = messageBuilder;
     this.javaPlugin = javaPlugin;
@@ -57,38 +57,38 @@ public class CommandRegistry {
   public void registerCommands() {
 
     register(
-        new AdminCommand(commandConfigContainer.getAdmin()),
-        new BackCommand(commandConfigContainer.getBack(), smartPlayers),
-        new CheckCurrentGamemode(commandConfigContainer.getCurrentGamemode()),
-        new CreativeGamemode(commandConfigContainer.getCreativeGamemode()),
-        new SurvivalGamemode(),
-        new DoneCommand(commandConfigContainer.getDone(), smartPlayers),
-        new FlyMode(commandConfigContainer.getFlyMode()),
-        new FlySpeed(commandConfigContainer.getFlySpeed()),
-        new TimeDay(commandConfigContainer.getTimeDay()),
-        new TimeNight(),
-        new Sun(),
-        new Storm(),
-        new GetWeather(commandConfigContainer.getGetWeather()),
-        new KillMe(),
-        new Kill(),
-        new Heal(commandConfigContainer.getHeal()),
-        new HealMe(commandConfigContainer.getHealMe()),
-        new ServerInfo(),
-        new PlayerLookUpIp(),
-        new SwitchLocation(),
-        new SetSpawn(worldSpawnWrapper),
-        new Spawn(),
-        new Home(commandConfigContainer.getHome()),
-        new Walkspeed(commandConfigContainer.getWalkspeed()),
-        new God(commandConfigContainer.getGod(), smartPlayers),
-        new Online(utility),
-        new Seen(utility),
-        new Freeze(commandConfigContainer.getFreeze(), smartPlayers,
-            playerMessage.getFreezeMessage(), messageBuilder),
-        new RealTime(utility),
-        new ModCommand(smartPlayers),
-        new Configreload(commandConfigContainer.getReload(), javaPlugin)
+        new AdminCommand(configContainer.getAdmin()),
+        new BackCommand(configContainer.getBack(), smartPlayers),
+        new CheckCurrentGamemode(configContainer.getCurrentGamemode()),
+        new CreativeGamemode(configContainer.getCreativeGamemode()),
+        new SurvivalGamemode(configContainer.getSurvivalGamemode()),
+        new DoneCommand(configContainer.getDone(), smartPlayers),
+        new FlyMode(configContainer.getFlyMode()),
+        new FlySpeed(configContainer.getFlySpeed()),
+        new TimeDay(configContainer.getTimeDay()),
+        new TimeNight(configContainer.getTimeNight()),
+        new Sun(configContainer.getSun()),
+        new Storm(configContainer.getStorm()),
+        new GetWeather(configContainer.getGetWeather()),
+        new KillMe(configContainer.getKillMe()),
+        new Kill(configContainer.getKill()),
+        new Heal(configContainer.getHeal()),
+        new HealMe(configContainer.getHealMe()),
+        new ServerInfo(configContainer.getServerInfo()),
+        new PlayerLookUpIp(configContainer.getIp()),
+        new SwitchLocation(configContainer.getSwitchLocations()),
+        new SetSpawn(configContainer.getSetSpawn(), worldSpawnWrapper),
+        new Spawn(configContainer.getSpawn()),
+        new Home(configContainer.getHome()),
+        new Walkspeed(configContainer.getWalkspeed()),
+        new God(configContainer.getGod(), smartPlayers),
+        new Online(configContainer.getOnline(), utility),
+        new Seen(configContainer.getSeen(), utility),
+        new Freeze(configContainer.getFreeze(), smartPlayers, playerMessage.getFreezeMessage(),
+            messageBuilder),
+        new RealTime(configContainer.getRealTime(), utility),
+        new ModCommand(configContainer.getMod(), smartPlayers),
+        new Configreload(configContainer.getReload(), javaPlugin)
     );
 
   }

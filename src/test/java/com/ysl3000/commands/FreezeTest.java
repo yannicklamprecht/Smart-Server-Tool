@@ -3,6 +3,7 @@ package com.ysl3000.commands;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import com.ysl3000.SmartPlayers;
+import com.ysl3000.config.settings.CommandConfigContainer;
 import com.ysl3000.config.settings.Messages;
 import com.ysl3000.stubs.SmartMockBukkit;
 import com.ysl3000.utils.Utility;
@@ -23,14 +24,16 @@ public class FreezeTest {
   private SmartPlayers smartPlayers;
   private MessageBuilder messageBuilder;
   private ServerMock serverMock;
+  private CommandConfigContainer commandConfigContainer;
   @Before
   public void setUp(){
     smartPlayers = new SmartPlayers();
     this.serverMock = MockBukkit.mock();
     Messages messages = new Messages();
+    commandConfigContainer = new CommandConfigContainer();
     this.messageBuilder = new MessageBuilder(serverMock,messages, new Utility(serverMock));
 
-    this.freeze = new Freeze(smartPlayers, messages.getPlayer().getFreezeMessage(),messageBuilder);
+    this.freeze = new Freeze(commandConfigContainer.getFreeze(),smartPlayers, messages.getPlayer().getFreezeMessage(),messageBuilder);
   }
 
   @After
@@ -41,7 +44,7 @@ public class FreezeTest {
 
   @Test
   public void notAPlayer(){
-    Assert.assertTrue(freeze.execute(null,"",new String[]{}));
+    Assert.assertFalse(freeze.execute(null,"",new String[]{}));
   }
 
 

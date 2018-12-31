@@ -10,6 +10,7 @@
 package com.ysl3000.commands;
 
 
+import com.ysl3000.config.settings.CommandConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -24,9 +25,8 @@ import org.bukkit.entity.Player;
 public class Spawn extends CustomCommand {
 
 
-  public Spawn() {
-    super("spawn", "Teleport to Spawn", "/spawn",
-        "sst.spawn");
+  public Spawn(CommandConfig commandConfig) {
+    super(commandConfig);
   }
 
   @Override

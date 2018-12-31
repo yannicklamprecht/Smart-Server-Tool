@@ -1,15 +1,7 @@
-/**
- * Seen.java
- * <p>
- * Created on , 18:55:56 by @author Yannick Lamprecht
- * <p>
- * SmartServerToolRewrote Copyright (C) 11.12.2013  Yannick Lamprecht This program comes with
- * ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under
- * certain conditions;
- */
 package com.ysl3000.commands;
 
 
+import com.ysl3000.config.settings.CommandConfig;
 import com.ysl3000.utils.Utility;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -25,9 +17,8 @@ public class Seen extends CustomCommand {
 
   private final Utility utility;
 
-  public Seen(Utility utility) {
-    super("seen", "check first/last seen",
-        "/seen <player>", "sst.seen");
+  public Seen(CommandConfig commandConfig,Utility utility) {
+    super(commandConfig);
     this.utility = utility;
   }
 

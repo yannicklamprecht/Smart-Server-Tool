@@ -1,8 +1,11 @@
 package com.ysl3000.config.settings;
 
+import lombok.Data;
+
 /**
  * Created by ysl3000
  */
+@Data
 public class CommandConfigContainer {
 
   private CommandConfig freeze = new CommandConfig("freeze", "freezes a player",
@@ -51,127 +54,48 @@ public class CommandConfigContainer {
 
   private CommandConfig timeDay = new CommandConfig("td", "Set time to day", "/td", "sst.time");
 
-  public CommandConfig getFreeze() {
-    return freeze;
-  }
+  private CommandConfig timeNight = new CommandConfig("tn", "Set time to night", "/tn",
+      "sst.time");
 
-  public void setFreeze(CommandConfig freeze) {
-    this.freeze = freeze;
-  }
+  private CommandConfig switchLocations = new CommandConfig("switch",
+      "swap position with player",
+      "/switch <player>", "sst.switch");
 
-  public CommandConfig getAdmin() {
-    return admin;
-  }
+  private CommandConfig survivalGamemode = new CommandConfig("gms", "Set Survival", "/gms",
+      "sst.gamemode");
 
-  public void setAdmin(CommandConfig admin) {
-    this.admin = admin;
-  }
+  private CommandConfig sun = new CommandConfig("sun", "Set sun", "/sun", "sst.weather");
 
-  public CommandConfig getBack() {
-    return back;
-  }
+  private CommandConfig storm = new CommandConfig("storm", "Set storm", "/storm",
+      "sst.weather");
 
-  public void setBack(CommandConfig back) {
-    this.back = back;
-  }
+  private CommandConfig spawn = new CommandConfig("spawn", "Teleport to Spawn", "/spawn",
+      "sst.spawn");
 
-  public CommandConfig getCurrentGamemode() {
-    return currentGamemode;
-  }
+  private CommandConfig setSpawn = new CommandConfig("setsp", "setspawn", "/setsp",
+      "sst.setsp");
 
-  public void setCurrentGamemode(CommandConfig currentGamemode) {
-    this.currentGamemode = currentGamemode;
-  }
+  private CommandConfig serverInfo = new CommandConfig("serverinfo", "get Serverinfo",
+      "/serverinfo", "sst.info");
 
-  public CommandConfig getCreativeGamemode() {
-    return creativeGamemode;
-  }
+  private CommandConfig seen = new CommandConfig("seen", "check first/last seen",
+      "/seen <player>", "sst.seen");
 
-  public void setCreativeGamemode(CommandConfig creativeGamemode) {
-    this.creativeGamemode = creativeGamemode;
-  }
 
-  public CommandConfig getDone() {
-    return done;
-  }
+  private CommandConfig realTime = new CommandConfig("rt", "realtime", "/rt", "");
 
-  public void setDone(CommandConfig done) {
-    this.done = done;
-  }
+  private CommandConfig ip = new CommandConfig("/ip", "get ip of player",
+      "//ip <player>", "sst.ip");
 
-  public CommandConfig getFlyMode() {
-    return flyMode;
-  }
+  private CommandConfig online = new CommandConfig("online", "lists onlineplayer", "/online",
+      "");
 
-  public void setFlyMode(CommandConfig flyMode) {
-    this.flyMode = flyMode;
-  }
+  private CommandConfig mod = new CommandConfig("mod", "enter modmode", "/mod", "sst.mod");
 
-  public CommandConfig getFlySpeed() {
-    return flySpeed;
-  }
 
-  public CommandConfig getGetWeather() {
-    return getWeather;
-  }
+  private CommandConfig killMe = new CommandConfig("km", "kill's yourself", "/km",
+      "sst.km");
 
-  public void setGetWeather(CommandConfig getWeather) {
-    this.getWeather = getWeather;
-  }
+  private CommandConfig kill = new CommandConfig("Kill", "kill player", "/kill <player>", "sst.kill");
 
-  public CommandConfig getHeal() {
-    return heal;
-  }
-
-  public void setHeal(CommandConfig heal) {
-    this.heal = heal;
-  }
-
-  public CommandConfig getHealMe() {
-    return healMe;
-  }
-
-  public void setHealMe(CommandConfig healMe) {
-    this.healMe = healMe;
-  }
-
-  public CommandConfig getHome() {
-    return home;
-  }
-
-  public void setHome(CommandConfig home) {
-    this.home = home;
-  }
-
-  public CommandConfig getGod() {
-    return god;
-  }
-
-  public void setGod(CommandConfig god) {
-    this.god = god;
-  }
-
-  public CommandConfig getReload() {
-    return reload;
-  }
-
-  public void setReload(CommandConfig reload) {
-    this.reload = reload;
-  }
-
-  public CommandConfig getWalkspeed() {
-    return walkspeed;
-  }
-
-  public void setWalkspeed(CommandConfig walkspeed) {
-    this.walkspeed = walkspeed;
-  }
-
-  public CommandConfig getTimeDay() {
-    return timeDay;
-  }
-
-  public void setTimeDay(CommandConfig timeDay) {
-    this.timeDay = timeDay;
-  }
 }

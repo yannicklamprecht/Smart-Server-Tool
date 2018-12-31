@@ -10,6 +10,7 @@
 package com.ysl3000.commands;
 
 
+import com.ysl3000.config.settings.CommandConfig;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -23,9 +24,8 @@ import org.bukkit.entity.Player;
 public class PlayerLookUpIp extends CustomCommand {
 
 
-  public PlayerLookUpIp() {
-    super("/ip", "get ip of player",
-        "//ip <player>", "sst.ip");
+  public PlayerLookUpIp(CommandConfig commandConfig) {
+    super(commandConfig);
   }
 
   @Override

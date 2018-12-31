@@ -11,6 +11,7 @@ package com.ysl3000.commands;
 
 import com.ysl3000.SmartPlayer;
 import com.ysl3000.SmartPlayers;
+import com.ysl3000.config.settings.CommandConfig;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -26,8 +27,9 @@ public class ModCommand extends CustomCommand {
 
   private final SmartPlayers smartPlayers;
 
-  public ModCommand(SmartPlayers smartPlayers) {
-    super("mod", "enter modmode", "/mod", "sst.mod");
+  public ModCommand(CommandConfig commandConfig,
+      SmartPlayers smartPlayers) {
+    super(commandConfig);
     this.smartPlayers = smartPlayers;
   }
 

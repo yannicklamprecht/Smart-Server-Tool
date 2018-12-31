@@ -1,15 +1,7 @@
-/**
- * Online.java
- * <p>
- * Created on , 18:50:44 by @author Yannick Lamprecht
- * <p>
- * SmartServerToolRewrote Copyright (C) 11.12.2013  Yannick Lamprecht This program comes with
- * ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under
- * certain conditions;
- */
 package com.ysl3000.commands;
 
 
+import com.ysl3000.config.settings.CommandConfig;
 import com.ysl3000.utils.Utility;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -23,9 +15,8 @@ public class Online extends CustomCommand {
 
   private Utility utility;
 
-  public Online(Utility utility) {
-    super("online", "lists onlineplayer", "/online",
-        "");
+  public Online(CommandConfig commandConfig,Utility utility) {
+    super(commandConfig);
     this.utility = utility;
   }
 

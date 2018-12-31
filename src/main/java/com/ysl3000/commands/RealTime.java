@@ -10,6 +10,7 @@
 package com.ysl3000.commands;
 
 
+import com.ysl3000.config.settings.CommandConfig;
 import com.ysl3000.utils.Utility;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
@@ -23,8 +24,8 @@ public class RealTime extends CustomCommand {
 
   private final Utility utility;
 
-  public RealTime(Utility utility) {
-    super("rt", "realtime", "/rt", "");
+  public RealTime(CommandConfig commandConfig,Utility utility) {
+    super(commandConfig);
     this.utility = utility;
   }
 

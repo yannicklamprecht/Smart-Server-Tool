@@ -1,6 +1,7 @@
 package com.ysl3000.commands;
 
 
+import com.ysl3000.config.settings.CommandConfig;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -10,9 +11,8 @@ import org.bukkit.entity.Player;
  */
 public class TimeNight extends AbstractTimeCommand {
 
-  public TimeNight() {
-    super("tn", "Set time to night", "/tn",
-        "sst.time");
+  public TimeNight(CommandConfig commandConfig) {
+    super(commandConfig);
   }
 
   @Override

@@ -10,6 +10,7 @@
 package com.ysl3000.commands;
 
 
+import com.ysl3000.config.settings.CommandConfig;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -22,9 +23,8 @@ import org.bukkit.entity.Player;
 public class Storm extends CustomCommand {
 
 
-  public Storm() {
-    super("storm", "Set storm", "/storm",
-        "sst.weather");
+  public Storm(CommandConfig commandConfig) {
+    super(commandConfig);
   }
 
   @Override

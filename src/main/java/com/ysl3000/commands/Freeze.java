@@ -36,7 +36,7 @@ public class Freeze extends CustomCommand {
 
     Player p = (Player) sender;
 
-    if (p.hasPermission(this.getPermission())) {
+    if (testPermission(p)) {
       if (args.length >= 1 && args.length <= 2) {
 
         if (NUMBER.matcher(args[0]).matches()) {
@@ -61,8 +61,6 @@ public class Freeze extends CustomCommand {
         p.sendMessage(freezeMessage.getWrongInput());
       }
 
-    } else {
-      sender.sendMessage(this.getPermissionMessage());
     }
 
     return true;

@@ -49,7 +49,6 @@ public class SmartServerTool extends JavaPlugin {
   public void onEnable() {
     this.prefix = new Prefix(new RandColor());
 
-
     this.smartSettings = new SmartSettings();
 
     Utility utility = new Utility(getServer());
@@ -63,7 +62,8 @@ public class SmartServerTool extends JavaPlugin {
 
     this.messageBuilder = new MessageBuilder(getServer(), smartSettings.getMessages(), utility);
     CommandRegistry commandRegistry = new CommandRegistry(smartPlayers, utility, worldSpawnWrapper,
-        commandConfigContainer, playerMessage, messageBuilder, javaPlugin);
+        smartSettings.getMessages().getCommandConfigContainer(),
+        smartSettings.getMessages().getPlayer(), messageBuilder, this);
     commandRegistry.registerCommands();
     EventRegistry eventRegistry = new EventRegistry(this, new SmartAdapterImpl());
     eventRegistry.register();
