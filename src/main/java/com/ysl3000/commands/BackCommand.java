@@ -2,6 +2,7 @@ package com.ysl3000.commands;
 
 import com.ysl3000.SmartPlayer;
 import com.ysl3000.SmartPlayers;
+import com.ysl3000.config.settings.CommandConfig;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -13,8 +14,8 @@ public class BackCommand extends CustomCommand {
   private SmartPlayers smartPlayers;
 
 
-  public BackCommand(SmartPlayers smartPlayers) {
-    super("back", "tp to last location", "/back", "");
+  public BackCommand(CommandConfig commandConfig,SmartPlayers smartPlayers) {
+    super(commandConfig);
     this.smartPlayers = smartPlayers;
   }
 

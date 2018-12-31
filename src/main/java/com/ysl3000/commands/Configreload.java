@@ -1,21 +1,21 @@
 package com.ysl3000.commands;
 
-import com.ysl3000.SmartServerTool;
+import com.ysl3000.config.settings.CommandConfig;
 import org.bukkit.command.CommandSender;
+import org.bukkit.plugin.java.JavaPlugin;
 
 public class Configreload extends CustomCommand {
 
-  private SmartServerTool smartServerTool;
+  private JavaPlugin javaPlugin;
 
-  public Configreload(SmartServerTool smartServerTool) {
-    super("smartreload", "Reloads SmartServerTool config", "/smartreload",
-        "sst.reload");
-    this.smartServerTool = smartServerTool;
+  public Configreload(CommandConfig commandConfig, JavaPlugin javaPlugin) {
+    super(commandConfig);
+    this.javaPlugin = javaPlugin;
   }
 
   @Override
   public boolean execute(CommandSender commandSender, String s, String[] strings) {
-    smartServerTool.reloadConfig();
+    javaPlugin.reloadConfig();
     return true;
   }
 }

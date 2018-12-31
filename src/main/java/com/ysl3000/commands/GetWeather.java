@@ -10,6 +10,7 @@
 package com.ysl3000.commands;
 
 
+import com.ysl3000.config.settings.CommandConfig;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,12 +18,11 @@ import org.bukkit.entity.Player;
 
 /**
  * @author yannicklamprecht
- *
  */
 public class GetWeather extends CustomCommand {
 
-  public GetWeather() {
-    super("wg", "get weather", "/wg", "sst.wg");
+  public GetWeather(CommandConfig commandConfig) {
+    super(commandConfig);
   }
 
   @Override

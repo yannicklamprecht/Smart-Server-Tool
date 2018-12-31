@@ -10,6 +10,7 @@
 package com.ysl3000.commands;
 
 
+import com.ysl3000.config.settings.CommandConfig;
 import com.ysl3000.utils.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -21,8 +22,8 @@ import org.bukkit.entity.Player;
  */
 public class CheckCurrentGamemode extends CustomCommand {
 
-  public CheckCurrentGamemode() {
-    super("gm", "Current GameMode", "/gm", "sst.gm");
+  public CheckCurrentGamemode(CommandConfig commandConfig) {
+    super(commandConfig);
   }
 
   @Override

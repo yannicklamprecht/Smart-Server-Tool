@@ -11,6 +11,8 @@ public class PlayerMessage {
   private String leftMessage = "Player {player_display_name} left {server_name}!";
   private String tryingToJoinMessage = "{player_name} {login_result} trying to join";
 
+  private FreezeMessage freezeMessage = new FreezeMessage();
+
 
   public String getPrivateJoinMessage() {
     return privateJoinMessage;
@@ -50,5 +52,13 @@ public class PlayerMessage {
 
   public void setTryingToJoinMessage(String tryingToJoinMessage) {
     this.tryingToJoinMessage = tryingToJoinMessage;
+  }
+
+  public FreezeMessage getFreezeMessage() {
+    return freezeMessage;
+  }
+
+  public void setFreezeMessage(FreezeMessage freezeMessage) {
+    this.freezeMessage = freezeMessage;
   }
 }

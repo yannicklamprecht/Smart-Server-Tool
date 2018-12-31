@@ -1,6 +1,7 @@
 package com.ysl3000.commands;
 
 
+import com.ysl3000.config.settings.CommandConfig;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -11,8 +12,8 @@ import org.bukkit.entity.Player;
 public class TimeDay extends AbstractTimeCommand {
 
 
-  public TimeDay() {
-    super("td", "Set time to day", "/td", "sst.time");
+  public TimeDay(CommandConfig commandConfig) {
+    super(commandConfig);
   }
 
   @Override

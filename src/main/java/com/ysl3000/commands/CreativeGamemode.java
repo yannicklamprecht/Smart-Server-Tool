@@ -10,6 +10,7 @@
 package com.ysl3000.commands;
 
 
+import com.ysl3000.config.settings.CommandConfig;
 import com.ysl3000.utils.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -24,9 +25,8 @@ import org.bukkit.entity.Player;
 public class CreativeGamemode extends CustomCommand {
 
 
-  public CreativeGamemode() {
-    super("gmc", "Set Creative", "/gmc",
-        "sst.gamemode");
+  public CreativeGamemode(CommandConfig commandConfig) {
+    super(commandConfig);
   }
 
   @Override

@@ -12,6 +12,7 @@ package com.ysl3000.commands;
 
 import com.ysl3000.SmartPlayer;
 import com.ysl3000.SmartPlayers;
+import com.ysl3000.config.settings.CommandConfig;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -23,8 +24,8 @@ public class God extends CustomCommand {
   private SmartPlayers smartPlayers;
 
 
-  public God(SmartPlayers smartPlayers) {
-    super("god", "Toggle godmode", "/god", "sst.god");
+  public God(CommandConfig commandConfig,SmartPlayers smartPlayers) {
+    super(commandConfig);
     this.smartPlayers = smartPlayers;
   }
 

@@ -1,10 +1,7 @@
 package com.ysl3000.commands;
 
-/**
- * Created by ysl3000
- */
 
-
+import com.ysl3000.config.settings.CommandConfig;
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.command.Command;
@@ -12,9 +9,10 @@ import org.bukkit.command.Command;
 public abstract class CustomCommand
     extends Command {
 
-  public CustomCommand(String name, String description, String usageMessage, String permission) {
-    super(name, description, usageMessage, new ArrayList<String>());
-    setPermission(permission);
+  public CustomCommand(CommandConfig commandConfig) {
+    super(commandConfig.getName(), commandConfig.getDescription(), commandConfig.getUsageMessage(),
+        new ArrayList<>());
+    setPermission(commandConfig.getPermission());
   }
 
 

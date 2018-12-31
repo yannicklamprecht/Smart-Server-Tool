@@ -10,6 +10,7 @@
 package com.ysl3000.commands;
 
 
+import com.ysl3000.config.settings.CommandConfig;
 import com.ysl3000.utils.Permissions;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -22,9 +23,8 @@ import org.bukkit.entity.Player;
 public class Home extends CustomCommand {
 
 
-  public Home() {
-    super("home", "teleport to home", "/home",
-        "sst.home");
+  public Home(CommandConfig commandConfig) {
+    super(commandConfig);
   }
 
   @Override
@@ -44,13 +44,11 @@ public class Home extends CustomCommand {
           if (player.hasPermission(Permissions.HOME_OTHER)) {
 
             if (player.getServer().getPlayer(args[0]).isOnline()) {
-              Player target;
-              target = player.getServer().getPlayer(args[0]);
+              Player target = player.getServer().getPlayer(args[0]);
               player.teleport(target.getPlayer()
                   .getBedSpawnLocation());
             } else {
-              OfflinePlayer ofp;
-              ofp = player.getServer().getOfflinePlayer(args[0]);
+              OfflinePlayer ofp = player.getServer().getOfflinePlayer(args[0]);
               player.teleport(ofp.getBedSpawnLocation());
             }
           }

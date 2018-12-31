@@ -10,6 +10,7 @@
 package com.ysl3000.commands;
 
 
+import com.ysl3000.config.settings.CommandConfig;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -20,8 +21,8 @@ import org.bukkit.entity.Player;
  */
 public class FlySpeed extends CustomCommand {
 
-  public FlySpeed() {
-    super("fs", "Set flyspeed", "/fs <amount>", "");
+  public FlySpeed(CommandConfig commandConfig) {
+    super(commandConfig);
 
   }
 

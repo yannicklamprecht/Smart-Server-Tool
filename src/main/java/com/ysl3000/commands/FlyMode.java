@@ -1,5 +1,6 @@
 package com.ysl3000.commands;
 
+import com.ysl3000.config.settings.CommandConfig;
 import com.ysl3000.utils.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -12,8 +13,8 @@ import org.bukkit.entity.Player;
 public class FlyMode extends CustomCommand {
 
 
-  public FlyMode() {
-    super("fly", "toggle fly", "/fly <player>", "sst.fly");
+  public FlyMode(CommandConfig commandConfig) {
+    super(commandConfig);
   }
 
   @Override

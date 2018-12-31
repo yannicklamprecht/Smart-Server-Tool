@@ -10,6 +10,7 @@
 package com.ysl3000.commands;
 
 
+import com.ysl3000.config.settings.CommandConfig;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -22,8 +23,8 @@ import org.bukkit.entity.Player;
 public class Heal extends CustomCommand {
 
 
-  public Heal() {
-    super("heal", "heal someone", "/heal <player>", "sst.heal");
+  public Heal(CommandConfig commandConfig) {
+    super(commandConfig);
   }
 
   @Override

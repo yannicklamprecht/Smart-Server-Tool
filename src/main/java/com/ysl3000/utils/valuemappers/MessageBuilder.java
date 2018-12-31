@@ -43,5 +43,8 @@ public class MessageBuilder {
     mappers.forEach(valueMapper -> valueMapper.injectPlaceholder(messageWrapper));
     return messageWrapper;
   }
+  public String injectParameter(String message, Object... objects){
+    return replaceMessageValues(MessageWrapper.of(message,objects)).getMessage();
+  }
 
 }

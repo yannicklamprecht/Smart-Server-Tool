@@ -13,6 +13,7 @@ public class Messages {
   private String timeformat = "MM dd, yyyy HH:mm";
   private Service service = new Service();
   private PlayerMessage player = new PlayerMessage();
+  private CommandConfigContainer commandConfigContainer = new CommandConfigContainer();
 
 
   public boolean isEnabled() {
@@ -53,5 +54,14 @@ public class Messages {
 
   public void setPlayer(PlayerMessage player) {
     this.player = player;
+  }
+
+  public CommandConfigContainer getCommandConfigContainer() {
+    return commandConfigContainer;
+  }
+
+  public void setCommandConfigContainer(
+      CommandConfigContainer commandConfigContainer) {
+    this.commandConfigContainer = commandConfigContainer;
   }
 }

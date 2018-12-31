@@ -3,6 +3,7 @@ package com.ysl3000.commands;
 
 import com.ysl3000.SmartPlayer;
 import com.ysl3000.SmartPlayers;
+import com.ysl3000.config.settings.CommandConfig;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
@@ -18,8 +19,8 @@ public class DoneCommand extends CustomCommand {
   private SmartPlayers smartPlayers;
 
 
-  public DoneCommand(SmartPlayers smartPlayers) {
-    super("done", "Leave modmode", "/done", "sst.mod");
+  public DoneCommand(CommandConfig commandConfig,SmartPlayers smartPlayers) {
+    super(commandConfig);
     this.smartPlayers = smartPlayers;
   }
 

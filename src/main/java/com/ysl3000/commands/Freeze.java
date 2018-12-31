@@ -3,23 +3,29 @@ package com.ysl3000.commands;
 
 import com.ysl3000.SmartPlayer;
 import com.ysl3000.SmartPlayers;
+import com.ysl3000.config.settings.CommandConfig;
+import com.ysl3000.config.settings.messages.FreezeMessage;
 import com.ysl3000.threads.TimeThread;
+import com.ysl3000.utils.valuemappers.MessageBuilder;
+import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-/**
- * @author yannicklamprecht
- */
 public class Freeze extends CustomCommand {
 
-  private SmartPlayers smartPlayers;
+  private static final Pattern NUMBER = Pattern.compile("\\d");
 
-  public Freeze(SmartPlayers smartPlayers) {
-    super("freeze", "freezes a player",
-        "/freeze <player>", "sst.freeze");
+  private SmartPlayers smartPlayers;
+  private FreezeMessage freezeMessage;
+  private MessageBuilder messageBuilder;
+
+  public Freeze(CommandConfig commandConfig, SmartPlayers smartPlayers, FreezeMessage freezeMessage,
+      MessageBuilder messageBuilder) {
+    super(commandConfig);
     this.smartPlayers = smartPlayers;
+    this.freezeMessage = freezeMessage;
+    this.messageBuilder = messageBuilder;
   }
 
   @Override
@@ -33,23 +39,26 @@ public class Freeze extends CustomCommand {
     if (p.hasPermission(this.getPermission())) {
       if (args.length >= 1 && args.length <= 2) {
 
-        try {
+        if (NUMBER.matcher(args[0]).matches()) {
           long time = Long.parseLong(args[0]);
 
           if (args.length == 1) {
             freezePlayer(p, time);
-
+            sender.sendMessage(freezeMessage.getFreezeSelfMessage());
           } else {
             Player target = Bukkit.getPlayer(args[1]);
-            freezePlayer(target, p, time);
+            freezePlayer(target, time);
+            sender.sendMessage(
+                messageBuilder.injectParameter(freezeMessage.getSenderFreezeMessage(), target));
+            p.sendMessage(
+                messageBuilder.injectParameter(freezeMessage.getTargetFreezeMessage(), p));
           }
-
-        } catch (NumberFormatException e) {
-          return true;
+        } else {
+          sender.sendMessage(
+              messageBuilder.injectParameter(freezeMessage.getParamterNotANumber(), args[0]));
         }
       } else {
-
-        p.sendMessage(ChatColor.RED + "Wrong Input");
+        p.sendMessage(freezeMessage.getWrongInput());
       }
 
     } else {
@@ -59,23 +68,14 @@ public class Freeze extends CustomCommand {
     return true;
   }
 
-  private void freezePlayer(Player p, Player sender, long time) {
-    freezePlayer(p, time);
-    // todo send messages to sender
-
-  }
-
   private void freezePlayer(final Player p, long time) {
-
-    // todo send messages to target
     SmartPlayer smartPlayer = smartPlayers.getPlayerByUUID(p.getUniqueId());
 
     if (!smartPlayer.isFrozen()) {
       new TimeThread(time, () -> smartPlayer.setFrozen(true), () -> {
         smartPlayer.setFrozen(false);
-        p.sendMessage("You're now allowed to move");
+        p.sendMessage(freezeMessage.getYouAreNotAllowedToMove());
       });
-
     } else {
       smartPlayer.setFrozen(false);
     }
