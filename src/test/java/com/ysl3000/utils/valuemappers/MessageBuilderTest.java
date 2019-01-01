@@ -4,9 +4,10 @@ import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import be.seeseemelk.mockbukkit.WorldMock;
 import com.ysl3000.config.settings.Messages;
-import com.ysl3000.stubs.SmartMockBukkit;
-import com.ysl3000.stubs.SmartPlayerMock;
-import com.ysl3000.stubs.SmartServerMock;
+import com.ysl3000.stubs.SmartBukkitStub;
+import com.ysl3000.stubs.SmartPlayerStub;
+import com.ysl3000.stubs.SmartServerStub;
+import com.ysl3000.stubs.SmartWorldStub;
 import com.ysl3000.utils.MessageWrapper;
 import com.ysl3000.utils.Utility;
 import java.util.UUID;
@@ -25,11 +26,12 @@ public class MessageBuilderTest {
   private MessageBuilder messageBuilder;
 
   private ServerMock server;
+  private WorldMock worldMock;
 
   @Before
   public void setUp() {
-
-    this.server = new SmartServerMock(new WorldMock());
+    this.worldMock = new SmartWorldStub();
+    this.server = new SmartServerStub(worldMock);
 
     Messages messages = new Messages();
     Utility utility = new Utility(server);
@@ -38,8 +40,8 @@ public class MessageBuilderTest {
   }
 
   @After
-  public void tearDown(){
-    SmartMockBukkit.unset();
+  public void tearDown() {
+    SmartBukkitStub.unset();
   }
 
 
@@ -54,7 +56,7 @@ public class MessageBuilderTest {
   public void shouldInjectPlayerName() {
 
     server = MockBukkit.mock();
-    Player player = new SmartPlayerMock(server, "SmartServerTool", new UUID(1, 2));
+    Player player = new SmartPlayerStub(server, "SmartServerTool", new UUID(1, 2));
 
     MessageWrapper messageWrapper = MessageWrapper.of("Hey {player_name}", player);
     String message = this.messageBuilder.replaceMessageValues(messageWrapper).getMessage();
@@ -75,4 +77,33 @@ public class MessageBuilderTest {
     Assert.assertEquals("LoginResult should be injected successfully",
         "Kicked because your're banned", message);
   }
+
+  @Test
+  public void shouldSelectRainyWeather() {
+
+    worldMock.setThundering(true);
+
+    String message = this.messageBuilder
+        .injectParameter("The Weather is {weather{rainy:sunny}}", worldMock);
+
+    Assert.assertEquals("Weather should be injected successfully",
+        "The Weather is rainy", message);
+
+
+  }
+
+  @Test
+  public void shouldSelectSunnyWeather() {
+
+    worldMock.setThundering(false);
+
+    String message = this.messageBuilder
+        .injectParameter("The Weather is {weather{rainy:sunny}}", worldMock);
+
+    Assert.assertEquals("Weather should be injected successfully",
+        "The Weather is sunny", message);
+
+
+  }
+
 }

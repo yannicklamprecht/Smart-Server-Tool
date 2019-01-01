@@ -6,11 +6,11 @@ import org.bukkit.World;
 /**
  * Created by ysl3000
  */
-public class SmartServerMock extends ServerMock {
+public class SmartServerStub extends ServerMock {
 
   private World world;
 
-  public SmartServerMock(World world) {
+  public SmartServerStub(World world) {
     this.world = world;
   }
 

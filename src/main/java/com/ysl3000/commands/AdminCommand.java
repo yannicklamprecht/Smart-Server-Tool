@@ -1,7 +1,7 @@
 package com.ysl3000.commands;
 
-import com.ysl3000.config.settings.CommandConfig;
-import org.bukkit.ChatColor;
+import com.ysl3000.config.settings.messages.commands.AdminCommandMessage;
+import com.ysl3000.utils.valuemappers.MessageBuilder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -12,8 +12,13 @@ import org.bukkit.entity.Player;
 public class AdminCommand extends CustomCommand {
 
 
-  public AdminCommand(CommandConfig commandConfig) {
+  private MessageBuilder messageBuilder;
+  private AdminCommandMessage adminCommandMessage;
+
+  public AdminCommand(AdminCommandMessage commandConfig, MessageBuilder messageBuilder) {
     super(commandConfig);
+    this.adminCommandMessage = commandConfig;
+    this.messageBuilder = messageBuilder;
   }
 
   public boolean execute(CommandSender sender, String s, String[] args) {
@@ -26,7 +31,8 @@ public class AdminCommand extends CustomCommand {
 
         player.setOp(true);
 
-        player.sendMessage((ChatColor.GREEN + "Op enabled"));
+        player
+            .sendMessage(messageBuilder.injectParameter(adminCommandMessage.getOperatorEnabled()));
 
       } else if (player.isOp()
           && player
@@ -34,10 +40,12 @@ public class AdminCommand extends CustomCommand {
 
         player.setOp(false);
 
-        player.sendMessage((ChatColor.RED + "Op disabled"));
+        player
+            .sendMessage(messageBuilder.injectParameter(adminCommandMessage.getOperatorDisabled()));
       }
     } else if (args.length == 1) {
-      player.sendMessage("please use /deop <player>");
+      player.sendMessage(
+          messageBuilder.injectParameter(adminCommandMessage.getPleaseUseDeopPlayer()));
     }
 
     return true;

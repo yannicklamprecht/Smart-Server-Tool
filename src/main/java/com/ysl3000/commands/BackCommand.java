@@ -2,7 +2,8 @@ package com.ysl3000.commands;
 
 import com.ysl3000.SmartPlayer;
 import com.ysl3000.SmartPlayers;
-import com.ysl3000.config.settings.CommandConfig;
+import com.ysl3000.config.settings.messages.commands.BackCommandMessage;
+import com.ysl3000.utils.valuemappers.MessageBuilder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -11,12 +12,16 @@ import org.bukkit.entity.Player;
  */
 public class BackCommand extends CustomCommand {
 
+  private final MessageBuilder messageBuilder;
   private SmartPlayers smartPlayers;
+  private BackCommandMessage backCommandMessage;
 
-
-  public BackCommand(CommandConfig commandConfig,SmartPlayers smartPlayers) {
+  public BackCommand(BackCommandMessage commandConfig, MessageBuilder messageBuilder,
+      SmartPlayers smartPlayers) {
     super(commandConfig);
+    this.messageBuilder = messageBuilder;
     this.smartPlayers = smartPlayers;
+    this.backCommandMessage = commandConfig;
   }
 
   @Override
@@ -30,7 +35,8 @@ public class BackCommand extends CustomCommand {
     SmartPlayer smartPlayer = smartPlayers.getPlayerByUUID(player.getUniqueId());
 
     if (smartPlayer.getLastLocation() == null) {
-      player.sendMessage("Last location not found");
+      player.sendMessage(
+          messageBuilder.injectParameter(backCommandMessage.getLastLocationNotFound()));
       return true;
     }
     player.teleport(smartPlayer.getLastLocation());

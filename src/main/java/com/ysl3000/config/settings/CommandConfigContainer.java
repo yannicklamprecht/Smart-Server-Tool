@@ -1,5 +1,14 @@
 package com.ysl3000.config.settings;
 
+import com.ysl3000.config.settings.messages.commands.AdminCommandMessage;
+import com.ysl3000.config.settings.messages.commands.BackCommandMessage;
+import com.ysl3000.config.settings.messages.commands.CheckCurrentGamemodeCommandMessage;
+import com.ysl3000.config.settings.messages.commands.DoneCommandMessage;
+import com.ysl3000.config.settings.messages.commands.FlyModeCommandMessage;
+import com.ysl3000.config.settings.messages.commands.FreezeCommandMessage;
+import com.ysl3000.config.settings.messages.commands.GamemodeCreativeCommandMessage;
+import com.ysl3000.config.settings.messages.commands.GamemodeSurvivalCommandMessage;
+import com.ysl3000.config.settings.messages.commands.GetWeatherCommandMessage;
 import lombok.Data;
 
 /**
@@ -8,29 +17,25 @@ import lombok.Data;
 @Data
 public class CommandConfigContainer {
 
-  private CommandConfig freeze = new CommandConfig("freeze", "freezes a player",
-      "/freeze <player>", "sst.freeze");
+  private FreezeCommandMessage freeze = new FreezeCommandMessage();
 
-  private CommandConfig admin = new CommandConfig("/admin", "Toggle op", "//admin", "sst.admin");
+  private AdminCommandMessage admin = new AdminCommandMessage();
 
-  private CommandConfig back = new CommandConfig("back", "tp to last location", "/back", "");
+  private BackCommandMessage back = new BackCommandMessage();
 
-  private CommandConfig currentGamemode = new CommandConfig("gm", "Current GameMode", "/gm",
-      "sst.gm");
+  private CheckCurrentGamemodeCommandMessage currentGamemode = new CheckCurrentGamemodeCommandMessage();
 
-  private CommandConfig creativeGamemode = new CommandConfig("gmc", "Set Creative", "/gmc",
-      "sst.gamemode");
+  private GamemodeCreativeCommandMessage creativeGamemode = new GamemodeCreativeCommandMessage();
 
-  private CommandConfig done = new CommandConfig("done", "Leave modmode", "/done", "sst.mod");
+  private DoneCommandMessage done = new DoneCommandMessage();
 
 
-  private CommandConfig flyMode = new CommandConfig("fly", "toggle fly", "/fly <player>",
-      "sst.fly");
+  private FlyModeCommandMessage flyMode = new FlyModeCommandMessage();
 
   private CommandConfig flySpeed = new CommandConfig("fs", "Set flyspeed", "/fs <amount>", "");
 
 
-  private CommandConfig getWeather = new CommandConfig("wg", "get weather", "/wg", "sst.wg");
+  private GetWeatherCommandMessage getWeather = new GetWeatherCommandMessage();
 
   private CommandConfig heal = new CommandConfig("heal", "heal someone", "/heal <player>",
       "sst.heal");
@@ -61,8 +66,7 @@ public class CommandConfigContainer {
       "swap position with player",
       "/switch <player>", "sst.switch");
 
-  private CommandConfig survivalGamemode = new CommandConfig("gms", "Set Survival", "/gms",
-      "sst.gamemode");
+  private GamemodeSurvivalCommandMessage survivalGamemode = new GamemodeSurvivalCommandMessage();
 
   private CommandConfig sun = new CommandConfig("sun", "Set sun", "/sun", "sst.weather");
 
@@ -96,6 +100,7 @@ public class CommandConfigContainer {
   private CommandConfig killMe = new CommandConfig("km", "kill's yourself", "/km",
       "sst.km");
 
-  private CommandConfig kill = new CommandConfig("Kill", "kill player", "/kill <player>", "sst.kill");
+  private CommandConfig kill = new CommandConfig("Kill", "kill player", "/kill <player>",
+      "sst.kill");
 
 }

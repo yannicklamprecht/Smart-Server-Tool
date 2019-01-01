@@ -3,25 +3,26 @@ package com.ysl3000.commands;
 
 import com.ysl3000.SmartPlayer;
 import com.ysl3000.SmartPlayers;
-import com.ysl3000.config.settings.CommandConfig;
-import org.bukkit.ChatColor;
+import com.ysl3000.config.settings.messages.commands.DoneCommandMessage;
+import com.ysl3000.utils.valuemappers.MessageBuilder;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-/**
- * @author yannicklamprecht
- */
-// todo add multilanguage support
 public class DoneCommand extends CustomCommand {
 
 
   private SmartPlayers smartPlayers;
+  private DoneCommandMessage doneCommandMessage;
+  private MessageBuilder messageBuilder;
 
 
-  public DoneCommand(CommandConfig commandConfig,SmartPlayers smartPlayers) {
+  public DoneCommand(DoneCommandMessage commandConfig, SmartPlayers smartPlayers,
+      MessageBuilder messageBuilder) {
     super(commandConfig);
     this.smartPlayers = smartPlayers;
+    this.doneCommandMessage = commandConfig;
+    this.messageBuilder = messageBuilder;
   }
 
   @Override
@@ -34,12 +35,14 @@ public class DoneCommand extends CustomCommand {
     if (player.hasPermission(this.getPermission())) {
       if (args.length == 0) {
         done(player);
-        player.sendMessage((ChatColor.RED + "modmode disabled"));
+        player.sendMessage(doneCommandMessage.getModmodeDisabled());
       } else if (args.length == 1) {
         Player target = player.getServer().getPlayer(args[0]);
         done(target);
-        target.sendMessage(ChatColor.RED + "modmode disabled by " + player.getName());
-        player.sendMessage(ChatColor.RED + "modmode disabled for " + target.getName());
+        target.sendMessage(
+            messageBuilder.injectParameter(doneCommandMessage.getDoneTarget(), player));
+        player.sendMessage(
+            messageBuilder.injectParameter(doneCommandMessage.getDoneSender(), target));
       }
 
     }

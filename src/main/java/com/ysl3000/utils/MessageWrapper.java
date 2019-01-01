@@ -3,6 +3,7 @@ package com.ysl3000.utils;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 /**
  * Created by ysl3000
@@ -50,6 +51,13 @@ public class MessageWrapper {
   public MessageWrapper replace(String placeholder, String value) {
     if (message.contains(placeholder)) {
       this.message = this.message.replace(placeholder, value);
+    }
+    return this;
+  }
+
+  public MessageWrapper replace(Pattern pattern, String value) {
+    if (pattern.matcher(message).matches()) {
+      this.message = pattern.matcher(message).replaceAll(value);
     }
     return this;
   }

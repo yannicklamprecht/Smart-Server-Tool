@@ -1,7 +1,7 @@
 package com.ysl3000.config.data;
 
 import be.seeseemelk.mockbukkit.ServerMock;
-import com.ysl3000.stubs.SmartMockBukkit;
+import com.ysl3000.stubs.SmartBukkitStub;
 import org.bukkit.Location;
 import org.junit.After;
 import org.junit.Assert;
@@ -24,7 +24,7 @@ public class WorldSpawnLocationTest {
 
   @Before
   public void setUp() {
-    ServerMock serverMock = SmartMockBukkit.mock();
+    ServerMock serverMock = SmartBukkitStub.mock();
     this.location = new Location(serverMock.addSimpleWorld(WORLD_NAME), 1337, 144, 42);
     this.worldSpawns = new WorldSpawnLocation();
     this.worldSpawnWrapper = new WorldSpawnWrapper(worldSpawns);
@@ -57,7 +57,7 @@ public class WorldSpawnLocationTest {
 
   @After
   public void after(){
-    SmartMockBukkit.unset();
+    SmartBukkitStub.unset();
   }
 
   private boolean containsKey(String name){

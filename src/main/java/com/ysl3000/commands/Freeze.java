@@ -3,8 +3,7 @@ package com.ysl3000.commands;
 
 import com.ysl3000.SmartPlayer;
 import com.ysl3000.SmartPlayers;
-import com.ysl3000.config.settings.CommandConfig;
-import com.ysl3000.config.settings.messages.FreezeMessage;
+import com.ysl3000.config.settings.messages.commands.FreezeCommandMessage;
 import com.ysl3000.threads.TimeThread;
 import com.ysl3000.utils.valuemappers.MessageBuilder;
 import java.util.regex.Pattern;
@@ -17,15 +16,15 @@ public class Freeze extends CustomCommand {
   private static final Pattern NUMBER = Pattern.compile("\\d");
 
   private SmartPlayers smartPlayers;
-  private FreezeMessage freezeMessage;
+  private FreezeCommandMessage freezeCommandMessage;
   private MessageBuilder messageBuilder;
 
-  public Freeze(CommandConfig commandConfig, SmartPlayers smartPlayers, FreezeMessage freezeMessage,
+  public Freeze(FreezeCommandMessage commandConfig, SmartPlayers smartPlayers,
       MessageBuilder messageBuilder) {
     super(commandConfig);
     this.smartPlayers = smartPlayers;
-    this.freezeMessage = freezeMessage;
     this.messageBuilder = messageBuilder;
+    this.freezeCommandMessage = commandConfig;
   }
 
   @Override
@@ -44,21 +43,21 @@ public class Freeze extends CustomCommand {
 
           if (args.length == 1) {
             freezePlayer(p, time);
-            sender.sendMessage(freezeMessage.getFreezeSelfMessage());
+            sender.sendMessage(freezeCommandMessage.getFreezeSelfMessage());
           } else {
             Player target = Bukkit.getPlayer(args[1]);
             freezePlayer(target, time);
             sender.sendMessage(
-                messageBuilder.injectParameter(freezeMessage.getSenderFreezeMessage(), target));
+                messageBuilder.injectParameter(freezeCommandMessage.getSenderFreezeMessage(), target));
             p.sendMessage(
-                messageBuilder.injectParameter(freezeMessage.getTargetFreezeMessage(), p));
+                messageBuilder.injectParameter(freezeCommandMessage.getTargetFreezeMessage(), p));
           }
         } else {
           sender.sendMessage(
-              messageBuilder.injectParameter(freezeMessage.getParamterNotANumber(), args[0]));
+              messageBuilder.injectParameter(freezeCommandMessage.getParamterNotANumber(), args[0]));
         }
       } else {
-        p.sendMessage(freezeMessage.getWrongInput());
+        p.sendMessage(freezeCommandMessage.getWrongInput());
       }
 
     }
@@ -72,7 +71,7 @@ public class Freeze extends CustomCommand {
     if (!smartPlayer.isFrozen()) {
       new TimeThread(time, () -> smartPlayer.setFrozen(true), () -> {
         smartPlayer.setFrozen(false);
-        p.sendMessage(freezeMessage.getYouAreNotAllowedToMove());
+        p.sendMessage(freezeCommandMessage.getYouAreNotAllowedToMove());
       });
     } else {
       smartPlayer.setFrozen(false);

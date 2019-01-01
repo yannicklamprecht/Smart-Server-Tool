@@ -7,6 +7,7 @@ import com.ysl3000.utils.valuemappers.mappers.BukkitVersionMapper;
 import com.ysl3000.utils.valuemappers.mappers.ColorMapper;
 import com.ysl3000.utils.valuemappers.mappers.CpuCoreMapper;
 import com.ysl3000.utils.valuemappers.mappers.FirstJoinMapper;
+import com.ysl3000.utils.valuemappers.mappers.GamemodeMapper;
 import com.ysl3000.utils.valuemappers.mappers.LoginResultMapper;
 import com.ysl3000.utils.valuemappers.mappers.MinecraftVersionMapper;
 import com.ysl3000.utils.valuemappers.mappers.PlayerDisplayNameMapper;
@@ -14,6 +15,8 @@ import com.ysl3000.utils.valuemappers.mappers.PlayerNameMapper;
 import com.ysl3000.utils.valuemappers.mappers.PlayersOnlineMapper;
 import com.ysl3000.utils.valuemappers.mappers.ServerNameMapper;
 import com.ysl3000.utils.valuemappers.mappers.TimeMapper;
+import com.ysl3000.utils.valuemappers.mappers.WeatherMapper;
+import com.ysl3000.utils.valuemappers.mappers.WorldMapper;
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.Server;
@@ -36,6 +39,9 @@ public class MessageBuilder {
     mappers.add(new TimeMapper(messages));
     mappers.add(new LoginResultMapper());
     mappers.add(new FirstJoinMapper(messages.getPlayer()));
+    mappers.add(new GamemodeMapper());
+    mappers.add(new WorldMapper());
+    mappers.add(new WeatherMapper());
     mappers.add(new ColorMapper());
   }
 
@@ -43,8 +49,9 @@ public class MessageBuilder {
     mappers.forEach(valueMapper -> valueMapper.injectPlaceholder(messageWrapper));
     return messageWrapper;
   }
-  public String injectParameter(String message, Object... objects){
-    return replaceMessageValues(MessageWrapper.of(message,objects)).getMessage();
+
+  public String injectParameter(String message, Object... objects) {
+    return replaceMessageValues(MessageWrapper.of(message, objects)).getMessage();
   }
 
 }

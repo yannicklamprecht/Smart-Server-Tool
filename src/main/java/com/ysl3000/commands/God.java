@@ -1,12 +1,3 @@
-/**
- * God.java
- * <p>
- * Created on , 18:41:01 by @author Yannick Lamprecht
- * <p>
- * SmartServerToolRewrote Copyright (C) 11.12.2013  Yannick Lamprecht This program comes with
- * ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under
- * certain conditions;
- */
 package com.ysl3000.commands;
 
 
@@ -24,7 +15,7 @@ public class God extends CustomCommand {
   private SmartPlayers smartPlayers;
 
 
-  public God(CommandConfig commandConfig,SmartPlayers smartPlayers) {
+  public God(CommandConfig commandConfig, SmartPlayers smartPlayers) {
     super(commandConfig);
     this.smartPlayers = smartPlayers;
   }
@@ -36,15 +27,13 @@ public class God extends CustomCommand {
     }
 
     Player p = (Player) sender;
-    if (p.hasPermission(this.getPermission())) {
+    if (testPermission(p)) {
 
       SmartPlayer smartPlayer = smartPlayers.getPlayerByUUID(p.getUniqueId());
       smartPlayer.setGod(!smartPlayer.isGod());
 
       p.sendMessage("Godmode set to " + (smartPlayer.isGod() ? "True" : "False"));
 
-    } else {
-      sender.sendMessage(this.getPermissionMessage());
     }
 
     return true;

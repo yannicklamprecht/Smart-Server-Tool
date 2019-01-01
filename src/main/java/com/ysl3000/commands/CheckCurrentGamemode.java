@@ -1,19 +1,10 @@
-/**
- * CheckCurrentGamemode.java
- * <p>
- * Created on , 11:53:56 by @author Yannick Lamprecht
- * <p>
- * SmartServerToolRewrote Copyright (C) 11.12.2013  Yannick Lamprecht This program comes with
- * ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under
- * certain conditions;
- */
 package com.ysl3000.commands;
 
 
-import com.ysl3000.config.settings.CommandConfig;
+import com.ysl3000.config.settings.messages.commands.CheckCurrentGamemodeCommandMessage;
 import com.ysl3000.utils.Permissions;
+import com.ysl3000.utils.valuemappers.MessageBuilder;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -22,8 +13,14 @@ import org.bukkit.entity.Player;
  */
 public class CheckCurrentGamemode extends CustomCommand {
 
-  public CheckCurrentGamemode(CommandConfig commandConfig) {
+  private final MessageBuilder messageBuilder;
+  private CheckCurrentGamemodeCommandMessage currentGamemodeCommandMessage;
+
+  public CheckCurrentGamemode(CheckCurrentGamemodeCommandMessage commandConfig,
+      MessageBuilder messageBuilder) {
     super(commandConfig);
+    this.currentGamemodeCommandMessage = commandConfig;
+    this.messageBuilder = messageBuilder;
   }
 
   @Override
@@ -38,9 +35,8 @@ public class CheckCurrentGamemode extends CustomCommand {
     if (player.hasPermission(this.getPermission())) {
 
       if (args.length == 0) {
-
-        player.sendMessage("Current GameMode " + ChatColor.GOLD
-            + player.getGameMode());
+        player.sendMessage(messageBuilder
+            .injectParameter(currentGamemodeCommandMessage.getCurrentGamemode(), player));
 
       } else if (args.length == 1) {
 
@@ -48,15 +44,15 @@ public class CheckCurrentGamemode extends CustomCommand {
 
           Player target = Bukkit.getPlayer(args[0]);
           if (target == null) {
-            player.sendMessage("Player not found!");
+            player.sendMessage(messageBuilder
+                .injectParameter(currentGamemodeCommandMessage.getPlayerNotFound(), args[0]));
             return false;
           }
-          sender.sendMessage("Current GameMode of " + ChatColor.GOLD
-              + target.getDisplayName() + " "
-              + target.getGameMode());
+          sender.sendMessage(messageBuilder
+              .injectParameter(currentGamemodeCommandMessage.getCurrentGamemodeOf(), target));
         } else {
 
-          sender.sendMessage("You aren't allowed to lookup others gamemode");
+          sender.sendMessage(messageBuilder.injectParameter(currentGamemodeCommandMessage.getYouAreNotAllowedToLookupOthersGamemode()));
         }
       }
 
