@@ -5,10 +5,15 @@ import com.ysl3000.config.settings.messages.commands.BackCommandMessage;
 import com.ysl3000.config.settings.messages.commands.CheckCurrentGamemodeCommandMessage;
 import com.ysl3000.config.settings.messages.commands.DoneCommandMessage;
 import com.ysl3000.config.settings.messages.commands.FlyModeCommandMessage;
+import com.ysl3000.config.settings.messages.commands.FlySpeedCommandMessage;
 import com.ysl3000.config.settings.messages.commands.FreezeCommandMessage;
 import com.ysl3000.config.settings.messages.commands.GamemodeCreativeCommandMessage;
 import com.ysl3000.config.settings.messages.commands.GamemodeSurvivalCommandMessage;
 import com.ysl3000.config.settings.messages.commands.GetWeatherCommandMessage;
+import com.ysl3000.config.settings.messages.commands.TimeDayCommandMessage;
+import com.ysl3000.config.settings.messages.commands.TimeNightCommandMessage;
+import com.ysl3000.config.settings.messages.commands.WeatherStormCommandMessage;
+import com.ysl3000.config.settings.messages.commands.WeatherSunCommandMessage;
 import lombok.Data;
 
 /**
@@ -32,7 +37,7 @@ public class CommandConfigContainer {
 
   private FlyModeCommandMessage flyMode = new FlyModeCommandMessage();
 
-  private CommandConfig flySpeed = new CommandConfig("fs", "Set flyspeed", "/fs <amount>", "");
+  private FlySpeedCommandMessage flySpeed = new FlySpeedCommandMessage();
 
 
   private GetWeatherCommandMessage getWeather = new GetWeatherCommandMessage();
@@ -57,10 +62,9 @@ public class CommandConfigContainer {
   private CommandConfig walkspeed = new CommandConfig("ws", "set walkspeed",
       "/ws <amount/0.1-1.0>", "");
 
-  private CommandConfig timeDay = new CommandConfig("td", "Set time to day", "/td", "sst.time");
+  private TimeDayCommandMessage timeDay = new TimeDayCommandMessage();
 
-  private CommandConfig timeNight = new CommandConfig("tn", "Set time to night", "/tn",
-      "sst.time");
+  private TimeNightCommandMessage timeNight = new TimeNightCommandMessage();
 
   private CommandConfig switchLocations = new CommandConfig("switch",
       "swap position with player",
@@ -68,10 +72,9 @@ public class CommandConfigContainer {
 
   private GamemodeSurvivalCommandMessage survivalGamemode = new GamemodeSurvivalCommandMessage();
 
-  private CommandConfig sun = new CommandConfig("sun", "Set sun", "/sun", "sst.weather");
+  private WeatherSunCommandMessage sun = new WeatherSunCommandMessage();
 
-  private CommandConfig storm = new CommandConfig("storm", "Set storm", "/storm",
-      "sst.weather");
+  private WeatherStormCommandMessage storm = new WeatherStormCommandMessage();
 
   private CommandConfig spawn = new CommandConfig("spawn", "Teleport to Spawn", "/spawn",
       "sst.spawn");

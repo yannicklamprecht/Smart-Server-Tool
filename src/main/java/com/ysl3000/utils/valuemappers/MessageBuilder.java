@@ -7,6 +7,7 @@ import com.ysl3000.utils.valuemappers.mappers.BukkitVersionMapper;
 import com.ysl3000.utils.valuemappers.mappers.ColorMapper;
 import com.ysl3000.utils.valuemappers.mappers.CpuCoreMapper;
 import com.ysl3000.utils.valuemappers.mappers.FirstJoinMapper;
+import com.ysl3000.utils.valuemappers.mappers.SpeedMapper;
 import com.ysl3000.utils.valuemappers.mappers.GamemodeMapper;
 import com.ysl3000.utils.valuemappers.mappers.LoginResultMapper;
 import com.ysl3000.utils.valuemappers.mappers.MinecraftVersionMapper;
@@ -42,6 +43,7 @@ public class MessageBuilder {
     mappers.add(new GamemodeMapper());
     mappers.add(new WorldMapper());
     mappers.add(new WeatherMapper());
+    mappers.add(new SpeedMapper());
     mappers.add(new ColorMapper());
   }
 

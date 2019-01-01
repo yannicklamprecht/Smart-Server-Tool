@@ -1,29 +1,28 @@
-/**
- * FlySpeed.java
- * <p>
- * Created on , 14:35:14 by @author Yannick Lamprecht
- * <p>
- * SmartServerToolRewrote Copyright (C) 11.12.2013  Yannick Lamprecht This program comes with
- * ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under
- * certain conditions;
- */
 package com.ysl3000.commands;
 
 
-import com.ysl3000.config.settings.CommandConfig;
+import com.ysl3000.config.settings.messages.commands.FlySpeedCommandMessage;
+import com.ysl3000.utils.valuemappers.MessageBuilder;
+import java.util.regex.Pattern;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 
 /**
  * @author yannicklamprecht
- *
  */
 public class FlySpeed extends CustomCommand {
 
-  public FlySpeed(CommandConfig commandConfig) {
-    super(commandConfig);
+  private static final Pattern NUMBER = Pattern.compile("\\d");
 
+  private FlySpeedCommandMessage flySpeedCommandMessage;
+  private MessageBuilder messageBuilder;
+
+  public FlySpeed(FlySpeedCommandMessage commandConfig,
+      MessageBuilder messageBuilder) {
+    super(commandConfig);
+    this.flySpeedCommandMessage = commandConfig;
+    this.messageBuilder = messageBuilder;
   }
 
   @Override
@@ -38,17 +37,18 @@ public class FlySpeed extends CustomCommand {
     }
     Player p = (Player) sender;
 
-    try {
-      Float.parseFloat(args[0]);
-    } catch (NumberFormatException e) {
+    if (!NUMBER.matcher(args[0]).matches()) {
       return false;
     }
-    if (Float.parseFloat(args[0]) > 0 && Float.parseFloat(args[0]) <= 1) {
-      p.setFlySpeed(Float.parseFloat(args[0]));
+    float speed = Float.parseFloat(args[0]);
 
-      p.sendMessage("Flyspeed set to " + p.getFlySpeed());
+    if (speed > 0 && speed <= 1) {
+      p.setFlySpeed(speed);
+
+      p.sendMessage(messageBuilder.injectParameter(flySpeedCommandMessage.getFlySpeedSetTo(), p));
     } else {
-      p.sendMessage("Speed has to be between 0.1 and 1.0");
+      p.sendMessage(
+          messageBuilder.injectParameter(flySpeedCommandMessage.getFlySpeedNeedToBeBetween()));
     }
     return true;
   }

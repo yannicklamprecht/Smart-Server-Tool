@@ -14,6 +14,206 @@ drops:
   glassSand: true
   goldenAppleShear: true
 messages:
+  commandConfigContainer:
+    admin:
+      description: Toggle op
+      name: /admin
+      operatorDisabled: '&4Op disabled'
+      operatorEnabled: '&aOp enabled'
+      permission: sst.admin
+      pleaseUseDeopPlayer: Please use /deop <player>
+      usageMessage: //admin
+    back:
+      description: tp to last location
+      lastLocationNotFound: Last location not found
+      name: back
+      permission: ''
+      usageMessage: /back
+    creativeGamemode:
+      description: Set Creative
+      enterGamemodeMode: Enter &6{player_gamemode}
+      gamemodeSender: §a&aYou set {player_gamemode} for &5{player_name}
+      gamemodeTarget: '&aYou Gamemode now is {gamemode}, set by &5{player_name}'
+      name: gmc
+      permission: sst.gamemode
+      playerNotFound: PLAYER {parameter} isn't found
+      usageMessage: /gmc
+    currentGamemode:
+      currentGamemode: Current GameMode &6{player_gamemode}
+      currentGamemodeOf: Current GameMode of {player_display_name} {player_gamemode}
+      description: Current GameMode
+      name: gm
+      permission: sst.gm
+      playerNotFound: Player {parameter} not found!
+      usageMessage: /gm
+      youAreNotAllowedToLookupOthersGamemode: You aren't allowed to lookup others
+        gamemode
+    done:
+      description: Leave modmode
+      doneSender: '&4modmode disabled for {player_name}'
+      doneTarget: '&4modmode disabled by {player_name}'
+      modmodeDisabled: '&4modmode disabled'
+      name: done
+      permission: sst.mod
+      usageMessage: /done
+    flyMode:
+      description: toggle fly
+      name: fly
+      noPermissionToFlyOther: No permission for flying others
+      'off': Fly is now disabled
+      'on': 'You can now fly '
+      permission: sst.fly
+      senderOtherOff: Set fly off for {player_display_name}
+      senderOtherOn: Set fly on for {player_display_name}
+      targetMustBeOnGround: '{player_display_name} is flying! Only if player is on
+        earth you can disble that!'
+      targetOtherOff: Until now you have to walk on feet! Disallowed by {player_display_name}
+      targetOtherOn: You can now fly! Allowed by {player_display_name}
+      usageMessage: /fly <player>
+    flySpeed:
+      description: Set flyspeed
+      flySpeedNeedToBeBetween: Speed has to be between 0.1 and 1.0
+      flySpeedSetTo: Flyspeed set to {fly_speed}
+      name: fs
+      permission: ''
+      usageMessage: /fs <amount>
+    freeze:
+      description: freezes a player
+      freezeSelfMessage: You froze yourself.
+      name: freeze
+      paramterNotANumber: Your given parameter {parameter} is not a number.
+      permission: sst.freeze
+      senderFreezeMessage: You froze {player_display_name}.
+      targetFreezeMessage: You was frozen by {player_display_name}.
+      usageMessage: /freeze <player>
+      wrongInput: '&4Wrong Input'
+      youAreNotAllowedToMove: You're now allowed to move
+    getWeather:
+      currentWeather: Current Weather in {world_name} is &6{weather{rainy:sunny}}
+      description: get weather
+      name: wg
+      permission: sst.wg
+      usageMessage: /wg
+    god:
+      description: Toggle godmode
+      name: god
+      permission: sst.god
+      usageMessage: /god
+    heal:
+      description: heal someone
+      name: heal
+      permission: sst.heal
+      usageMessage: /heal <player>
+    healMe:
+      description: Heals you
+      name: healme
+      permission: sst.healme
+      usageMessage: /healme
+    home:
+      description: teleport to home
+      name: home
+      permission: sst.home
+      usageMessage: /home
+    ip:
+      description: get ip of player
+      name: /ip
+      permission: sst.ip
+      usageMessage: //ip <player>
+    kill:
+      description: kill player
+      name: Kill
+      permission: sst.kill
+      usageMessage: /kill <player>
+    killMe:
+      description: kill's yourself
+      name: km
+      permission: sst.km
+      usageMessage: /km
+    mod:
+      description: enter modmode
+      name: mod
+      permission: sst.mod
+      usageMessage: /mod
+    online:
+      description: lists onlineplayer
+      name: online
+      permission: ''
+      usageMessage: /online
+    realTime:
+      description: realtime
+      name: rt
+      permission: ''
+      usageMessage: /rt
+    reload:
+      description: Reloads SmartServerTool config
+      name: smartreload
+      permission: sst.reload
+      usageMessage: /smartreload
+    seen:
+      description: check first/last seen
+      name: seen
+      permission: sst.seen
+      usageMessage: /seen <player>
+    serverInfo:
+      description: get Serverinfo
+      name: serverinfo
+      permission: sst.info
+      usageMessage: /serverinfo
+    setSpawn:
+      description: setspawn
+      name: setsp
+      permission: sst.setsp
+      usageMessage: /setsp
+    spawn:
+      description: Teleport to Spawn
+      name: spawn
+      permission: sst.spawn
+      usageMessage: /spawn
+    storm:
+      description: Set storm
+      name: storm
+      permission: sst.weather
+      usageMessage: /storm
+    sun:
+      description: Set sun
+      name: sun
+      permission: sst.weather
+      usageMessage: /sun
+    survivalGamemode:
+      description: Set Survival
+      enterGamemodeMode: Enter &6{player_gamemode}
+      gamemodeSender: §a&aYou set {player_gamemode} for &5{player_name}
+      gamemodeTarget: '&aYou Gamemode now is {gamemode}, set by &5{player_name}'
+      name: gms
+      permission: sst.gamemode
+      playerNotFound: PLAYER {parameter} isn't found
+      usageMessage: /gms
+    switchLocations:
+      description: swap position with player
+      name: switch
+      permission: sst.switch
+      usageMessage: /switch <player>
+    timeDay:
+      description: Set time to day
+      name: td
+      permission: sst.time
+      time: 0
+      timeSet: Time set to &6 {parameter}
+      type: Day
+      usageMessage: /td
+    timeNight:
+      description: Set time to night
+      name: tn
+      permission: sst.time
+      time: 18000
+      timeSet: Time set to &6 {parameter}
+      type: Night
+      usageMessage: /tn
+    walkspeed:
+      description: set walkspeed
+      name: ws
+      permission: ''
+      usageMessage: /ws <amount/0.1-1.0>
   enablbeRandomChatColor: true
   enabled: true
   player:
