@@ -2,16 +2,16 @@ package com.ysl3000.utils.valuemappers.mappers;
 
 import com.ysl3000.utils.MessageWrapper;
 import com.ysl3000.utils.valuemappers.ValueMapper;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 /**
  * Created by ysl3000
  */
-public class PlayerNameMapper implements ValueMapper {
+public class PlayerAddressMapper implements ValueMapper {
 
   @Override
   public void injectPlaceholder(MessageWrapper message) {
-    message.get(OfflinePlayer.class)
-        .ifPresent(player -> message.replace("{player_name}", player.getName()));
+    message.get(Player.class)
+        .ifPresent(player -> message.replace("{player_address}", player.getAddress().toString()));
   }
 }

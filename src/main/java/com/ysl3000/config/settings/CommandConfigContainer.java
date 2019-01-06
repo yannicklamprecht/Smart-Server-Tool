@@ -10,6 +10,9 @@ import com.ysl3000.config.settings.messages.commands.FreezeCommandMessage;
 import com.ysl3000.config.settings.messages.commands.GamemodeCreativeCommandMessage;
 import com.ysl3000.config.settings.messages.commands.GamemodeSurvivalCommandMessage;
 import com.ysl3000.config.settings.messages.commands.GetWeatherCommandMessage;
+import com.ysl3000.config.settings.messages.commands.PlayerLookUpIpCommandMessage;
+import com.ysl3000.config.settings.messages.commands.RealTimeCommandMessage;
+import com.ysl3000.config.settings.messages.commands.SeenCommandMessage;
 import com.ysl3000.config.settings.messages.commands.TimeDayCommandMessage;
 import com.ysl3000.config.settings.messages.commands.TimeNightCommandMessage;
 import com.ysl3000.config.settings.messages.commands.WeatherStormCommandMessage;
@@ -85,14 +88,11 @@ public class CommandConfigContainer {
   private CommandConfig serverInfo = new CommandConfig("serverinfo", "get Serverinfo",
       "/serverinfo", "sst.info");
 
-  private CommandConfig seen = new CommandConfig("seen", "check first/last seen",
-      "/seen <player>", "sst.seen");
+  private SeenCommandMessage seen = new SeenCommandMessage();
 
+  private RealTimeCommandMessage realTime = new RealTimeCommandMessage();
 
-  private CommandConfig realTime = new CommandConfig("rt", "realtime", "/rt", "");
-
-  private CommandConfig ip = new CommandConfig("/ip", "get ip of player",
-      "//ip <player>", "sst.ip");
+  private PlayerLookUpIpCommandMessage ip = new PlayerLookUpIpCommandMessage();
 
   private CommandConfig online = new CommandConfig("online", "lists onlineplayer", "/online",
       "");

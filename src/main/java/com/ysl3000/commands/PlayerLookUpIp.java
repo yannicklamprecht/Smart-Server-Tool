@@ -10,22 +10,27 @@
 package com.ysl3000.commands;
 
 
-import com.ysl3000.config.settings.CommandConfig;
+import com.ysl3000.config.settings.messages.commands.PlayerLookUpIpCommandMessage;
+import com.ysl3000.utils.valuemappers.MessageBuilder;
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 
 /**
  * @author yannicklamprecht
- *
  */
 public class PlayerLookUpIp extends CustomCommand {
 
 
-  public PlayerLookUpIp(CommandConfig commandConfig) {
+  private PlayerLookUpIpCommandMessage playerLookUpIpCommandMessage;
+  private MessageBuilder messageBuilder;
+
+  public PlayerLookUpIp(PlayerLookUpIpCommandMessage commandConfig,
+      MessageBuilder messageBuilder) {
     super(commandConfig);
+    this.playerLookUpIpCommandMessage = commandConfig;
+    this.messageBuilder = messageBuilder;
   }
 
   @Override
@@ -36,23 +41,20 @@ public class PlayerLookUpIp extends CustomCommand {
 
     Player player = (Player) sender;
 
-    if (player.hasPermission(this.getPermission())) {
+    if (testPermission(player)) {
       if (args.length != 1) {
         return false;
       }
       Player target = Bukkit.getPlayer(args[0]);
 
       if (target == null) {
-
-        player.sendMessage("PLAYER " + target + " isn't found");
+        player.sendMessage(messageBuilder
+            .injectParameter(playerLookUpIpCommandMessage.getPlayerNotFound(), args[0]));
         return true;
       }
-      player.sendMessage("Ip of " + ChatColor.GOLD + target.getName()
-          + ChatColor.WHITE + " is " + ChatColor.YELLOW
-          + target.getAddress());
-
-    } else {
-      sender.sendMessage(this.getPermissionMessage());
+      player.sendMessage(messageBuilder
+          .injectParameter(playerLookUpIpCommandMessage.getDisplayIpAddressOfPlayerMessage(),
+              target));
     }
     return true;
   }

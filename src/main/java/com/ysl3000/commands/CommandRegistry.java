@@ -71,21 +71,26 @@ public class CommandRegistry {
         new TimeCommand(configContainer.getTimeNight(),messageBuilder),
         new WeatherCommand(configContainer.getSun(),messageBuilder,false),
         new WeatherCommand(configContainer.getStorm(),messageBuilder,true),
+
         new KillMe(configContainer.getKillMe()),
         new Kill(configContainer.getKill()),
+
         new Heal(configContainer.getHeal()),
         new HealMe(configContainer.getHealMe()),
+
         new ServerInfo(configContainer.getServerInfo()),
-        new PlayerLookUpIp(configContainer.getIp()),
+        new PlayerLookUpIp(configContainer.getIp(), messageBuilder),
         new SwitchLocation(configContainer.getSwitchLocations()),
+
         new SetSpawn(configContainer.getSetSpawn(), worldSpawnWrapper),
         new Spawn(configContainer.getSpawn()),
+
         new Home(configContainer.getHome()),
         new Walkspeed(configContainer.getWalkspeed()),
         new God(configContainer.getGod(), smartPlayers),
         new Online(configContainer.getOnline(), utility),
-        new Seen(configContainer.getSeen(), utility),
-        new RealTime(configContainer.getRealTime(), utility),
+        new Seen(configContainer.getSeen(), messageBuilder),
+        new RealTime(configContainer.getRealTime(), messageBuilder),
         new ModCommand(configContainer.getMod(), smartPlayers),
         new Configreload(configContainer.getReload(), javaPlugin)
     );

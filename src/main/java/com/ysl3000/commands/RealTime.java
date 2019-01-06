@@ -1,20 +1,9 @@
-/**
- * RealTime.java
- * <p>
- * Created on , 19:14:08 by @author Yannick Lamprecht
- * <p>
- * SmartServerToolRewrote Copyright (C) 11.12.2013  Yannick Lamprecht This program comes with
- * ABSOLUTELY NO WARRANTY; This is free software, and you are welcome to redistribute it under
- * certain conditions;
- */
 package com.ysl3000.commands;
 
 
-import com.ysl3000.config.settings.CommandConfig;
-import com.ysl3000.utils.Utility;
-import org.bukkit.ChatColor;
+import com.ysl3000.config.settings.messages.commands.RealTimeCommandMessage;
+import com.ysl3000.utils.valuemappers.MessageBuilder;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 /**
  * @author yannicklamprecht
@@ -22,24 +11,19 @@ import org.bukkit.entity.Player;
 public class RealTime extends CustomCommand {
 
 
-  private final Utility utility;
+  private MessageBuilder messageBuilder;
+  private RealTimeCommandMessage realTimeCommandMessage;
 
-  public RealTime(CommandConfig commandConfig,Utility utility) {
+  public RealTime(RealTimeCommandMessage commandConfig,
+      MessageBuilder messageBuilder) {
     super(commandConfig);
-    this.utility = utility;
+    this.messageBuilder = messageBuilder;
+    this.realTimeCommandMessage = commandConfig;
   }
 
   @Override
   public boolean execute(CommandSender sender, String s, String[] strings) {
-    if (!(sender instanceof Player)) {
-      return false;
-    }
-
-    Player player = (Player) sender;
-
-    player.sendMessage("Current Time "
-        + ChatColor.GOLD
-        + utility.getTime(System.currentTimeMillis(), "HH:mm"));
+    sender.sendMessage(messageBuilder.injectParameter(realTimeCommandMessage.getCurrentTime()));
     return true;
   }
 }
