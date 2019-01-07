@@ -10,21 +10,31 @@
 package com.ysl3000.commands;
 
 
-import com.ysl3000.config.settings.CommandConfig;
-import org.bukkit.ChatColor;
+import com.ysl3000.config.settings.messages.commands.HealCommandMessage;
+import com.ysl3000.utils.valuemappers.MessageBuilder;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 
 /**
  * @author yannicklamprecht
- *
  */
 public class Heal extends CustomCommand {
 
 
-  public Heal(CommandConfig commandConfig) {
+  private HealCommandMessage healCommandMessage;
+  private MessageBuilder messageBuilder;
+
+  public Heal(HealCommandMessage commandConfig,
+      MessageBuilder messageBuilder) {
     super(commandConfig);
+    this.healCommandMessage = commandConfig;
+    this.messageBuilder = messageBuilder;
   }
 
   @Override
@@ -33,34 +43,39 @@ public class Heal extends CustomCommand {
       return false;
     }
 
-    Player player = (Player) sender;
-    if (args.length != 1) {
-      player.sendMessage("You need one argument");
-      return true;
-    }
-    Player target = sender.getServer().getPlayer(args[0]);
+    if (testPermission(sender)) {
 
-    if (player.hasPermission(this.getPermission())) {
+      Player player = (Player) sender;
+      if (args.length == 0) {
+        player.setHealth(20.0);
+        player.setFoodLevel(20);
+        player.sendMessage(messageBuilder.injectParameter(healCommandMessage.getHealedSelf()));
+      } else {
 
-      if (target == null) {
-
-        sender.sendMessage("Player not found");
-        return true;
-
+        if (player.hasPermission(healCommandMessage.getPermissionHealOther())) {
+          List<String> playerNames = Arrays.asList(args);
+          Set<Player> playerSet = Bukkit.getOnlinePlayers().stream()
+              .filter(p -> playerNames.contains(p.getName())).collect(Collectors.toSet());
+          if (!playerSet.isEmpty()) {
+            playerSet.forEach(p -> healTarget(player, p));
+            String players = String
+                .join(",", playerSet.stream().map(Player::getName).collect(Collectors.toSet()));
+            player.sendMessage(
+                messageBuilder.injectParameter(healCommandMessage.getYouHealed(), players));
+          } else {
+            player.sendMessage(
+                messageBuilder.injectParameter(healCommandMessage.getNoPlayerFoundWithThatName()));
+          }
+        }
       }
-      target.setHealth(20.0);
-      target.setFoodLevel(20);
-      target.sendMessage(ChatColor.GREEN
-          + "You have been healed by "
-          + ChatColor.DARK_PURPLE
-          + player.getDisplayName());
-
-      player.sendMessage(ChatColor.GREEN + "You healed "
-          + ChatColor.DARK_PURPLE + target.getName());
-    } else {
-      sender.sendMessage(this.getPermissionMessage());
     }
-
     return true;
+  }
+
+  private void healTarget(Player player, Player target) {
+    target.setHealth(20.0);
+    target.setFoodLevel(20);
+    target.sendMessage(
+        messageBuilder.injectParameter(healCommandMessage.getHealedBySomeone(), player));
   }
 }

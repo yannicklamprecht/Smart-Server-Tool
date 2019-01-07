@@ -11,7 +11,8 @@ package com.ysl3000.commands;
 
 
 import com.ysl3000.config.data.WorldSpawnWrapper;
-import com.ysl3000.config.settings.CommandConfig;
+import com.ysl3000.config.settings.messages.commands.SetSpawnCommandMessage;
+import com.ysl3000.utils.valuemappers.MessageBuilder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -24,8 +25,15 @@ public class SetSpawn extends CustomCommand {
   private WorldSpawnWrapper worldSpawnWrapper;
 
 
-  public SetSpawn(CommandConfig commandConfig,WorldSpawnWrapper worldSpawnWrapper) {
+  private SetSpawnCommandMessage setSpawnCommandMessage;
+  private MessageBuilder messageBuilder;
+
+  public SetSpawn(SetSpawnCommandMessage commandConfig,
+      MessageBuilder messageBuilder,
+      WorldSpawnWrapper worldSpawnWrapper) {
     super(commandConfig);
+    this.setSpawnCommandMessage=commandConfig;
+    this.messageBuilder = messageBuilder;
     this.worldSpawnWrapper = worldSpawnWrapper;
   }
 
@@ -41,9 +49,7 @@ public class SetSpawn extends CustomCommand {
 
       player.getWorld().setSpawnLocation(player.getLocation());
       worldSpawnWrapper.setSpawnPointForWorld(player.getLocation());
-
-      player.sendMessage("Spawn of " + player.getWorld().getName()
-          + " set");
+      player.sendMessage(messageBuilder.injectParameter(setSpawnCommandMessage.getSetSpawnMessage(),player.getWorld()));
 
     }
 

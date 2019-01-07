@@ -101,14 +101,14 @@ messages:
       usageMessage: /god
     heal:
       description: heal someone
+      healedBySomeone: '&aYou have been healed by {player_display_name}'
+      healedSelf: '&aHealed!'
       name: heal
+      noPlayerFoundWithThatName: No players with that names found!
       permission: sst.heal
+      permissionHealOther: sst.heal.other
       usageMessage: /heal <player>
-    healMe:
-      description: Heals you
-      name: healme
-      permission: sst.healme
-      usageMessage: /healme
+      youHealed: '&aYou healed &5{parameter}'
     home:
       description: teleport to home
       name: home
@@ -116,8 +116,10 @@ messages:
       usageMessage: /home
     ip:
       description: get ip of player
+      displayIpAddressOfPlayerMessage: Ip of &6 {player_name} &fis&e{player_address}
       name: /ip
       permission: sst.ip
+      playerNotFound: PLAYER {parameter} isn't found
       usageMessage: //ip <player>
     kill:
       description: kill player
@@ -140,6 +142,7 @@ messages:
       permission: ''
       usageMessage: /online
     realTime:
+      currentTime: Current Time &6{server_time}
       description: realtime
       name: rt
       permission: ''
@@ -152,7 +155,11 @@ messages:
     seen:
       description: check first/last seen
       name: seen
+      neverSeenBefore: '&aPlayer &6{player_name} &anever seen before!'
       permission: sst.seen
+      playerSeenMessage: |-
+        &aPlayer was first seen on: &6{first_played}
+        &aand last seen on: &6{last_seen}
       usageMessage: /seen <player>
     serverInfo:
       description: get Serverinfo
@@ -163,6 +170,7 @@ messages:
       description: setspawn
       name: setsp
       permission: sst.setsp
+      setSpawnMessage: Spawn of {world_name} set
       usageMessage: /setsp
     spawn:
       description: Teleport to Spawn
@@ -174,11 +182,13 @@ messages:
       name: storm
       permission: sst.weather
       usageMessage: /storm
+      weatherMessage: Weather set to &6Storm
     sun:
       description: Set sun
       name: sun
       permission: sst.weather
       usageMessage: /sun
+      weatherMessage: Weather set to &6Sun
     survivalGamemode:
       description: Set Survival
       enterGamemodeMode: Enter &6{player_gamemode}
