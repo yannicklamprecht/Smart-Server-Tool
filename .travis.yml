@@ -1,0 +1,23 @@
+language: java
+jdk:
+  - oraclejdk8
+sudo: false
+notifications:
+  email:
+    on_failure: always
+    on_success: never
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+deploy:
+  provider: releases
+  file:
+    - "./target/Smart-Server-Tool-1.0-SNAPSHOT.jar"
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: yannicklamprecht/Smart-Server-Tool
+  overwrite: true
+  api_key:
+    secure: $deploy_key
