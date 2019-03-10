@@ -3,7 +3,6 @@ package com.ysl3000.commands;
 import com.ysl3000.SmartPlayers;
 import com.ysl3000.config.data.WorldSpawnWrapper;
 import com.ysl3000.config.settings.messages.commands.CommandConfigContainer;
-import com.ysl3000.utils.Utility;
 import com.ysl3000.utils.valuemappers.MessageBuilder;
 import java.lang.reflect.Field;
 import java.util.Arrays;
@@ -25,18 +24,16 @@ public class CommandRegistry {
   private final WorldSpawnWrapper worldSpawnWrapper;
   private SimpleCommandMap commandMap;
   private SmartPlayers smartPlayers;
-  private Utility utility;
   private CommandConfigContainer configContainer;
   private MessageBuilder messageBuilder;
   private JavaPlugin javaPlugin;
 
-  public CommandRegistry(SmartPlayers smartPlayers, Utility utility,
+  public CommandRegistry(SmartPlayers smartPlayers,
       WorldSpawnWrapper worldSpawnWrapper,
       CommandConfigContainer commandConfigContainer,
       MessageBuilder messageBuilder,
       JavaPlugin javaPlugin) {
     this.smartPlayers = smartPlayers;
-    this.utility = utility;
     this.worldSpawnWrapper = worldSpawnWrapper;
     this.configContainer = commandConfigContainer;
     this.messageBuilder = messageBuilder;

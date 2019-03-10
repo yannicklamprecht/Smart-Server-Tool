@@ -18,6 +18,6 @@ public class ServerNameMapper implements ValueMapper {
 
   @Override
   public void injectPlaceholder(MessageWrapper message) {
-    message.replace("{server_name}", server.getServerName());
+    message.replace("{server_name}", server.getName());
   }
 }

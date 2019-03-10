@@ -1,14 +1,14 @@
 !!com.ysl3000.config.data.WorldSpawnLocation
 worldSpawns:
-  - pitch: 0.0
-    worldName: world
-    x: 1337.0
-    y: 13.0
-    yaw: 0.0
-    z: 14.0
-  - pitch: 0.0
-    worldName: world_nether
-    x: 1337.0
-    y: 13.0
-    yaw: 0.0
-    z: 14.0
+- pitch: 0.0
+  worldName: world
+  x: 1337.0
+  y: 13.0
+  yaw: 0.0
+  z: 14.0
+- pitch: 0.0
+  worldName: world_nether
+  x: 1337.0
+  y: 13.0
+  yaw: 0.0
+  z: 14.0

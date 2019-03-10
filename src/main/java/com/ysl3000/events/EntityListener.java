@@ -34,7 +34,7 @@ public class EntityListener implements Listener {
   private WorldSettings worldSettings;
   private Misc misc;
 
-  public EntityListener(WorldSettings worldSettings, Misc misc) {
+  EntityListener(WorldSettings worldSettings, Misc misc) {
     this.worldSettings = worldSettings;
     this.misc = misc;
   }
@@ -135,10 +135,9 @@ public class EntityListener implements Listener {
     if (e.getClickedBlock() == null) {
       return;
     }
-    if ((e.getClickedBlock().getType().equals(Material.SPAWNER))
-        && (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) && (e.getPlayer()
-        .hasPermission(Permissions.CAN_CAHNGE_SPAWNER_TYPE))
-        && ((e.getClickedBlock().getState() instanceof CreatureSpawner))) {
+    if (e.getClickedBlock().getType()==Material.SPAWNER && e.getAction()==Action.RIGHT_CLICK_BLOCK && e.getPlayer().hasPermission(Permissions.CAN_CAHNGE_SPAWNER_TYPE)
+        && e.getClickedBlock().getState() instanceof CreatureSpawner) {
+
       CreatureSpawner cs = (CreatureSpawner) e.getClickedBlock()
           .getState();
 

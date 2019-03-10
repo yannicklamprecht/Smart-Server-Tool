@@ -10,19 +10,30 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.BlockStateMeta;
 
 public class ChestProtectionListener implements Listener {
 
+
   @EventHandler
   public void onChestcreate(PrepareItemCraftEvent e) {
-    if (e.getInventory().getResult().getType().equals(Material.CHEST)) {
-      ItemStack is = e.getInventory().getResult();
-      e.getInventory().remove(e.getInventory().getResult());
-      ItemMeta im = is.getItemMeta();
-      im.setDisplayName(e.getViewers().get(0).getName());
-      is.setItemMeta(im);
-      e.getInventory().setResult(is);
+    ItemStack result = e.getInventory().getResult();
+    if (result.getType() == Material.CHEST && result.getItemMeta() instanceof BlockStateMeta) {
+
+      BlockStateMeta blockStateMeta = (BlockStateMeta) result.getItemMeta();
+
+      if (blockStateMeta.getBlockState() instanceof Chest) {
+
+        Chest chest = (Chest) blockStateMeta.getBlockState();
+
+        chest.setCustomName(e.getViewers().get(0).getName());
+
+        chest.update();
+        blockStateMeta.setBlockState(chest);
+
+        result.setItemMeta(blockStateMeta);
+        e.getInventory().setResult(result);
+      }
       if (e.getViewers().get(0) instanceof Player) {
         ((Player) e.getViewers().get(0)).updateInventory();
       }
@@ -36,14 +47,14 @@ public class ChestProtectionListener implements Listener {
         && e.getClickedBlock().getType().equals(Material.CHEST)) {
 
       Chest ch = (Chest) e.getClickedBlock().getState();
-      if (!(ch.getInventory().getName()
+      if (!(ch.getCustomName()
           .equalsIgnoreCase(e.getPlayer().getName())
-          || ch.getInventory().getName().equalsIgnoreCase("public") || e
+          || ch.getCustomName().equalsIgnoreCase("public") || e
           .getPlayer().hasPermission(Permissions.OPEN_ANY_CHEST))) {
         e.setCancelled(true);
         e.getPlayer().sendMessage(
             "This chest is protected to"
-                + ch.getInventory().getName());
+                + ch.getCustomName());
       }
     }
   }

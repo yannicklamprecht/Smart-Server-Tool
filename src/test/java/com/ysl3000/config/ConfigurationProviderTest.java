@@ -54,6 +54,14 @@ public class ConfigurationProviderTest {
 
     configurationProvider.saveWorldSpawns(worldSpawnLocation);
 
+    WorldSpawnLocation spawnLocation =configurationProvider.getWorldSpawnLocation();
+
+    Assert.assertEquals(2,spawnLocation.getWorldSpawns().size());
+
+    Assert.assertTrue(spawnLocation.getWorldSpawns().stream().anyMatch(w -> w.getWorldName().equalsIgnoreCase("world")));
+    Assert.assertTrue(spawnLocation.getWorldSpawns().stream().anyMatch(w -> w.getWorldName().equalsIgnoreCase("world_nether")));
+
+
   }
 
 }

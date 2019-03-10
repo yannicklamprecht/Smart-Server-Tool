@@ -2,13 +2,21 @@ package com.ysl3000.events;
 
 import com.ysl3000.config.settings.SmartSettings;
 import com.ysl3000.config.settings.WorldSettings;
+import com.ysl3000.events.blockbreakcommands.BlockBreakCommand;
+import com.ysl3000.events.blockbreakcommands.DiamondPickaxeDropCommand;
+import com.ysl3000.events.blockbreakcommands.EnderChestDropCommand;
+import com.ysl3000.events.blockbreakcommands.GlassToSandDropCommand;
+import com.ysl3000.events.blockbreakcommands.GoldenAppleDropCommand;
+import com.ysl3000.events.blockbreakcommands.StainedGlassDropCommand;
+import com.ysl3000.events.vectormodifier.DxModifier;
+import com.ysl3000.events.vectormodifier.DyModifier;
+import com.ysl3000.events.vectormodifier.VectorModifier;
 import com.ysl3000.utils.Permissions;
+import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Random;
+import java.util.List;
 import java.util.Set;
-import java.util.concurrent.ThreadLocalRandom;
 import org.bukkit.ChatColor;
-import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -26,7 +34,6 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockDispenseEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
-import org.bukkit.event.block.BlockIgniteEvent.IgniteCause;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
@@ -39,7 +46,7 @@ import org.bukkit.util.Vector;
 public class BlockListener implements Listener {
 
 
-  private static final Tag<Material> STAINED_GLASS = new Tag<Material>() {
+  public static final Tag<Material> STAINED_GLASS = new Tag<Material>() {
     @Override
     public boolean isTagged(Material material) {
       return getValues().contains(material);
@@ -75,9 +82,21 @@ public class BlockListener implements Listener {
   private SmartSettings smartSettings;
   private WorldSettings worldSettings;
 
+  private Set<BlockBreakCommand> blockBreakCommands = new HashSet<>();
+  private List<VectorModifier> vectorModifiers = new ArrayList<>();
+
   BlockListener(SmartSettings smartSettings) {
     this.smartSettings = smartSettings;
     this.worldSettings = smartSettings.getWorldSettings();
+
+    blockBreakCommands.add(new DiamondPickaxeDropCommand(smartSettings));
+    blockBreakCommands.add(new GoldenAppleDropCommand(smartSettings));
+    blockBreakCommands.add(new StainedGlassDropCommand(smartSettings));
+    blockBreakCommands.add(new GlassToSandDropCommand(smartSettings));
+    blockBreakCommands.add(new EnderChestDropCommand());
+
+    vectorModifiers.add(new DxModifier());
+    vectorModifiers.add(new DyModifier());
   }
 
   @EventHandler
@@ -127,13 +146,11 @@ public class BlockListener implements Listener {
 
   @EventHandler
   public void spawny(BlockDispenseEvent e) {
-
     if (e.getItem().getType().equals(Material.MINECART)
-        || e.getItem().getType().equals(Material.CHEST_MINECART)) {
-      if (e.getBlock().getState() instanceof Dispenser) {
-        Dispenser dp = (Dispenser) e.getBlock().getState();
-        dp.getInventory().addItem(e.getItem());
-      }
+        || e.getItem().getType().equals(Material.CHEST_MINECART) && e.getBlock()
+        .getState() instanceof Dispenser) {
+      Dispenser dp = (Dispenser) e.getBlock().getState();
+      dp.getInventory().addItem(e.getItem());
     }
   }
 
@@ -144,11 +161,18 @@ public class BlockListener implements Listener {
 
   @EventHandler
   public void onblockig(BlockIgniteEvent event) {
-    event.setCancelled(
-        event.getCause().equals(IgniteCause.LAVA) ? worldSettings.isPreventLavaSpread()
-            : event.getCause()
-                .equals(IgniteCause.LIGHTNING) ? worldSettings.isStrikeSpread() : event
-                .getCause().equals(IgniteCause.SPREAD) && worldSettings.isGeneralSpread());
+    switch (event.getCause()) {
+      case LAVA:
+        event.setCancelled(worldSettings.isPreventLavaSpread());
+        break;
+      case LIGHTNING:
+        event.setCancelled(worldSettings.isStrikeSpread());
+        break;
+      case SPREAD:
+        event.setCancelled(worldSettings.isGeneralSpread());
+        break;
+      default:
+    }
   }
 
   @EventHandler
@@ -158,58 +182,11 @@ public class BlockListener implements Listener {
           .containsKey(Enchantment.LOOT_BONUS_BLOCKS)) {
         return;
       }
-      Random rando = ThreadLocalRandom.current();
-      if (event.getBlock().getType().equals(Material.DIAMOND_ORE)
-          && (rando.nextInt(smartSettings.getChance().getDiamond()) == 1
-          || smartSettings.getChance().getDiamond() == 1)
-          && smartSettings.getDrops().isDiamondOre()) {
-        event.getBlock()
-            .getWorld()
-            .dropItem(event.getBlock().getLocation(),
-                new ItemStack(Material.DIAMOND_PICKAXE));
-      } else if (Tag.LEAVES.isTagged(event.getBlock().getType())
-          && smartSettings.getDrops().isGoldenAppleShear()
-          && event.getPlayer().getInventory().getItemInMainHand().getType()
-          .equals(Material.SHEARS)) {
-        event.getBlock()
-            .getWorld()
-            .dropItem(event.getBlock().getLocation(),
-                new ItemStack(Material.GOLDEN_APPLE, 1));
 
-      } else if ((event.getBlock().getType().equals(Material.GLASS_PANE) || event
-          .getBlock().getType().equals(Material.BLACK_STAINED_GLASS))
-          && (rando.nextInt(smartSettings.getChance().getGlassPane()) == 1
-          || smartSettings.getChance().getGlassPane() == 1)
-          && smartSettings.getDrops().isGlassPane()) {
-
-        if (!event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
-          event.getBlock()
-              .getWorld()
-              .dropItem(
-                  event.getBlock().getLocation(),
-                  new ItemStack(event.getBlock().getType(), 1));
-        }
-      } else if ((event.getBlock().getType().equals(Material.GLASS)
-          || STAINED_GLASS.isTagged(event
-          .getBlock().getType()))
-          && (rando.nextInt(smartSettings.getChance().getGlassSand()) == 1
-          || smartSettings.getChance().getGlassSand() == 1)
-          && smartSettings.getDrops().isGlassSand()) {
-        if (!event.getPlayer().getGameMode().equals(GameMode.CREATIVE)) {
-          event.getBlock()
-              .getWorld()
-              .dropItem(event.getBlock().getLocation(),
-                  new ItemStack(Material.SAND, 1));
-        }
-
-      } else if (event.getBlock().getType().equals(Material.ENDER_CHEST)) {
-        event.setCancelled(true);
-        event.getBlock().setType(Material.AIR);
-        event.getBlock()
-            .getWorld()
-            .dropItemNaturally(event.getBlock().getLocation(),
-                new ItemStack(Material.ENDER_CHEST));
-      }
+      blockBreakCommands.stream().filter(blockBreakCommand -> blockBreakCommand
+          .isConditionFullfilled(event.getPlayer(), event.getBlock())).findFirst().ifPresent(
+          blockBreakCommand -> blockBreakCommand
+              .execute(event.getPlayer(), event.getBlock(), event));
 
     }
 
@@ -265,35 +242,13 @@ public class BlockListener implements Listener {
         ItemMeta itemMeta = boots.getItemMeta();
 
         if (itemMeta.hasDisplayName() && itemMeta.getDisplayName().equalsIgnoreCase("Jump")) {
-          double dx;
-          double dy;
-          double dz;
-          dy = 2.4D;
 
-          if (getBlockUnderFeet(ev.getPlayer(), 2.0D)
-              .getType().equals(Material.IRON_BLOCK)) {
-            dx = 2.4D;
-          } else if (getBlockUnderFeet(ev.getPlayer(), 2.0D)
-              .getType().equals(Material.DIAMOND_BLOCK)) {
-            dx = -2.4D;
-          } else {
-            dx = 0.0D;
-          }
+          Vector direction = new Vector(0, 2.4D, 0);
 
-          if (getBlockUnderFeet(ev.getPlayer(), 3.0D)
-              .getType().equals(Material.IRON_BLOCK) || getBlockUnderFeet(ev.getPlayer(), 3.0D)
-              .getType().equals(Material.DIAMOND_BLOCK)) {
-            dz = 2.4D;
-          } else {
-            dz = 0.0D;
-          }
-          Vector vec = new Vector(dx, dy, dz);
-          ev.getPlayer().setVelocity(vec);
+          vectorModifiers.forEach(vectorModifier -> vectorModifier.execute(getBlockUnderFeet(ev.getPlayer(), vectorModifier.depth()),  direction));
+          ev.getPlayer().setVelocity(direction);
         }
-
       }
-
-
     }
   }
 

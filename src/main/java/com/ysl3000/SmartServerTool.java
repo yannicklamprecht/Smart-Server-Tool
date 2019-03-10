@@ -61,7 +61,7 @@ public class SmartServerTool extends JavaPlugin {
     this.worldSpawnWrapper = new WorldSpawnWrapper(worldSpawnLocation);
 
     this.messageBuilder = new MessageBuilder(getServer(), smartSettings.getMessages(), utility);
-    CommandRegistry commandRegistry = new CommandRegistry(smartPlayers, utility, worldSpawnWrapper,
+    CommandRegistry commandRegistry = new CommandRegistry(smartPlayers, worldSpawnWrapper,
         smartSettings.getMessages().getCommandConfigContainer(),
         messageBuilder, this);
     commandRegistry.registerCommands();

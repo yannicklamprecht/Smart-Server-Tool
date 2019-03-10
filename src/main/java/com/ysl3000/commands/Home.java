@@ -30,34 +30,33 @@ public class Home extends CustomCommand {
 
   @Override
   public boolean execute(CommandSender sender, String s, String[] args) {
-    if (!(sender instanceof Player)) {
+    if (!(sender instanceof Player) || !sender.hasPermission(this.getPermission())) {
       return false;
     }
+
     Player player = (Player) sender;
 
-    if (player.hasPermission(this.getPermission())) {
-      if (player.getBedSpawnLocation() != null) {
 
-        if (args.length == 0) {
+      if (args.length == 0) {
+        if (player.getBedSpawnLocation() != null) {
           player.teleport(player.getBedSpawnLocation());
-        } else if (args.length == 1 && player.hasPermission(Permissions.HOME_OTHER)) {
-
-          if (player.getServer().getPlayer(args[0]).isOnline()) {
-            Player target = player.getServer().getPlayer(args[0]);
-            player.teleport(target.getPlayer()
-                .getBedSpawnLocation());
-          } else {
-            OfflinePlayer ofp = player.getServer().getOfflinePlayer(args[0]);
-            player.teleport(ofp.getBedSpawnLocation());
-          }
-
+        } else {
+          player.sendMessage(homeCommandMessage.getHomeNotSet());
         }
-      } else {
-        player.sendMessage(homeCommandMessage.getHomeNotSet());
+
+      } else if (args.length == 1 && player.hasPermission(Permissions.HOME_OTHER)) {
+
+        if (player.getServer().getPlayer(args[0]) != null) {
+          Player target = player.getServer().getPlayer(args[0]);
+          player.teleport(target.getPlayer()
+              .getBedSpawnLocation());
+        } else {
+          OfflinePlayer ofp = player.getServer().getOfflinePlayer(args[0]);
+          player.teleport(ofp.getBedSpawnLocation());
+        }
+
       }
-    } else {
-      sender.sendMessage(this.getPermissionMessage());
-    }
+
     return true;
   }
 }

@@ -8,7 +8,6 @@ import com.ysl3000.config.settings.messages.commands.CommandConfigContainer;
 import com.ysl3000.stubs.SmartBukkitStub;
 import com.ysl3000.utils.Utility;
 import com.ysl3000.utils.valuemappers.MessageBuilder;
-import org.bukkit.entity.Player;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
@@ -45,17 +44,7 @@ public class FreezeTest {
 
   @Test
   public void notAPlayer() {
-    Assert.assertFalse(freeze.execute(null, "", new String[]{}));
+    Assert.assertFalse(freeze.execute(this.serverMock.getConsoleSender(), "", new String[]{}));
   }
-
-
-  @Test
-  public void test() {
-
-    Player player = serverMock.addPlayer();
-    freeze.execute(player, "", new String[]{"", ""});
-
-  }
-
 
 }
