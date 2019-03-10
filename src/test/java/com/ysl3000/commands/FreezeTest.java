@@ -3,7 +3,7 @@ package com.ysl3000.commands;
 import be.seeseemelk.mockbukkit.MockBukkit;
 import be.seeseemelk.mockbukkit.ServerMock;
 import com.ysl3000.SmartPlayers;
-import com.ysl3000.config.settings.CommandConfigContainer;
+import com.ysl3000.config.settings.messages.commands.CommandConfigContainer;
 import com.ysl3000.config.settings.Messages;
 import com.ysl3000.stubs.SmartBukkitStub;
 import com.ysl3000.utils.Utility;

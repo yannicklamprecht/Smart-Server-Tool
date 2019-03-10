@@ -11,8 +11,8 @@ package com.ysl3000.commands;
 
 import com.ysl3000.SmartPlayer;
 import com.ysl3000.SmartPlayers;
-import com.ysl3000.config.settings.CommandConfig;
-import org.bukkit.ChatColor;
+import com.ysl3000.config.settings.messages.commands.ModCommandMessage;
+import com.ysl3000.utils.valuemappers.MessageBuilder;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -25,11 +25,15 @@ import org.bukkit.inventory.ItemStack;
 public class ModCommand extends CustomCommand {
 
 
+  private final MessageBuilder messageBuilder;
   private final SmartPlayers smartPlayers;
+  private ModCommandMessage modCommandMessage;
 
-  public ModCommand(CommandConfig commandConfig,
+  ModCommand(ModCommandMessage commandConfig, MessageBuilder messageBuilder,
       SmartPlayers smartPlayers) {
     super(commandConfig);
+    this.modCommandMessage=commandConfig;
+    this.messageBuilder = messageBuilder;
     this.smartPlayers = smartPlayers;
   }
 
@@ -73,7 +77,7 @@ public class ModCommand extends CustomCommand {
       target.getInventory().clear();
       target.setOp(true);
       target.setGameMode(GameMode.CREATIVE);
-      target.sendMessage((ChatColor.GREEN + "Modmode enabled"));
+      target.sendMessage(messageBuilder.injectParameter(modCommandMessage.getModModeActive()));
       smartPlayer.setMod(true);
 
     }

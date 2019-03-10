@@ -1,7 +1,7 @@
 package com.ysl3000.commands;
 
 
-import com.ysl3000.config.settings.CommandConfig;
+import com.ysl3000.config.settings.messages.commands.CommandConfig;
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.command.Command;

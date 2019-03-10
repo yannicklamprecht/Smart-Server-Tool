@@ -45,6 +45,7 @@ public class PlayerLookUpIp extends CustomCommand {
       if (args.length != 1) {
         return false;
       }
+      // todo remove duplicate
       Player target = Bukkit.getPlayer(args[0]);
 
       if (target == null) {

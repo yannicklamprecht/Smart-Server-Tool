@@ -3,7 +3,8 @@ package com.ysl3000.commands;
 
 import com.ysl3000.SmartPlayer;
 import com.ysl3000.SmartPlayers;
-import com.ysl3000.config.settings.CommandConfig;
+import com.ysl3000.config.settings.messages.commands.GodCommandMessage;
+import com.ysl3000.utils.valuemappers.MessageBuilder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -13,10 +14,14 @@ import org.bukkit.entity.Player;
 public class God extends CustomCommand {
 
   private SmartPlayers smartPlayers;
+  private MessageBuilder messageBuilder;
+  private GodCommandMessage godCommandMessage;
 
 
-  public God(CommandConfig commandConfig, SmartPlayers smartPlayers) {
+  God(GodCommandMessage commandConfig, MessageBuilder messageBuilder, SmartPlayers smartPlayers) {
     super(commandConfig);
+    this.messageBuilder = messageBuilder;
+    this.godCommandMessage=commandConfig;
     this.smartPlayers = smartPlayers;
   }
 
@@ -28,12 +33,9 @@ public class God extends CustomCommand {
 
     Player p = (Player) sender;
     if (testPermission(p)) {
-
       SmartPlayer smartPlayer = smartPlayers.getPlayerByUUID(p.getUniqueId());
       smartPlayer.setGod(!smartPlayer.isGod());
-
-      p.sendMessage("Godmode set to " + (smartPlayer.isGod() ? "True" : "False"));
-
+      p.sendMessage(messageBuilder.injectParameter(godCommandMessage.getGodmodeMessage(),smartPlayer));
     }
 
     return true;

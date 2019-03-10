@@ -1,7 +1,7 @@
 package com.ysl3000.commands;
 
 
-import com.ysl3000.config.settings.CommandConfig;
+import com.ysl3000.config.settings.messages.commands.CommandConfig;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -11,7 +11,7 @@ import org.bukkit.entity.Player;
  */
 public class KillMe extends CustomCommand {
 
-  public KillMe(CommandConfig commandConfig) {
+  KillMe(CommandConfig commandConfig) {
     super(commandConfig);
   }
 

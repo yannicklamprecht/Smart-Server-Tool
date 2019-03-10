@@ -1,7 +1,8 @@
 package com.ysl3000.commands;
 
 
-import com.ysl3000.config.settings.CommandConfig;
+import com.ysl3000.config.settings.messages.commands.WalkSpeedCommandMessage;
+import com.ysl3000.utils.valuemappers.MessageBuilder;
 import java.util.regex.Pattern;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -13,10 +14,14 @@ import org.bukkit.entity.Player;
 public class Walkspeed extends CustomCommand {
 
   private static final Pattern NUMBER = Pattern.compile("\\d");
+  private final WalkSpeedCommandMessage commandConfig;
+  private final MessageBuilder messageBuilder;
 
 
-  public Walkspeed(CommandConfig commandConfig) {
+  Walkspeed(WalkSpeedCommandMessage commandConfig, MessageBuilder messageBuilder) {
     super(commandConfig);
+    this.commandConfig = commandConfig;
+    this.messageBuilder = messageBuilder;
   }
 
   @Override
@@ -34,11 +39,9 @@ public class Walkspeed extends CustomCommand {
     if (NUMBER.matcher(args[0]).matches()) {
       if (Float.parseFloat(args[0]) > 0 && Float.parseFloat(args[0]) <= 1) {
         p.setWalkSpeed(Float.parseFloat(args[0]));
-        // todo configurable
-        p.sendMessage("Walkspeed set to " + p.getWalkSpeed());
+        p.sendMessage(messageBuilder.injectParameter(commandConfig.getWalkSpeedSetTo(),p));
       } else {
-        // todo configurable
-        p.sendMessage("Speed has to be between 0.1 and 1.0");
+        p.sendMessage(messageBuilder.injectParameter(commandConfig.getWalkSpeedNeedToBeBetween()));
       }
     }
 

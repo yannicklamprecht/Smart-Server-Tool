@@ -1,7 +1,8 @@
 package com.ysl3000.commands;
 
 
-import com.ysl3000.config.settings.CommandConfig;
+import com.ysl3000.config.settings.messages.commands.SwitchLocationCommandMessage;
+import com.ysl3000.utils.valuemappers.MessageBuilder;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -14,8 +15,13 @@ import org.bukkit.entity.Player;
 public class SwitchLocation extends CustomCommand {
 
 
-  public SwitchLocation(CommandConfig commandConfig) {
+  private final SwitchLocationCommandMessage switchLocationCommandMessage;
+  private final MessageBuilder messageBuilder;
+
+  SwitchLocation(SwitchLocationCommandMessage commandConfig, MessageBuilder messageBuilder) {
     super(commandConfig);
+    this.switchLocationCommandMessage=commandConfig;
+    this.messageBuilder = messageBuilder;
   }
 
   @Override
@@ -28,11 +34,11 @@ public class SwitchLocation extends CustomCommand {
 
     if (player.hasPermission(this.getPermission())) {
       if (args.length == 0) {
-        player.sendMessage("Not enough arguments");
+        player.sendMessage(switchLocationCommandMessage.getNotEnoughArguments());
       } else if (args.length == 1) {
         Player target = player.getServer().getPlayer(args[0]);
         if (target == null) {
-          player.sendMessage("Not online");
+          player.sendMessage(switchLocationCommandMessage.getNotOnline());
           return true;
         }
 
@@ -42,14 +48,11 @@ public class SwitchLocation extends CustomCommand {
 
         if (target.canSee(player)) {
 
-          player.sendMessage("You changed position with "
-              + target.getDisplayName());
-          target.sendMessage(player.getDisplayName()
-              + " changed position with you. Changed by "
-              + player.getDisplayName());
+          player.sendMessage(messageBuilder.injectParameter(switchLocationCommandMessage.getSwitchMessage(),target));
+          target.sendMessage(messageBuilder.injectParameter(switchLocationCommandMessage.getAdditionalMessageSwitch(),player));
         }
       } else {
-        player.sendMessage("to many arguments");
+        player.sendMessage(messageBuilder.injectParameter(switchLocationCommandMessage.getTooManyArguments()));
       }
     }
     return true;

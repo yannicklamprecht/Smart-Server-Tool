@@ -1,10 +1,8 @@
 package com.ysl3000.commands;
 
 
-import com.ysl3000.config.settings.CommandConfig;
-import com.ysl3000.utils.Utility;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import com.ysl3000.config.settings.messages.commands.OnlineComandMessage;
+import com.ysl3000.utils.valuemappers.MessageBuilder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -13,11 +11,14 @@ import org.bukkit.entity.Player;
  */
 public class Online extends CustomCommand {
 
-  private Utility utility;
 
-  public Online(CommandConfig commandConfig,Utility utility) {
+  private final OnlineComandMessage commandConfig;
+  private final MessageBuilder messageBuilder;
+
+  Online(OnlineComandMessage commandConfig, MessageBuilder messageBuilder) {
     super(commandConfig);
-    this.utility = utility;
+    this.commandConfig = commandConfig;
+    this.messageBuilder = messageBuilder;
   }
 
   @Override
@@ -25,9 +26,7 @@ public class Online extends CustomCommand {
     if (!(sender instanceof Player)) {
       return false;
     }
-    sender.sendMessage(ChatColor.GRAY + "Online ("
-        + Bukkit.getServer().getOnlinePlayers().size() + "/"
-        + Bukkit.getMaxPlayers() + "): " + utility.listPlayers());
+    sender.sendMessage(messageBuilder.injectParameter(commandConfig.getOnlineMessage()));
 
     return true;
   }

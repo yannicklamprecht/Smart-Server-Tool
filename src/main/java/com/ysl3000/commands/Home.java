@@ -10,7 +10,7 @@
 package com.ysl3000.commands;
 
 
-import com.ysl3000.config.settings.CommandConfig;
+import com.ysl3000.config.settings.messages.commands.HomeCommandMessage;
 import com.ysl3000.utils.Permissions;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.command.CommandSender;
@@ -22,9 +22,11 @@ import org.bukkit.entity.Player;
  */
 public class Home extends CustomCommand {
 
+  private HomeCommandMessage homeCommandMessage;
 
-  public Home(CommandConfig commandConfig) {
+  Home(HomeCommandMessage commandConfig) {
     super(commandConfig);
+    this.homeCommandMessage=commandConfig;
   }
 
   @Override
@@ -39,9 +41,7 @@ public class Home extends CustomCommand {
 
         if (args.length == 0) {
           player.teleport(player.getBedSpawnLocation());
-        } else if (args.length == 1) {
-
-          if (player.hasPermission(Permissions.HOME_OTHER)) {
+        } else if (args.length == 1 && player.hasPermission(Permissions.HOME_OTHER)) {
 
             if (player.getServer().getPlayer(args[0]).isOnline()) {
               Player target = player.getServer().getPlayer(args[0]);
@@ -51,11 +51,10 @@ public class Home extends CustomCommand {
               OfflinePlayer ofp = player.getServer().getOfflinePlayer(args[0]);
               player.teleport(ofp.getBedSpawnLocation());
             }
-          }
 
         }
       } else {
-        player.sendMessage("No home set");
+        player.sendMessage(homeCommandMessage.getHomeNotSet());
       }
     } else {
       sender.sendMessage(this.getPermissionMessage());

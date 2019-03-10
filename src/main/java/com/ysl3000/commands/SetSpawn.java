@@ -28,7 +28,7 @@ public class SetSpawn extends CustomCommand {
   private SetSpawnCommandMessage setSpawnCommandMessage;
   private MessageBuilder messageBuilder;
 
-  public SetSpawn(SetSpawnCommandMessage commandConfig,
+  SetSpawn(SetSpawnCommandMessage commandConfig,
       MessageBuilder messageBuilder,
       WorldSpawnWrapper worldSpawnWrapper) {
     super(commandConfig);

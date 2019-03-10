@@ -2,7 +2,7 @@ package com.ysl3000.commands;
 
 import com.ysl3000.SmartPlayers;
 import com.ysl3000.config.data.WorldSpawnWrapper;
-import com.ysl3000.config.settings.CommandConfigContainer;
+import com.ysl3000.config.settings.messages.commands.CommandConfigContainer;
 import com.ysl3000.utils.Utility;
 import com.ysl3000.utils.valuemappers.MessageBuilder;
 import java.lang.reflect.Field;
@@ -12,6 +12,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.SimpleCommandMap;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -79,18 +80,21 @@ public class CommandRegistry {
 
 
         new KillMe(configContainer.getKillMe()),
-        new Kill(configContainer.getKill()),
-        new ServerInfo(configContainer.getServerInfo()),
-        new SwitchLocation(configContainer.getSwitchLocations()),
+        new Kill(configContainer.getKill(),messageBuilder),
+        new ServerInfo(configContainer.getServerInfo(), messageBuilder),
 
 
-        new Spawn(configContainer.getSpawn()),
+        new SwitchLocation(configContainer.getSwitchLocations(),messageBuilder),
+        new Spawn(configContainer.getSpawn(),messageBuilder),
+        new Walkspeed(configContainer.getWalkspeed(),messageBuilder),
+
+
+
         new Home(configContainer.getHome()),
-        new Walkspeed(configContainer.getWalkspeed()),
-        new God(configContainer.getGod(), smartPlayers),
+        new God(configContainer.getGod(),messageBuilder, smartPlayers),
 
-        new Online(configContainer.getOnline(), utility),
-        new ModCommand(configContainer.getMod(), smartPlayers),
+        new Online(configContainer.getOnline(), messageBuilder),
+        new ModCommand(configContainer.getMod(),messageBuilder, smartPlayers),
         new Configreload(configContainer.getReload(), javaPlugin)
     );
 
@@ -98,5 +102,6 @@ public class CommandRegistry {
 
   private void register(Command... commands) {
     commandMap.registerAll("sst", Arrays.asList(commands));
+    Bukkit.getServer().getOnlinePlayers().forEach(Player::updateCommands);
   }
 }

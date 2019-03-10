@@ -21,6 +21,6 @@ public class ServerTimeMapper implements ValueMapper {
   @Override
   public void injectPlaceholder(MessageWrapper message) {
     message.replace("{server_time}",
-        utility.getTime(System.currentTimeMillis(), "HH:mm"));
+        utility.getTime(System.currentTimeMillis(), messages.getTimeformat()));
   }
 }

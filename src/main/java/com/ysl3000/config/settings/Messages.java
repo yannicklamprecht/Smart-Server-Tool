@@ -2,6 +2,7 @@ package com.ysl3000.config.settings;
 
 import com.ysl3000.config.settings.messages.PlayerMessage;
 import com.ysl3000.config.settings.messages.Service;
+import com.ysl3000.config.settings.messages.commands.CommandConfigContainer;
 
 /**
  * Created by ysl3000

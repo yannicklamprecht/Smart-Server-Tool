@@ -14,7 +14,7 @@ public class RealTime extends CustomCommand {
   private MessageBuilder messageBuilder;
   private RealTimeCommandMessage realTimeCommandMessage;
 
-  public RealTime(RealTimeCommandMessage commandConfig,
+  RealTime(RealTimeCommandMessage commandConfig,
       MessageBuilder messageBuilder) {
     super(commandConfig);
     this.messageBuilder = messageBuilder;

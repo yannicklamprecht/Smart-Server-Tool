@@ -1,9 +1,8 @@
 package com.ysl3000.commands;
 
 
-import com.ysl3000.config.settings.CommandConfig;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
+import com.ysl3000.config.settings.messages.commands.ServerInfoCommandMessage;
+import com.ysl3000.utils.valuemappers.MessageBuilder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -14,8 +13,14 @@ import org.bukkit.entity.Player;
 public class ServerInfo extends CustomCommand {
 
 
-  public ServerInfo(CommandConfig commandConfig) {
+  private ServerInfoCommandMessage serverInfoCommandMessage;
+  private MessageBuilder messageBuilder;
+
+  ServerInfo(ServerInfoCommandMessage commandConfig,
+      MessageBuilder messageBuilder) {
     super(commandConfig);
+    this.serverInfoCommandMessage=commandConfig;
+    this.messageBuilder = messageBuilder;
   }
 
   @Override
@@ -26,25 +31,7 @@ public class ServerInfo extends CustomCommand {
 
     Player player = (Player) sender;
     if (player.hasPermission(this.getPermission())) {
-      double total = (((Runtime.getRuntime().totalMemory()) / 1024.0) / 1024);
-      double max = (((Runtime.getRuntime().maxMemory()) / 1024.0) / 1024);
-      int cpu = Runtime.getRuntime().availableProcessors();
-
-      // todo inject message
-      sender.sendMessage("Current memoryuse "
-          + total
-          + "/"
-          + max
-          + " mb\nThis host has: "
-          + cpu
-          + " cpu's\nThe seed is : "
-          + Bukkit.getWorld(player.getWorld().getName()).getSeed()
-          + "\nServer is in "
-          + (Bukkit.getOnlineMode() ? ChatColor.GREEN + "online"
-          : ChatColor.RED + "offline") + ChatColor.RESET
-          + "-mode\n" + ChatColor.GRAY + "Online ("
-          + Bukkit.getServer().getOnlinePlayers().size() + "/"
-          + Bukkit.getMaxPlayers() + ")");
+      sender.sendMessage(messageBuilder.injectParameter(serverInfoCommandMessage.getServerOnlineMessage(),player));
     }
     return true;
   }

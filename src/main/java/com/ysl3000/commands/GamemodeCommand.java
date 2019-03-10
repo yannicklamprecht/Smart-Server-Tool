@@ -47,6 +47,7 @@ public class GamemodeCommand extends CustomCommand {
     } else if (args.length == 1
         && player.hasPermission(Permissions.GAMEMODE_OTHER)) {
 
+      // todo remove duplcate
       Player target = Bukkit.getPlayer(args[0]);
 
       if (target == null) {

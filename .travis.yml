@@ -19,5 +19,3 @@ deploy:
     tags: true
     repo: yannicklamprecht/Smart-Server-Tool
   overwrite: true
-  api_key:
-    secure: $deploy_key

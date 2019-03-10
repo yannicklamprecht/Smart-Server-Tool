@@ -10,7 +10,8 @@
 package com.ysl3000.commands;
 
 
-import com.ysl3000.config.settings.CommandConfig;
+import com.ysl3000.config.settings.messages.commands.KillCommandMessage;
+import com.ysl3000.utils.valuemappers.MessageBuilder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -21,9 +22,13 @@ import org.bukkit.entity.Player;
  */
 public class Kill extends CustomCommand {
 
+  private KillCommandMessage killCommandMessage;
+  private final MessageBuilder messageBuilder;
 
-  public Kill(CommandConfig commandConfig) {
+  Kill(KillCommandMessage commandConfig, MessageBuilder messageBuilder) {
     super(commandConfig);
+    this.killCommandMessage=commandConfig;
+    this.messageBuilder = messageBuilder;
   }
 
   @Override
@@ -36,19 +41,18 @@ public class Kill extends CustomCommand {
     if (player.hasPermission(this.getPermission())) {
 
       if (args.length == 0) {
-        player.sendMessage("Need more arguments");
+        player.sendMessage(killCommandMessage.getNotEnoughArguments());
       } else if (args.length == 1) {
 
         Player target = sender.getServer().getPlayer(
             args[0]);
 
         if (target == null) {
-          player.sendMessage("Player not found");
+          player.sendMessage(killCommandMessage.getPlayerNotFound());
           return true;
         }
         target.setHealth(0.0);
-        player.sendMessage(target.getDisplayName()
-            + " killed successfully");
+        player.sendMessage(messageBuilder.injectParameter(killCommandMessage.getPlayerSuccessfullyKilled(),target));
       }
     } else {
       sender.sendMessage(this.getPermissionMessage());

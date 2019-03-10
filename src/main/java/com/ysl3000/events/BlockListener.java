@@ -11,6 +11,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.Dispenser;
@@ -64,12 +65,17 @@ public class BlockListener implements Listener {
       v.add(Material.PINK_STAINED_GLASS);
       return v;
     }
+
+    @Override
+    public NamespacedKey getKey() {
+      return NamespacedKey.minecraft("stained_glass");
+    }
   };
 
   private SmartSettings smartSettings;
   private WorldSettings worldSettings;
 
-  public BlockListener(SmartSettings smartSettings) {
+  BlockListener(SmartSettings smartSettings) {
     this.smartSettings = smartSettings;
     this.worldSettings = smartSettings.getWorldSettings();
   }

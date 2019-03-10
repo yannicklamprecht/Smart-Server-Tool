@@ -8,7 +8,9 @@ import com.ysl3000.utils.valuemappers.mappers.ColorMapper;
 import com.ysl3000.utils.valuemappers.mappers.CpuCoreMapper;
 import com.ysl3000.utils.valuemappers.mappers.FirstJoinMapper;
 import com.ysl3000.utils.valuemappers.mappers.GamemodeMapper;
+import com.ysl3000.utils.valuemappers.mappers.GodMapper;
 import com.ysl3000.utils.valuemappers.mappers.LoginResultMapper;
+import com.ysl3000.utils.valuemappers.mappers.MemoryMapper;
 import com.ysl3000.utils.valuemappers.mappers.MinecraftVersionMapper;
 import com.ysl3000.utils.valuemappers.mappers.PlayerAddressMapper;
 import com.ysl3000.utils.valuemappers.mappers.PlayerDisplayNameMapper;
@@ -16,11 +18,13 @@ import com.ysl3000.utils.valuemappers.mappers.PlayerFirstPlayedMapper;
 import com.ysl3000.utils.valuemappers.mappers.PlayerNameMapper;
 import com.ysl3000.utils.valuemappers.mappers.PlayersOnlineMapper;
 import com.ysl3000.utils.valuemappers.mappers.ServerNameMapper;
+import com.ysl3000.utils.valuemappers.mappers.ServerOnlineMapper;
 import com.ysl3000.utils.valuemappers.mappers.ServerTimeMapper;
 import com.ysl3000.utils.valuemappers.mappers.SpeedMapper;
 import com.ysl3000.utils.valuemappers.mappers.TimeMapper;
 import com.ysl3000.utils.valuemappers.mappers.WeatherMapper;
 import com.ysl3000.utils.valuemappers.mappers.WorldMapper;
+import com.ysl3000.utils.valuemappers.mappers.WorldSeedMapper;
 import java.util.ArrayList;
 import java.util.List;
 import org.bukkit.Server;
@@ -50,6 +54,10 @@ public class MessageBuilder {
     mappers.add(new WorldMapper());
     mappers.add(new WeatherMapper());
     mappers.add(new SpeedMapper());
+    mappers.add(new GodMapper());
+    mappers.add(new MemoryMapper());
+    mappers.add(new ServerOnlineMapper());
+    mappers.add(new WorldSeedMapper());
     mappers.add(new ColorMapper());
   }
 

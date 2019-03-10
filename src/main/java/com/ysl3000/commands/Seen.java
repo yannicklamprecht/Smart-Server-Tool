@@ -16,7 +16,7 @@ public class Seen extends CustomCommand {
   private SeenCommandMessage seenCommandMessage;
   private MessageBuilder messageBuilder;
 
-  public Seen(SeenCommandMessage commandConfig, MessageBuilder messageBuilder) {
+  Seen(SeenCommandMessage commandConfig, MessageBuilder messageBuilder) {
     super(commandConfig);
     this.seenCommandMessage = commandConfig;
     this.messageBuilder = messageBuilder;

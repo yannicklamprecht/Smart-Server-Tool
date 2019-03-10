@@ -1,4 +1,4 @@
-package com.ysl3000.config.settings;
+package com.ysl3000.config.settings.messages.commands;
 
 /**
  * Created by ysl3000

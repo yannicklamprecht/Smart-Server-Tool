@@ -1,6 +1,5 @@
 package com.ysl3000.config.settings.messages.commands;
 
-import com.ysl3000.config.settings.CommandConfig;
 import lombok.Data;
 
 /**
