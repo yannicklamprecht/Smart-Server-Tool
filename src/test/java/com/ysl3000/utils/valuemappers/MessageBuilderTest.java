@@ -47,8 +47,7 @@ public class MessageBuilderTest {
 
   @Test
   public void shouldInjectServerName() {
-    MessageWrapper messageWrapper = MessageWrapper.of("Hey {server_name}");
-    String message = this.messageBuilder.replaceMessageValues(messageWrapper).getMessage();
+    String message = this.messageBuilder.injectParameter("Hey {server_name}");
     Assert.assertEquals("ServerName should be injected successfully", "Hey SmartServer", message);
   }
 
