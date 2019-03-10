@@ -15,13 +15,13 @@ public class LoginResultMapper implements ValueMapper {
   public void injectPlaceholder(MessageWrapper message) {
 
     message.get(PlayerLoginEvent.Result.class).ifPresent(result -> {
-      String loginResult="";
+      String loginResult = "";
       if (result == Result.KICK_WHITELIST) {
         loginResult = "whitelist";
       } else if (result == Result.KICK_BANNED) {
         loginResult = "banned";
       }
-      message.replace("{login_result}",loginResult);
+      message.replace("{login_result}", loginResult);
     });
   }
 }

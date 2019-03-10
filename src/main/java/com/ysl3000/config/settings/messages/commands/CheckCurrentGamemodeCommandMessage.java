@@ -12,6 +12,7 @@ public class CheckCurrentGamemodeCommandMessage extends CommandConfig {
   private String playerNotFound = "Player {parameter} not found!";
   private String currentGamemodeOf = "Current GameMode of {player_display_name} {player_gamemode}";
   private String youAreNotAllowedToLookupOthersGamemode = "You aren't allowed to lookup others gamemode";
+
   public CheckCurrentGamemodeCommandMessage() {
 
     super("gm", "Current GameMode", "/gm",

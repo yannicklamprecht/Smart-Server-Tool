@@ -14,8 +14,8 @@ public abstract class TimeCommandMessage extends CommandConfig {
 
 
   public TimeCommandMessage(String name, String description, String usageMessage,
-      String permission,int time, String type){
-    super(name,description,usageMessage,permission);
+      String permission, int time, String type) {
+    super(name, description, usageMessage, permission);
     this.time = time;
     this.type = type;
   }

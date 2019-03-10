@@ -12,7 +12,8 @@ public class GamemodeMapper implements ValueMapper {
 
   @Override
   public void injectPlaceholder(MessageWrapper message) {
-    message.get(Player.class).ifPresent(p -> message.replace("{player_gamemode}", p.getGameMode().name()));
-    message.get(GameMode.class).ifPresent(g -> message.replace("{gamemode}",g.name()));
+    message.get(Player.class)
+        .ifPresent(p -> message.replace("{player_gamemode}", p.getGameMode().name()));
+    message.get(GameMode.class).ifPresent(g -> message.replace("{gamemode}", g.name()));
   }
 }

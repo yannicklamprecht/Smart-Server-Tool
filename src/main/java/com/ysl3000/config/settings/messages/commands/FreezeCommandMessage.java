@@ -4,6 +4,7 @@ package com.ysl3000.config.settings.messages.commands;
  * Created by ysl3000
  */
 public class FreezeCommandMessage extends CommandConfig {
+
   private String youAreNotAllowedToMove = "You're now allowed to move";
   private String wrongInput = "&4Wrong Input";
   private String paramterNotANumber = "Your given parameter {parameter} is not a number.";
@@ -11,7 +12,7 @@ public class FreezeCommandMessage extends CommandConfig {
   private String targetFreezeMessage = "You was frozen by {player_display_name}.";
   private String senderFreezeMessage = "You froze {player_display_name}.";
 
-  public FreezeCommandMessage(){
+  public FreezeCommandMessage() {
     super("freeze", "freezes a player",
         "/freeze <player>", "sst.freeze");
   }

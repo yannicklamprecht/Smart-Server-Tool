@@ -20,7 +20,6 @@ import org.bukkit.entity.Player;
 
 /**
  * @author yannicklamprecht
- *
  */
 public class Spawn extends CustomCommand {
 
@@ -30,7 +29,7 @@ public class Spawn extends CustomCommand {
 
   Spawn(SpawnCommandMessage commandConfig, MessageBuilder messageBuilder) {
     super(commandConfig);
-    this.spawnCommandMessage=commandConfig;
+    this.spawnCommandMessage = commandConfig;
     this.messageBuilder = messageBuilder;
   }
 
@@ -49,7 +48,8 @@ public class Spawn extends CustomCommand {
       if (args.length == 0) {
         player.teleport(lc);
 
-        player.sendMessage(messageBuilder.injectParameter(spawnCommandMessage.getTeleportedToSpawn(),player.getWorld()));
+        player.sendMessage(messageBuilder
+            .injectParameter(spawnCommandMessage.getTeleportedToSpawn(), player.getWorld()));
       } else if (args.length == 1) {
         Player target = Bukkit.getPlayer(args[0]);
 
@@ -60,8 +60,10 @@ public class Spawn extends CustomCommand {
 
         target.teleport(lc);
 
-        player.sendMessage(messageBuilder.injectParameter(spawnCommandMessage.getTeleportOtherToSpawn(),target));
-        target.sendMessage(messageBuilder.injectParameter(spawnCommandMessage.getTeleportedBySomeoneToSpawn(),player));
+        player.sendMessage(
+            messageBuilder.injectParameter(spawnCommandMessage.getTeleportOtherToSpawn(), target));
+        target.sendMessage(messageBuilder
+            .injectParameter(spawnCommandMessage.getTeleportedBySomeoneToSpawn(), player));
       }
 
     }

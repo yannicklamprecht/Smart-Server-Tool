@@ -5,10 +5,10 @@ package com.ysl3000.config.settings.messages.commands;
  */
 public class CommandConfig {
 
-  private String name="";
-  private String description="";
-  private String usageMessage="";
-  private String permission="";
+  private String name = "";
+  private String description = "";
+  private String usageMessage = "";
+  private String permission = "";
 
 
   public CommandConfig() {

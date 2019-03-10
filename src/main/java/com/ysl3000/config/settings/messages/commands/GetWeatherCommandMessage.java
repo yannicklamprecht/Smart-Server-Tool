@@ -10,7 +10,7 @@ public class GetWeatherCommandMessage extends CommandConfig {
 
   private String currentWeather = "Current Weather in {world_name} is &6{weather{rainy:sunny}}";
 
-  public GetWeatherCommandMessage(){
+  public GetWeatherCommandMessage() {
     super("wg", "get weather", "/wg", "sst.wg");
   }
 

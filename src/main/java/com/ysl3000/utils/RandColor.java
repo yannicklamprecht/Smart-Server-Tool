@@ -25,9 +25,9 @@ public class RandColor {
 
   private int index = 0;
 
-  public ChatColor getNextColor() {
-    if(index==VALID_COLORS.length){
-      index=0;
+  ChatColor getNextColor() {
+    if (index == VALID_COLORS.length) {
+      index = 0;
     }
     return VALID_COLORS[index++];
   }

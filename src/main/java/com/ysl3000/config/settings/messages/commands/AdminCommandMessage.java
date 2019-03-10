@@ -12,7 +12,7 @@ public class AdminCommandMessage extends CommandConfig {
   private String operatorEnabled = "&aOp enabled";
   private String pleaseUseDeopPlayer = "Please use /deop <player>";
 
-  public AdminCommandMessage(){
+  public AdminCommandMessage() {
     super("/admin", "Toggle op", "//admin", "sst.admin");
   }
 

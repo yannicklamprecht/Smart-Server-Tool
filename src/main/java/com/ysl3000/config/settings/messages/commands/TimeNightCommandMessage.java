@@ -7,6 +7,6 @@ public class TimeNightCommandMessage extends TimeCommandMessage {
 
   public TimeNightCommandMessage() {
     super("tn", "Set time to night", "/tn",
-        "sst.time",18_000,"Night");
+        "sst.time", 18_000, "Night");
   }
 }

@@ -32,7 +32,7 @@ public class SetSpawn extends CustomCommand {
       MessageBuilder messageBuilder,
       WorldSpawnWrapper worldSpawnWrapper) {
     super(commandConfig);
-    this.setSpawnCommandMessage=commandConfig;
+    this.setSpawnCommandMessage = commandConfig;
     this.messageBuilder = messageBuilder;
     this.worldSpawnWrapper = worldSpawnWrapper;
   }
@@ -49,7 +49,8 @@ public class SetSpawn extends CustomCommand {
 
       player.getWorld().setSpawnLocation(player.getLocation());
       worldSpawnWrapper.setSpawnPointForWorld(player.getLocation());
-      player.sendMessage(messageBuilder.injectParameter(setSpawnCommandMessage.getSetSpawnMessage(),player.getWorld()));
+      player.sendMessage(messageBuilder
+          .injectParameter(setSpawnCommandMessage.getSetSpawnMessage(), player.getWorld()));
 
     }
 

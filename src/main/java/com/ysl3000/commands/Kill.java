@@ -18,7 +18,6 @@ import org.bukkit.entity.Player;
 
 /**
  * @author yannicklamprecht
- *
  */
 public class Kill extends CustomCommand {
 
@@ -27,7 +26,7 @@ public class Kill extends CustomCommand {
 
   Kill(KillCommandMessage commandConfig, MessageBuilder messageBuilder) {
     super(commandConfig);
-    this.killCommandMessage=commandConfig;
+    this.killCommandMessage = commandConfig;
     this.messageBuilder = messageBuilder;
   }
 
@@ -52,7 +51,8 @@ public class Kill extends CustomCommand {
           return true;
         }
         target.setHealth(0.0);
-        player.sendMessage(messageBuilder.injectParameter(killCommandMessage.getPlayerSuccessfullyKilled(),target));
+        player.sendMessage(messageBuilder
+            .injectParameter(killCommandMessage.getPlayerSuccessfullyKilled(), target));
       }
     } else {
       sender.sendMessage(this.getPermissionMessage());

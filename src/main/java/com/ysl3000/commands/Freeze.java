@@ -48,13 +48,15 @@ public class Freeze extends CustomCommand {
             Player target = Bukkit.getPlayer(args[1]);
             freezePlayer(target, time);
             sender.sendMessage(
-                messageBuilder.injectParameter(freezeCommandMessage.getSenderFreezeMessage(), target));
+                messageBuilder
+                    .injectParameter(freezeCommandMessage.getSenderFreezeMessage(), target));
             p.sendMessage(
                 messageBuilder.injectParameter(freezeCommandMessage.getTargetFreezeMessage(), p));
           }
         } else {
           sender.sendMessage(
-              messageBuilder.injectParameter(freezeCommandMessage.getParamterNotANumber(), args[0]));
+              messageBuilder
+                  .injectParameter(freezeCommandMessage.getParamterNotANumber(), args[0]));
         }
       } else {
         p.sendMessage(freezeCommandMessage.getWrongInput());

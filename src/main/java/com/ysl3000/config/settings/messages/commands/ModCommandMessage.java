@@ -11,7 +11,7 @@ public class ModCommandMessage extends CommandConfig {
   private String modModeActive = "&aModmode enabled";
 
 
-  public ModCommandMessage(){
+  public ModCommandMessage() {
     super("mod", "enter modmode", "/mod", "sst.mod");
   }
 

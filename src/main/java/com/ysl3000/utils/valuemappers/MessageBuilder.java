@@ -45,7 +45,7 @@ public class MessageBuilder {
     mappers.add(new PlayerAddressMapper());
     mappers.add(new PlayersOnlineMapper(server, utility));
     mappers.add(new PlayerFirstPlayedMapper(utility, messages));
-    mappers.add(new ServerTimeMapper(utility,messages));
+    mappers.add(new ServerTimeMapper(utility, messages));
     mappers.add(new ServerNameMapper(server));
     mappers.add(new TimeMapper(messages));
     mappers.add(new LoginResultMapper());

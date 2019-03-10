@@ -10,7 +10,7 @@ public class BackCommandMessage extends CommandConfig {
 
   private String lastLocationNotFound = "Last location not found";
 
-  public BackCommandMessage(){
+  public BackCommandMessage() {
     super("back", "tp to last location", "/back", "");
   }
 }

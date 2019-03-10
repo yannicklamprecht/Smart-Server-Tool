@@ -12,9 +12,9 @@ public class OnlineComandMessage extends CommandConfig {
   private String onlineMessage = "&7Online ({online_players}/{max_players}): {list_players}";
 
 
-  OnlineComandMessage(){
-  super("online", "lists onlineplayer", "/online",
-      "");
+  OnlineComandMessage() {
+    super("online", "lists onlineplayer", "/online",
+        "");
   }
 
 }

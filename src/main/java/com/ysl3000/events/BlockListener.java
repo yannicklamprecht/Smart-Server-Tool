@@ -83,13 +83,15 @@ public class BlockListener implements Listener {
   @EventHandler
   public void onbreak(BlockBreakEvent event) {
     event.setCancelled((!event.getPlayer().hasPermission(
-        Permissions.MODIFY_BLOCK) && !smartSettings.isNoPermissionsNeeded() || event.isCancelled()));
+        Permissions.MODIFY_BLOCK) && !smartSettings.isNoPermissionsNeeded() || event
+        .isCancelled()));
   }
 
   @EventHandler(priority = EventPriority.LOW)
   public void onbuild(BlockPlaceEvent event) {
     event.setCancelled((!event.getPlayer().hasPermission(
-        Permissions.MODIFY_BLOCK) && !smartSettings.isNoPermissionsNeeded()) || event.isCancelled());
+        Permissions.MODIFY_BLOCK) && !smartSettings.isNoPermissionsNeeded()) || event
+        .isCancelled());
   }
 
   @EventHandler

@@ -12,9 +12,9 @@ public class KillCommandMessage extends CommandConfig {
   private String playerNotFound = "Player not found";
   private String playerSuccessfullyKilled = "{player_display_name} killed successfully";
 
-  KillCommandMessage(){
-  super("Kill", "kill player", "/kill <player>",
-      "sst.kill");
+  KillCommandMessage() {
+    super("Kill", "kill player", "/kill <player>",
+        "sst.kill");
   }
 
 }

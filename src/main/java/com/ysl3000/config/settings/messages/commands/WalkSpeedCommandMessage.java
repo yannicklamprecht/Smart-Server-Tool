@@ -11,7 +11,7 @@ public class WalkSpeedCommandMessage extends CommandConfig {
   private String walkSpeedSetTo = "Walkspeed set to {walk_speed}";
   private String walkSpeedNeedToBeBetween = "Speed has to be between 0.1 and 1.0";
 
-  WalkSpeedCommandMessage(){
+  WalkSpeedCommandMessage() {
     super("ws", "set walkspeed",
         "/ws <amount/0.1-1.0>", "");
   }

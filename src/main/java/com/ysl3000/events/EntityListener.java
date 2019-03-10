@@ -120,21 +120,21 @@ public class EntityListener implements Listener {
   public void explode(EntityExplodeEvent event) {
 
     if (event.getEntityType() == EntityType.CREEPER) {
-        if (worldSettings.isBlockCreeper()) {
-            event.setCancelled(true);
-        }
+      if (worldSettings.isBlockCreeper()) {
+        event.setCancelled(true);
+      }
     } else {
-        if (worldSettings.isPreventTnt()) {
-            event.setCancelled(true);
-        }
+      if (worldSettings.isPreventTnt()) {
+        event.setCancelled(true);
+      }
     }
   }
 
   @EventHandler
   public void onPlayerCreatureSpawnerChange(PlayerInteractEvent e) {
-      if (e.getClickedBlock() == null) {
-          return;
-      }
+    if (e.getClickedBlock() == null) {
+      return;
+    }
     if ((e.getClickedBlock().getType().equals(Material.SPAWNER))
         && (e.getAction().equals(Action.RIGHT_CLICK_BLOCK)) && (e.getPlayer()
         .hasPermission(Permissions.CAN_CAHNGE_SPAWNER_TYPE))

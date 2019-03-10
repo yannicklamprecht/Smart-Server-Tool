@@ -52,7 +52,8 @@ public class CheckCurrentGamemode extends CustomCommand {
               .injectParameter(currentGamemodeCommandMessage.getCurrentGamemodeOf(), target));
         } else {
 
-          sender.sendMessage(messageBuilder.injectParameter(currentGamemodeCommandMessage.getYouAreNotAllowedToLookupOthersGamemode()));
+          sender.sendMessage(messageBuilder.injectParameter(
+              currentGamemodeCommandMessage.getYouAreNotAllowedToLookupOthersGamemode()));
         }
       }
 

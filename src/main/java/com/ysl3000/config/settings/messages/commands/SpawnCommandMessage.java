@@ -16,7 +16,7 @@ public class SpawnCommandMessage extends CommandConfig {
 
   private String teleportedBySomeoneToSpawn = "You were teleported to spawn by {player_display_name}";
 
-  public SpawnCommandMessage(){
+  public SpawnCommandMessage() {
     super("spawn", "Teleport to Spawn", "/spawn",
         "sst.spawn");
   }

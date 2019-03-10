@@ -17,10 +17,10 @@ public class ServerOnlineMapper implements ValueMapper {
   @Override
   public void injectPlaceholder(MessageWrapper message) {
 
-      Matcher matcher = ONLINE_PATTERN.matcher(message.getMessage());
-      if (matcher.find()) {
-        message.setMessage(
-            matcher.replaceAll(Bukkit.getOnlineMode() ? matcher.group(1) : matcher.group(2)));
-      }
+    Matcher matcher = ONLINE_PATTERN.matcher(message.getMessage());
+    if (matcher.find()) {
+      message.setMessage(
+          matcher.replaceAll(Bukkit.getOnlineMode() ? matcher.group(1) : matcher.group(2)));
+    }
   }
 }

@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 public class PlayerLookUpIpCommandMessage extends CommandConfig {
 
-  public PlayerLookUpIpCommandMessage(){
+  public PlayerLookUpIpCommandMessage() {
     super("/ip", "get ip of player",
         "//ip <player>", "sst.ip");
   }

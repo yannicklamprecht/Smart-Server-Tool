@@ -10,7 +10,7 @@ public class HomeCommandMessage extends CommandConfig {
 
   private String homeNotSet = "No home set";
 
-  public HomeCommandMessage(){
+  public HomeCommandMessage() {
     super("home", "teleport to home", "/home",
         "sst.home");
   }

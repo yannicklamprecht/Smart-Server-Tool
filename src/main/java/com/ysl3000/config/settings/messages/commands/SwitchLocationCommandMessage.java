@@ -17,9 +17,9 @@ public class SwitchLocationCommandMessage extends CommandConfig {
 
   private String switchMessage = "You changed position with {player_display_name}"; // target
 
-  private String additionalMessageSwitch ="{player_display_name} changed position with you. Changed by {player_display_name}";
+  private String additionalMessageSwitch = "{player_display_name} changed position with you. Changed by {player_display_name}";
 
-  SwitchLocationCommandMessage(){
+  SwitchLocationCommandMessage() {
     super("switch",
         "swap position with player",
         "/switch <player>", "sst.switch");

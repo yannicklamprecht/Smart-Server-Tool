@@ -23,7 +23,8 @@ public class SmartPlayerStub extends PlayerMock {
   public boolean hasPlayedBefore() {
     return playedBefore;
   }
-  public void setPlayedBefore(boolean playedBefore){
-    this.playedBefore=playedBefore;
+
+  public void setPlayedBefore(boolean playedBefore) {
+    this.playedBefore = playedBefore;
   }
 }

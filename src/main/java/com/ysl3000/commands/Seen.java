@@ -36,7 +36,8 @@ public class Seen extends CustomCommand {
         OfflinePlayer op = Bukkit.getServer().getOfflinePlayer(args[0]);
 
         if (op.hasPlayedBefore()) {
-          player.sendMessage(messageBuilder.injectParameter(seenCommandMessage.getPlayerSeenMessage(), op));
+          player.sendMessage(
+              messageBuilder.injectParameter(seenCommandMessage.getPlayerSeenMessage(), op));
         } else {
           player.sendMessage(
               messageBuilder.injectParameter(seenCommandMessage.getNeverSeenBefore(), op));

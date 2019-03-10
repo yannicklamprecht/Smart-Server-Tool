@@ -32,7 +32,7 @@ public class ModCommand extends CustomCommand {
   ModCommand(ModCommandMessage commandConfig, MessageBuilder messageBuilder,
       SmartPlayers smartPlayers) {
     super(commandConfig);
-    this.modCommandMessage=commandConfig;
+    this.modCommandMessage = commandConfig;
     this.messageBuilder = messageBuilder;
     this.smartPlayers = smartPlayers;
   }

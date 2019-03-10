@@ -11,6 +11,7 @@ public class WorldSeedMapper implements ValueMapper {
 
   @Override
   public void injectPlaceholder(MessageWrapper message) {
-    message.get(Player.class).ifPresent(player -> message.replace("{world_seed}",String.valueOf(player.getWorld().getSeed())));
+    message.get(Player.class).ifPresent(
+        player -> message.replace("{world_seed}", String.valueOf(player.getWorld().getSeed())));
   }
 }

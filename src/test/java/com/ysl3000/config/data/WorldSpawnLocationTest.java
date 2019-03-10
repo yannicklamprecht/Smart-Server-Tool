@@ -13,7 +13,7 @@ import org.junit.Test;
  */
 public class WorldSpawnLocationTest {
 
-  private static final String WORLD_NAME= "SmartServerWorld";
+  private static final String WORLD_NAME = "SmartServerWorld";
 
 
   private WorldSpawnWrapper worldSpawnWrapper;
@@ -33,7 +33,6 @@ public class WorldSpawnLocationTest {
 
   @Test
   public void getSpawnpointForWorldShouldGenerateValueOnAbsent() {
-
 
     Assert.assertFalse(containsKey(WORLD_NAME));
 
@@ -56,12 +55,13 @@ public class WorldSpawnLocationTest {
   }
 
   @After
-  public void after(){
+  public void after() {
     SmartBukkitStub.unset();
   }
 
-  private boolean containsKey(String name){
-    return worldSpawnWrapper.getWorldSpawnLocation().getWorldSpawns().stream().anyMatch(k-> k.getWorldName().equalsIgnoreCase(name));
+  private boolean containsKey(String name) {
+    return worldSpawnWrapper.getWorldSpawnLocation().getWorldSpawns().stream()
+        .anyMatch(k -> k.getWorldName().equalsIgnoreCase(name));
   }
 
 }

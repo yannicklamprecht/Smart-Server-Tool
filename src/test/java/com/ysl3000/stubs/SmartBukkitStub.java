@@ -7,10 +7,9 @@ import be.seeseemelk.mockbukkit.MockBukkit;
  */
 public class SmartBukkitStub extends MockBukkit {
 
-  public static void unset(){
+  public static void unset() {
     setServerInstanceToNull();
   }
-
 
 
 }

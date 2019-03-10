@@ -68,33 +68,29 @@ public class CommandRegistry {
         new FlySpeed(configContainer.getFlySpeed(), messageBuilder),
         new GetWeather(configContainer.getGetWeather(), messageBuilder),
         new Freeze(configContainer.getFreeze(), smartPlayers, messageBuilder),
-        new TimeCommand(configContainer.getTimeDay(),messageBuilder),
-        new TimeCommand(configContainer.getTimeNight(),messageBuilder),
-        new WeatherCommand(configContainer.getSun(),messageBuilder,false),
-        new WeatherCommand(configContainer.getStorm(),messageBuilder,true),
+        new TimeCommand(configContainer.getTimeDay(), messageBuilder),
+        new TimeCommand(configContainer.getTimeNight(), messageBuilder),
+        new WeatherCommand(configContainer.getSun(), messageBuilder, false),
+        new WeatherCommand(configContainer.getStorm(), messageBuilder, true),
         new Heal(configContainer.getHeal(), messageBuilder),
         new PlayerLookUpIp(configContainer.getIp(), messageBuilder),
         new SetSpawn(configContainer.getSetSpawn(), messageBuilder, worldSpawnWrapper),
         new Seen(configContainer.getSeen(), messageBuilder),
         new RealTime(configContainer.getRealTime(), messageBuilder),
 
-
         new KillMe(configContainer.getKillMe()),
-        new Kill(configContainer.getKill(),messageBuilder),
+        new Kill(configContainer.getKill(), messageBuilder),
         new ServerInfo(configContainer.getServerInfo(), messageBuilder),
 
-
-        new SwitchLocation(configContainer.getSwitchLocations(),messageBuilder),
-        new Spawn(configContainer.getSpawn(),messageBuilder),
-        new Walkspeed(configContainer.getWalkspeed(),messageBuilder),
-
-
+        new SwitchLocation(configContainer.getSwitchLocations(), messageBuilder),
+        new Spawn(configContainer.getSpawn(), messageBuilder),
+        new Walkspeed(configContainer.getWalkspeed(), messageBuilder),
 
         new Home(configContainer.getHome()),
-        new God(configContainer.getGod(),messageBuilder, smartPlayers),
+        new God(configContainer.getGod(), messageBuilder, smartPlayers),
 
         new Online(configContainer.getOnline(), messageBuilder),
-        new ModCommand(configContainer.getMod(),messageBuilder, smartPlayers),
+        new ModCommand(configContainer.getMod(), messageBuilder, smartPlayers),
         new Configreload(configContainer.getReload(), javaPlugin)
     );
 

@@ -1,8 +1,8 @@
 package com.ysl3000.events;
 
-import com.ysl3000.config.settings.SmartSettings;
 import com.ysl3000.SmartPlayer;
 import com.ysl3000.SmartPlayers;
+import com.ysl3000.config.settings.SmartSettings;
 import com.ysl3000.utils.Permissions;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;

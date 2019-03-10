@@ -19,19 +19,20 @@ public class ServerInfo extends CustomCommand {
   ServerInfo(ServerInfoCommandMessage commandConfig,
       MessageBuilder messageBuilder) {
     super(commandConfig);
-    this.serverInfoCommandMessage=commandConfig;
+    this.serverInfoCommandMessage = commandConfig;
     this.messageBuilder = messageBuilder;
   }
 
   @Override
   public boolean execute(CommandSender sender, String s, String[] strings) {
-      if (!(sender instanceof Player)) {
-          return false;
-      }
+    if (!(sender instanceof Player)) {
+      return false;
+    }
 
     Player player = (Player) sender;
     if (player.hasPermission(this.getPermission())) {
-      sender.sendMessage(messageBuilder.injectParameter(serverInfoCommandMessage.getServerOnlineMessage(),player));
+      sender.sendMessage(messageBuilder
+          .injectParameter(serverInfoCommandMessage.getServerOnlineMessage(), player));
     }
     return true;
   }

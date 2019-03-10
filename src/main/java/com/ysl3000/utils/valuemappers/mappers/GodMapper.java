@@ -17,7 +17,6 @@ public class GodMapper implements ValueMapper {
   @Override
   public void injectPlaceholder(MessageWrapper message) {
 
-
     message.get(SmartPlayer.class).ifPresent(smartPlayer -> {
       Matcher matcher = GOD_PATTERN.matcher(message.getMessage());
       if (matcher.find()) {

@@ -39,7 +39,7 @@ public class Walkspeed extends CustomCommand {
     if (NUMBER.matcher(args[0]).matches()) {
       if (Float.parseFloat(args[0]) > 0 && Float.parseFloat(args[0]) <= 1) {
         p.setWalkSpeed(Float.parseFloat(args[0]));
-        p.sendMessage(messageBuilder.injectParameter(commandConfig.getWalkSpeedSetTo(),p));
+        p.sendMessage(messageBuilder.injectParameter(commandConfig.getWalkSpeedSetTo(), p));
       } else {
         p.sendMessage(messageBuilder.injectParameter(commandConfig.getWalkSpeedNeedToBeBetween()));
       }

@@ -10,7 +10,7 @@ public class GodCommandMessage extends CommandConfig {
 
   private String godmodeMessage = "Godmode is now {god{activated:deactivated}}";
 
-  public GodCommandMessage(){
+  public GodCommandMessage() {
     super("god", "toggle godmode", "/god",
         "sst.god");
   }

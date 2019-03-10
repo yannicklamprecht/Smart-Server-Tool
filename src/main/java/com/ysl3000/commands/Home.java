@@ -18,7 +18,6 @@ import org.bukkit.entity.Player;
 
 /**
  * @author yannicklamprecht
- *
  */
 public class Home extends CustomCommand {
 
@@ -26,7 +25,7 @@ public class Home extends CustomCommand {
 
   Home(HomeCommandMessage commandConfig) {
     super(commandConfig);
-    this.homeCommandMessage=commandConfig;
+    this.homeCommandMessage = commandConfig;
   }
 
   @Override
@@ -43,14 +42,14 @@ public class Home extends CustomCommand {
           player.teleport(player.getBedSpawnLocation());
         } else if (args.length == 1 && player.hasPermission(Permissions.HOME_OTHER)) {
 
-            if (player.getServer().getPlayer(args[0]).isOnline()) {
-              Player target = player.getServer().getPlayer(args[0]);
-              player.teleport(target.getPlayer()
-                  .getBedSpawnLocation());
-            } else {
-              OfflinePlayer ofp = player.getServer().getOfflinePlayer(args[0]);
-              player.teleport(ofp.getBedSpawnLocation());
-            }
+          if (player.getServer().getPlayer(args[0]).isOnline()) {
+            Player target = player.getServer().getPlayer(args[0]);
+            player.teleport(target.getPlayer()
+                .getBedSpawnLocation());
+          } else {
+            OfflinePlayer ofp = player.getServer().getOfflinePlayer(args[0]);
+            player.teleport(ofp.getBedSpawnLocation());
+          }
 
         }
       } else {

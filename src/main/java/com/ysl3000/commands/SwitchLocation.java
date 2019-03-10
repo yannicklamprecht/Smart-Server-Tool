@@ -10,7 +10,6 @@ import org.bukkit.entity.Player;
 
 /**
  * @author yannicklamprecht
- *
  */
 public class SwitchLocation extends CustomCommand {
 
@@ -20,7 +19,7 @@ public class SwitchLocation extends CustomCommand {
 
   SwitchLocation(SwitchLocationCommandMessage commandConfig, MessageBuilder messageBuilder) {
     super(commandConfig);
-    this.switchLocationCommandMessage=commandConfig;
+    this.switchLocationCommandMessage = commandConfig;
     this.messageBuilder = messageBuilder;
   }
 
@@ -48,11 +47,14 @@ public class SwitchLocation extends CustomCommand {
 
         if (target.canSee(player)) {
 
-          player.sendMessage(messageBuilder.injectParameter(switchLocationCommandMessage.getSwitchMessage(),target));
-          target.sendMessage(messageBuilder.injectParameter(switchLocationCommandMessage.getAdditionalMessageSwitch(),player));
+          player.sendMessage(messageBuilder
+              .injectParameter(switchLocationCommandMessage.getSwitchMessage(), target));
+          target.sendMessage(messageBuilder
+              .injectParameter(switchLocationCommandMessage.getAdditionalMessageSwitch(), player));
         }
       } else {
-        player.sendMessage(messageBuilder.injectParameter(switchLocationCommandMessage.getTooManyArguments()));
+        player.sendMessage(
+            messageBuilder.injectParameter(switchLocationCommandMessage.getTooManyArguments()));
       }
     }
     return true;

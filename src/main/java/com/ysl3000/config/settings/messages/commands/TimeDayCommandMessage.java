@@ -8,8 +8,8 @@ import lombok.Data;
 @Data
 public class TimeDayCommandMessage extends TimeCommandMessage {
 
-  public TimeDayCommandMessage(){
-    super("td", "Set time to day", "/td", "sst.time",0, "Day");
+  public TimeDayCommandMessage() {
+    super("td", "Set time to day", "/td", "sst.time", 0, "Day");
   }
 
 }

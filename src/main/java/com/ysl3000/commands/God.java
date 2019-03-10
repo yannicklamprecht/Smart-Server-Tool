@@ -21,7 +21,7 @@ public class God extends CustomCommand {
   God(GodCommandMessage commandConfig, MessageBuilder messageBuilder, SmartPlayers smartPlayers) {
     super(commandConfig);
     this.messageBuilder = messageBuilder;
-    this.godCommandMessage=commandConfig;
+    this.godCommandMessage = commandConfig;
     this.smartPlayers = smartPlayers;
   }
 
@@ -35,7 +35,8 @@ public class God extends CustomCommand {
     if (testPermission(p)) {
       SmartPlayer smartPlayer = smartPlayers.getPlayerByUUID(p.getUniqueId());
       smartPlayer.setGod(!smartPlayer.isGod());
-      p.sendMessage(messageBuilder.injectParameter(godCommandMessage.getGodmodeMessage(),smartPlayer));
+      p.sendMessage(
+          messageBuilder.injectParameter(godCommandMessage.getGodmodeMessage(), smartPlayer));
     }
 
     return true;

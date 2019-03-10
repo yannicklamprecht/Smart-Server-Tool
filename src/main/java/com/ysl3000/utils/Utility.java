@@ -15,10 +15,6 @@ public class Utility {
     this.server = server;
   }
 
-  public void tospawn(Player player) {
-    player.teleport(player.getWorld().getSpawnLocation());
-  }
-
   public String getTime(long time, String format) {
     return new SimpleDateFormat(format).format(new Date(time));
   }
