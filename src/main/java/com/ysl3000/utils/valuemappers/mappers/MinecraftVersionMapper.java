@@ -17,8 +17,8 @@ public class MinecraftVersionMapper implements ValueMapper {
 
   @Override
   public void injectPlaceholder(MessageWrapper message) {
-    if (server.getVersion().length() == 16) {
-      message.replace("{minecraft_version}", server.getVersion().substring(11, 16));
+    if (server.getVersion().length() >= 16) {
+      message.replace("{minecraft_version}", server.getVersion().substring(11));
     }
   }
 }

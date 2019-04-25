@@ -6,6 +6,7 @@ import com.ysl3000.SmartPlayers;
 import com.ysl3000.config.settings.messages.commands.FreezeCommandMessage;
 import com.ysl3000.threads.TimeThread;
 import com.ysl3000.utils.valuemappers.MessageBuilder;
+import java.util.Optional;
 import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -68,15 +69,16 @@ public class Freeze extends CustomCommand {
   }
 
   private void freezePlayer(final Player p, long time) {
-    SmartPlayer smartPlayer = smartPlayers.getPlayerByUUID(p.getUniqueId());
-
-    if (!smartPlayer.isFrozen()) {
-      new TimeThread(time, () -> smartPlayer.setFrozen(true), () -> {
-        smartPlayer.setFrozen(false);
-        p.sendMessage(freezeCommandMessage.getYouAreNotAllowedToMove());
-      });
-    } else {
-      smartPlayer.setFrozen(false);
-    }
+    Optional<SmartPlayer> smartPlayer = smartPlayers.getPlayerByUUID(p.getUniqueId());
+    smartPlayer.ifPresent(sp -> {
+      if (!sp.isFrozen()) {
+        new TimeThread(time, () -> sp.setFrozen(true), () -> {
+          sp.setFrozen(false);
+          p.sendMessage(freezeCommandMessage.getYouAreNotAllowedToMove());
+        });
+      } else {
+        sp.setFrozen(false);
+      }
+    });
   }
 }

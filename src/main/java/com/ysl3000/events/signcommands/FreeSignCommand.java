@@ -26,6 +26,9 @@ public class FreeSignCommand implements SignCommand {
       return;
     }
     Material itemtype = Material.getMaterial(sign.getLine(2));
+    if(itemtype==null){
+      itemtype = Material.STONE;
+    }
     int chestSize = Integer.parseInt(sign.getLine(3));
 
     Inventory iv = Bukkit.createInventory(null, chestSize,
@@ -43,10 +46,13 @@ public class FreeSignCommand implements SignCommand {
 
   @Override
   public void executeOnCreation(SignWrapper e) {
-    if ((e.getLine(2).isEmpty() || !StringUtils.isNumeric(e.getLine(2)))
-        || (e.getLine(3).isEmpty() || !StringUtils.isNumeric(e
-        .getLine(3)))
-        || Integer.parseInt(e.getLine(3)) % 9 != 0) {
+    if (
+        (e.getLine(2).isEmpty() || StringUtils.isNumeric(e.getLine(2)))
+        ||
+            (e.getLine(3).isEmpty() || !StringUtils.isNumeric(e.getLine(3)))
+        ||
+            Integer.parseInt(e.getLine(3)) % 9 != 0
+    ) {
 
       e.getPlayer().sendMessage(
           ChatColor.RED + "[free]-sign creation failed");

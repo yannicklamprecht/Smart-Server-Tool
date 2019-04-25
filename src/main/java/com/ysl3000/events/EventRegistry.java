@@ -38,15 +38,15 @@ public class EventRegistry {
 
 
   public void register() {
+    pluginManager.registerEvents(new PlayerConnectionListener(smartPlayers),javaPlugin);
     registerEvents(
-        new PlayerConnectionListener(smartPlayers),
         new ChestProtectionListener(),
         new BlockListener(smartSettings),
         new EntityListener(smartSettings.getWorldSettings(), smartSettings.getMisc()),
         new PlayerListener(smartPlayers, smartSettings),
         new SignListener(),
         new MOTD(smartSettings.getMessages(), prefix, smartSettings.getMisc(),
-            server, messageBuilder),
+            smartPlayers, server, messageBuilder),
         new PlayerStateListener(smartPlayers, smartSettings.getWorldSettings()),
         new WorldSpawnListener(worldSpawnWrapper)
     );

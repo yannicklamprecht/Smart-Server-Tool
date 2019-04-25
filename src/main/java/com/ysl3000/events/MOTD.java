@@ -1,5 +1,6 @@
 package com.ysl3000.events;
 
+import com.ysl3000.SmartPlayers;
 import com.ysl3000.config.settings.Messages;
 import com.ysl3000.config.settings.Misc;
 import com.ysl3000.config.settings.messages.PlayerMessage;
@@ -27,18 +28,20 @@ public class MOTD implements Listener {
   private Messages messages;
   private Prefix prefix;
   private Misc misc;
+  private SmartPlayers smartPlayers;
 
   private Server server;
 
   private MessageBuilder messageBuilder;
 
   public MOTD(Messages messages, Prefix prefix, Misc misc,
-      Server server, MessageBuilder messageBuilder) {
+      SmartPlayers smartPlayers, Server server, MessageBuilder messageBuilder) {
     this.playerMessage = messages.getPlayer();
     this.messages = messages;
     this.service = messages.getService();
     this.prefix = prefix;
     this.misc = misc;
+    this.smartPlayers = smartPlayers;
     this.server = server;
     this.messageBuilder = messageBuilder;
   }

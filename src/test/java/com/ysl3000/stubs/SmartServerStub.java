@@ -30,4 +30,5 @@ public class SmartServerStub extends ServerMock {
   public World getWorld(String name) {
     return world;
   }
+
 }

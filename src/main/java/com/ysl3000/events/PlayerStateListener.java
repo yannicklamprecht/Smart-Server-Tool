@@ -2,6 +2,7 @@ package com.ysl3000.events;
 
 import com.ysl3000.SmartPlayers;
 import com.ysl3000.config.settings.WorldSettings;
+import java.util.Optional;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -35,8 +36,8 @@ public class PlayerStateListener implements Listener {
     if (e.getEntity() instanceof Player) {
       Player p = (Player) e.getEntity();
       if (p.getFoodLevel() > e.getFoodLevel()) {
-        e.setCancelled(smartPlayers.getPlayerByUUID(p.getUniqueId()).isGod());
-
+        e.setCancelled(smartPlayers.getPlayerByUUID(p.getUniqueId())
+            .flatMap(smartPlayer -> Optional.of(smartPlayer.isGod())).orElse(false));
       }
 
     }

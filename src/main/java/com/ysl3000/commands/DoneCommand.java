@@ -5,6 +5,7 @@ import com.ysl3000.SmartPlayer;
 import com.ysl3000.SmartPlayers;
 import com.ysl3000.config.settings.messages.commands.DoneCommandMessage;
 import com.ysl3000.utils.valuemappers.MessageBuilder;
+import java.util.Optional;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -52,13 +53,15 @@ public class DoneCommand extends CustomCommand {
 
 
   private void done(Player target) {
-    SmartPlayer smartPlayer = smartPlayers.getPlayerByUUID(target.getUniqueId());
-    if (smartPlayer.isMod()) {
-      target.setGameMode(GameMode.SURVIVAL);
-      target.getInventory().clear();
-      target.getInventory().setContents(smartPlayer.getInventory());
-      target.teleport(smartPlayer.getModLocation());
-      smartPlayer.setMod(false);
-    }
+    Optional<SmartPlayer> smartPlayer = smartPlayers.getPlayerByUUID(target.getUniqueId());
+    smartPlayer.ifPresent(sp -> {
+      if (sp.isMod()) {
+        target.setGameMode(GameMode.SURVIVAL);
+        target.getInventory().clear();
+        target.getInventory().setContents(sp.getInventory());
+        target.teleport(sp.getModLocation());
+        sp.setMod(false);
+      }
+    });
   }
 }

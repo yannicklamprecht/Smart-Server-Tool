@@ -2,6 +2,7 @@ package com.ysl3000;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import org.bukkit.entity.Player;
 
@@ -13,8 +14,8 @@ public class SmartPlayers {
   private Map<UUID, SmartPlayer> players = new HashMap<>();
 
 
-  public SmartPlayer getPlayerByUUID(UUID playerUUID) {
-    return players.get(playerUUID);
+  public Optional<SmartPlayer> getPlayerByUUID(UUID playerUUID) {
+    return Optional.ofNullable(players.get(playerUUID));
   }
 
   public void add(Player player) {

@@ -30,9 +30,9 @@ public class ServerInfo extends CustomCommand {
     }
 
     Player player = (Player) sender;
-    if (player.hasPermission(this.getPermission())) {
+    if (testPermission(player)) {
       sender.sendMessage(messageBuilder
-          .injectParameter(serverInfoCommandMessage.getServerOnlineMessage(), player));
+          .injectParameter(serverInfoCommandMessage.getServerOnlineMessage(), player, player.getServer()));
     }
     return true;
   }
