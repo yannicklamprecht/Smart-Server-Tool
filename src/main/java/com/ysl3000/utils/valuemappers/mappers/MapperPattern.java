@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 final class MapperPattern {
   private MapperPattern(){}
 
-  static final String OPTION_PATTERN = "\\{([§&\\w]*):([§&\\w]*)}";
+  private static final String OPTION_PATTERN = "\\{([§&\\w]*):([§&\\w]*)}";
 
   static Pattern createPatternFromPrefix(String prefix){
     return Pattern
