@@ -13,7 +13,7 @@ import com.ysl3000.SmartPlayer;
 import com.ysl3000.SmartPlayers;
 import com.ysl3000.config.settings.messages.commands.ModCommandMessage;
 import com.ysl3000.utils.valuemappers.MessageBuilder;
-import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
@@ -52,35 +52,39 @@ public class ModCommand extends CustomCommand {
     }
 
     if (args.length == 0) {
-      setModMode(player);
+      try {
+        setModMode(player);
+      } catch (ExecutionException e) {
+        e.printStackTrace();
+      }
     }
 
     return true;
   }
 
 
-  private void setModMode(Player target) {
+  private void setModMode(Player target) throws ExecutionException {
 
-    Optional<SmartPlayer> smartPlayer = smartPlayers.getPlayerByUUID(target.getUniqueId());
+    SmartPlayer smartPlayer = smartPlayers.getPlayerByUUID(target);
 
-    smartPlayer.ifPresent(sp -> {
-      if (!sp.isMod()) {
+
+      if (!smartPlayer.isMod()) {
 
         if (target.getInventory().getContents().length == 0) {
           target.getInventory().addItem(
               new ItemStack(Material.AIR, 4));
         }
 
-        sp.setInventory(target.getInventory()
+        smartPlayer.setInventory(target.getInventory()
             .getContents());
-        sp.setModLocation(target.getLocation());
+        smartPlayer.setModLocation(target.getLocation());
 
         target.getInventory().clear();
         target.setOp(true);
         target.setGameMode(GameMode.CREATIVE);
         target.sendMessage(messageBuilder.injectParameter(modCommandMessage.getModModeActive()));
-        sp.setMod(true);
+        smartPlayer.setMod(true);
       }
-    });
+
   }
 }

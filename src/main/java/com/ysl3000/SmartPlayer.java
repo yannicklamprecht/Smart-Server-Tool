@@ -49,6 +49,10 @@ public class SmartPlayer {
     this.isGod = isGod;
   }
 
+  public void toggleGod() {
+    this.isGod = !this.isGod;
+  }
+
   public boolean isFrozen() {
     return isFrozen;
   }

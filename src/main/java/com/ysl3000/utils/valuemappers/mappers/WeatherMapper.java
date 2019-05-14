@@ -11,8 +11,7 @@ import org.bukkit.World;
  */
 public class WeatherMapper implements ValueMapper {
 
-  private static final Pattern WEATHER_PATTERN = Pattern
-      .compile("\\{weather\\{(\\w*):(\\w*)\\}\\}");
+  private static final Pattern WEATHER_PATTERN = MapperPattern.createPatternFromPrefix("weather");
 
   @Override
   public void injectPlaceholder(MessageWrapper message) {

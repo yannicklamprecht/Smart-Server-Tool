@@ -5,7 +5,7 @@ import com.ysl3000.SmartPlayer;
 import com.ysl3000.SmartPlayers;
 import com.ysl3000.config.settings.messages.commands.DoneCommandMessage;
 import com.ysl3000.utils.valuemappers.MessageBuilder;
-import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 import org.bukkit.GameMode;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -35,11 +35,19 @@ public class DoneCommand extends CustomCommand {
     Player player = (Player) sender;
     if (player.hasPermission(this.getPermission())) {
       if (args.length == 0) {
-        done(player);
+        try {
+          done(player);
+        } catch (ExecutionException e) {
+          e.printStackTrace();
+        }
         player.sendMessage(doneCommandMessage.getModmodeDisabled());
       } else if (args.length == 1) {
         Player target = player.getServer().getPlayer(args[0]);
-        done(target);
+        try {
+          done(target);
+        } catch (ExecutionException e) {
+          e.printStackTrace();
+        }
         target.sendMessage(
             messageBuilder.injectParameter(doneCommandMessage.getDoneTarget(), player));
         player.sendMessage(
@@ -52,16 +60,16 @@ public class DoneCommand extends CustomCommand {
   }
 
 
-  private void done(Player target) {
-    Optional<SmartPlayer> smartPlayer = smartPlayers.getPlayerByUUID(target.getUniqueId());
-    smartPlayer.ifPresent(sp -> {
-      if (sp.isMod()) {
+  private void done(Player target) throws ExecutionException {
+    SmartPlayer smartPlayer = smartPlayers.getPlayerByUUID(target);
+
+      if (smartPlayer.isMod()) {
         target.setGameMode(GameMode.SURVIVAL);
         target.getInventory().clear();
-        target.getInventory().setContents(sp.getInventory());
-        target.teleport(sp.getModLocation());
-        sp.setMod(false);
+        target.getInventory().setContents(smartPlayer.getInventory());
+        target.teleport(smartPlayer.getModLocation());
+        smartPlayer.setMod(false);
       }
-    });
+
   }
 }

@@ -1,9 +1,10 @@
 package com.ysl3000;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import org.bukkit.entity.Player;
 
 /**
@@ -11,19 +12,28 @@ import org.bukkit.entity.Player;
  */
 public class SmartPlayers {
 
-  private Map<UUID, SmartPlayer> players = new HashMap<>();
+  private Cache<UUID, SmartPlayer> playerCache;
+
+  public SmartPlayers(){
+
+    this.playerCache = CacheBuilder.newBuilder()
+        .maximumSize(10000)
+        .expireAfterAccess(1, TimeUnit.HOURS)
+        .build();
+
+  }
 
 
-  public Optional<SmartPlayer> getPlayerByUUID(UUID playerUUID) {
-    return Optional.ofNullable(players.get(playerUUID));
+  public SmartPlayer getPlayerByUUID(Player player) throws ExecutionException {
+    return playerCache.get(player.getUniqueId(), () -> new SmartPlayer(player));
   }
 
   public void add(Player player) {
-    players.put(player.getUniqueId(), new SmartPlayer(player));
+    playerCache.put(player.getUniqueId(), new SmartPlayer(player));
   }
 
   public void remove(Player player) {
-    players.remove(player.getUniqueId());
+    playerCache.invalidate(player.getUniqueId());
   }
 
 

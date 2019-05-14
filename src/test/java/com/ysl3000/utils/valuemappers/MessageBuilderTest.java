@@ -83,10 +83,10 @@ public class MessageBuilderTest {
     worldMock.setThundering(true);
 
     String message = this.messageBuilder
-        .injectParameter("The Weather is {weather{rainy:sunny}}", worldMock);
+        .injectParameter("The Weather is {weather{&4rainy:&3sunny}}", worldMock);
 
     Assert.assertEquals("Weather should be injected successfully",
-        "The Weather is rainy", message);
+        "The Weather is §4rainy", message);
 
 
   }

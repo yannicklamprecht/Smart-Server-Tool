@@ -4,8 +4,7 @@ import com.ysl3000.SmartPlayer;
 import com.ysl3000.SmartPlayers;
 import com.ysl3000.config.settings.messages.commands.BackCommandMessage;
 import com.ysl3000.utils.valuemappers.MessageBuilder;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.ExecutionException;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -34,19 +33,20 @@ public class BackCommand extends CustomCommand {
 
     Player player = (Player) sender;
 
-    Optional<SmartPlayer> smartPlayer = smartPlayers.getPlayerByUUID(player.getUniqueId());
+    SmartPlayer smartPlayer = null;
+    try {
+      smartPlayer = smartPlayers.getPlayerByUUID(player);
+    } catch (ExecutionException e) {
+      e.printStackTrace();
+    }
 
-    AtomicBoolean success = new AtomicBoolean(false);
-    smartPlayer.ifPresent(sp -> {
-      if (sp.getLastLocation() == null) {
+    if (smartPlayer.getLastLocation() == null) {
         player.sendMessage(
             messageBuilder.injectParameter(backCommandMessage.getLastLocationNotFound()));
-        success.set(true);
-      }
-      player.teleport(sp.getLastLocation());
-      success.set(true);
 
-    });
-    return success.get();
+      }
+      player.teleport(smartPlayer.getLastLocation());
+
+    return true;
   }
 }

@@ -6,7 +6,7 @@ import com.ysl3000.SmartPlayers;
 import com.ysl3000.config.settings.messages.commands.FreezeCommandMessage;
 import com.ysl3000.threads.TimeThread;
 import com.ysl3000.utils.valuemappers.MessageBuilder;
-import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 import java.util.regex.Pattern;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
@@ -43,11 +43,19 @@ public class Freeze extends CustomCommand {
           long time = Long.parseLong(args[0]);
 
           if (args.length == 1) {
-            freezePlayer(p, time);
+            try {
+              freezePlayer(p, time);
+            } catch (ExecutionException e) {
+              e.printStackTrace();
+            }
             sender.sendMessage(freezeCommandMessage.getFreezeSelfMessage());
           } else {
             Player target = Bukkit.getPlayer(args[1]);
-            freezePlayer(target, time);
+            try {
+              freezePlayer(target, time);
+            } catch (ExecutionException e) {
+              e.printStackTrace();
+            }
             sender.sendMessage(
                 messageBuilder
                     .injectParameter(freezeCommandMessage.getSenderFreezeMessage(), target));
@@ -68,17 +76,17 @@ public class Freeze extends CustomCommand {
     return true;
   }
 
-  private void freezePlayer(final Player p, long time) {
-    Optional<SmartPlayer> smartPlayer = smartPlayers.getPlayerByUUID(p.getUniqueId());
-    smartPlayer.ifPresent(sp -> {
-      if (!sp.isFrozen()) {
-        new TimeThread(time, () -> sp.setFrozen(true), () -> {
-          sp.setFrozen(false);
+  private void freezePlayer(final Player p, long time) throws ExecutionException {
+    SmartPlayer smartPlayer = smartPlayers.getPlayerByUUID(p);
+
+      if (!smartPlayer.isFrozen()) {
+        new TimeThread(time, () -> smartPlayer.setFrozen(true), () -> {
+          smartPlayer.setFrozen(false);
           p.sendMessage(freezeCommandMessage.getYouAreNotAllowedToMove());
         });
       } else {
-        sp.setFrozen(false);
+        smartPlayer.setFrozen(false);
       }
-    });
+
   }
 }

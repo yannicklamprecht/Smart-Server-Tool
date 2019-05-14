@@ -4,7 +4,7 @@ import com.ysl3000.SmartPlayer;
 import com.ysl3000.SmartPlayers;
 import com.ysl3000.config.settings.SmartSettings;
 import com.ysl3000.utils.Permissions;
-import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.GameMode;
@@ -91,14 +91,11 @@ public class PlayerListener implements Listener {
   }
 
   @EventHandler
-  public void playerteleport(PlayerTeleportEvent event) {
-    Optional<SmartPlayer> smartPlayer = smartPlayers
-        .getPlayerByUUID(event.getPlayer().getUniqueId());
-    smartPlayer.ifPresent(sp -> {
-      sp.setLastLocation(event.getFrom());
-      sp.setCurrentLocation(event.getTo());
-    });
-
+  public void playerteleport(PlayerTeleportEvent event) throws ExecutionException {
+    SmartPlayer smartPlayer = smartPlayers
+        .getPlayerByUUID(event.getPlayer());
+      smartPlayer.setLastLocation(event.getFrom());
+      smartPlayer.setCurrentLocation(event.getTo());
   }
 
   @EventHandler
@@ -111,15 +108,10 @@ public class PlayerListener implements Listener {
   }
 
   @EventHandler
-  public void onPlayerMove(PlayerMoveEvent e) {
-    Optional<SmartPlayer> smartPlayer = smartPlayers.getPlayerByUUID(e.getPlayer().getUniqueId());
-
-    smartPlayer.ifPresent(sp -> {
+  public void onPlayerMove(PlayerMoveEvent e) throws ExecutionException {
+    SmartPlayer smartPlayer = smartPlayers.getPlayerByUUID(e.getPlayer());
       e.setCancelled((!(e.getPlayer().hasPermission(Permissions.MOVE)
-          || smartSettings.isNoPermissionsNeeded()) && !sp.isFrozen()));
-
-    });
-
+          || smartSettings.isNoPermissionsNeeded()) && !smartPlayer.isFrozen()));
   }
 
   @EventHandler
