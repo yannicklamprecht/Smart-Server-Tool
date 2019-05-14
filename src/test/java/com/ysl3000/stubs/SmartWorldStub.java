@@ -18,4 +18,9 @@ public class SmartWorldStub extends WorldMock {
   public void setThundering(boolean thundering) {
     this.thundering = thundering;
   }
+
+  @Override
+  public long getSeed() {
+    return 1337;
+  }
 }

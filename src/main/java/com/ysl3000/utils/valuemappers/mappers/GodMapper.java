@@ -11,8 +11,7 @@ import java.util.regex.Pattern;
  */
 public class GodMapper implements ValueMapper {
 
-  private static final Pattern GOD_PATTERN = Pattern
-      .compile("\\{god\\{(\\w*):(\\w*)\\}\\}");
+  private static final Pattern GOD_PATTERN = MapperPattern.createPatternFromPrefix("god");
 
   @Override
   public void injectPlaceholder(MessageWrapper message) {

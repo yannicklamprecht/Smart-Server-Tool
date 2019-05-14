@@ -10,6 +10,7 @@ import com.ysl3000.stubs.SmartServerStub;
 import com.ysl3000.stubs.SmartWorldStub;
 import com.ysl3000.utils.MessageWrapper;
 import com.ysl3000.utils.Utility;
+import java.net.InetSocketAddress;
 import java.util.UUID;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
@@ -27,6 +28,7 @@ public class MessageBuilderTest {
 
   private ServerMock server;
   private WorldMock worldMock;
+  private InetSocketAddress inetSocketAddress;
 
   @Before
   public void setUp() {
@@ -36,6 +38,7 @@ public class MessageBuilderTest {
     Messages messages = new Messages();
     Utility utility = new Utility(server);
     this.messageBuilder = new MessageBuilder(server, messages, utility);
+    this.inetSocketAddress = new InetSocketAddress("smartservertool.cum", 1337);
 
   }
 
@@ -55,7 +58,8 @@ public class MessageBuilderTest {
   public void shouldInjectPlayerName() {
 
     server = MockBukkit.mock();
-    Player player = new SmartPlayerStub(server, "SmartServerTool", new UUID(1, 2));
+    Player player = new SmartPlayerStub(server, "SmartServerTool", new UUID(1, 2),inetSocketAddress, worldMock);
+
 
     MessageWrapper messageWrapper = MessageWrapper.of("Hey {player_name}", player);
     String message = this.messageBuilder.replaceMessageValues(messageWrapper).getMessage();
@@ -66,7 +70,7 @@ public class MessageBuilderTest {
   }
 
   @Test
-  public void test() {
+  public void shouldInjectLoginResult() {
 
     MessageWrapper messageWrapper = MessageWrapper
         .of("Kicked because your're {login_result}", Result.KICK_BANNED);

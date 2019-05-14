@@ -40,7 +40,7 @@ public class DoneCommand extends CustomCommand {
         } catch (ExecutionException e) {
           e.printStackTrace();
         }
-        player.sendMessage(doneCommandMessage.getModmodeDisabled());
+        player.sendMessage(messageBuilder.injectParameter(doneCommandMessage.getModmodeDisabled(),player));
       } else if (args.length == 1) {
         Player target = player.getServer().getPlayer(args[0]);
         try {

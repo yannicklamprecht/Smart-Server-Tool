@@ -132,6 +132,12 @@
         </sonar.login>
       </properties>
     </profile>
+    <profile>
+      <id>local</id>
+      <build>
+        <finalName>${project.artifactId}-${project.version}</finalName>
+      </build>
+    </profile>
   </profiles>
 
 </project>
