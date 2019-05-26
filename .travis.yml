@@ -11,6 +11,7 @@ addons:
     packages:
     - oracle-java8-installer
 deploy:
+  skip_cleanup: true
   provider: releases
   api_key:
     secure: hGI6YJZWBYQC5CrxX7z4oklJw9FdaJgSWqwJJSvXpJdYp+YxNBHdkoLzyIiyrkVghW33ZDDifwi+oD79zrZ3fodoxcLiIsRfljTbLOVhzOXWlMxlBffpFSiL6YhNEn42pA4W05TgN32rws5Er00wbWu3bNqHAf39V2EHo8toOu0=
