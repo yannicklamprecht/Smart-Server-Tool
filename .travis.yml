@@ -15,7 +15,7 @@ deploy:
   provider: releases
   api_key:
     secure: hGI6YJZWBYQC5CrxX7z4oklJw9FdaJgSWqwJJSvXpJdYp+YxNBHdkoLzyIiyrkVghW33ZDDifwi+oD79zrZ3fodoxcLiIsRfljTbLOVhzOXWlMxlBffpFSiL6YhNEn42pA4W05TgN32rws5Er00wbWu3bNqHAf39V2EHo8toOu0=
-  file: "./target/Smart-Server-Tool-1.0-SNAPSHOT.jar"
+  file: "./target/Smart-Server-Tool-*.jar"
   on:
     repo: yannicklamprecht/Smart-Server-Tool
     tags: true
