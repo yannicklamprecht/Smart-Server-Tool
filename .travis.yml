@@ -1,6 +1,6 @@
 language: java
 jdk:
-  - oraclejdk8
+- oraclejdk8
 sudo: false
 notifications:
   email:
@@ -9,13 +9,11 @@ notifications:
 addons:
   apt:
     packages:
-      - oracle-java8-installer
+    - oracle-java8-installer
 deploy:
   provider: releases
-  file:
-    - "./target/Smart-Server-Tool-1.0-SNAPSHOT.jar"
-  skip_cleanup: true
+  api_key:
+    secure: hGI6YJZWBYQC5CrxX7z4oklJw9FdaJgSWqwJJSvXpJdYp+YxNBHdkoLzyIiyrkVghW33ZDDifwi+oD79zrZ3fodoxcLiIsRfljTbLOVhzOXWlMxlBffpFSiL6YhNEn42pA4W05TgN32rws5Er00wbWu3bNqHAf39V2EHo8toOu0=
+  file: "./target/Smart-Server-Tool-1.0-SNAPSHOT.jar"
   on:
-    tags: true
     repo: yannicklamprecht/Smart-Server-Tool
-  overwrite: true
