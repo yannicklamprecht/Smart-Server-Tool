@@ -17,3 +17,4 @@ deploy:
   file: "./target/Smart-Server-Tool-1.0-SNAPSHOT.jar"
   on:
     repo: yannicklamprecht/Smart-Server-Tool
+    tags: true
