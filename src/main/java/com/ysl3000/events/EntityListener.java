@@ -135,7 +135,9 @@ public class EntityListener implements Listener {
     if (e.getClickedBlock() == null) {
       return;
     }
-    if (e.getClickedBlock().getType()==Material.SPAWNER && e.getAction()==Action.RIGHT_CLICK_BLOCK && e.getPlayer().hasPermission(Permissions.CAN_CAHNGE_SPAWNER_TYPE)
+    if (e.getClickedBlock().getType() == Material.SPAWNER
+        && e.getAction() == Action.RIGHT_CLICK_BLOCK && e.getPlayer()
+        .hasPermission(Permissions.CAN_CAHNGE_SPAWNER_TYPE)
         && e.getClickedBlock().getState() instanceof CreatureSpawner) {
 
       CreatureSpawner cs = (CreatureSpawner) e.getClickedBlock()
@@ -170,4 +172,5 @@ public class EntityListener implements Listener {
     }
 
   }
+
 }
