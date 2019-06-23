@@ -40,7 +40,7 @@ public class EventRegistry {
   public void register() {
     pluginManager.registerEvents(new PlayerConnectionListener(smartPlayers),javaPlugin);
     registerEvents(
-        new ChestProtectionListener(),
+        new ChestProtectionListener(javaPlugin),
         new BlockListener(smartSettings),
         new EntityListener(smartSettings.getWorldSettings(), smartSettings.getMisc()),
         new PlayerListener(smartPlayers, smartSettings),
