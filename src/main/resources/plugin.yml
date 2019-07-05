@@ -1,5 +1,5 @@
 name: SmartServerTool
-version: 18.12 - MC 1.13.2
+version: 18.13 - MC 1.14+
 api-version: 1.14
 main: com.ysl3000.SmartServerTool
 authors:
