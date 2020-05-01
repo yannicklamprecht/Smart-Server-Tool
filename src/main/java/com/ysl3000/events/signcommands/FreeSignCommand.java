@@ -20,13 +20,13 @@ public class FreeSignCommand implements SignCommand {
   }
 
   @Override
-  public void executeOnClick(Player player,Sign sign) {
+  public void executeOnClick(Player player, Sign sign) {
 
     if (sign.getLine(2).isEmpty()) {
       return;
     }
     Material itemtype = Material.getMaterial(sign.getLine(2));
-    if(itemtype==null){
+    if (itemtype == null) {
       itemtype = Material.STONE;
     }
     int chestSize = Integer.parseInt(sign.getLine(3));
@@ -48,9 +48,9 @@ public class FreeSignCommand implements SignCommand {
   public void executeOnCreation(SignWrapper e) {
     if (
         (e.getLine(2).isEmpty() || StringUtils.isNumeric(e.getLine(2)))
-        ||
+            ||
             (e.getLine(3).isEmpty() || !StringUtils.isNumeric(e.getLine(3)))
-        ||
+            ||
             Integer.parseInt(e.getLine(3)) % 9 != 0
     ) {
 

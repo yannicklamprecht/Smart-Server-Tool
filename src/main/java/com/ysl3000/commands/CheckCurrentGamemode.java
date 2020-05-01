@@ -14,7 +14,7 @@ import org.bukkit.entity.Player;
 public class CheckCurrentGamemode extends CustomCommand {
 
   private final MessageBuilder messageBuilder;
-  private CheckCurrentGamemodeCommandMessage currentGamemodeCommandMessage;
+  private final CheckCurrentGamemodeCommandMessage currentGamemodeCommandMessage;
 
   public CheckCurrentGamemode(CheckCurrentGamemodeCommandMessage commandConfig,
       MessageBuilder messageBuilder) {

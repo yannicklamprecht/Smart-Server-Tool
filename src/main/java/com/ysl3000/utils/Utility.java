@@ -9,7 +9,7 @@ import org.bukkit.entity.Player;
 public class Utility {
 
 
-  private Server server;
+  private final Server server;
 
   public Utility(Server server) {
     this.server = server;

@@ -12,9 +12,9 @@ import org.bukkit.entity.Player;
  */
 public class SmartPlayers {
 
-  private Cache<UUID, SmartPlayer> playerCache;
+  private final Cache<UUID, SmartPlayer> playerCache;
 
-  public SmartPlayers(){
+  public SmartPlayers() {
 
     this.playerCache = CacheBuilder.newBuilder()
         .maximumSize(10000)

@@ -27,8 +27,8 @@ import org.bukkit.entity.Player;
 public class Heal extends CustomCommand {
 
 
-  private HealCommandMessage healCommandMessage;
-  private MessageBuilder messageBuilder;
+  private final HealCommandMessage healCommandMessage;
+  private final MessageBuilder messageBuilder;
 
   public Heal(HealCommandMessage commandConfig,
       MessageBuilder messageBuilder) {

@@ -12,8 +12,8 @@ import org.bukkit.entity.Player;
 public class AdminCommand extends CustomCommand {
 
 
-  private MessageBuilder messageBuilder;
-  private AdminCommandMessage adminCommandMessage;
+  private final MessageBuilder messageBuilder;
+  private final AdminCommandMessage adminCommandMessage;
 
   public AdminCommand(AdminCommandMessage commandConfig, MessageBuilder messageBuilder) {
     super(commandConfig);

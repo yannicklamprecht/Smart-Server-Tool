@@ -8,8 +8,8 @@ import org.bukkit.entity.Player;
 public class WeatherCommand extends CustomCommand {
 
   private final MessageBuilder messageBuilder;
-  private boolean rain;
-  private WeatherCommandMessage weatherCommandMessage;
+  private final boolean rain;
+  private final WeatherCommandMessage weatherCommandMessage;
 
   public WeatherCommand(WeatherCommandMessage commandConfig, MessageBuilder messageBuilder,
       boolean rain) {

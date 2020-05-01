@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
  */
 public class FirstJoinMapper implements ValueMapper {
 
-  private String firstJoinMessage;
+  private final String firstJoinMessage;
 
   public FirstJoinMapper(PlayerMessage playerMessage) {
     this.firstJoinMessage = playerMessage.getFirstJoin();

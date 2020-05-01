@@ -15,8 +15,8 @@ public class FlySpeed extends CustomCommand {
 
   private static final Pattern NUMBER = Pattern.compile("\\d");
 
-  private FlySpeedCommandMessage flySpeedCommandMessage;
-  private MessageBuilder messageBuilder;
+  private final FlySpeedCommandMessage flySpeedCommandMessage;
+  private final MessageBuilder messageBuilder;
 
   public FlySpeed(FlySpeedCommandMessage commandConfig,
       MessageBuilder messageBuilder) {

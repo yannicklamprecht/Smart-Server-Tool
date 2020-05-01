@@ -1,11 +1,8 @@
 package com.ysl3000.config.settings.messages.commands;
 
-import lombok.Data;
-
 /**
  * Created by ysl3000
  */
-@Data
 public class KillCommandMessage extends CommandConfig {
 
   private String notEnoughArguments = "Need more arguments";
@@ -17,4 +14,27 @@ public class KillCommandMessage extends CommandConfig {
         "sst.kill");
   }
 
+  public String getNotEnoughArguments() {
+    return notEnoughArguments;
+  }
+
+  public void setNotEnoughArguments(String notEnoughArguments) {
+    this.notEnoughArguments = notEnoughArguments;
+  }
+
+  public String getPlayerNotFound() {
+    return playerNotFound;
+  }
+
+  public void setPlayerNotFound(String playerNotFound) {
+    this.playerNotFound = playerNotFound;
+  }
+
+  public String getPlayerSuccessfullyKilled() {
+    return playerSuccessfullyKilled;
+  }
+
+  public void setPlayerSuccessfullyKilled(String playerSuccessfullyKilled) {
+    this.playerSuccessfullyKilled = playerSuccessfullyKilled;
+  }
 }

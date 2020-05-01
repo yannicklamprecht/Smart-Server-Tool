@@ -64,4 +64,5 @@ public class FreezeCommandMessage extends CommandConfig {
   public void setSenderFreezeMessage(String senderFreezeMessage) {
     this.senderFreezeMessage = senderFreezeMessage;
   }
+
 }

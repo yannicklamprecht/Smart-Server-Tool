@@ -24,8 +24,8 @@ import org.bukkit.entity.Player;
 public class Spawn extends CustomCommand {
 
 
-  private SpawnCommandMessage spawnCommandMessage;
   private final MessageBuilder messageBuilder;
+  private final SpawnCommandMessage spawnCommandMessage;
 
   Spawn(SpawnCommandMessage commandConfig, MessageBuilder messageBuilder) {
     super(commandConfig);

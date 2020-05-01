@@ -1,11 +1,9 @@
 package com.ysl3000.config.settings.messages.commands;
 
-import lombok.Data;
-
 /**
  * Created by ysl3000
  */
-@Data
+
 public class SwitchLocationCommandMessage extends CommandConfig {
 
 
@@ -23,5 +21,45 @@ public class SwitchLocationCommandMessage extends CommandConfig {
     super("switch",
         "swap position with player",
         "/switch <player>", "sst.switch");
+  }
+
+  public String getNotEnoughArguments() {
+    return notEnoughArguments;
+  }
+
+  public void setNotEnoughArguments(String notEnoughArguments) {
+    this.notEnoughArguments = notEnoughArguments;
+  }
+
+  public String getTooManyArguments() {
+    return tooManyArguments;
+  }
+
+  public void setTooManyArguments(String tooManyArguments) {
+    this.tooManyArguments = tooManyArguments;
+  }
+
+  public String getNotOnline() {
+    return notOnline;
+  }
+
+  public void setNotOnline(String notOnline) {
+    this.notOnline = notOnline;
+  }
+
+  public String getSwitchMessage() {
+    return switchMessage;
+  }
+
+  public void setSwitchMessage(String switchMessage) {
+    this.switchMessage = switchMessage;
+  }
+
+  public String getAdditionalMessageSwitch() {
+    return additionalMessageSwitch;
+  }
+
+  public void setAdditionalMessageSwitch(String additionalMessageSwitch) {
+    this.additionalMessageSwitch = additionalMessageSwitch;
   }
 }

@@ -9,7 +9,7 @@ import org.bukkit.Server;
  */
 public class BukkitVersionMapper implements ValueMapper {
 
-  private Server server;
+  private final Server server;
 
   public BukkitVersionMapper(Server server) {
     this.server = server;

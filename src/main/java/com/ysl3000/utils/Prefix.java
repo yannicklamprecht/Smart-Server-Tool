@@ -5,7 +5,7 @@ import org.bukkit.entity.Player;
 
 public class Prefix {
 
-  private RandColor randColor;
+  private final RandColor randColor;
 
   public Prefix(RandColor randColor) {
     this.randColor = randColor;

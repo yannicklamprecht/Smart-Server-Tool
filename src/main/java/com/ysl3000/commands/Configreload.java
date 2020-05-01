@@ -6,7 +6,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class Configreload extends CustomCommand {
 
-  private JavaPlugin javaPlugin;
+  private final JavaPlugin javaPlugin;
 
   public Configreload(CommandConfig commandConfig, JavaPlugin javaPlugin) {
     super(commandConfig);

@@ -11,8 +11,8 @@ import org.bukkit.OfflinePlayer;
  */
 public class PlayerFirstPlayedMapper implements ValueMapper {
 
-  private Utility utility;
-  private Messages messages;
+  private final Utility utility;
+  private final Messages messages;
 
   public PlayerFirstPlayedMapper(Utility utility, Messages messages) {
     this.utility = utility;

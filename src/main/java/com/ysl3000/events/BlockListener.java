@@ -79,11 +79,11 @@ public class BlockListener implements Listener {
     }
   };
 
-  private SmartSettings smartSettings;
-  private WorldSettings worldSettings;
+  private final SmartSettings smartSettings;
+  private final WorldSettings worldSettings;
 
-  private Set<BlockBreakCommand> blockBreakCommands = new HashSet<>();
-  private List<VectorModifier> vectorModifiers = new ArrayList<>();
+  private final Set<BlockBreakCommand> blockBreakCommands = new HashSet<>();
+  private final List<VectorModifier> vectorModifiers = new ArrayList<>();
 
   BlockListener(SmartSettings smartSettings) {
     this.smartSettings = smartSettings;
@@ -245,7 +245,8 @@ public class BlockListener implements Listener {
 
           Vector direction = new Vector(0, 2.4D, 0);
 
-          vectorModifiers.forEach(vectorModifier -> vectorModifier.execute(getBlockUnderFeet(ev.getPlayer(), vectorModifier.depth()),  direction));
+          vectorModifiers.forEach(vectorModifier -> vectorModifier
+              .execute(getBlockUnderFeet(ev.getPlayer(), vectorModifier.depth()), direction));
           ev.getPlayer().setVelocity(direction);
         }
       }

@@ -13,7 +13,7 @@ public class EnderChestDropCommand implements BlockBreakCommand {
 
   @Override
   public boolean isConditionFullfilled(Player player, Block block) {
-    return block.getType()==Material.ENDER_CHEST;
+    return block.getType() == Material.ENDER_CHEST;
   }
 
   @Override

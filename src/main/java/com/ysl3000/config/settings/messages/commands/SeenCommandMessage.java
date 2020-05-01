@@ -1,11 +1,9 @@
 package com.ysl3000.config.settings.messages.commands;
 
-import lombok.Data;
-
 /**
  * Created by ysl3000
  */
-@Data
+
 public class SeenCommandMessage extends CommandConfig {
 
   private String neverSeenBefore = "&aPlayer &6{player_name} &anever seen before!";
@@ -16,4 +14,19 @@ public class SeenCommandMessage extends CommandConfig {
         "/seen <player>", "sst.seen");
   }
 
+  public String getNeverSeenBefore() {
+    return neverSeenBefore;
+  }
+
+  public void setNeverSeenBefore(String neverSeenBefore) {
+    this.neverSeenBefore = neverSeenBefore;
+  }
+
+  public String getPlayerSeenMessage() {
+    return playerSeenMessage;
+  }
+
+  public void setPlayerSeenMessage(String playerSeenMessage) {
+    this.playerSeenMessage = playerSeenMessage;
+  }
 }

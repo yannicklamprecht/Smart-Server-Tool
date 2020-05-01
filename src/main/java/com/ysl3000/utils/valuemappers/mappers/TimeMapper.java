@@ -11,7 +11,7 @@ import java.util.Date;
  */
 public class TimeMapper implements ValueMapper {
 
-  private SimpleDateFormat dateFormat;
+  private final SimpleDateFormat dateFormat;
 
   public TimeMapper(Messages messages) {
     this.dateFormat = new SimpleDateFormat(messages.getTimeformat());

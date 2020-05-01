@@ -9,7 +9,7 @@ import org.bukkit.Server;
  */
 public class MinecraftVersionMapper implements ValueMapper {
 
-  private Server server;
+  private final Server server;
 
   public MinecraftVersionMapper(Server server) {
     this.server = server;

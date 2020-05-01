@@ -13,8 +13,8 @@ import org.bukkit.entity.Player;
 public class ServerInfo extends CustomCommand {
 
 
-  private ServerInfoCommandMessage serverInfoCommandMessage;
-  private MessageBuilder messageBuilder;
+  private final ServerInfoCommandMessage serverInfoCommandMessage;
+  private final MessageBuilder messageBuilder;
 
   ServerInfo(ServerInfoCommandMessage commandConfig,
       MessageBuilder messageBuilder) {
@@ -32,7 +32,8 @@ public class ServerInfo extends CustomCommand {
     Player player = (Player) sender;
     if (testPermission(player)) {
       sender.sendMessage(messageBuilder
-          .injectParameter(serverInfoCommandMessage.getServerOnlineMessage(), player, player.getServer()));
+          .injectParameter(serverInfoCommandMessage.getServerOnlineMessage(), player,
+              player.getServer()));
     }
     return true;
   }

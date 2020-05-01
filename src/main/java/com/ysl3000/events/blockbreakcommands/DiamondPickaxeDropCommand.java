@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public class DiamondPickaxeDropCommand implements BlockBreakCommand {
 
-  private SmartSettings smartSettings;
+  private final SmartSettings smartSettings;
 
   public DiamondPickaxeDropCommand(SmartSettings smartSettings) {
     this.smartSettings = smartSettings;

@@ -11,7 +11,8 @@ import org.bukkit.Bukkit;
  */
 public class ServerOnlineMapper implements ValueMapper {
 
-  private static final Pattern ONLINE_PATTERN = MapperPattern.createPatternFromPrefix("server_online_mode");
+  private static final Pattern ONLINE_PATTERN = MapperPattern
+      .createPatternFromPrefix("server_online_mode");
 
   @Override
   public void injectPlaceholder(MessageWrapper message) {

@@ -1,11 +1,9 @@
 package com.ysl3000.config.settings.messages.commands;
 
-import lombok.Data;
-
 /**
  * Created by ysl3000
  */
-@Data
+
 public class FlyModeCommandMessage extends CommandConfig {
 
   private String on = "You can now fly ";
@@ -20,5 +18,69 @@ public class FlyModeCommandMessage extends CommandConfig {
   public FlyModeCommandMessage() {
     super("fly", "toggle fly", "/fly <player>",
         "sst.fly");
+  }
+
+  public String getOn() {
+    return on;
+  }
+
+  public void setOn(String on) {
+    this.on = on;
+  }
+
+  public String getOff() {
+    return off;
+  }
+
+  public void setOff(String off) {
+    this.off = off;
+  }
+
+  public String getSenderOtherOn() {
+    return senderOtherOn;
+  }
+
+  public void setSenderOtherOn(String senderOtherOn) {
+    this.senderOtherOn = senderOtherOn;
+  }
+
+  public String getSenderOtherOff() {
+    return senderOtherOff;
+  }
+
+  public void setSenderOtherOff(String senderOtherOff) {
+    this.senderOtherOff = senderOtherOff;
+  }
+
+  public String getTargetOtherOn() {
+    return targetOtherOn;
+  }
+
+  public void setTargetOtherOn(String targetOtherOn) {
+    this.targetOtherOn = targetOtherOn;
+  }
+
+  public String getTargetOtherOff() {
+    return targetOtherOff;
+  }
+
+  public void setTargetOtherOff(String targetOtherOff) {
+    this.targetOtherOff = targetOtherOff;
+  }
+
+  public String getTargetMustBeOnGround() {
+    return targetMustBeOnGround;
+  }
+
+  public void setTargetMustBeOnGround(String targetMustBeOnGround) {
+    this.targetMustBeOnGround = targetMustBeOnGround;
+  }
+
+  public String getNoPermissionToFlyOther() {
+    return noPermissionToFlyOther;
+  }
+
+  public void setNoPermissionToFlyOther(String noPermissionToFlyOther) {
+    this.noPermissionToFlyOther = noPermissionToFlyOther;
   }
 }

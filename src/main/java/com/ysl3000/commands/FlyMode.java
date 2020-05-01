@@ -11,7 +11,7 @@ public class FlyMode extends CustomCommand {
 
 
   private final MessageBuilder messageBuilder;
-  private FlyModeCommandMessage flyModeCommandMessage;
+  private final FlyModeCommandMessage flyModeCommandMessage;
 
   public FlyMode(FlyModeCommandMessage commandConfig, MessageBuilder messageBuilder) {
     super(commandConfig);

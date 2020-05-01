@@ -28,7 +28,7 @@ public class ModCommand extends CustomCommand {
 
   private final MessageBuilder messageBuilder;
   private final SmartPlayers smartPlayers;
-  private ModCommandMessage modCommandMessage;
+  private final ModCommandMessage modCommandMessage;
 
   ModCommand(ModCommandMessage commandConfig, MessageBuilder messageBuilder,
       SmartPlayers smartPlayers) {
@@ -67,24 +67,23 @@ public class ModCommand extends CustomCommand {
 
     SmartPlayer smartPlayer = smartPlayers.getPlayerByUUID(target);
 
+    if (!smartPlayer.isMod()) {
 
-      if (!smartPlayer.isMod()) {
-
-        if (target.getInventory().getContents().length == 0) {
-          target.getInventory().addItem(
-              new ItemStack(Material.AIR, 4));
-        }
-
-        smartPlayer.setInventory(target.getInventory()
-            .getContents());
-        smartPlayer.setModLocation(target.getLocation());
-
-        target.getInventory().clear();
-        target.setOp(true);
-        target.setGameMode(GameMode.CREATIVE);
-        target.sendMessage(messageBuilder.injectParameter(modCommandMessage.getModModeActive()));
-        smartPlayer.setMod(true);
+      if (target.getInventory().getContents().length == 0) {
+        target.getInventory().addItem(
+            new ItemStack(Material.AIR, 4));
       }
+
+      smartPlayer.setInventory(target.getInventory()
+          .getContents());
+      smartPlayer.setModLocation(target.getLocation());
+
+      target.getInventory().clear();
+      target.setOp(true);
+      target.setGameMode(GameMode.CREATIVE);
+      target.sendMessage(messageBuilder.injectParameter(modCommandMessage.getModModeActive()));
+      smartPlayer.setMod(true);
+    }
 
   }
 }

@@ -23,16 +23,16 @@ import org.bukkit.event.server.ServerListPingEvent;
 
 public class MOTD implements Listener {
 
-  private PlayerMessage playerMessage;
-  private Service service;
-  private Messages messages;
-  private Prefix prefix;
-  private Misc misc;
-  private SmartPlayers smartPlayers;
+  private final PlayerMessage playerMessage;
+  private final Service service;
+  private final Messages messages;
+  private final Prefix prefix;
+  private final Misc misc;
+  private final SmartPlayers smartPlayers;
 
-  private Server server;
+  private final Server server;
 
-  private MessageBuilder messageBuilder;
+  private final MessageBuilder messageBuilder;
 
   public MOTD(Messages messages, Prefix prefix, Misc misc,
       SmartPlayers smartPlayers, Server server, MessageBuilder messageBuilder) {

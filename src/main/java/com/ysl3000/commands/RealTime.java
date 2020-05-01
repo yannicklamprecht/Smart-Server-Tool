@@ -11,8 +11,8 @@ import org.bukkit.command.CommandSender;
 public class RealTime extends CustomCommand {
 
 
-  private MessageBuilder messageBuilder;
-  private RealTimeCommandMessage realTimeCommandMessage;
+  private final MessageBuilder messageBuilder;
+  private final RealTimeCommandMessage realTimeCommandMessage;
 
   RealTime(RealTimeCommandMessage commandConfig,
       MessageBuilder messageBuilder) {

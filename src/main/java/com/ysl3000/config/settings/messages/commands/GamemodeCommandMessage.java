@@ -1,12 +1,10 @@
 package com.ysl3000.config.settings.messages.commands;
 
-import lombok.Data;
 import org.bukkit.ChatColor;
 
 /**
  * Created by ysl3000
  */
-@Data
 public abstract class GamemodeCommandMessage extends CommandConfig {
 
   private String enterGamemodeMode = "Enter &6{player_gamemode}";
@@ -19,5 +17,37 @@ public abstract class GamemodeCommandMessage extends CommandConfig {
   public GamemodeCommandMessage(String name, String description, String usageMessage,
       String permission) {
     super(name, description, usageMessage, permission);
+  }
+
+  public String getEnterGamemodeMode() {
+    return enterGamemodeMode;
+  }
+
+  public void setEnterGamemodeMode(String enterGamemodeMode) {
+    this.enterGamemodeMode = enterGamemodeMode;
+  }
+
+  public String getPlayerNotFound() {
+    return playerNotFound;
+  }
+
+  public void setPlayerNotFound(String playerNotFound) {
+    this.playerNotFound = playerNotFound;
+  }
+
+  public String getGamemodeTarget() {
+    return gamemodeTarget;
+  }
+
+  public void setGamemodeTarget(String gamemodeTarget) {
+    this.gamemodeTarget = gamemodeTarget;
+  }
+
+  public String getGamemodeSender() {
+    return gamemodeSender;
+  }
+
+  public void setGamemodeSender(String gamemodeSender) {
+    this.gamemodeSender = gamemodeSender;
   }
 }

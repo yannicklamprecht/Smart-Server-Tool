@@ -1,11 +1,9 @@
 package com.ysl3000.config.settings.messages.commands;
 
-import lombok.Data;
-
 /**
  * Created by ysl3000
  */
-@Data
+
 public class WalkSpeedCommandMessage extends CommandConfig {
 
   private String walkSpeedSetTo = "Walkspeed set to {walk_speed}";
@@ -16,4 +14,19 @@ public class WalkSpeedCommandMessage extends CommandConfig {
         "/ws <amount/0.1-1.0>", "");
   }
 
+  public String getWalkSpeedSetTo() {
+    return walkSpeedSetTo;
+  }
+
+  public void setWalkSpeedSetTo(String walkSpeedSetTo) {
+    this.walkSpeedSetTo = walkSpeedSetTo;
+  }
+
+  public String getWalkSpeedNeedToBeBetween() {
+    return walkSpeedNeedToBeBetween;
+  }
+
+  public void setWalkSpeedNeedToBeBetween(String walkSpeedNeedToBeBetween) {
+    this.walkSpeedNeedToBeBetween = walkSpeedNeedToBeBetween;
+  }
 }

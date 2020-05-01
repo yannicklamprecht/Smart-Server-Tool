@@ -1,11 +1,8 @@
 package com.ysl3000.config.settings.messages.commands;
 
-import lombok.Data;
-
 /**
  * Created by ysl3000
  */
-@Data
 public class CommandConfigContainer {
 
   private FreezeCommandMessage freeze = new FreezeCommandMessage();
@@ -66,4 +63,250 @@ public class CommandConfigContainer {
 
   private KillCommandMessage kill = new KillCommandMessage();
 
+
+  public FreezeCommandMessage getFreeze() {
+    return freeze;
+  }
+
+  public void setFreeze(FreezeCommandMessage freeze) {
+    this.freeze = freeze;
+  }
+
+  public AdminCommandMessage getAdmin() {
+    return admin;
+  }
+
+  public void setAdmin(AdminCommandMessage admin) {
+    this.admin = admin;
+  }
+
+  public BackCommandMessage getBack() {
+    return back;
+  }
+
+  public void setBack(BackCommandMessage back) {
+    this.back = back;
+  }
+
+  public CheckCurrentGamemodeCommandMessage getCurrentGamemode() {
+    return currentGamemode;
+  }
+
+  public void setCurrentGamemode(
+      CheckCurrentGamemodeCommandMessage currentGamemode) {
+    this.currentGamemode = currentGamemode;
+  }
+
+  public GamemodeCreativeCommandMessage getCreativeGamemode() {
+    return creativeGamemode;
+  }
+
+  public void setCreativeGamemode(
+      GamemodeCreativeCommandMessage creativeGamemode) {
+    this.creativeGamemode = creativeGamemode;
+  }
+
+  public DoneCommandMessage getDone() {
+    return done;
+  }
+
+  public void setDone(DoneCommandMessage done) {
+    this.done = done;
+  }
+
+  public FlyModeCommandMessage getFlyMode() {
+    return flyMode;
+  }
+
+  public void setFlyMode(FlyModeCommandMessage flyMode) {
+    this.flyMode = flyMode;
+  }
+
+  public FlySpeedCommandMessage getFlySpeed() {
+    return flySpeed;
+  }
+
+  public void setFlySpeed(FlySpeedCommandMessage flySpeed) {
+    this.flySpeed = flySpeed;
+  }
+
+  public GetWeatherCommandMessage getGetWeather() {
+    return getWeather;
+  }
+
+  public void setGetWeather(
+      GetWeatherCommandMessage getWeather) {
+    this.getWeather = getWeather;
+  }
+
+  public TimeDayCommandMessage getTimeDay() {
+    return timeDay;
+  }
+
+  public void setTimeDay(TimeDayCommandMessage timeDay) {
+    this.timeDay = timeDay;
+  }
+
+  public TimeNightCommandMessage getTimeNight() {
+    return timeNight;
+  }
+
+  public void setTimeNight(TimeNightCommandMessage timeNight) {
+    this.timeNight = timeNight;
+  }
+
+  public GamemodeSurvivalCommandMessage getSurvivalGamemode() {
+    return survivalGamemode;
+  }
+
+  public void setSurvivalGamemode(
+      GamemodeSurvivalCommandMessage survivalGamemode) {
+    this.survivalGamemode = survivalGamemode;
+  }
+
+  public WeatherSunCommandMessage getSun() {
+    return sun;
+  }
+
+  public void setSun(WeatherSunCommandMessage sun) {
+    this.sun = sun;
+  }
+
+  public WeatherStormCommandMessage getStorm() {
+    return storm;
+  }
+
+  public void setStorm(WeatherStormCommandMessage storm) {
+    this.storm = storm;
+  }
+
+  public SeenCommandMessage getSeen() {
+    return seen;
+  }
+
+  public void setSeen(SeenCommandMessage seen) {
+    this.seen = seen;
+  }
+
+  public RealTimeCommandMessage getRealTime() {
+    return realTime;
+  }
+
+  public void setRealTime(RealTimeCommandMessage realTime) {
+    this.realTime = realTime;
+  }
+
+  public PlayerLookUpIpCommandMessage getIp() {
+    return ip;
+  }
+
+  public void setIp(PlayerLookUpIpCommandMessage ip) {
+    this.ip = ip;
+  }
+
+  public HealCommandMessage getHeal() {
+    return heal;
+  }
+
+  public void setHeal(HealCommandMessage heal) {
+    this.heal = heal;
+  }
+
+  public HomeCommandMessage getHome() {
+    return home;
+  }
+
+  public void setHome(HomeCommandMessage home) {
+    this.home = home;
+  }
+
+  public GodCommandMessage getGod() {
+    return god;
+  }
+
+  public void setGod(GodCommandMessage god) {
+    this.god = god;
+  }
+
+  public CommandConfig getReload() {
+    return reload;
+  }
+
+  public void setReload(CommandConfig reload) {
+    this.reload = reload;
+  }
+
+  public WalkSpeedCommandMessage getWalkspeed() {
+    return walkspeed;
+  }
+
+  public void setWalkspeed(WalkSpeedCommandMessage walkspeed) {
+    this.walkspeed = walkspeed;
+  }
+
+  public SwitchLocationCommandMessage getSwitchLocations() {
+    return switchLocations;
+  }
+
+  public void setSwitchLocations(
+      SwitchLocationCommandMessage switchLocations) {
+    this.switchLocations = switchLocations;
+  }
+
+  public SpawnCommandMessage getSpawn() {
+    return spawn;
+  }
+
+  public void setSpawn(SpawnCommandMessage spawn) {
+    this.spawn = spawn;
+  }
+
+  public SetSpawnCommandMessage getSetSpawn() {
+    return setSpawn;
+  }
+
+  public void setSetSpawn(SetSpawnCommandMessage setSpawn) {
+    this.setSpawn = setSpawn;
+  }
+
+  public ServerInfoCommandMessage getServerInfo() {
+    return serverInfo;
+  }
+
+  public void setServerInfo(
+      ServerInfoCommandMessage serverInfo) {
+    this.serverInfo = serverInfo;
+  }
+
+  public OnlineComandMessage getOnline() {
+    return online;
+  }
+
+  public void setOnline(OnlineComandMessage online) {
+    this.online = online;
+  }
+
+  public ModCommandMessage getMod() {
+    return mod;
+  }
+
+  public void setMod(ModCommandMessage mod) {
+    this.mod = mod;
+  }
+
+  public CommandConfig getKillMe() {
+    return killMe;
+  }
+
+  public void setKillMe(CommandConfig killMe) {
+    this.killMe = killMe;
+  }
+
+  public KillCommandMessage getKill() {
+    return kill;
+  }
+
+  public void setKill(KillCommandMessage kill) {
+    this.kill = kill;
+  }
 }

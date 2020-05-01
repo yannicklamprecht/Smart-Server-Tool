@@ -34,7 +34,7 @@ import org.bukkit.Server;
  */
 public class MessageBuilder {
 
-  private List<ValueMapper> mappers = new ArrayList<>();
+  private final List<ValueMapper> mappers = new ArrayList<>();
 
   public MessageBuilder(Server server, Messages messages, Utility utility) {
     mappers.add(new BukkitVersionMapper(server));

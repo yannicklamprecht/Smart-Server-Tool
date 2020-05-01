@@ -21,8 +21,8 @@ import org.bukkit.entity.Player;
  */
 public class Kill extends CustomCommand {
 
-  private KillCommandMessage killCommandMessage;
   private final MessageBuilder messageBuilder;
+  private final KillCommandMessage killCommandMessage;
 
   Kill(KillCommandMessage commandConfig, MessageBuilder messageBuilder) {
     super(commandConfig);

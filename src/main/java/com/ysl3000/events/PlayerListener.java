@@ -25,8 +25,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class PlayerListener implements Listener {
 
-  private SmartPlayers smartPlayers;
-  private SmartSettings smartSettings;
+  private final SmartPlayers smartPlayers;
+  private final SmartSettings smartSettings;
 
   public PlayerListener(SmartPlayers smartPlayers, SmartSettings smartSettings) {
     this.smartPlayers = smartPlayers;
@@ -94,8 +94,8 @@ public class PlayerListener implements Listener {
   public void playerteleport(PlayerTeleportEvent event) throws ExecutionException {
     SmartPlayer smartPlayer = smartPlayers
         .getPlayerByUUID(event.getPlayer());
-      smartPlayer.setLastLocation(event.getFrom());
-      smartPlayer.setCurrentLocation(event.getTo());
+    smartPlayer.setLastLocation(event.getFrom());
+    smartPlayer.setCurrentLocation(event.getTo());
   }
 
   @EventHandler
@@ -110,8 +110,8 @@ public class PlayerListener implements Listener {
   @EventHandler
   public void onPlayerMove(PlayerMoveEvent e) throws ExecutionException {
     SmartPlayer smartPlayer = smartPlayers.getPlayerByUUID(e.getPlayer());
-      e.setCancelled((!(e.getPlayer().hasPermission(Permissions.MOVE)
-          || smartSettings.isNoPermissionsNeeded()) && !smartPlayer.isFrozen()));
+    e.setCancelled((!(e.getPlayer().hasPermission(Permissions.MOVE)
+        || smartSettings.isNoPermissionsNeeded()) && !smartPlayer.isFrozen()));
   }
 
   @EventHandler

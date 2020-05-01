@@ -7,7 +7,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class SmartPlayer {
 
-  private UUID player;
+  private final UUID player;
   private boolean isMod;
   private boolean isGod;
   private boolean isFrozen;

@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public class StainedGlassDropCommand implements BlockBreakCommand {
 
-  private SmartSettings smartSettings;
+  private final SmartSettings smartSettings;
 
   public StainedGlassDropCommand(SmartSettings smartSettings) {
     this.smartSettings = smartSettings;
@@ -25,20 +25,20 @@ public class StainedGlassDropCommand implements BlockBreakCommand {
 
     Material material = block.getType();
 
-    return (material==Material.GLASS_PANE || BlockListener.STAINED_GLASS.isTagged(material))
+    return (material == Material.GLASS_PANE || BlockListener.STAINED_GLASS.isTagged(material))
         && (nextInt(smartSettings.getChance().getGlassPane()) == 1
         || smartSettings.getChance().getGlassPane() == 1)
         && smartSettings.getDrops().isGlassPane()
-        && player.getGameMode()!= GameMode.CREATIVE;
+        && player.getGameMode() != GameMode.CREATIVE;
   }
 
   @Override
   public void execute(Player player, Block block, Cancellable cancellable) {
 
-      block.getWorld()
-          .dropItem(
-              block.getLocation(),
-              new ItemStack(block.getType(), 1));
+    block.getWorld()
+        .dropItem(
+            block.getLocation(),
+            new ItemStack(block.getType(), 1));
 
 
   }

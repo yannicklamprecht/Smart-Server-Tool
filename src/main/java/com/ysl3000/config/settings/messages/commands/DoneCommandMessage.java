@@ -1,13 +1,8 @@
 package com.ysl3000.config.settings.messages.commands;
 
-import lombok.Getter;
-import lombok.Setter;
-
 /**
  * Created by ysl3000
  */
-@Setter
-@Getter
 public class DoneCommandMessage extends CommandConfig {
 
   private String modmodeDisabled = "&4modmode disabled";
@@ -18,4 +13,27 @@ public class DoneCommandMessage extends CommandConfig {
     super("done", "Leave modmode", "/done", "sst.mod");
   }
 
+  public String getModmodeDisabled() {
+    return modmodeDisabled;
+  }
+
+  public void setModmodeDisabled(String modmodeDisabled) {
+    this.modmodeDisabled = modmodeDisabled;
+  }
+
+  public String getDoneTarget() {
+    return doneTarget;
+  }
+
+  public void setDoneTarget(String doneTarget) {
+    this.doneTarget = doneTarget;
+  }
+
+  public String getDoneSender() {
+    return doneSender;
+  }
+
+  public void setDoneSender(String doneSender) {
+    this.doneSender = doneSender;
+  }
 }

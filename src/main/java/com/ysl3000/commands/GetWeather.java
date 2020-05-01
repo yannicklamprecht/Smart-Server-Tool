@@ -10,7 +10,7 @@ import org.bukkit.entity.Player;
 public class GetWeather extends CustomCommand {
 
   private final MessageBuilder messageBuilder;
-  private GetWeatherCommandMessage getWeatherCommandMessage;
+  private final GetWeatherCommandMessage getWeatherCommandMessage;
 
   public GetWeather(GetWeatherCommandMessage commandConfig, MessageBuilder messageBuilder) {
     super(commandConfig);

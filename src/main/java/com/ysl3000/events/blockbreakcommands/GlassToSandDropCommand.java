@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public class GlassToSandDropCommand implements BlockBreakCommand {
 
-  private SmartSettings smartSettings;
+  private final SmartSettings smartSettings;
 
   public GlassToSandDropCommand(SmartSettings smartSettings) {
     this.smartSettings = smartSettings;

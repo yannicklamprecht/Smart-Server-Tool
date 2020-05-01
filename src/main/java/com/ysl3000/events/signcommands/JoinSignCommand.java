@@ -31,7 +31,7 @@ public class JoinSignCommand implements SignCommand {
             clicked.getLocation().getY() + 1, clicked.getLocation()
             .getZ()));
 
-    if (b.getType()== Material.PLAYER_HEAD) {
+    if (b.getType() == Material.PLAYER_HEAD) {
       Skull sk = (Skull) b.getState();
       sk.setOwningPlayer(p);
       sk.update();

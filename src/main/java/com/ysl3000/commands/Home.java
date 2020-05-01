@@ -21,7 +21,7 @@ import org.bukkit.entity.Player;
  */
 public class Home extends CustomCommand {
 
-  private HomeCommandMessage homeCommandMessage;
+  private final HomeCommandMessage homeCommandMessage;
 
   Home(HomeCommandMessage commandConfig) {
     super(commandConfig);
@@ -36,26 +36,25 @@ public class Home extends CustomCommand {
 
     Player player = (Player) sender;
 
-
-      if (args.length == 0) {
-        if (player.getBedSpawnLocation() != null) {
-          player.teleport(player.getBedSpawnLocation());
-        } else {
-          player.sendMessage(homeCommandMessage.getHomeNotSet());
-        }
-
-      } else if (args.length == 1 && player.hasPermission(Permissions.HOME_OTHER)) {
-
-        if (player.getServer().getPlayer(args[0]) != null) {
-          Player target = player.getServer().getPlayer(args[0]);
-          player.teleport(target.getPlayer()
-              .getBedSpawnLocation());
-        } else {
-          OfflinePlayer ofp = player.getServer().getOfflinePlayer(args[0]);
-          player.teleport(ofp.getBedSpawnLocation());
-        }
-
+    if (args.length == 0) {
+      if (player.getBedSpawnLocation() != null) {
+        player.teleport(player.getBedSpawnLocation());
+      } else {
+        player.sendMessage(homeCommandMessage.getHomeNotSet());
       }
+
+    } else if (args.length == 1 && player.hasPermission(Permissions.HOME_OTHER)) {
+
+      if (player.getServer().getPlayer(args[0]) != null) {
+        Player target = player.getServer().getPlayer(args[0]);
+        player.teleport(target.getPlayer()
+            .getBedSpawnLocation());
+      } else {
+        OfflinePlayer ofp = player.getServer().getOfflinePlayer(args[0]);
+        player.teleport(ofp.getBedSpawnLocation());
+      }
+
+    }
 
     return true;
   }

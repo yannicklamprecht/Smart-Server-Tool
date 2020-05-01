@@ -1,11 +1,9 @@
 package com.ysl3000.config.settings.messages.commands;
 
-import lombok.Data;
-
 /**
  * Created by ysl3000
  */
-@Data
+
 public class ModCommandMessage extends CommandConfig {
 
   private String modModeActive = "&aModmode enabled";
@@ -15,4 +13,11 @@ public class ModCommandMessage extends CommandConfig {
     super("mod", "enter modmode", "/mod", "sst.mod");
   }
 
+  public String getModModeActive() {
+    return modModeActive;
+  }
+
+  public void setModModeActive(String modModeActive) {
+    this.modModeActive = modModeActive;
+  }
 }

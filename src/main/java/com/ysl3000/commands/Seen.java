@@ -13,8 +13,8 @@ import org.bukkit.entity.Player;
  */
 public class Seen extends CustomCommand {
 
-  private SeenCommandMessage seenCommandMessage;
-  private MessageBuilder messageBuilder;
+  private final SeenCommandMessage seenCommandMessage;
+  private final MessageBuilder messageBuilder;
 
   Seen(SeenCommandMessage commandConfig, MessageBuilder messageBuilder) {
     super(commandConfig);

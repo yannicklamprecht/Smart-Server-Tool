@@ -20,8 +20,8 @@ public class ConfigurationProvider {
 
   private static final Logger LOGGER = Logger.getLogger(ConfigurationProvider.class.getName());
 
-  private File datafolder;
-  private ClassLoader classLoader;
+  private final File datafolder;
+  private final ClassLoader classLoader;
 
   public ConfigurationProvider(File datafolder, ClassLoader classLoader) {
     this.datafolder = datafolder;

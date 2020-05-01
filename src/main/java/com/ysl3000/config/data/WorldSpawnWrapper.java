@@ -10,7 +10,7 @@ import org.bukkit.Location;
  */
 public class WorldSpawnWrapper {
 
-  private Map<String, SpawnLocation> locations = new HashMap<>();
+  private final Map<String, SpawnLocation> locations = new HashMap<>();
 
 
   public WorldSpawnWrapper(WorldSpawnLocation worldSpawnLocation) {

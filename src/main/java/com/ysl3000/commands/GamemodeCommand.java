@@ -15,7 +15,7 @@ public class GamemodeCommand extends CustomCommand {
 
   private final MessageBuilder messageBuilder;
   private final GameMode gameMode;
-  private GamemodeCommandMessage gamemodeCommandMessage;
+  private final GamemodeCommandMessage gamemodeCommandMessage;
 
   public GamemodeCommand(GamemodeCommandMessage commandConfig, MessageBuilder messageBuilder,
       GameMode gameMode) {

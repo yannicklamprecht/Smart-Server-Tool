@@ -1,11 +1,9 @@
 package com.ysl3000.config.settings.messages.commands;
 
-import lombok.Data;
-
 /**
  * Created by ysl3000
  */
-@Data
+
 public class SetSpawnCommandMessage extends CommandConfig {
 
 
@@ -16,4 +14,11 @@ public class SetSpawnCommandMessage extends CommandConfig {
         "sst.setsp");
   }
 
+  public String getSetSpawnMessage() {
+    return setSpawnMessage;
+  }
+
+  public void setSetSpawnMessage(String setSpawnMessage) {
+    this.setSpawnMessage = setSpawnMessage;
+  }
 }

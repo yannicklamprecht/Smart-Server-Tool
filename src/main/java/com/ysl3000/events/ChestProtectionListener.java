@@ -20,7 +20,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public class ChestProtectionListener implements Listener {
 
-  private NamespacedKey protection;
+  private final NamespacedKey protection;
 
   public ChestProtectionListener(JavaPlugin javaPlugin) {
     this.protection = new NamespacedKey(javaPlugin, "protection");
@@ -76,7 +76,8 @@ public class ChestProtectionListener implements Listener {
   private Optional<UUID> isProtectedToUUID(Chest chest) {
     if (chest.getPersistentDataContainer().has(protection, CustomTagTypes.UUID_TAG_TYPE)) {
       return Optional
-          .ofNullable(chest.getPersistentDataContainer().get(protection, CustomTagTypes.UUID_TAG_TYPE));
+          .ofNullable(
+              chest.getPersistentDataContainer().get(protection, CustomTagTypes.UUID_TAG_TYPE));
     }
     return Optional.empty();
   }

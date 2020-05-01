@@ -31,8 +31,8 @@ import org.bukkit.inventory.PlayerInventory;
 
 public class EntityListener implements Listener {
 
-  private WorldSettings worldSettings;
-  private Misc misc;
+  private final WorldSettings worldSettings;
+  private final Misc misc;
 
   EntityListener(WorldSettings worldSettings, Misc misc) {
     this.worldSettings = worldSettings;

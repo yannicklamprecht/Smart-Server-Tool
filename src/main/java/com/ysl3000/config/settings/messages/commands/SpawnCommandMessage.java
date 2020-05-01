@@ -1,11 +1,9 @@
 package com.ysl3000.config.settings.messages.commands;
 
-import lombok.Data;
-
 /**
  * Created by ysl3000
  */
-@Data
+
 public class SpawnCommandMessage extends CommandConfig {
 
   private String teleportedToSpawn = "Teleported to Spawn of world &6{world_name}";
@@ -21,4 +19,35 @@ public class SpawnCommandMessage extends CommandConfig {
         "sst.spawn");
   }
 
+  public String getTeleportedToSpawn() {
+    return teleportedToSpawn;
+  }
+
+  public void setTeleportedToSpawn(String teleportedToSpawn) {
+    this.teleportedToSpawn = teleportedToSpawn;
+  }
+
+  public String getPlayerNotOnline() {
+    return playerNotOnline;
+  }
+
+  public void setPlayerNotOnline(String playerNotOnline) {
+    this.playerNotOnline = playerNotOnline;
+  }
+
+  public String getTeleportOtherToSpawn() {
+    return teleportOtherToSpawn;
+  }
+
+  public void setTeleportOtherToSpawn(String teleportOtherToSpawn) {
+    this.teleportOtherToSpawn = teleportOtherToSpawn;
+  }
+
+  public String getTeleportedBySomeoneToSpawn() {
+    return teleportedBySomeoneToSpawn;
+  }
+
+  public void setTeleportedBySomeoneToSpawn(String teleportedBySomeoneToSpawn) {
+    this.teleportedBySomeoneToSpawn = teleportedBySomeoneToSpawn;
+  }
 }

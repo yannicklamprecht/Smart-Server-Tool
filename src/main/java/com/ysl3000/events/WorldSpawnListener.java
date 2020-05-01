@@ -12,7 +12,7 @@ import org.bukkit.event.world.WorldSaveEvent;
  */
 public class WorldSpawnListener implements Listener {
 
-  private WorldSpawnWrapper worldSpawnWrapper;
+  private final WorldSpawnWrapper worldSpawnWrapper;
 
   public WorldSpawnListener(WorldSpawnWrapper worldSpawnWrapper) {
     this.worldSpawnWrapper = worldSpawnWrapper;

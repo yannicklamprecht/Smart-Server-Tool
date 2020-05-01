@@ -10,7 +10,7 @@ import org.bukkit.Server;
 public class ServerNameMapper implements ValueMapper {
 
 
-  private Server server;
+  private final Server server;
 
   public ServerNameMapper(Server server) {
     this.server = server;

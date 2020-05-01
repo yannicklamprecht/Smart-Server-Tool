@@ -1,11 +1,9 @@
 package com.ysl3000.config.settings.messages.commands;
 
-import lombok.Data;
-
 /**
  * Created by ysl3000
  */
-@Data
+
 public class WeatherCommandMessage extends CommandConfig {
 
 
@@ -17,4 +15,11 @@ public class WeatherCommandMessage extends CommandConfig {
     this.weatherMessage = weatherMessage;
   }
 
+  public String getWeatherMessage() {
+    return weatherMessage;
+  }
+
+  public void setWeatherMessage(String weatherMessage) {
+    this.weatherMessage = weatherMessage;
+  }
 }

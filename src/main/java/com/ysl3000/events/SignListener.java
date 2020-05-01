@@ -17,7 +17,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 public class SignListener implements Listener {
 
 
-  private HashMap<String, SignCommand> signCommandHashMap = new HashMap<>();
+  private final HashMap<String, SignCommand> signCommandHashMap = new HashMap<>();
 
 
   SignListener() {
@@ -81,7 +81,7 @@ public class SignListener implements Listener {
 
       @Override
       public void breakNaturally() {
-          signChangeEvent.getBlock().breakNaturally();
+        signChangeEvent.getBlock().breakNaturally();
       }
     };
   }

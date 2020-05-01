@@ -23,8 +23,8 @@ import org.bukkit.entity.Player;
 public class PlayerLookUpIp extends CustomCommand {
 
 
-  private PlayerLookUpIpCommandMessage playerLookUpIpCommandMessage;
-  private MessageBuilder messageBuilder;
+  private final PlayerLookUpIpCommandMessage playerLookUpIpCommandMessage;
+  private final MessageBuilder messageBuilder;
 
   public PlayerLookUpIp(PlayerLookUpIpCommandMessage commandConfig,
       MessageBuilder messageBuilder) {

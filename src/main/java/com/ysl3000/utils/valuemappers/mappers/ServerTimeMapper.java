@@ -10,8 +10,8 @@ import com.ysl3000.utils.valuemappers.ValueMapper;
  */
 public class ServerTimeMapper implements ValueMapper {
 
-  private Utility utility;
-  private Messages messages;
+  private final Utility utility;
+  private final Messages messages;
 
   public ServerTimeMapper(Utility utility, Messages messages) {
     this.utility = utility;

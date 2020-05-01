@@ -10,8 +10,8 @@ import java.util.regex.Pattern;
  */
 public class MessageWrapper {
 
+  private final Map<Class<?>, Object> data = new HashMap<>();
   private String message;
-  private Map<Class<?>, Object> data = new HashMap<>();
 
   public MessageWrapper(String message, Object... objects) {
     this.message = message;

@@ -14,7 +14,7 @@ import org.bukkit.inventory.ItemStack;
  */
 public class GoldenAppleDropCommand implements BlockBreakCommand {
 
-  private SmartSettings smartSettings;
+  private final SmartSettings smartSettings;
 
   public GoldenAppleDropCommand(SmartSettings smartSettings) {
     this.smartSettings = smartSettings;

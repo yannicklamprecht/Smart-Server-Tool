@@ -11,7 +11,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
  */
 public class PlayerConnectionListener implements Listener {
 
-  private SmartPlayers smartPlayers;
+  private final SmartPlayers smartPlayers;
 
   public PlayerConnectionListener(SmartPlayers smartPlayers) {
     this.smartPlayers = smartPlayers;

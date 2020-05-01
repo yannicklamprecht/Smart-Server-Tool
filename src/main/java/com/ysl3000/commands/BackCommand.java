@@ -14,8 +14,8 @@ import org.bukkit.entity.Player;
 public class BackCommand extends CustomCommand {
 
   private final MessageBuilder messageBuilder;
-  private SmartPlayers smartPlayers;
-  private BackCommandMessage backCommandMessage;
+  private final SmartPlayers smartPlayers;
+  private final BackCommandMessage backCommandMessage;
 
   BackCommand(BackCommandMessage commandConfig, MessageBuilder messageBuilder,
       SmartPlayers smartPlayers) {
@@ -41,11 +41,11 @@ public class BackCommand extends CustomCommand {
     }
 
     if (smartPlayer.getLastLocation() == null) {
-        player.sendMessage(
-            messageBuilder.injectParameter(backCommandMessage.getLastLocationNotFound()));
+      player.sendMessage(
+          messageBuilder.injectParameter(backCommandMessage.getLastLocationNotFound()));
 
-      }
-      player.teleport(smartPlayer.getLastLocation());
+    }
+    player.teleport(smartPlayer.getLastLocation());
 
     return true;
   }

@@ -1,11 +1,9 @@
 package com.ysl3000.config.settings.messages.commands;
 
-import lombok.Data;
-
 /**
  * Created by ysl3000
  */
-@Data
+
 public class FlySpeedCommandMessage extends CommandConfig {
 
 
@@ -14,5 +12,21 @@ public class FlySpeedCommandMessage extends CommandConfig {
 
   public FlySpeedCommandMessage() {
     super("fs", "Set flyspeed", "/fs <amount>", "");
+  }
+
+  public String getFlySpeedSetTo() {
+    return flySpeedSetTo;
+  }
+
+  public void setFlySpeedSetTo(String flySpeedSetTo) {
+    this.flySpeedSetTo = flySpeedSetTo;
+  }
+
+  public String getFlySpeedNeedToBeBetween() {
+    return flySpeedNeedToBeBetween;
+  }
+
+  public void setFlySpeedNeedToBeBetween(String flySpeedNeedToBeBetween) {
+    this.flySpeedNeedToBeBetween = flySpeedNeedToBeBetween;
   }
 }

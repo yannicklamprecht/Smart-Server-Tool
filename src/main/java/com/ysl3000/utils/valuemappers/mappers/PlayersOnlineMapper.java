@@ -10,8 +10,8 @@ import org.bukkit.Server;
  */
 public class PlayersOnlineMapper implements ValueMapper {
 
-  private Server server;
-  private Utility utility;
+  private final Server server;
+  private final Utility utility;
 
   public PlayersOnlineMapper(Server server, Utility utility) {
     this.server = server;

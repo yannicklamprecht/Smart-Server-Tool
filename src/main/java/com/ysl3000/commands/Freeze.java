@@ -16,9 +16,9 @@ public class Freeze extends CustomCommand {
 
   private static final Pattern NUMBER = Pattern.compile("\\d");
 
-  private SmartPlayers smartPlayers;
-  private FreezeCommandMessage freezeCommandMessage;
-  private MessageBuilder messageBuilder;
+  private final SmartPlayers smartPlayers;
+  private final FreezeCommandMessage freezeCommandMessage;
+  private final MessageBuilder messageBuilder;
 
   public Freeze(FreezeCommandMessage commandConfig, SmartPlayers smartPlayers,
       MessageBuilder messageBuilder) {
@@ -79,14 +79,14 @@ public class Freeze extends CustomCommand {
   private void freezePlayer(final Player p, long time) throws ExecutionException {
     SmartPlayer smartPlayer = smartPlayers.getPlayerByUUID(p);
 
-      if (!smartPlayer.isFrozen()) {
-        new TimeThread(time, () -> smartPlayer.setFrozen(true), () -> {
-          smartPlayer.setFrozen(false);
-          p.sendMessage(freezeCommandMessage.getYouAreNotAllowedToMove());
-        });
-      } else {
+    if (!smartPlayer.isFrozen()) {
+      new TimeThread(time, () -> smartPlayer.setFrozen(true), () -> {
         smartPlayer.setFrozen(false);
-      }
+        p.sendMessage(freezeCommandMessage.getYouAreNotAllowedToMove());
+      });
+    } else {
+      smartPlayer.setFrozen(false);
+    }
 
   }
 }

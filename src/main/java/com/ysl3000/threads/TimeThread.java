@@ -9,10 +9,9 @@ import java.util.logging.Logger;
 public class TimeThread extends Thread {
 
   private static final Logger LOGGER = Logger.getLogger(TimeThread.class.getName());
-
+  private final TimeAction before;
+  private final TimeAction after;
   private long time;
-  private TimeAction before;
-  private TimeAction after;
 
   public TimeThread(long time, TimeAction before, TimeAction after) {
     this.setTime(time);

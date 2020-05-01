@@ -22,11 +22,11 @@ public class CommandRegistry {
   private static final Logger LOGGER = Logger.getLogger(CommandRegistry.class.getName());
 
   private final WorldSpawnWrapper worldSpawnWrapper;
+  private final SmartPlayers smartPlayers;
+  private final CommandConfigContainer configContainer;
+  private final MessageBuilder messageBuilder;
+  private final JavaPlugin javaPlugin;
   private SimpleCommandMap commandMap;
-  private SmartPlayers smartPlayers;
-  private CommandConfigContainer configContainer;
-  private MessageBuilder messageBuilder;
-  private JavaPlugin javaPlugin;
 
   public CommandRegistry(SmartPlayers smartPlayers,
       WorldSpawnWrapper worldSpawnWrapper,

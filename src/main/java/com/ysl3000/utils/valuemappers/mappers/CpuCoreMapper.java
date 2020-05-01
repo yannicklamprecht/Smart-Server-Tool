@@ -8,7 +8,7 @@ import com.ysl3000.utils.valuemappers.ValueMapper;
  */
 public class CpuCoreMapper implements ValueMapper {
 
-  private String coreMessageValue;
+  private final String coreMessageValue;
 
   public CpuCoreMapper() {
     StringBuilder stringBuilder = new StringBuilder();

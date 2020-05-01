@@ -14,9 +14,9 @@ import org.bukkit.entity.Player;
  */
 public class God extends CustomCommand {
 
-  private SmartPlayers smartPlayers;
-  private MessageBuilder messageBuilder;
-  private GodCommandMessage godCommandMessage;
+  private final SmartPlayers smartPlayers;
+  private final MessageBuilder messageBuilder;
+  private final GodCommandMessage godCommandMessage;
 
 
   God(GodCommandMessage commandConfig, MessageBuilder messageBuilder, SmartPlayers smartPlayers) {

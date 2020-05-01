@@ -15,15 +15,15 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class EventRegistry {
 
-  private PluginManager pluginManager;
-  private JavaPlugin javaPlugin;
+  private final PluginManager pluginManager;
+  private final JavaPlugin javaPlugin;
 
-  private SmartSettings smartSettings;
-  private SmartPlayers smartPlayers;
-  private Prefix prefix;
-  private Server server;
-  private MessageBuilder messageBuilder;
-  private WorldSpawnWrapper worldSpawnWrapper;
+  private final SmartSettings smartSettings;
+  private final SmartPlayers smartPlayers;
+  private final Prefix prefix;
+  private final Server server;
+  private final MessageBuilder messageBuilder;
+  private final WorldSpawnWrapper worldSpawnWrapper;
 
   public EventRegistry(JavaPlugin javaPlugin, SmartAdapter smartAdapter) {
     this.pluginManager = javaPlugin.getServer().getPluginManager();
@@ -38,7 +38,7 @@ public class EventRegistry {
 
 
   public void register() {
-    pluginManager.registerEvents(new PlayerConnectionListener(smartPlayers),javaPlugin);
+    pluginManager.registerEvents(new PlayerConnectionListener(smartPlayers), javaPlugin);
     registerEvents(
         new ChestProtectionListener(javaPlugin),
         new BlockListener(smartSettings),

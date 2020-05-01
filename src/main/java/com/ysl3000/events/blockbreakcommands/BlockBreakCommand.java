@@ -11,12 +11,12 @@ import org.bukkit.event.Cancellable;
 public interface BlockBreakCommand {
 
 
-  boolean isConditionFullfilled(Player player,Block block);
+  boolean isConditionFullfilled(Player player, Block block);
 
-  void  execute(Player player, Block block, Cancellable cancellable);
+  void execute(Player player, Block block, Cancellable cancellable);
 
 
-  default int nextInt(int bound){
+  default int nextInt(int bound) {
     return ThreadLocalRandom.current().nextInt(bound);
   }
 

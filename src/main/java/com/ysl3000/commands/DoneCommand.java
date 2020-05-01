@@ -13,9 +13,9 @@ import org.bukkit.entity.Player;
 public class DoneCommand extends CustomCommand {
 
 
-  private SmartPlayers smartPlayers;
-  private DoneCommandMessage doneCommandMessage;
-  private MessageBuilder messageBuilder;
+  private final SmartPlayers smartPlayers;
+  private final DoneCommandMessage doneCommandMessage;
+  private final MessageBuilder messageBuilder;
 
 
   public DoneCommand(DoneCommandMessage commandConfig, SmartPlayers smartPlayers,
@@ -40,7 +40,8 @@ public class DoneCommand extends CustomCommand {
         } catch (ExecutionException e) {
           e.printStackTrace();
         }
-        player.sendMessage(messageBuilder.injectParameter(doneCommandMessage.getModmodeDisabled(),player));
+        player.sendMessage(
+            messageBuilder.injectParameter(doneCommandMessage.getModmodeDisabled(), player));
       } else if (args.length == 1) {
         Player target = player.getServer().getPlayer(args[0]);
         try {
@@ -63,13 +64,13 @@ public class DoneCommand extends CustomCommand {
   private void done(Player target) throws ExecutionException {
     SmartPlayer smartPlayer = smartPlayers.getPlayerByUUID(target);
 
-      if (smartPlayer.isMod()) {
-        target.setGameMode(GameMode.SURVIVAL);
-        target.getInventory().clear();
-        target.getInventory().setContents(smartPlayer.getInventory());
-        target.teleport(smartPlayer.getModLocation());
-        smartPlayer.setMod(false);
-      }
+    if (smartPlayer.isMod()) {
+      target.setGameMode(GameMode.SURVIVAL);
+      target.getInventory().clear();
+      target.getInventory().setContents(smartPlayer.getInventory());
+      target.teleport(smartPlayer.getModLocation());
+      smartPlayer.setMod(false);
+    }
 
   }
 }

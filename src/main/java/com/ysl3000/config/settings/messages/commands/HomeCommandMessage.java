@@ -1,11 +1,8 @@
 package com.ysl3000.config.settings.messages.commands;
 
-import lombok.Data;
-
 /**
  * Created by ysl3000
  */
-@Data
 public class HomeCommandMessage extends CommandConfig {
 
   private String homeNotSet = "No home set";
@@ -15,4 +12,11 @@ public class HomeCommandMessage extends CommandConfig {
         "sst.home");
   }
 
+  public String getHomeNotSet() {
+    return homeNotSet;
+  }
+
+  public void setHomeNotSet(String homeNotSet) {
+    this.homeNotSet = homeNotSet;
+  }
 }

@@ -12,20 +12,21 @@ public interface SignCommand {
 
   void executeOnClick(Player player, Sign sign);
 
-  default void executeOnCreation(SignWrapper signWrapper){
+  default void executeOnCreation(SignWrapper signWrapper) {
     // optional implementation
   }
 
 
-  interface SignWrapper{
-      String getLine(int index);
+  interface SignWrapper {
 
-      void setLine(int index, String line);
+    String getLine(int index);
 
-      Player getPlayer();
+    void setLine(int index, String line);
 
-      void setCancelled(boolean canceled);
+    Player getPlayer();
 
-      void breakNaturally();
+    void setCancelled(boolean canceled);
+
+    void breakNaturally();
   }
 }

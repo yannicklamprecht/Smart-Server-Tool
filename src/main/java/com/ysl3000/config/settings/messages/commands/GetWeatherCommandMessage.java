@@ -1,11 +1,9 @@
 package com.ysl3000.config.settings.messages.commands;
 
-import lombok.Data;
-
 /**
  * Created by ysl3000
  */
-@Data
+
 public class GetWeatherCommandMessage extends CommandConfig {
 
   private String currentWeather = "Current Weather in {world_name} is &6{weather{rainy:sunny}}";
@@ -14,5 +12,11 @@ public class GetWeatherCommandMessage extends CommandConfig {
     super("wg", "get weather", "/wg", "sst.wg");
   }
 
+  public String getCurrentWeather() {
+    return currentWeather;
+  }
 
+  public void setCurrentWeather(String currentWeather) {
+    this.currentWeather = currentWeather;
+  }
 }

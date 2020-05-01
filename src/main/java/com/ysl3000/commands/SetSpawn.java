@@ -22,11 +22,11 @@ import org.bukkit.entity.Player;
  */
 public class SetSpawn extends CustomCommand {
 
-  private WorldSpawnWrapper worldSpawnWrapper;
+  private final WorldSpawnWrapper worldSpawnWrapper;
 
 
-  private SetSpawnCommandMessage setSpawnCommandMessage;
-  private MessageBuilder messageBuilder;
+  private final SetSpawnCommandMessage setSpawnCommandMessage;
+  private final MessageBuilder messageBuilder;
 
   SetSpawn(SetSpawnCommandMessage commandConfig,
       MessageBuilder messageBuilder,

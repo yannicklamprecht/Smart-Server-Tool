@@ -14,8 +14,8 @@ import org.bukkit.event.entity.PlayerDeathEvent;
  */
 public class PlayerStateListener implements Listener {
 
-  private SmartPlayers smartPlayers;
-  private WorldSettings worldSettings;
+  private final SmartPlayers smartPlayers;
+  private final WorldSettings worldSettings;
 
   public PlayerStateListener(SmartPlayers smartPlayers, WorldSettings worldSettings) {
     this.smartPlayers = smartPlayers;

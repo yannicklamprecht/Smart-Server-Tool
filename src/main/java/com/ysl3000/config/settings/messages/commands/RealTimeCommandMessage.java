@@ -1,11 +1,9 @@
 package com.ysl3000.config.settings.messages.commands;
 
-import lombok.Data;
-
 /**
  * Created by ysl3000
  */
-@Data
+
 public class RealTimeCommandMessage extends CommandConfig {
 
   private String currentTime = "Current Time &6{server_time}";
@@ -14,4 +12,11 @@ public class RealTimeCommandMessage extends CommandConfig {
     super("rt", "realtime", "/rt", "");
   }
 
+  public String getCurrentTime() {
+    return currentTime;
+  }
+
+  public void setCurrentTime(String currentTime) {
+    this.currentTime = currentTime;
+  }
 }
