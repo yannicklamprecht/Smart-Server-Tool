@@ -15,16 +15,9 @@ public class SmartServerStub extends ServerMock {
   }
 
   @Override
-  public String getServerName() {
+  public String getName() {
     return "SmartServer";
   }
-
-  @Override
-  public String getName(){
-    return getServerName();
-  }
-
-
 
   @Override
   public World getWorld(String name) {
